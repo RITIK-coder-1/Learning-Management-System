@@ -1,11 +1,32 @@
-import express from "express";
+/* ---------------------------------------------------------------------------------------
+server.js
+This is the entry point of our server
+------------------------------------------------------------------------------------------ */
 
-const app = express();
+import app from "./app.js";
+import "dotenv/config.js";
+import connectDB from "./db/index.js";
 
-app.get("/", (req, res) => {
-  res.send("hey");
-});
+/* ---------------------------------------------------------------------------------------
+All the variables of the file
+------------------------------------------------------------------------------------------ */
 
-app.listen(3000, () => {
-  console.log(`The server is listening at http://localhost:${3000}`);
-});
+const port = process.env.PORT || 3000; // the port number for the server to listen to
+
+/* ---------------------------------------------------------------------------------------
+Connecting to the database and listening as the server
+------------------------------------------------------------------------------------------ */
+
+try {
+  await connectDB();
+  app.listen(port, () => {
+    console.log(
+      `The server is successfully listening at http://localhost:${port}/api/v1 !!`
+    );
+  });
+} catch (error) {
+  console.error(
+    "CRITICAL ERROR: There was a problem while connecting to the server!",
+    error
+  );
+}
