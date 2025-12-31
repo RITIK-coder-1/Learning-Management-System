@@ -21,7 +21,7 @@ try {
   await connectDB();
   app.listen(port, () => {
     console.log(
-      `The server is successfully listening at http://localhost:${port}/api/v1 !!`
+      `The server is successfully listening at http://localhost:${port}/api/v1`
     );
   });
 } catch (error) {

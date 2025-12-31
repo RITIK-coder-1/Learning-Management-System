@@ -1,5 +1,107 @@
-import express from "express";
+/* ---------------------------------------------------------------------------------------
+app.js
+This is the main backend application 
+------------------------------------------------------------------------------------------ */
 
-const app = express();
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import path from "path";
+import helmet from "helmet";
+
+const app = express(); // the express app
+const jsonlimit = "16kb"; // setting the JSON limit for accepting data
+
+/* ---------------------------------------------------------------------------------------
+Setting the HTTP headers for security 
+------------------------------------------------------------------------------------------ */
+
+app.use(helmet());
+
+/* ---------------------------------------------------------------------------------------
+Setting the CORS origin for allowing the client to talk to my server
+------------------------------------------------------------------------------------------ */
+
+// all the allowed origins for my application
+const allowedOrigins = [
+  "http://localhost:5173", // My React App's current development server
+  "http://localhost:3000", // The origin the server was previously allowing
+  "http://127.0.0.1:5173", // A good practice for comprehensive localhost coverage
+];
+
+// the function to filter origins
+const corsFunction = (origin, callback) => {
+  // Allowing requests from no origins like mobile apps
+  if (!origin) {
+    return callback(null, true);
+  }
+
+  // If a specific origin isn't allowed, add this specific message to the error object
+  if (allowedOrigins.indexOf(origin) === -1) {
+    const message =
+      "CORS ERROR: The CORS policy of this site doesn't allow requests from this specific origin.";
+    return callback(new Error(message), false);
+  }
+
+  return callback(null, true);
+};
+
+// setting up the CORS policy
+app.use(
+  cors({
+    origin: corsFunction,
+    credentials: true,
+  })
+);
+
+/* ---------------------------------------------------------------------------------------
+Parsing the different datatypes to effectively add it to the request body
+------------------------------------------------------------------------------------------ */
+
+// JSON data
+app.use(express.json({ limit: jsonlimit }));
+
+// URLs and Form Data (for files)
+app.use(
+  express.urlencoded({
+    limit: jsonlimit,
+    extended: true, // parsing nested objects too
+  })
+);
+
+// Cookies
+app.use(cookieParser());
+
+/* ---------------------------------------------------------------------------------------
+Serving the static files (for temporary file uploads to the server)
+------------------------------------------------------------------------------------------ */
+
+// public is the folder that serves the static files.
+// it takes the absolute path of the current working directory and joins it with the public folder
+app.use("/static", express.static(path.join(path.resolve(), "public")));
+
+/* ---------------------------------------------------------------------------------------
+All the routes will go here
+------------------------------------------------------------------------------------------ */
+
+/* ---------------------------------------------------------------------------------------
+Error Handling 
+------------------------------------------------------------------------------------------ */
+
+// Global Error Handler
+app.use((error, _req, res, _next) => {
+  // we're only using error and res here
+
+  const statusCode = error.statusCode || 500;
+  const message = error.message || "CRITICAL: Internal Server Error";
+
+  res.status(statusCode).json({
+    success: false,
+    message,
+    error: process.env.NODE_ENV === "development" ? error : undefined, // Full error object for debugging (only in development)
+  });
+
+  console.log("CRITICAL SYSTEM ERROR: ", error);
+});
 
 export default app;
