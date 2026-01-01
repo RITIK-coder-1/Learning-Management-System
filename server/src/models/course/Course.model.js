@@ -47,13 +47,13 @@ const courseSchema = new mongoose.Schema(
       // The chapters of the course.
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Section",
+        ref: "CourseSection",
       },
     ],
     reviews: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Review",
+        ref: "CourseReview",
       },
     ],
 
