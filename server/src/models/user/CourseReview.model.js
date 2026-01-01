@@ -21,7 +21,7 @@ const courseReviewSchema = new mongoose.Schema({
   userRating: {
     type: Number,
     required: true,
-    min: 1, // no negative rating
+    min: [1, "Ratings can't be negative!"], // no negative rating
     max: 10, // Strict 10-star scale
   },
 
