@@ -11,9 +11,9 @@ class ApiError extends Error {
     stack = ""
   ) {
     super(message);
-    (this.statusCode = statusCode),
-      (this.success = false),
-      (this.errors = errors);
+    this.statusCode = statusCode;
+    this.success = false;
+    this.errors = errors;
 
     // using Error.captureStackTrace for clean stack traces in Node.js environments
     if (stack) {
