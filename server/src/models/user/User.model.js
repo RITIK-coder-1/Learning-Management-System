@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------------
 User.model.js
-This file builds the user schema for defining user data points
+This file builds the user schema for defining the user data points
 ------------------------------------------------------------------------------------------ */
 
 import mongoose from "mongoose";
@@ -64,7 +64,6 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course",
-        required: true,
       },
     ],
     refreshTokenString: String,
