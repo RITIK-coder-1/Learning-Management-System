@@ -14,11 +14,13 @@ const courseSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
     description: {
       type: String,
       required: true,
       maxlength: 1000,
+      trim: true,
     },
     price: {
       type: Number,
@@ -30,7 +32,6 @@ const courseSchema = new mongoose.Schema(
       type: String, // cloudinary link
       required: true,
     },
-    userRatings: Number,
     tags: {
       type: [String], // array of strings
       required: true, // for searching efficiency
@@ -50,7 +51,7 @@ const courseSchema = new mongoose.Schema(
         ref: "CourseSection",
       },
     ],
-    reviews: [
+    userRatingsAndReviews: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "CourseReview",

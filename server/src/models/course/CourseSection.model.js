@@ -14,6 +14,7 @@ const courseSectionSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
 
     // the actual video lessons
