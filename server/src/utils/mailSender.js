@@ -4,7 +4,7 @@ This utility connects to the SMTP server (Gmail) and sends the email.
 ------------------------------------------------------------------------------------------ */
 import nodemailer from "nodemailer";
 
-const mailSender = async (email, title, body) => {
+const mailSender = async (email, subject, body) => {
   try {
     // Creating a Transporter (The Bridge)
     // This connects our Node server to the Gmail server
@@ -20,7 +20,7 @@ const mailSender = async (email, title, body) => {
     let info = await transporter.sendMail({
       from: `Learning Management System: <${process.env.MAIL_USER}>`,
       to: `${email}`,
-      subject: `${title}`,
+      subject: `${subject}`,
       html: `${body}`,
     });
 
