@@ -1,0 +1,41 @@
+// ----------------------------------------------
+// token.middleware.js
+// This middleware verifies the access token of the users for each secured request
+// ----------------------------------------------
+
+import jwt from "jsonwebtoken";
+import User from "../models/User.model.js";
+import { ApiError, asyncHandler } from "../utils/index.utils.js";
+
+const verifyJwtFunction = async (req, _, next) => {
+  // I'm sending the access token only through headers, not cookies
+  const token = req.header("Authorization")?.replace("Bearer ", ""); // replace "Bearer <token>" to "<token>"
+
+  if (!token) {
+    console.log("Token Error: It is not verified.");
+
+    throw new ApiError(401, "Unauthorized request");
+  } // throw an error if there is no access token
+
+  // decoding the payload of the token (only if it is valid)
+  const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+  // the user
+  const user = await User.findById(decodedToken?._id).select(
+    "-password -refreshTokenString"
+  );
+
+  if (!user) {
+    console.log("Token Error: The access token is Invalid!");
+
+    throw new ApiError(401, "Invalid Access Token");
+  } // if the user doesn't exist with the specific token
+
+  req.user = user; // adding the user to the request object for later processing
+
+  next();
+};
+
+const verifyJwt = asyncHandler(verifyJwtFunction);
+
+export default verifyJwt;
