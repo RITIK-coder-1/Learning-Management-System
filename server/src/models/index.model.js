@@ -13,6 +13,9 @@ import User from "./user/User.model";
 import CourseProgress from "./user/CourseProgress.model";
 import CourseReview from "./user/CourseReview.model";
 
+// Auth Model
+import OTP from "./user/OTP.model";
+
 export {
   Course,
   CourseSection,
@@ -20,4 +23,5 @@ export {
   User,
   CourseProgress,
   CourseReview,
+  OTP,
 };
