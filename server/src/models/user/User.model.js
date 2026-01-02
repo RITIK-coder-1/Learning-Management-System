@@ -5,6 +5,7 @@ This file builds the user schema for defining the user data points
 
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 /* ---------------------------------------------------------------------------------------
 The Schema 
@@ -120,6 +121,37 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     );
     return false;
   }
+};
+
+/* ---------------------------------------------------------------------------------------
+Custom Method to generate the access and the refresh tokens
+------------------------------------------------------------------------------------------ */
+
+userSchema.methods.generateAccessToken = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      username: this.username,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+    }
+  );
+};
+
+userSchema.methods.generateRefreshToken = function (uniqueTokenString) {
+  return jwt.sign(
+    {
+      _id: this._id, // the id is saved for the refresh token
+      uniqueToken: uniqueTokenString, // this unique string separates two distinct refresh tokens
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+    }
+  );
 };
 
 /* ---------------------------------------------------------------------------------------
