@@ -9,7 +9,7 @@ const mailSender = async (email, subject, body) => {
     // Creating a Transporter (The Bridge)
     // This connects our Node server to the Gmail server
     let transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
+      host: process.env.MAIL_HOST, // the name of the server
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
@@ -18,13 +18,13 @@ const mailSender = async (email, subject, body) => {
 
     // Send this email to the user
     let info = await transporter.sendMail({
-      from: `Learning Management System: <${process.env.MAIL_USER}>`,
+      from: `Ritik's Learning Management System: <${process.env.MAIL_USER}>`,
       to: `${email}`,
       subject: `${subject}`,
       html: `${body}`,
     });
 
-    console.log("Email sent successfully:", info.messageId);
+    console.log("Mail Sender: Email sent successfully:", info.messageId);
     return info;
   } catch (error) {
     console.log("Error inside mailSender utility:", error.message);
