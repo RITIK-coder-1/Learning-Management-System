@@ -4,6 +4,7 @@ This file builds the user schema for defining the user data points
 ------------------------------------------------------------------------------------------ */
 
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 /* ---------------------------------------------------------------------------------------
 The Schema 
@@ -95,6 +96,31 @@ async function hashPassword(next) {
 }
 
 userSchema.pre("save", hashPassword);
+
+/* ---------------------------------------------------------------------------------------
+Custom Method to validate the user password for logging in purposes 
+------------------------------------------------------------------------------------------ */
+
+userSchema.methods.isPasswordCorrect = async function (password) {
+  if (!this.password) {
+    console.warn(
+      "User Model Warning: Attempted to compare password on a document missing a hash."
+    ); // if the stored password is missing
+    return false;
+  }
+  try {
+    // 'password' is the plain text string submitted by the user.
+    // 'this.password' is the hashed string retrieved from the database document.
+    return await bcrypt.compare(password, this.password);
+  } catch (error) {
+    // If the comparison fails due to a library error (e.g., malformed hash)
+    console.error(
+      "Critical USER MODEL error during password comparison:",
+      error.message
+    );
+    return false;
+  }
+};
 
 /* ---------------------------------------------------------------------------------------
 The Model
