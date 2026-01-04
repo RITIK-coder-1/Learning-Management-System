@@ -8,6 +8,10 @@ import ApiError from "./api/apiError";
 import asyncHandler from "./errorHandler/asyncHandler";
 import mailSender from "./mailer/mailSender";
 import generateRefreshTokenString from "./tokens/generateRefreshTokenString";
+import {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+} from "./fileUpload/cloudinary";
 
 export {
   ApiResponse,
@@ -15,4 +19,6 @@ export {
   asyncHandler,
   mailSender,
   generateRefreshTokenString,
+  uploadOnCloudinary,
+  deleteFromCloudinary,
 };
