@@ -1,7 +1,7 @@
-// ----------------------------------------------
-// token.middleware.js
-// This middleware verifies the access token of the users for each secured request
-// ----------------------------------------------
+/* ----------------------------------------------------------------------------------------------
+token.middleware.js
+This middleware verifies the access token of the users for each secured request
+------------------------------------------------------------------------------------------------- */
 
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js";
