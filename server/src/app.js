@@ -91,9 +91,25 @@ userRouter.use("/api/v1", userRouter);
 Error Handling 
 ------------------------------------------------------------------------------------------ */
 
+// Error handler for non-existant routes
+app.use((req, _res, next) => {
+  next(
+    new ApiError(
+      404,
+      `The requested resource was not found at ${req.originalUrl}`
+    )
+  );
+});
+
 // Global Error Handler
 app.use((error, _req, res, _next) => {
-  // we're only using error and res here
+  // Check if the error coming in is a JWT error
+  if (error.name === "TokenExpiredError") {
+    error = new ApiError(403, "Token has expired");
+  }
+  if (error.name === "JsonWebTokenError") {
+    error = new ApiError(401, "Token is invalid");
+  }
 
   const statusCode = error.statusCode || 500;
   const message = error.message || "CRITICAL: Internal Server Error";
