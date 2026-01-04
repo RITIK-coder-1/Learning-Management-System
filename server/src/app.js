@@ -83,6 +83,9 @@ app.use("/static", express.static(path.join(path.resolve(), "public")));
 /* ---------------------------------------------------------------------------------------
 All the routes will go here
 ------------------------------------------------------------------------------------------ */
+import { userRouter } from "./routes/user.routes";
+
+userRouter.use("/api/v1", userRouter);
 
 /* ---------------------------------------------------------------------------------------
 Error Handling 
