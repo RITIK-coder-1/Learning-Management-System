@@ -16,6 +16,7 @@ import {
   updatePassword,
   createUpdateEmailOtp,
   updateEmail,
+  newAccessToken,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -38,6 +39,7 @@ router.route("/register").post(upload.single("profilePic"), createRegisterOtp); 
 router.route("/register/otp").post(registerUser); // validate the OTP and register the user
 router.route("/login").post(createLoginOtp); // validate data and generate an OTP
 router.route("/login/otp").post(loginUser); // validate the OTP and login the user
+router.route("/token").post(newAccessToken); // generate a new access token after expiration
 
 // SECURED ROUTES
 
