@@ -513,6 +513,12 @@ const updatePasswordFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+EMAIL PASSWORD CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const updateEmailFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -524,6 +530,7 @@ const logoutUser = asyncHandler(logoutFunction);
 const getUser = asyncHandler(getUserFunction);
 const updateUserDetails = asyncHandler(updateUserDetailsFunction);
 const updatePassword = asyncHandler(updatePasswordFunction);
+const updateEmail = asyncHandler(updateEmailFunction);
 
 export {
   createRegisterOtp,
@@ -534,4 +541,5 @@ export {
   getUser,
   updateUserDetails,
   updatePassword,
+  updateEmail,
 };

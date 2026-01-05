@@ -13,6 +13,7 @@ import {
   logoutUser,
   getUser,
   updateUserDetails,
+  updatePassword,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -26,6 +27,7 @@ SPECIFIC ROUTES:
 - OTP validation and login route
 - Logout user
 - Update the user's details
+- Update the user's password
 ------------------------------------------------------------------------------------------ */
 
 // PUBLIC ROUTES
@@ -40,5 +42,6 @@ router.route("/login/otp").post(loginUser); // validate the OTP and login the us
 router.route("/logout").post(verifyJwt, logoutUser); // log the user out
 router.route("/profile").post(verifyJwt, getUser); // getting a user's details
 router.route("/profile/details").patch(verifyJwt, updateUserDetails); // updating a user's details
+router.route("/profile/password").patch(verifyJwt, updatePassword); // updating the password of a user
 
 export { router as userRouter };
