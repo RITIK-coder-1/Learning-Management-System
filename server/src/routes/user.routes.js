@@ -10,6 +10,7 @@ import {
   createRegisterOtp,
   createLoginOtp,
   loginUser,
+  logoutUser,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -21,6 +22,7 @@ SPECIFIC ROUTES:
 - OTP validation and register route
 - Create OTP for login route 
 - OTP validation and login route
+- Logout user
 ------------------------------------------------------------------------------------------ */
 
 // PUBLIC ROUTES
@@ -31,5 +33,7 @@ router.route("/login").post(createLoginOtp); // validate data and generate an OT
 router.route("/login/otp").post(loginUser); // validate the OTP and login the user
 
 // SECURED ROUTES
+
+router.route("/logout").post(verifyJwt, logoutUser); // log the user out
 
 export { router as userRouter };
