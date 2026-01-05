@@ -287,6 +287,50 @@ const loginFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+LOGOUT USER CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const logoutFunction = async (req, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    console.error("LOGOUT ERROR: invalid user id");
+    throw new ApiError(400, "Invalid user!");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: {
+        refreshTokenString: null, // the refresh token should be changed to null once the user logs out
+      },
+    },
+    {
+      new: true, // it returns the updated document
+    }
+  );
+
+  if (!user) {
+    console.error("LOGOUT FAILED!");
+    throw new ApiError(400, "The user couldn't be logged out!");
+  }
+
+  // cookie security options
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    path: "/",
+  };
+
+  // clearing the cookies and the tokens once the user is logged out successfully
+  return res
+    .status(200)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "User Logged Out Succesfully!"));
+};
+
+/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -294,5 +338,12 @@ const createRegisterOtp = asyncHandler(createRegisterOtpFunction);
 const registerUser = asyncHandler(registerUserFunction);
 const createLoginOtp = asyncHandler(createLogInOtpFunction);
 const loginUser = asyncHandler(loginFunction);
+const logoutUser = asyncHandler(logoutFunction);
 
-export { createRegisterOtp, registerUser, createLoginOtp, loginUser };
+export {
+  createRegisterOtp,
+  registerUser,
+  createLoginOtp,
+  loginUser,
+  logoutUser,
+};

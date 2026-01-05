@@ -19,6 +19,8 @@ SPECIFIC ROUTES:
 
 - Create OTP for register route 
 - OTP validation and register route
+- Create OTP for login route 
+- OTP validation and login route
 ------------------------------------------------------------------------------------------ */
 
 // PUBLIC ROUTES
