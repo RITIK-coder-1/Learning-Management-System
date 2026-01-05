@@ -8,6 +8,7 @@ import { upload, verifyJwt } from "../middleware/index.middleware.js";
 import {
   registerUser,
   createRegisterOtp,
+  createLoginOtp,
   loginUser,
 } from "../controllers/user.controllers";
 
@@ -22,9 +23,10 @@ SPECIFIC ROUTES:
 
 // PUBLIC ROUTES
 
-router.route("/register").post(upload.single("profilePic"), createRegisterOtp); // validate data and generate OTP
-router.route("/register/otp").post(registerUser); // validate OTP and register the user
-router.route("login").post(loginUser);
+router.route("/register").post(upload.single("profilePic"), createRegisterOtp); // validate data and generate an OTP
+router.route("/register/otp").post(registerUser); // validate the OTP and register the user
+router.route("/login").post(createLoginOtp); // validate data and generate an OTP
+router.route("/login/otp").post(loginUser); // validate the OTP and login the user
 
 // SECURED ROUTES
 
