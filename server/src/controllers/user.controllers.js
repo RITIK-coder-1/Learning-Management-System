@@ -199,9 +199,9 @@ const generateTokens = async (userId) => {
   }
 };
 
-// function to login the user
+// function to verify the user for login and generate an OTP
 
-const loginFunction = async (req, res) => {
+const generateLogInOtpFunction = async (req, res) => {
   // getting data from the client request
   const { credential, password } = req.body;
 
@@ -229,8 +229,46 @@ const loginFunction = async (req, res) => {
     );
   }
 
-  // if the user exists, we need to generate the access and refresh token
-  const { accessToken, refreshToken } = await generateTokens(existingUser._id);
+  // Generating OTP
+  const code = generateOTP();
+
+  const createdOTP = await OTP.create({
+    email: existingUser.email,
+    code,
+  });
+
+  if (!createdOTP) {
+    console.error("LOGIN USER ERROR: couldn't generate OTP!");
+    throw new ApiError(
+      500,
+      "There was a problem while generating the OTP. Please try again!"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "OTP has been successfullt sent!"), {
+      email: existingUser.email, // frontend stores this for the next request
+    });
+};
+
+// function to verify the OTP and log the user in
+
+const loginFunction = async (req, res) => {
+  const { email, userOTP } = req.body;
+  const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 }); // the OTP saved in the database (the latest one only)
+
+  if (userOTP !== recentOtp?.code) {
+    console.error("LOGIN USER ERROR: Wrong OTP!");
+    throw new ApiError(
+      400,
+      "The OTP doesn't match! Please enter the correct one!"
+    );
+  }
+
+  // if the otp matches, we need to generate the access and refresh token
+  const user = await User.findOne({ email });
+  const { accessToken, refreshToken } = await generateTokens(user._id);
 
   // once the user has successfully logged in, we need to send in the cookies to the client
 
@@ -254,6 +292,7 @@ Error Handling
 
 const createRegisterOtp = asyncHandler(createRegisterOtpFunction);
 const registerUser = asyncHandler(registerUserFunction);
+const generateLogInOtp = asyncHandler(generateLogInOtpFunction);
 const loginUser = asyncHandler(loginFunction);
 
-export { createRegisterOtp, registerUser, loginUser };
+export { createRegisterOtp, registerUser, generateLogInOtp, loginUser };
