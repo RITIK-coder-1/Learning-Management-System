@@ -201,7 +201,7 @@ const generateTokens = async (userId) => {
 
 // function to verify the user for login and generate an OTP
 
-const generateLogInOtpFunction = async (req, res) => {
+const createLogInOtpFunction = async (req, res) => {
   // getting data from the client request
   const { credential, password } = req.body;
 
@@ -292,7 +292,7 @@ Error Handling
 
 const createRegisterOtp = asyncHandler(createRegisterOtpFunction);
 const registerUser = asyncHandler(registerUserFunction);
-const generateLogInOtp = asyncHandler(generateLogInOtpFunction);
+const createLoginOtp = asyncHandler(createLogInOtpFunction);
 const loginUser = asyncHandler(loginFunction);
 
-export { createRegisterOtp, registerUser, generateLogInOtp, loginUser };
+export { createRegisterOtp, registerUser, createLoginOtp, loginUser };
