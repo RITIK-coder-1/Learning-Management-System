@@ -14,6 +14,8 @@ import {
   getUser,
   updateUserDetails,
   updatePassword,
+  createUpdateEmailOtp,
+  updateEmail,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -43,5 +45,7 @@ router.route("/logout").post(verifyJwt, logoutUser); // log the user out
 router.route("/profile").post(verifyJwt, getUser); // getting a user's details
 router.route("/profile/details").patch(verifyJwt, updateUserDetails); // updating a user's details
 router.route("/profile/password").patch(verifyJwt, updatePassword); // updating the password of a user
+router.route("/profile/email").post(verifyJwt, createUpdateEmailOtp); // validate data and generate an OTP
+router.route("/profile/email/otp").patch(verifyJwt, updateEmail); // validate OTP and update the email
 
 export { router as userRouter };
