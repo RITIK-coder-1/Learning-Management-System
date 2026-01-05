@@ -49,6 +49,18 @@ const createRegisterOtpFunction = async (req, res) => {
     throw new ApiError(400, "Please enter a valid email address!");
   }
 
+  // checking if the username is less than 6 characters
+  if (username.trim().length < 6) {
+    console.error("REGISTER USER ERROR: username less than 6 chars!");
+    throw new ApiError(400, "The username must be of 6 characters at least!");
+  }
+
+  // checking if the password is less than 10 characters
+  if (password.trim().length < 6) {
+    console.error("REGISTER USER ERROR: password less than 10 chars!");
+    throw new ApiError(400, "The password must be of 10 characters at least!");
+  }
+
   // instructor specific validations
   if (accountType === "Instructor") {
     const age = calculateAge(dateOfBirth);
@@ -455,7 +467,50 @@ const updateUserDetailsFunction = async (req, res) => {
 /* ---------------------------------------------------------------------------------------
 UPDATE PASSWORD CONTROLLER
 ------------------------------------------------------------------------------------------ */
-const updatePasswordFunction = async (req, res) => {};
+
+const updatePasswordFunction = async (req, res) => {
+  // getting the old and the new passwords
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword?.trim() || !newPassword?.trim()) {
+    console.error("PASSWORD UPDATE ERROR: empty field");
+    throw new ApiError(400, "Both the fields are required!");
+  }
+
+  // verifying the old password
+  const user = await User.findById(req.user?._id);
+  const passwordCorrect = await user.isPasswordCorrect(oldPassword);
+
+  if (!passwordCorrect) {
+    console.error("PASSWORD UPDATE ERROR: incorrect password");
+    throw new ApiError(400, "Incorrect Password!");
+  }
+
+  // checking if the password is of at least 10 characters
+  if (newPassword.trim().length < 10) {
+    console.error("PASSWORD UPDATE ERROR: password less than 10 characters.");
+    throw new ApiError(
+      400,
+      "The password should at least be of 10 characters!"
+    );
+  }
+
+  // checking if both the passwords are distinct
+  if (oldPassword === newPassword) {
+    console.error("PASSWORD UPDATE ERROR: both the passwords are equal");
+    throw new ApiError(400, "Please enter a new password!");
+  }
+
+  // updating the password
+  user.password = newPassword;
+
+  // This triggers the pre("save") hook and hashes the password
+  await user.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The password has been successfully updated!"));
+};
 
 /* ---------------------------------------------------------------------------------------
 Error Handling
@@ -468,6 +523,7 @@ const loginUser = asyncHandler(loginFunction);
 const logoutUser = asyncHandler(logoutFunction);
 const getUser = asyncHandler(getUserFunction);
 const updateUserDetails = asyncHandler(updateUserDetailsFunction);
+const updatePassword = asyncHandler(updatePasswordFunction);
 
 export {
   createRegisterOtp,
@@ -477,4 +533,5 @@ export {
   logoutUser,
   getUser,
   updateUserDetails,
+  updatePassword,
 };
