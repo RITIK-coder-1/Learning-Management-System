@@ -15,6 +15,7 @@ import {
   generateRefreshTokenString,
 } from "../utils/index.utils";
 import validator from "validator";
+import jwt from "jsonwebtoken";
 
 /* ---------------------------------------------------------------------------------------
 REGISTER USER CONTROLLERS
@@ -631,6 +632,77 @@ const updateEmailFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+NEW ACCESS TOKEN CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const newAccessTokenFunction = async (req, res) => {
+  try {
+    // Getting our refresh token from the cookies
+    const incomingRefreshToken = req.cookies?.refreshToken;
+
+    if (!incomingRefreshToken) {
+      console.error("NEW TOKEN ERROR: invalid refresh token");
+      throw new ApiError(401, "Unauthorized Request"); // throw an error if the refresh token is unauthorized
+    }
+
+    // once we have the refresh token, we decode it to get the user id
+    const decodedToken = jwt.verify(
+      incomingRefreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    // we get the user
+    const user = await User.findById(decodedToken?.id);
+
+    if (!user) {
+      console.error("NEW TOKEN ERROR: invalid user");
+      throw new ApiError(403, "Invalid user in the token payload"); // throw an error if the user is not present
+    }
+
+    // double checking if the incoming refresh token matches the one stored in the database
+    if (decodedToken.uniqueToken !== user?.refreshTokenString) {
+      console.error("NEW TOKEN ERROR: invalid refresh token");
+      throw new ApiError(403, "Refresh Token is expired or used");
+    }
+
+    // the cookie options
+    const options = {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Lax",
+      path: "/",
+    };
+
+    // getting the new access and the refresh tokens
+    const { accessToken, refreshToken } = await generateTokens(user._id);
+
+    // updating the cookies and sending a JSON API response
+    return res
+      .status(200)
+      .cookie("refreshToken", refreshToken, options)
+      .json(new ApiResponse(200, "Access Token Refreshed!", { accessToken }));
+  } catch (error) {
+    // JWT errors (like signature mismatch or simple expiration)
+    if (
+      error.name === "JsonWebTokenError" ||
+      error.name === "TokenExpiredError"
+    ) {
+      return res
+        .status(403)
+        .json(
+          new ApiError(403, "Forbidden: Invalid or Expired JWT Signature.")
+        );
+    }
+
+    // Final fallback for other unexpected errors
+    console.error("Token Refresh Error:", error);
+    return res
+      .status(500)
+      .json(new ApiError(500, "Internal Server Error during token refresh."));
+  }
+};
+
+/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -644,6 +716,7 @@ const updateUserDetails = asyncHandler(updateUserDetailsFunction);
 const updatePassword = asyncHandler(updatePasswordFunction);
 const createUpdateEmailOtp = asyncHandler(createUpdateEmailOtpFunction);
 const updateEmail = asyncHandler(updateEmailFunction);
+const newAccessToken = asyncHandler(newAccessTokenFunction);
 
 export {
   createRegisterOtp,
@@ -656,4 +729,5 @@ export {
   updatePassword,
   createUpdateEmailOtp,
   updateEmail,
+  newAccessToken,
 };
