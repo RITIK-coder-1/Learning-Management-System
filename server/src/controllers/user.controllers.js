@@ -11,6 +11,7 @@ import {
   generateOTP,
   calculateAge,
   uploadOnCloudinary,
+  generateRefreshTokenString,
 } from "../utils/index.utils";
 import validator from "validator";
 
@@ -169,12 +170,6 @@ const registerUserFunction = async (req, res) => {
     );
   }
 
-  // The user data is going to be sent in to JSON response without the password and the refresh token string
-  // Convert Mongoose document to a plain JS object for safer manipulation
-  const createdUser = user.toObject();
-  delete createdUser.password;
-  delete createdUser.refreshTokenString;
-
   return res
     .status(200)
     .json(new ApiResponse(200, "User has been created successfully!"));
@@ -184,11 +179,81 @@ const registerUserFunction = async (req, res) => {
 LOGIN USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
+// function to generate access and refresh tokens on logging in
+
+const generateTokens = async (userId) => {
+  const randomString = generateRefreshTokenString(); // this random set of strings is used with the refresh token to validate the user
+  try {
+    const user = await User.findById(userId);
+    user.refreshTokenString = randomString; // refresh token string for security purposes
+
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken(randomString);
+
+    await user.save({ validateBeforeSave: false }); // we don't validate each field whenever the user logs in or out
+
+    return { accessToken, refreshToken };
+  } catch (error) {
+    console.error("LOGIN USER ERROR: Generating tokens failed!!");
+    throw new ApiError(500, "Could not generate tokens");
+  }
+};
+
+// function to login the user
+
+const loginFunction = async (req, res) => {
+  // getting data from the client request
+  const { credential, password } = req.body;
+
+  // validating the input data
+  if (!credential?.trim() || !password?.trim()) {
+    console.error("LOG IN ERROR: Invalid credential or password!");
+    throw new ApiError(
+      400,
+      "At least one of the identifiers and password are required!"
+    );
+  }
+
+  // checking if the input data (username/email and password) exist in the database
+
+  const existingUser = await User.findOne({
+    $or: [{ username: credential }, { email: credential }], // return true if at least either of them is present
+  });
+  const passwordValidator = await existingUser?.isPasswordCorrect(password); // returns true if the password is correct (only if the user exists)
+
+  if (!existingUser || !passwordValidator) {
+    console.error("LOG IN ERROR: invalid credentials!");
+    throw new ApiError(
+      401,
+      "Invalid credentials. Please check your username/email and password, or sign up!"
+    );
+  }
+
+  // if the user exists, we need to generate the access and refresh token
+  const { accessToken, refreshToken } = await generateTokens(existingUser._id);
+
+  // once the user has successfully logged in, we need to send in the cookies to the client
+
+  const options = {
+    httpOnly: true, // cookie can't be manipulated by the client
+    secure: process.env.NODE_ENV === "production", // False on localhost (HTTP is allowed), True on external cloud (HTTPS only)
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    path: "/", // ensuring the cookie is sent to all routes
+  };
+
+  return res.status(200).cookie("refreshToken", refreshToken, options).json(
+    new ApiResponse(200, "The user has successfully logged in!", {
+      accessToken,
+    })
+  );
+};
+
 /* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
 const createRegisterOtp = asyncHandler(createRegisterOtpFunction);
 const registerUser = asyncHandler(registerUserFunction);
+const loginUser = asyncHandler(loginFunction);
 
-export { createRegisterOtp, registerUser };
+export { createRegisterOtp, registerUser, loginUser };
