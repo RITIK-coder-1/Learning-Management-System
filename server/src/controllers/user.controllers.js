@@ -331,6 +331,34 @@ const logoutFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+GET USER CONTROLLER
+This is a function to fetch a single user's details
+------------------------------------------------------------------------------------------ */
+
+const getUserFunction = async (req, res) => {
+  // getting the user id
+  const userId = req.user._id;
+
+  if (!userId) {
+    console.error("FETCHING USER ERROR: Invalid user id");
+    throw new ApiError(400, "Invalid User ID");
+  }
+
+  // getting the user
+  const user = await User.findOne({ _id: userId });
+
+  if (!user) {
+    console.error("FETCHING USER ERROR: Invalid user");
+    throw new ApiError(400, "User doesn't exist!");
+  }
+
+  // returning the user data to the client
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "User has been fetched successfully"), user);
+};
+
+/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -339,6 +367,7 @@ const registerUser = asyncHandler(registerUserFunction);
 const createLoginOtp = asyncHandler(createLogInOtpFunction);
 const loginUser = asyncHandler(loginFunction);
 const logoutUser = asyncHandler(logoutFunction);
+const getUser = asyncHandler(getUserFunction);
 
 export {
   createRegisterOtp,
@@ -346,4 +375,5 @@ export {
   createLoginOtp,
   loginUser,
   logoutUser,
+  getUser,
 };
