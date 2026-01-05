@@ -11,6 +11,7 @@ import {
   createLoginOtp,
   loginUser,
   logoutUser,
+  getUser,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -35,5 +36,6 @@ router.route("/login/otp").post(loginUser); // validate the OTP and login the us
 // SECURED ROUTES
 
 router.route("/logout").post(verifyJwt, logoutUser); // log the user out
+router.route("/profile").post(verifyJwt, getUser); // getting a user's details
 
 export { router as userRouter };
