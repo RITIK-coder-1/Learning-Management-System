@@ -189,7 +189,7 @@ const registerUserFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-LOGIN USER CONTROLLER
+LOGIN USER CONTROLLERS
 ------------------------------------------------------------------------------------------ */
 
 // function to generate access and refresh tokens on logging in
@@ -513,10 +513,122 @@ const updatePasswordFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-EMAIL PASSWORD CONTROLLER
+UPDATE EMAIL CONTROLLERS
 ------------------------------------------------------------------------------------------ */
 
-const updateEmailFunction = async (req, res) => {};
+// this function validates the user data and sends an OTP to the current email
+
+const createUpdateEmailOtpFunction = async (req, res) => {
+  // getting the new email to update and the password for security
+  const { newEmail, password } = req.body;
+
+  if (!newEmail.trim() || !password.trim()) {
+    console.error("UPDATE EMAIL ERROR: empty field!");
+    throw new ApiError(400, "Both the fields are mandatory!");
+  }
+
+  // validating the email
+  if (!validator.isEmail(newEmail)) {
+    console.error("UPDATE EMAIL ERROR: invalid email!");
+    throw new ApiError(400, "Please enter a valid email address!");
+  }
+
+  // checking if the email already exists
+  const emailExists = await User.findOne({ email: newEmail });
+  if (emailExists) {
+    console.error("UPDATE EMAIL ERROR: the email already exists!");
+    throw new ApiError(
+      409,
+      "This email is already registered to another account!"
+    );
+  }
+
+  // checking the password
+  const user = await User.findById(req.user?._id);
+  const passwordCorrect = await user.isPasswordCorrect(password);
+
+  if (!passwordCorrect) {
+    console.error("UPDATE EMAIL ERROR: incorrect password!");
+    throw new ApiError(400, "Incorrect Password!");
+  }
+
+  // generating an OTP
+  const code = generateOTP();
+
+  const generatedOtp = await OTP.create({
+    email: newEmail,
+    code,
+  });
+
+  if (!generatedOtp) {
+    console.error("UPDATE EMAIL ERROR: otp couldnt' be generated!");
+    throw new ApiError(
+      400,
+      "There was a problem while generating an OTP. Please try again!"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        "The OTP has been successfully sent to your new email!"
+      ),
+      {
+        newEmail,
+      }
+    );
+};
+
+// this function validates the OTP and updates the email
+
+const updateEmailFunction = async (req, res) => {
+  // getting the otp
+  const { userOtp, newEmail } = req.body;
+
+  if (!userOtp) {
+    console.error("UPDATE EMAIL ERROR: invalid otp!");
+    throw new ApiError(400, "Please enter a valid OTP!");
+  }
+
+  const recentOtp = await OTP.findOne({ email: newEmail }).sort({
+    createdAt: -1,
+  }); // the OTP saved in the database (the latest one only)
+
+  if (userOtp !== recentOtp?.code) {
+    console.error("UPDATE EMAIL ERROR: Wrong OTP!");
+    throw new ApiError(
+      400,
+      "The OTP doesn't match! Please enter the correct one!"
+    );
+  }
+
+  // updating the email
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        email: newEmail,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!user) {
+    console.error("UPDATE EMAIL ERROR: email didn't update!");
+    throw new ApiError(
+      400,
+      "There was a problem while updating the eamil. Please try again!"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The email has been successfully updated!"));
+};
 
 /* ---------------------------------------------------------------------------------------
 Error Handling
@@ -530,6 +642,7 @@ const logoutUser = asyncHandler(logoutFunction);
 const getUser = asyncHandler(getUserFunction);
 const updateUserDetails = asyncHandler(updateUserDetailsFunction);
 const updatePassword = asyncHandler(updatePasswordFunction);
+const createUpdateEmailOtp = asyncHandler(createUpdateEmailOtpFunction);
 const updateEmail = asyncHandler(updateEmailFunction);
 
 export {
@@ -541,5 +654,6 @@ export {
   getUser,
   updateUserDetails,
   updatePassword,
+  createUpdateEmailOtp,
   updateEmail,
 };
