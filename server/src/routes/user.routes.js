@@ -8,6 +8,7 @@ import { upload, verifyJwt } from "../middleware/index.middleware.js";
 import {
   registerUser,
   createRegisterOtp,
+  loginUser,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -23,6 +24,7 @@ SPECIFIC ROUTES:
 
 router.route("/register").post(upload.single("profilePic"), createRegisterOtp); // validate data and generate OTP
 router.route("/register/otp").post(registerUser); // validate OTP and register the user
+router.route("login").post(loginUser);
 
 // SECURED ROUTES
 
