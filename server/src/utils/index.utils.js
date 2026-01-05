@@ -9,10 +9,8 @@ import asyncHandler from "./errorHandler/asyncHandler";
 import mailSender from "./otp/mailSender";
 import generateOTP from "./otp/otpGenerator";
 import generateRefreshTokenString from "./tokens/generateRefreshTokenString";
-import {
-  uploadOnCloudinary,
-  deleteFromCloudinary,
-} from "./fileUpload/cloudinary";
+import uploadOnCloudinary from "./files/cloudinary";
+import deleteFromCloudinary from "./files/deleteFromCloudinary";
 import calculateAge from "./additional/calculateAge";
 
 export {

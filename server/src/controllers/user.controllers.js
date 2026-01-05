@@ -11,6 +11,7 @@ import {
   generateOTP,
   calculateAge,
   uploadOnCloudinary,
+  deleteFromCloudinary,
   generateRefreshTokenString,
 } from "../utils/index.utils";
 import validator from "validator";
@@ -25,7 +26,7 @@ const createRegisterOtpFunction = async (req, res) => {
   // Gathering all the important user data from the request object
   const { firstName, username, password, email, dateOfBirth, accountType } =
     req.body;
-  const profilePicLocalPath = req.files?.profilePic[0]?.path;
+  const profilePicLocalPath = req.file?.path;
 
   // Checking if mandatory fields are submitted or not
   const isImportantDataEmpty = [
@@ -359,6 +360,99 @@ const getUserFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+UPDATE USER CONTROLLER
+This is a function to update a user's details including the profile picture (not password and email)
+------------------------------------------------------------------------------------------ */
+
+const updateUserDetailsFunction = async (req, res) => {
+  // gathering data to update
+  const { firstName, lastName, username } = req.body; // (Account type and DOB can't be changed once created)
+  const profilePicLocalPath = req.file?.path;
+  const userId = req.user?._id;
+
+  // checking if there is no updated value
+  const currentUser = await User.findById(userId);
+
+  if (
+    currentUser.firstName === firstName &&
+    currentUser.lastName === lastName &&
+    currentUser.username === username &&
+    !profilePicLocalPath
+  ) {
+    console.error("UPDATE USER DETAILS ERROR: no updated value provided");
+    throw new ApiError(400, "Please enter any updated value!");
+  }
+
+  // validating important text data
+  const isImportantDataEmpty = [firstName, username].some(
+    (ele) => ele.trim() === ""
+  );
+
+  if (isImportantDataEmpty) {
+    console.error("UPDATE USER DETAILS ERROR: invalid data");
+    throw new ApiError(400, "First name and username can't be empty!");
+  }
+
+  // checking if the entered username already matches an existing one
+  const existingUsername = await User.findOne({
+    username,
+    _id: { $ne: userId }, // find excluding the current user
+  });
+
+  if (existingUsername) {
+    console.error("UPDATE USER DETAILS ERROR: updated username already exists");
+    throw new ApiError(
+      400,
+      "This username already exists. Please enter a new one!"
+    );
+  }
+
+  // checking if the username is of minimum 6 characters
+  if (username.trim().length < 6) {
+    console.error(
+      "UPDATE USER DETAILS ERROR: username is less than 6 characters"
+    );
+    throw new ApiError(400, "The username must be of 6 characters minimum!");
+  }
+
+  // upload profile pic only if it is updated
+  let profilePic = "";
+  if (profilePicLocalPath) {
+    profilePic = await uploadOnCloudinary(profilePicLocalPath);
+    if (!profilePic) {
+      console.error(
+        "UPDATE USER DETAILS ERROR: profile picture couldnt' be uploaded"
+      );
+      throw new ApiError(
+        400,
+        "The profile picture couldn't be uploaded. Please try again!"
+      );
+    }
+
+    // deleting the old file from cloudinary
+
+    const oldProfile = currentUser.profilePic; // the old file
+    await deleteFromCloudinary(oldProfile);
+  }
+
+  // updating the user
+  currentUser.fullName = fullName;
+  currentUser.lastName = lastName || "";
+  currentUser.username = username;
+
+  if (profilePic) {
+    currentUser.profilePic = profilePic; // re-write the profile pic only if it is updated
+  }
+
+  await currentUser.save({ validateBeforeSave: false });
+
+  // sending the response
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The details are successfully updated!"));
+};
+
+/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -368,6 +462,7 @@ const createLoginOtp = asyncHandler(createLogInOtpFunction);
 const loginUser = asyncHandler(loginFunction);
 const logoutUser = asyncHandler(logoutFunction);
 const getUser = asyncHandler(getUserFunction);
+const updateUserDetails = asyncHandler(updateUserDetailsFunction);
 
 export {
   createRegisterOtp,
@@ -376,4 +471,5 @@ export {
   loginUser,
   logoutUser,
   getUser,
+  updateUserDetails,
 };
