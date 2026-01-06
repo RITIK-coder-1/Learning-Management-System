@@ -7,6 +7,7 @@ This is a centralized exporting file for every single model
 import Course from "./course/Course.model.js";
 import CourseSection from "./course/CourseSection.model.js";
 import CourseVideo from "./course/CourseVideo.model.js";
+import CourseCategory from "./course/CourseCategory.model.js";
 
 // User models
 import User from "./user/User.model.js";
@@ -23,5 +24,6 @@ export {
   User,
   CourseProgress,
   CourseReview,
+  CourseCategory,
   OTP,
 };

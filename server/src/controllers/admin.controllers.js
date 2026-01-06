@@ -3,6 +3,9 @@ admin.controllers.js
 All the controllers specific to admin only
 ------------------------------------------------------------------------------------------ */
 
+import { ApiError, ApiResponse, asyncHandler } from "../utils/index.utils.js";
+import { CourseCategory } from "../models/index.model.js";
+
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
@@ -14,6 +17,45 @@ All the controllers specific to admin only
 /* ---------------------------------------------------------------------------------------
 CREATE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
+
+const createCategoryFunction = async (req, res) => {
+  // getting all the data
+  const { name, description } = req.body;
+
+  const isEmpty = [name, description].some((ele) => ele.trim() === "");
+
+  if (isEmpty) {
+    console.error("CREATE CATEGORY ERROR: empty fields!");
+    throw new ApiError(400, "Both the fields are required!");
+  }
+
+  // checking if this category already exists
+  const existingCategory = await CourseCategory.findOne({
+    name: { $regex: name, $options: "i" },
+  });
+
+  if (existingCategory) {
+    console.error("CREATE CATEGORY ERROR: category exists!");
+    throw new ApiError(400, "Category already exists!");
+  }
+
+  const category = await CourseCategory.create({
+    name: name,
+    description: description,
+  });
+
+  if (!category) {
+    console.error("CREATE CATEGORY ERROR: category creation failed!");
+    throw new ApiError(
+      500,
+      "There was a problem while creating the category. Please try again!"
+    );
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, "The category has been successfully created!"));
+};
 
 /* ---------------------------------------------------------------------------------------
 UPDATE CATEGORY CONTROLLER
@@ -54,3 +96,7 @@ DELETE A COURSE CONTROLLER
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------ */
+
+const createCategory = asyncHandler(createCategoryFunction);
+
+export { createCategory };
