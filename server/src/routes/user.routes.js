@@ -18,6 +18,7 @@ import {
   updateEmail,
   newAccessToken,
   deleteProfilePic,
+  deleteUserAccount,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -30,10 +31,11 @@ SPECIFIC ROUTES:
 - Create OTP for login route 
 - OTP validation and login route
 - Logout user
-- Update the user's details
+- Update the user's details or delete the profile pic
 - Update the user's password
 - Create OTP for email update route 
 - Update the user email 
+- Delete the user
 ------------------------------------------------------------------------------------------ */
 
 // PUBLIC ROUTES
@@ -55,5 +57,6 @@ router
 router.route("/profile/password").patch(verifyJwt, updatePassword); // updating the password of a user
 router.route("/profile/email").post(verifyJwt, createUpdateEmailOtp); // validate data and generate an OTP
 router.route("/profile/email/otp").patch(verifyJwt, updateEmail); // validate OTP and update the email
+router.route("/profile/delete").delete(verifyJwt, deleteUserAccount); // deleting the user
 
 export { router as userRouter };
