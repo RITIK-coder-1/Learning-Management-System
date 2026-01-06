@@ -3,7 +3,7 @@ user.controllers.js
 All the controllers for users including authentication 
 ------------------------------------------------------------------------------------------ */
 
-import { User, OTP } from "../models/index.model.js";
+import { User, OTP, Course } from "../models/index.model.js";
 import {
   ApiError,
   ApiResponse,
@@ -669,6 +669,78 @@ const deleteProfilePicFunction = async (req, res) => {
 DELETE THE USER ACCOUNT CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
+// THIS CONTROLLER IS INCOMPLETE (WORK NEEDED!!!)
+
+const deleteUserAccountFunction = async (req, res) => {
+  // getting the user's details
+  const user = await User.findById(req.user?._id);
+
+  if (!user) {
+    console.error("USER DELETE ERROR: invalid user");
+    throw new ApiError(400, "Invalid user!");
+  }
+
+  // checking if the password is correct
+  const { password } = req.body;
+  const passwordValidation = await user.isPasswordCorrect(password);
+
+  if (!passwordValidation) {
+    console.error("USER DELETE ERROR: incorrect password");
+    throw new ApiError(400, "Incorrect Password!");
+  }
+
+  // if the user has any profile pic, delete it
+  if (user.profilePic) {
+    try {
+      await deleteFromCloudinary(user.profilePic);
+    } catch (error) {
+      console.error(
+        "USER DELETE NON-CRITICAL ERROR: the profile pic couldn't be deleted"
+      );
+    }
+  }
+
+  // if it's a teacher, delete all their courses
+  if (user.accountType === "Instructor") {
+    try {
+      await Course.deleteMany({ owner: user._id });
+      // TODO: I NEED TO DELETE THE COURSE VIDEOS TOO. WORK PENDING!!!!
+    } catch (error) {
+      console.error(
+        "USER DELETE NON-CRITICAL ERROR: the courses of the instructor couldn't be deleted!"
+      );
+      throw new ApiError(
+        500,
+        "There was a problem while deleting your account. Please try again!"
+      );
+    }
+  }
+
+  // delete the user
+  try {
+    await User.deleteOne({ _id: user._id });
+  } catch (error) {
+    console.error("USER DELETE NON-CRITICAL ERROR: user couldn't be deleted");
+    throw new ApiError(
+      500,
+      "There was a problem while deleting your account. Please try again!"
+    );
+  }
+
+  // clearing the cookies
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    path: "/",
+  };
+
+  return res
+    .status(200)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "The user has been successfully deleted"));
+};
+
 /* ---------------------------------------------------------------------------------------
 NEW ACCESS TOKEN CONTROLLER
 ------------------------------------------------------------------------------------------ */
@@ -756,6 +828,7 @@ const createUpdateEmailOtp = asyncHandler(createUpdateEmailOtpFunction);
 const updateEmail = asyncHandler(updateEmailFunction);
 const newAccessToken = asyncHandler(newAccessTokenFunction);
 const deleteProfilePic = asyncHandler(deleteProfilePicFunction);
+const deleteUserAccount = asyncHandler(deleteUserAccountFunction);
 
 export {
   createRegisterOtp,
@@ -770,4 +843,5 @@ export {
   updateEmail,
   newAccessToken,
   deleteProfilePic,
+  deleteUserAccount,
 };
