@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
     },
     accountType: {
       type: String,
-      enum: ["Student", "Instructor"],
+      enum: ["Student", "Instructor", "Admin"],
       default: "Student",
       required: true,
     },
@@ -79,20 +79,19 @@ const userSchema = new mongoose.Schema(
 Hashing password before saving it to the document for security
 ------------------------------------------------------------------------------------------ */
 
-async function hashPassword(next) {
+async function hashPassword() {
   if (!this.isModified("password")) {
-    return next(); // If password hasn't been modified, skip hashing and move on.
+    return; // If password hasn't been modified, skip hashing and move on.
   }
 
   // Perform hashing with error handling
   try {
     this.password = await bcrypt.hash(this.password, 10); // hash the passoword with 10 salt rounds
     console.log("User Model:  Password successfully hashed before saving.");
-    next(); // Proceed to save only after successful hashing
   } catch (error) {
     // If hashing fails, log the error and pass it to Mongoose to abort the save operation, preventing plain text data exposure.
     console.error("User Model Error:  Failed to hash password.", error);
-    next(error); // Abort the save operation
+    throw error; // Abort the save operation
   }
 }
 

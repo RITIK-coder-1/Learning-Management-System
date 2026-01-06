@@ -13,7 +13,7 @@ import {
   uploadOnCloudinary,
   deleteFromCloudinary,
   generateRefreshTokenString,
-} from "../utils/index.utils";
+} from "../utils/index.utils.js";
 import validator from "validator";
 import jwt from "jsonwebtoken";
 
@@ -826,9 +826,9 @@ const updateUserDetails = asyncHandler(updateUserDetailsFunction);
 const updatePassword = asyncHandler(updatePasswordFunction);
 const createUpdateEmailOtp = asyncHandler(createUpdateEmailOtpFunction);
 const updateEmail = asyncHandler(updateEmailFunction);
-const newAccessToken = asyncHandler(newAccessTokenFunction);
 const deleteProfilePic = asyncHandler(deleteProfilePicFunction);
 const deleteUserAccount = asyncHandler(deleteUserAccountFunction);
+const newAccessToken = asyncHandler(newAccessTokenFunction);
 
 export {
   createRegisterOtp,
@@ -841,7 +841,7 @@ export {
   updatePassword,
   createUpdateEmailOtp,
   updateEmail,
-  newAccessToken,
   deleteProfilePic,
   deleteUserAccount,
+  newAccessToken,
 };

@@ -4,7 +4,7 @@ This file builds the schema for OTP data fields for user verification
 ------------------------------------------------------------------------------------------ */
 
 import mongoose from "mongoose";
-import mailSender from "../../utils/index.utils";
+import { mailSender } from "../../utils/index.utils.js";
 
 /* ---------------------------------------------------------------------------------------
 The Schema 

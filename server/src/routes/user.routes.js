@@ -19,7 +19,7 @@ import {
   newAccessToken,
   deleteProfilePic,
   deleteUserAccount,
-} from "../controllers/user.controllers";
+} from "../controllers/user.controllers.js";
 
 const router = Router();
 
