@@ -4,7 +4,10 @@ This file handles all the admin related routes
 ------------------------------------------------------------------------------------------ */
 
 import { Router } from "express";
-import { createCategory } from "../controllers/admin.controllers.js";
+import {
+  createCategory,
+  showAllCategories,
+} from "../controllers/admin.controllers.js";
 import { verifyJwt } from "../middleware/index.middleware.js";
 
 const router = Router();
@@ -12,9 +15,11 @@ const router = Router();
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 
-- Create category
+- Show all categories
+- Create a category
 ------------------------------------------------------------------------------------------ */
 
+router.route("/categories").get(verifyJwt, showAllCategories);
 router.route("/categories/create").post(verifyJwt, createCategory);
 
 export { router as adminRouter };
