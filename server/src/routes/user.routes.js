@@ -17,6 +17,7 @@ import {
   createUpdateEmailOtp,
   updateEmail,
   newAccessToken,
+  deleteProfilePic,
 } from "../controllers/user.controllers";
 
 const router = Router();
@@ -47,7 +48,10 @@ router.route("/token").post(newAccessToken); // generate a new access token afte
 
 router.route("/logout").post(verifyJwt, logoutUser); // log the user out
 router.route("/profile").post(verifyJwt, getUser); // getting a user's details
-router.route("/profile/details").patch(verifyJwt, updateUserDetails); // updating a user's details
+router
+  .route("/profile/details")
+  .patch(verifyJwt, updateUserDetails) // updating a user's details
+  .delete(verifyJwt, deleteProfilePic); // deleting a user's profile pic (only for students)
 router.route("/profile/password").patch(verifyJwt, updatePassword); // updating the password of a user
 router.route("/profile/email").post(verifyJwt, createUpdateEmailOtp); // validate data and generate an OTP
 router.route("/profile/email/otp").patch(verifyJwt, updateEmail); // validate OTP and update the email
