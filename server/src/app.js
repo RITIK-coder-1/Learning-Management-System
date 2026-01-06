@@ -99,6 +99,7 @@ app.use((req, _res, next) => {
       `The requested resource was not found at ${req.originalUrl}`
     )
   );
+  console.error("APP ERROR: invalid resource requested!");
 });
 
 // Global Error Handler
@@ -120,7 +121,7 @@ app.use((error, _req, res, _next) => {
     error: process.env.NODE_ENV === "development" ? error : undefined, // Full error object for debugging (only in development)
   });
 
-  console.log("CRITICAL SYSTEM ERROR: ", error);
+  console.error("CRITICAL SYSTEM ERROR: ", error);
 });
 
 export default app;

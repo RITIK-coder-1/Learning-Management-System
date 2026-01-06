@@ -632,6 +632,44 @@ const updateEmailFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+DELETE PROFILE PIC CONTROLLER 
+This will be available only on the interface of students
+------------------------------------------------------------------------------------------ */
+
+const deleteProfilePicFunction = async (req, res) => {
+  // getting the user profile
+  const user = await User.findById(req.user?._id);
+
+  if (!user) {
+    console.error("PROFILE PIC DELETE ERROR: invalid user");
+    throw new ApiError(400, "Invalid user!");
+  }
+
+  // deleting the pic
+  try {
+    await deleteFromCloudinary(user.profilePic);
+  } catch (error) {
+    console.error("PROFILE PIC DELETE ERROR: couldn't be deleted");
+    throw new ApiError(
+      500,
+      "The profile pic couldn't be deleted. Please try again!"
+    );
+  }
+
+  // updating the database
+  user.profilePic = ""; // default avatar will be set by the frontend
+  await user.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The profile has been successfully deleted!"));
+};
+
+/* ---------------------------------------------------------------------------------------
+DELETE THE USER ACCOUNT CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+/* ---------------------------------------------------------------------------------------
 NEW ACCESS TOKEN CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
@@ -717,6 +755,7 @@ const updatePassword = asyncHandler(updatePasswordFunction);
 const createUpdateEmailOtp = asyncHandler(createUpdateEmailOtpFunction);
 const updateEmail = asyncHandler(updateEmailFunction);
 const newAccessToken = asyncHandler(newAccessTokenFunction);
+const deleteProfilePic = asyncHandler(deleteProfilePicFunction);
 
 export {
   createRegisterOtp,
@@ -730,4 +769,5 @@ export {
   createUpdateEmailOtp,
   updateEmail,
   newAccessToken,
+  deleteProfilePic,
 };

@@ -31,6 +31,8 @@ SPECIFIC ROUTES:
 - Logout user
 - Update the user's details
 - Update the user's password
+- Create OTP for email update route 
+- Update the user email 
 ------------------------------------------------------------------------------------------ */
 
 // PUBLIC ROUTES
