@@ -128,6 +128,7 @@ const createRegisterOtpFunction = async (req, res) => {
     );
   }
 
+  console.log("OTP for user registeration has been successfully created!");
   // success response to the client
   return res.status(200).json(
     new ApiResponse(200, "OTP has been sent successfully!", {
@@ -184,6 +185,8 @@ const registerUserFunction = async (req, res) => {
     );
   }
 
+  console.log("User has been successfully registered!");
+
   return res
     .status(200)
     .json(new ApiResponse(200, "User has been created successfully!"));
@@ -205,6 +208,8 @@ const generateTokens = async (userId) => {
     const refreshToken = user.generateRefreshToken(randomString);
 
     await user.save({ validateBeforeSave: false }); // we don't validate each field whenever the user logs in or out
+
+    console.log("Tokens have been generated for user log in!");
 
     return { accessToken, refreshToken };
   } catch (error) {
@@ -259,6 +264,8 @@ const createLogInOtpFunction = async (req, res) => {
     );
   }
 
+  console.log("OTP for user log in has been created!");
+
   return res
     .status(200)
     .json(new ApiResponse(200, "OTP has been successfullt sent!"), {
@@ -292,6 +299,8 @@ const loginFunction = async (req, res) => {
     sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     path: "/", // ensuring the cookie is sent to all routes
   };
+
+  console.log("User has successfully logged in!");
 
   return res.status(200).cookie("refreshToken", refreshToken, options).json(
     new ApiResponse(200, "The user has successfully logged in!", {
@@ -337,6 +346,8 @@ const logoutFunction = async (req, res) => {
     path: "/",
   };
 
+  console.log("The user has logged out!");
+
   // clearing the cookies and the tokens once the user is logged out successfully
   return res
     .status(200)
@@ -365,6 +376,8 @@ const getUserFunction = async (req, res) => {
     console.error("FETCHING USER ERROR: Invalid user");
     throw new ApiError(400, "User doesn't exist!");
   }
+
+  console.log("User has been fetched successfully");
 
   // returning the user data to the client
   return res
@@ -459,10 +472,10 @@ const updateUserDetailsFunction = async (req, res) => {
 
   await currentUser.save({ validateBeforeSave: false });
 
+  console.log("User details are updated!");
+
   // sending the response
-  return res
-    .status(200)
-    .json(new ApiResponse(200, "The details are successfully updated!"));
+  return res.status(200).json(new ApiResponse(200, "Update successful!"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -507,6 +520,8 @@ const updatePasswordFunction = async (req, res) => {
 
   // This triggers the pre("save") hook and hashes the password
   await user.save({ validateBeforeSave: false });
+
+  console.log("User password updated!");
 
   return res
     .status(200)
@@ -569,6 +584,8 @@ const createUpdateEmailOtpFunction = async (req, res) => {
     );
   }
 
+  console.log("Update OTP sent!");
+
   return res
     .status(200)
     .json(
@@ -626,6 +643,8 @@ const updateEmailFunction = async (req, res) => {
     );
   }
 
+  console.log("Email has been updated!");
+
   return res
     .status(200)
     .json(new ApiResponse(200, "The email has been successfully updated!"));
@@ -659,6 +678,8 @@ const deleteProfilePicFunction = async (req, res) => {
   // updating the database
   user.profilePic = ""; // default avatar will be set by the frontend
   await user.save({ validateBeforeSave: false });
+
+  console.log("Profile pic deleted successfully!");
 
   return res
     .status(200)
@@ -735,6 +756,8 @@ const deleteUserAccountFunction = async (req, res) => {
     path: "/",
   };
 
+  console.log("Account deleted!");
+
   return res
     .status(200)
     .clearCookie("refreshToken", options)
@@ -785,6 +808,8 @@ const newAccessTokenFunction = async (req, res) => {
 
     // getting the new access and the refresh tokens
     const { accessToken, refreshToken } = await generateTokens(user._id);
+
+    console.log("New access token created!");
 
     // updating the cookies and sending a JSON API response
     return res

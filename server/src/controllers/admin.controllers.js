@@ -31,7 +31,7 @@ const createCategoryFunction = async (req, res) => {
 
   // checking if this category already exists
   const existingCategory = await CourseCategory.findOne({
-    name: { $regex: name, $options: "i" },
+    name: { $regex: name, $options: "i" }, // queries for all the categories (turned in smallcase)
   });
 
   if (existingCategory) {
@@ -58,11 +58,29 @@ const createCategoryFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-UPDATE CATEGORY CONTROLLER
+SHOW ALL CATEGORIES CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
+const showAllCategoriesFunction = async (req, res) => {
+  try {
+    const categories = await CourseCategory.find({}).select("-__v");
+
+    console.log("Categories fetched!");
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, "All Categories fetched successfully", categories)
+      );
+  } catch (error) {
+    // in case of error, I want to send the message to the frontend. I'm handling it irrespective of asyncHandler
+    console.error("SHOW CATEGORIES ERROR:", error);
+    throw new ApiError(500, "Could not fetch categories. Please try again!");
+  }
+};
+
 /* ---------------------------------------------------------------------------------------
-SHOW ALL CATEGORIES CONTROLLER
+UPDATE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 /* ---------------------------------------------------------------------------------------
@@ -98,5 +116,6 @@ DELETE A COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const createCategory = asyncHandler(createCategoryFunction);
+const showAllCategories = asyncHandler(showAllCategoriesFunction);
 
-export { createCategory };
+export { createCategory, showAllCategories };
