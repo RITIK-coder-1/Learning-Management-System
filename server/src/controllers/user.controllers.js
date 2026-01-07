@@ -13,6 +13,7 @@ import {
   uploadOnCloudinary,
   deleteFromCloudinary,
   generateRefreshTokenString,
+  deleteCourse,
 } from "../utils/index.utils.js";
 import validator from "validator";
 import jwt from "jsonwebtoken";
@@ -716,8 +717,6 @@ const deleteProfilePicFunction = async (req, res) => {
 DELETE THE USER ACCOUNT CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-// THIS CONTROLLER IS INCOMPLETE (WORK NEEDED!!!)
-
 const deleteUserAccountFunction = async (req, res) => {
   // getting the user's details
   const user = await User.findById(req.user?._id);
@@ -750,11 +749,10 @@ const deleteUserAccountFunction = async (req, res) => {
   // if it's a teacher, delete all their courses
   if (user.accountType === "Instructor") {
     try {
-      await Course.deleteMany({ owner: user._id });
-      // TODO: I NEED TO DELETE THE COURSE VIDEOS TOO. WORK PENDING!!!!
+      user.createdCourses.forEach(async (id) => await deleteCourse(id));
     } catch (error) {
       console.error(
-        "USER DELETE ERROR: the courses of the instructor couldn't be deleted!"
+        "USER DELETE ERROR: There was a problem while deleting the course."
       );
       throw new ApiError(
         500,

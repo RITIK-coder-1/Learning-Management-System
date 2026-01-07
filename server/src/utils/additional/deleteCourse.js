@@ -11,7 +11,6 @@ const deleteCourse = async (courseId) => {
   const course = await Course.findById(courseId);
   if (!course) {
     console.error("COURSE DELETE ERROR: course not found!");
-    throw new ApiError(400, "The course doesn't exist!");
   }
 
   // Removing the course from the users' enrolled courses list
@@ -22,10 +21,6 @@ const deleteCourse = async (courseId) => {
     console.error(
       "COURSE DELETE ERROR: There was a problem while removing the course from the users' lists"
     );
-    throw new ApiError(
-      500,
-      "There was a problem while deleting the course, please try again!"
-    );
   });
 
   // Removing the course from the category lists
@@ -35,10 +30,6 @@ const deleteCourse = async (courseId) => {
     console.error(
       "COURSE DELETE ERROR: There was a problem while removing the course from the category's list"
     );
-    throw new ApiError(
-      500,
-      "There was a problem while deleting the course, please try again!"
-    );
   });
 
   // Removing the course from the instructor's list
@@ -47,10 +38,6 @@ const deleteCourse = async (courseId) => {
   }).catch(() => {
     console.error(
       "COURSE DELETE ERROR: There was a problem while removing the course from the instructor's list"
-    );
-    throw new ApiError(
-      500,
-      "There was a problem while deleting the course, please try again!"
     );
   });
 
@@ -68,10 +55,6 @@ const deleteCourse = async (courseId) => {
   await Course.findByIdAndDelete(courseId).catch(() => {
     console.error(
       "COURSE DELETE ERROR: There was a problem while deleting the course"
-    );
-    throw new ApiError(
-      500,
-      "There was a problem while deleting the course, please try again!"
     );
   });
 };

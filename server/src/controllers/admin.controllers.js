@@ -3,7 +3,12 @@ admin.controllers.js
 All the controllers specific to admin only
 ------------------------------------------------------------------------------------------ */
 
-import { ApiError, ApiResponse, asyncHandler } from "../utils/index.utils.js";
+import {
+  ApiError,
+  ApiResponse,
+  asyncHandler,
+  deleteCourse,
+} from "../utils/index.utils.js";
 import { Course, CourseCategory, User } from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
@@ -248,8 +253,6 @@ const getUserAdminFunction = async (req, res) => {
 DELETE A USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-// THIS CONTROLLER IS INCOMPLETE (WORK NEEDED!!!)
-
 const deleteUserAccountAdminFunction = async (req, res) => {
   // getting the user's details
   const userId = req.params.userId;
@@ -274,15 +277,14 @@ const deleteUserAccountAdminFunction = async (req, res) => {
   // if it's a teacher, delete all their courses
   if (user.accountType === "Instructor") {
     try {
-      await Course.deleteMany({ owner: userId });
-      // TODO: I NEED TO DELETE THE COURSE VIDEOS TOO. WORK PENDING!!!!
+      user.createdCourses.forEach(async (id) => await deleteCourse(id));
     } catch (error) {
       console.error(
-        "USER DELETE ADMIN ERROR: the courses of the instructor couldn't be deleted!"
+        "USER DELETE ADMIN ERROR: There was a problem while deleting the course."
       );
       throw new ApiError(
         500,
-        "There was a problem while deleting the user. Please try again!"
+        "There was a problem while deleting the account. Please try again!"
       );
     }
   }
