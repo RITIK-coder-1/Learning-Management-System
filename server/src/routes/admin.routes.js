@@ -8,6 +8,7 @@ import {
   createCategory,
   getAllUsers,
   showAllCategories,
+  updateCategory,
 } from "../controllers/admin.controllers.js";
 import { verifyJwt } from "../middleware/index.middleware.js";
 
@@ -21,7 +22,10 @@ SPECIFIC ROUTES:
 - Get all users 
 ------------------------------------------------------------------------------------------ */
 
-router.route("/categories").get(verifyJwt, showAllCategories);
+router
+  .route("/categories")
+  .get(verifyJwt, showAllCategories)
+  .patch(verifyJwt, updateCategory);
 router.route("/categories/create").post(verifyJwt, createCategory);
 router.route("/users").get(verifyJwt, getAllUsers);
 
