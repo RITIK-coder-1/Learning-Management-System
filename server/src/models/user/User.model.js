@@ -62,6 +62,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    createdCourses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+    ],
     enrolledCourses: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -12,6 +12,7 @@ import generateRefreshTokenString from "./tokens/generateRefreshTokenString.js";
 import uploadOnCloudinary from "./files/cloudinary.js";
 import deleteFromCloudinary from "./files/deleteFromCloudinary.js";
 import calculateAge from "./additional/calculateAge.js";
+import deleteCourse from "./additional/deleteCourse.js";
 
 export {
   ApiResponse,
@@ -23,4 +24,5 @@ export {
   uploadOnCloudinary,
   deleteFromCloudinary,
   calculateAge,
+  deleteCourse,
 };
