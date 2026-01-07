@@ -195,7 +195,7 @@ const getAllUsersFunction = async (req, res) => {
   // For a real production app with thousands of users, I would implement the cursor-based pagination here. Since this is a demo, I am fetching all users for simplicity.
 
   const users = await User.find({
-    _id: { $ne: req.user._id },
+    _id: { $ne: req.user._id }, // not the admin themselves
   }).select("-password -refreshTokenString");
 
   console.log("All the users fetched!");
@@ -209,7 +209,31 @@ const getAllUsersFunction = async (req, res) => {
 SHOW A PARTICULAR USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const getUserAdminFunction = async (req, res) => {};
+const getUserAdminFunction = async (req, res) => {
+  const { userId } = req.body; // the frontend will provide the user id
+
+  if (!userId) {
+    console.error("GET USER ADMIN ERROR: Invalid user id");
+    throw new ApiError(500, "Invalid User ID!");
+  }
+
+  const user = await User.findById(userId).select(
+    "-password -refreshTokenString"
+  );
+
+  if (!user) {
+    console.error(
+      "GET USER ADMIN ERROR: there was a problem while getting the user"
+    );
+    throw new ApiError(500, "There was a problem while getting the user!");
+  }
+
+  console.log("User fetched for Admin");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "User successfully fetched!", user));
+};
 
 /* ---------------------------------------------------------------------------------------
 DELETE A USER CONTROLLER
