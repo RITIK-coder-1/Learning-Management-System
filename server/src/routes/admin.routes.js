@@ -14,6 +14,7 @@ import {
   getCourseAdmin,
   getUserAdmin,
   showAllCategories,
+  systemStats,
   updateCategory,
 } from "../controllers/admin.controllers.js";
 import { verifyJwt } from "../middleware/index.middleware.js";
@@ -29,6 +30,7 @@ SPECIFIC ROUTES:
 - Get a particular user or delete a user
 - Get all courses 
 - Get a particular course or delete a course
+- System stats
 ------------------------------------------------------------------------------------------ */
 
 router
@@ -47,5 +49,6 @@ router
   .route("/courses/:courseId")
   .get(verifyJwt, getCourseAdmin)
   .delete(verifyJwt, deleteCourseAdmin);
+router.route("/dashboard").get(verifyJwt, systemStats);
 
 export { router as adminRouter };
