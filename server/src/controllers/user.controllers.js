@@ -470,7 +470,15 @@ const updateUserDetailsFunction = async (req, res) => {
     currentUser.profilePic = profilePic; // re-write the profile pic only if it is updated
   }
 
-  await currentUser.save({ validateBeforeSave: false });
+  const newUser = await currentUser.save({ validateBeforeSave: false });
+
+  if (!newUser) {
+    console.error("UPDATE USER DETAILS ERROR: problem updating!");
+    throw new ApiError(
+      400,
+      "There was a problem while updating the details. Please try again!"
+    );
+  }
 
   console.log("User details are updated!");
 
@@ -519,7 +527,15 @@ const updatePasswordFunction = async (req, res) => {
   user.password = newPassword;
 
   // This triggers the pre("save") hook and hashes the password
-  await user.save({ validateBeforeSave: false });
+  const newUser = await user.save({ validateBeforeSave: false });
+
+  if (!newUser) {
+    console.error("UPDATE USER PASSWORD ERROR: problem updating!");
+    throw new ApiError(
+      400,
+      "There was a problem while updating the password. Please try again!"
+    );
+  }
 
   console.log("User password updated!");
 
@@ -677,7 +693,15 @@ const deleteProfilePicFunction = async (req, res) => {
 
   // updating the database
   user.profilePic = ""; // default avatar will be set by the frontend
-  await user.save({ validateBeforeSave: false });
+  const newUser = await user.save({ validateBeforeSave: false });
+
+  if (!newUser) {
+    console.error("PROFILE PIC DELETE ERROR: problem updating!");
+    throw new ApiError(
+      400,
+      "There was a problem while deleting the pic. Please try again!"
+    );
+  }
 
   console.log("Profile pic deleted successfully!");
 
