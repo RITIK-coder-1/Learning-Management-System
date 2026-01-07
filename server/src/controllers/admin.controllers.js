@@ -4,7 +4,7 @@ All the controllers specific to admin only
 ------------------------------------------------------------------------------------------ */
 
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.utils.js";
-import { CourseCategory, User } from "../models/index.model.js";
+import { Course, CourseCategory, User } from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
@@ -83,7 +83,58 @@ const showAllCategoriesFunction = async (req, res) => {
 UPDATE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const updateCategoryFunction = async (req, res) => {};
+const updateCategoryFunction = async (req, res) => {
+  const { name, description, categoryId } = req.body; // the frontned will send the categoryId for query purposes. I'll be updating the categories on the display page itself so I won't have the id access in the parameters
+
+  if (!name.trim() || !description.trim()) {
+    console.error("UPDATE CATEGORY ERROR: Empty fields!");
+    throw new ApiError(400, "Name and Description can't be empty!");
+  }
+
+  if (!categoryId.trim()) {
+    console.error("UPDATE CATEGORY ERROR: invalid category id!");
+    throw new ApiError(400, "Invalid Category ID!");
+  }
+
+  // checking if the entered values are distinct from the original values
+  const category = await CourseCategory.findOne({ _id: categoryId });
+
+  if (category.name === name && category.description === description) {
+    console.error("UPDATE CATEGORY ERROR: non-updated values!");
+    throw new ApiError(400, "Please enter updated values!");
+  }
+
+  // checking if this category already exists if it is updated
+  if (category.name !== name) {
+    const existingCategory = await CourseCategory.findOne({
+      name: { $regex: name, $options: "i" }, // queries for all the categories (turned in smallcase)
+      _id: { $ne: categoryId }, // excluding the current document
+    });
+
+    if (existingCategory) {
+      console.error("UPDATE CATEGORY ERROR: category exists!");
+      throw new ApiError(400, "Category already exists!");
+    }
+  }
+
+  // updating the category
+  category.name = name;
+  category.description = description;
+
+  const updatedCategory = await category.save({ validateBeforeSave: false });
+
+  if (!updatedCategory) {
+    console.error("UPDATE CATEGORY ERROR: problem updating!");
+    throw new ApiError(
+      400,
+      "There was a problem while updating the category. Please try again!"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Category successfully updated"));
+};
 
 /* ---------------------------------------------------------------------------------------
 DELETE CATEGORY CONTROLLER
