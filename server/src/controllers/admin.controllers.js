@@ -84,7 +84,7 @@ UPDATE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const updateCategoryFunction = async (req, res) => {
-  const { name, description, categoryId } = req.body; // the frontned will send the categoryId for query purposes. I'll be updating the categories on the display page itself so I won't have the id access in the parameters
+  const { name, description, categoryId } = req.body; // the frontend will send the categoryId for query purposes. I'll be updating the categories on the display page itself so I won't have the id access in the parameters
 
   if (!name.trim() || !description.trim()) {
     console.error("UPDATE CATEGORY ERROR: Empty fields!");
@@ -140,6 +140,34 @@ const updateCategoryFunction = async (req, res) => {
 DELETE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
+const deleteCategoryFunction = async (req, res) => {
+  const { categoryId } = req.body; // the frontend will send the categoryId for query purposes. I'll be updating the categories on the display page itself so I won't have the id access in the parameters
+
+  const category = await CourseCategory.findOne({ _id: categoryId });
+
+  if (category?.courses.length > 0) {
+    console.error("CATEGORY DELETE ERROR: category has active courses!");
+    throw new ApiError(
+      400,
+      "This category has active courses. Please delete the courses before deleing the category!"
+    );
+  }
+
+  try {
+    await CourseCategory.deleteOne({ _id: categoryId });
+  } catch (error) {
+    console.error("CATEGORY DELETE ERROR: problem while deleting!");
+    throw new ApiError(
+      500,
+      "There was a problem while deleting the category. Please try again!"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The category has been successfully deleted!"));
+};
+
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
@@ -182,5 +210,12 @@ const createCategory = asyncHandler(createCategoryFunction);
 const showAllCategories = asyncHandler(showAllCategoriesFunction);
 const updateCategory = asyncHandler(updateCategoryFunction);
 const getAllUsers = asyncHandler(getAllUsersFunction);
+const deleteCategory = asyncHandler(deleteCategoryFunction);
 
-export { createCategory, showAllCategories, updateCategory, getAllUsers };
+export {
+  createCategory,
+  showAllCategories,
+  updateCategory,
+  getAllUsers,
+  deleteCategory,
+};
