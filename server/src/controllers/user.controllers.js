@@ -370,7 +370,9 @@ const getUserFunction = async (req, res) => {
   }
 
   // getting the user
-  const user = await User.findOne({ _id: userId });
+  const user = await User.findOne({ _id: userId }).select(
+    "-password -refreshTokenString"
+  );
 
   if (!user) {
     console.error("FETCHING USER ERROR: Invalid user");

@@ -52,6 +52,8 @@ const createCategoryFunction = async (req, res) => {
     );
   }
 
+  console.log("Category successfully created!");
+
   return res
     .status(201)
     .json(new ApiResponse(201, "The category has been successfully created!"));
@@ -131,6 +133,8 @@ const updateCategoryFunction = async (req, res) => {
     );
   }
 
+  console.log("Category updated!");
+
   return res
     .status(200)
     .json(new ApiResponse(200, "Category successfully updated"));
@@ -168,6 +172,8 @@ const deleteCategoryFunction = async (req, res) => {
     );
   }
 
+  console.log("Category deleted!");
+
   return res
     .status(200)
     .json(new ApiResponse(200, "The category has been successfully deleted!"));
@@ -186,9 +192,13 @@ SHOW ALL USERS CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getAllUsersFunction = async (req, res) => {
-  // For a real production app with thousands of users, I would implement the cursor-based pagination here using .limit() and .skip(). Since this is a demo, I am fetching all users for simplicity.
+  // For a real production app with thousands of users, I would implement the cursor-based pagination here. Since this is a demo, I am fetching all users for simplicity.
 
-  const users = await User.find({}).select("-password -refreshTokenString");
+  const users = await User.find({
+    _id: { $ne: req.user._id },
+  }).select("-password -refreshTokenString");
+
+  console.log("All the users fetched!");
 
   return res
     .status(200)
@@ -196,8 +206,16 @@ const getAllUsersFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+SHOW A PARTICULAR USER CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const getUserAdminFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
 DELETE A USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
+
+// THIS CONTROLLER IS INCOMPLETE (WORK NEEDED!!!)
 
 const deleteUserAccountAdminFunction = async (req, res) => {
   // getting the user's details
@@ -207,6 +225,33 @@ const deleteUserAccountAdminFunction = async (req, res) => {
   if (!user) {
     console.error("USER DELETE ADMIN ERROR: invalid user");
     throw new ApiError(400, "Invalid user!");
+  }
+
+  // if the user has any profile pic, delete it
+  if (user.profilePic) {
+    try {
+      await deleteFromCloudinary(user.profilePic);
+    } catch (error) {
+      console.error(
+        "USER DELETE ADMIN NON-CRITICAL ERROR: the profile pic couldn't be deleted"
+      );
+    }
+  }
+
+  // if it's a teacher, delete all their courses
+  if (user.accountType === "Instructor") {
+    try {
+      await Course.deleteMany({ owner: userId });
+      // TODO: I NEED TO DELETE THE COURSE VIDEOS TOO. WORK PENDING!!!!
+    } catch (error) {
+      console.error(
+        "USER DELETE ADMIN ERROR: the courses of the instructor couldn't be deleted!"
+      );
+      throw new ApiError(
+        500,
+        "There was a problem while deleting the user. Please try again!"
+      );
+    }
   }
 
   // delete the user
@@ -220,19 +265,10 @@ const deleteUserAccountAdminFunction = async (req, res) => {
     );
   }
 
-  // clearing the cookies
-  const options = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-    path: "/",
-  };
-
-  console.log("Account deleted!");
+  console.log("User deleted!");
 
   return res
     .status(200)
-    .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, "The user has been successfully deleted"));
 };
 
@@ -254,6 +290,7 @@ const updateCategory = asyncHandler(updateCategoryFunction);
 const getAllUsers = asyncHandler(getAllUsersFunction);
 const deleteCategory = asyncHandler(deleteCategoryFunction);
 const deleteUserAccountAdmin = asyncHandler(deleteUserAccountAdminFunction);
+const getUserAdmin = asyncHandler(getUserAdminFunction);
 
 export {
   createCategory,
@@ -262,4 +299,5 @@ export {
   getAllUsers,
   deleteCategory,
   deleteUserAccountAdmin,
+  getUserAdmin,
 };
