@@ -7,6 +7,7 @@ import { Router } from "express";
 import {
   createCategory,
   deleteCategory,
+  deleteUserAccountAdmin,
   getAllUsers,
   showAllCategories,
   updateCategory,
@@ -18,9 +19,10 @@ const router = Router();
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 
-- Show all categories
+- Show all categories or update them or delete them 
 - Create a category
 - Get all users 
+- Delete a user 
 ------------------------------------------------------------------------------------------ */
 
 router
@@ -30,5 +32,6 @@ router
   .delete(verifyJwt, deleteCategory);
 router.route("/categories/create").post(verifyJwt, createCategory);
 router.route("/users").get(verifyJwt, getAllUsers);
+router.route("/users/:userId").delete(verifyJwt, deleteUserAccountAdmin);
 
 export { router as adminRouter };
