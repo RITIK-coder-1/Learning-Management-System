@@ -4,7 +4,7 @@ All the controllers specific to admin only
 ------------------------------------------------------------------------------------------ */
 
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.utils.js";
-import { CourseCategory } from "../models/index.model.js";
+import { CourseCategory, User } from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
@@ -83,6 +83,8 @@ const showAllCategoriesFunction = async (req, res) => {
 UPDATE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
+const updateCategoryFunction = async (req, res) => {};
+
 /* ---------------------------------------------------------------------------------------
 DELETE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
@@ -98,6 +100,16 @@ DELETE CATEGORY CONTROLLER
 /* ---------------------------------------------------------------------------------------
 SHOW ALL USERS CONTROLLER
 ------------------------------------------------------------------------------------------ */
+
+const getAllUsersFunction = async (req, res) => {
+  // For a real production app with thousands of users, I would implement the cursor-based pagination here using .limit() and .skip(). Since this is a demo, I am fetching all users for simplicity.
+
+  const users = await User.find({}).select("-password -refreshTokenString");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "All users fetched successfully", users));
+};
 
 /* ---------------------------------------------------------------------------------------
 DELETE A USER CONTROLLER
@@ -117,5 +129,7 @@ DELETE A COURSE CONTROLLER
 
 const createCategory = asyncHandler(createCategoryFunction);
 const showAllCategories = asyncHandler(showAllCategoriesFunction);
+const updateCategory = asyncHandler(updateCategoryFunction);
+const getAllUsers = asyncHandler(getAllUsersFunction);
 
-export { createCategory, showAllCategories };
+export { createCategory, showAllCategories, updateCategory, getAllUsers };
