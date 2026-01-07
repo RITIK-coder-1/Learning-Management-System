@@ -85,9 +85,11 @@ All the routes will go here
 ------------------------------------------------------------------------------------------ */
 import { userRouter } from "./routes/user.routes.js";
 import { adminRouter } from "./routes/admin.routes.js";
+import { courseRouter } from "./routes/course.routes.js";
 
-userRouter.use("/api/v1", userRouter);
-adminRouter.use("/api/v1/admin", adminRouter);
+app.use("/api/v1", userRouter);
+app.use("/api/v1", courseRouter);
+app.use("/api/v1/admin", adminRouter);
 
 /* ---------------------------------------------------------------------------------------
 Error Handling 
