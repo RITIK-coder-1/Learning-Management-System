@@ -373,8 +373,9 @@ DELETE A COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const deleteCourseAdminFunction = async (req, res) => {
+  const courseId = req.params?.courseId;
   try {
-    user.createdCourses.forEach(async (id) => await deleteCourse(id));
+    await deleteCourse(courseId);
     console.log("Course successfully deleted!");
     return res
       .status(200)
