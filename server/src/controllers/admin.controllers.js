@@ -278,6 +278,8 @@ const deleteUserAccountAdminFunction = async (req, res) => {
   if (user.accountType === "Instructor") {
     try {
       user.createdCourses.forEach(async (id) => await deleteCourse(id));
+
+      console.log("Course successfully deleted!");
     } catch (error) {
       console.error(
         "USER DELETE ADMIN ERROR: There was a problem while deleting the course."
@@ -370,7 +372,23 @@ const getCourseAdminFunction = async (req, res) => {
 DELETE A COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const deleteCourseAdminFunction = async (req, res) => {};
+const deleteCourseAdminFunction = async (req, res) => {
+  try {
+    user.createdCourses.forEach(async (id) => await deleteCourse(id));
+    console.log("Course successfully deleted!");
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "Course successfully deleted!"));
+  } catch (error) {
+    console.error(
+      "COURSE DELETE ADMIN ERROR: There was a problem while deleting the course."
+    );
+    throw new ApiError(
+      500,
+      "There was a problem while deleting the course. Please try again!"
+    );
+  }
+};
 
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------

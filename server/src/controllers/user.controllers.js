@@ -750,6 +750,8 @@ const deleteUserAccountFunction = async (req, res) => {
   if (user.accountType === "Instructor") {
     try {
       user.createdCourses.forEach(async (id) => await deleteCourse(id));
+
+      console.log("Course successfully deleted!");
     } catch (error) {
       console.error(
         "USER DELETE ERROR: There was a problem while deleting the course."
