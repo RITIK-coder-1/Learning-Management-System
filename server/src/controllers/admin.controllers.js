@@ -143,6 +143,11 @@ DELETE CATEGORY CONTROLLER
 const deleteCategoryFunction = async (req, res) => {
   const { categoryId } = req.body; // the frontend will send the categoryId for query purposes. I'll be updating the categories on the display page itself so I won't have the id access in the parameters
 
+  if (!categoryId) {
+    console.error("CATEGORY DELETE ERROR: Invalid category ID!");
+    throw new ApiError(400, "Invalid category ID!");
+  }
+
   const category = await CourseCategory.findOne({ _id: categoryId });
 
   if (category?.courses.length > 0) {

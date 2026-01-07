@@ -6,6 +6,7 @@ This file handles all the admin related routes
 import { Router } from "express";
 import {
   createCategory,
+  deleteCategory,
   getAllUsers,
   showAllCategories,
   updateCategory,
@@ -25,7 +26,8 @@ SPECIFIC ROUTES:
 router
   .route("/categories")
   .get(verifyJwt, showAllCategories)
-  .patch(verifyJwt, updateCategory);
+  .patch(verifyJwt, updateCategory)
+  .delete(verifyJwt, deleteCategory);
 router.route("/categories/create").post(verifyJwt, createCategory);
 router.route("/users").get(verifyJwt, getAllUsers);
 
