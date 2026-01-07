@@ -340,7 +340,29 @@ const getAllCoursesAdminFunction = async (req, res) => {
 GET A PARTICULAR COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const getCourseAdminFunction = async (req, res) => {};
+const getCourseAdminFunction = async (req, res) => {
+  const { courseId } = req.body; // the frontend will provide the course id
+
+  if (!courseId) {
+    console.error("GET COURSE ADMIN ERROR: Invalid course id");
+    throw new ApiError(500, "Invalid Course ID!");
+  }
+
+  const course = await User.findById(courseId);
+
+  if (!course) {
+    console.error(
+      "GET COURSE ADMIN ERROR: there was a problem while getting the course"
+    );
+    throw new ApiError(500, "There was a problem while getting the course!");
+  }
+
+  console.log("Course fetched for Admin");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Course successfully fetched!", course));
+};
 
 /* ---------------------------------------------------------------------------------------
 DELETE A COURSE CONTROLLER
