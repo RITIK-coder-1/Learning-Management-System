@@ -199,6 +199,43 @@ const getAllUsersFunction = async (req, res) => {
 DELETE A USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
+const deleteUserAccountAdminFunction = async (req, res) => {
+  // getting the user's details
+  const userId = req.params.userId;
+  const user = await User.findById(userId);
+
+  if (!user) {
+    console.error("USER DELETE ADMIN ERROR: invalid user");
+    throw new ApiError(400, "Invalid user!");
+  }
+
+  // delete the user
+  try {
+    await User.deleteOne({ _id: userId });
+  } catch (error) {
+    console.error("USER DELETE ADMIN ERROR: user couldn't be deleted");
+    throw new ApiError(
+      500,
+      "There was a problem while deleting the user. Please try again!"
+    );
+  }
+
+  // clearing the cookies
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    path: "/",
+  };
+
+  console.log("Account deleted!");
+
+  return res
+    .status(200)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "The user has been successfully deleted"));
+};
+
 /* ---------------------------------------------------------------------------------------
 DELETE A COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
@@ -216,6 +253,7 @@ const showAllCategories = asyncHandler(showAllCategoriesFunction);
 const updateCategory = asyncHandler(updateCategoryFunction);
 const getAllUsers = asyncHandler(getAllUsersFunction);
 const deleteCategory = asyncHandler(deleteCategoryFunction);
+const deleteUserAccountAdmin = asyncHandler(deleteUserAccountAdminFunction);
 
 export {
   createCategory,
@@ -223,4 +261,5 @@ export {
   updateCategory,
   getAllUsers,
   deleteCategory,
+  deleteUserAccountAdmin,
 };

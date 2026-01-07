@@ -752,7 +752,7 @@ const deleteUserAccountFunction = async (req, res) => {
       // TODO: I NEED TO DELETE THE COURSE VIDEOS TOO. WORK PENDING!!!!
     } catch (error) {
       console.error(
-        "USER DELETE NON-CRITICAL ERROR: the courses of the instructor couldn't be deleted!"
+        "USER DELETE ERROR: the courses of the instructor couldn't be deleted!"
       );
       throw new ApiError(
         500,
@@ -765,7 +765,7 @@ const deleteUserAccountFunction = async (req, res) => {
   try {
     await User.deleteOne({ _id: user._id });
   } catch (error) {
-    console.error("USER DELETE NON-CRITICAL ERROR: user couldn't be deleted");
+    console.error("USER DELETE ERROR: user couldn't be deleted");
     throw new ApiError(
       500,
       "There was a problem while deleting your account. Please try again!"
