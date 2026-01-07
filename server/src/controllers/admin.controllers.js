@@ -399,6 +399,49 @@ const deleteCourseAdminFunction = async (req, res) => {
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------ */
 
+/* ---------------------------------------------------------------------------------------
+SYSTEM STATS CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const systemStatsFunction = async (req, res) => {
+  try {
+    const asyncTasks = [
+      User.countDocuments(),
+      User.countDocuments({ accountType: "Student" }),
+      User.countDocuments({ accountType: "Instructor" }),
+      Course.countDocuments(),
+      CourseCategory.countDocuments(),
+    ];
+
+    // Fire all queries simultaneously
+
+    const [
+      userCount,
+      studentCount,
+      instructorCount,
+      courseCount,
+      categoryCount,
+    ] = await Promise.all(asyncTasks);
+
+    console.log(
+      `Total Count for Admin: Users: ${userCount}, Students: ${studentCount}, Teachers: ${instructorCount}, Courses: ${courseCount} and Categories: ${categoryCount}`
+    );
+
+    return res.status(200).json(
+      new ApiResponse(200, "System stats loaded!", {
+        userCount,
+        studentCount,
+        instructorCount,
+        courseCount,
+        categoryCount,
+      })
+    );
+  } catch (error) {
+    console.error("SYSTEM STATS ERROR");
+    throw new ApiError(500, "Failed to load system stats");
+  }
+};
+
 const createCategory = asyncHandler(createCategoryFunction);
 const showAllCategories = asyncHandler(showAllCategoriesFunction);
 const updateCategory = asyncHandler(updateCategoryFunction);
@@ -409,6 +452,7 @@ const getUserAdmin = asyncHandler(getUserAdminFunction);
 const deleteCourseAdmin = asyncHandler(deleteCourseAdminFunction);
 const getAllCoursesAdmin = asyncHandler(getAllCoursesAdminFunction);
 const getCourseAdmin = asyncHandler(getCourseAdminFunction);
+const systemStats = asyncHandler(systemStatsFunction);
 
 export {
   createCategory,
@@ -421,4 +465,5 @@ export {
   deleteCourseAdmin,
   getAllCoursesAdmin,
   getCourseAdmin,
+  systemStats,
 };
