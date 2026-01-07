@@ -182,7 +182,7 @@ const deleteCategoryFunction = async (req, res) => {
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
-                                USER AND COURSE MANAGEMENT
+                                USER MANAGEMENT
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------ */
@@ -194,15 +194,24 @@ SHOW ALL USERS CONTROLLER
 const getAllUsersFunction = async (req, res) => {
   // For a real production app with thousands of users, I would implement the cursor-based pagination here. Since this is a demo, I am fetching all users for simplicity.
 
-  const users = await User.find({
-    _id: { $ne: req.user._id }, // not the admin themselves
-  }).select("-password -refreshTokenString");
+  try {
+    const users = await User.find({
+      _id: { $ne: req.user._id }, // not the admin themselves
+    }).select("-password -refreshTokenString");
 
-  console.log("All the users fetched!");
+    console.log("All the users fetched!");
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, "All users fetched successfully", users));
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "All users fetched successfully", users));
+  } catch (error) {
+    // irrespective of the asynchandler, I'm catching the error here because I want to send a clear response to the frontend
+    console.error("GET ALL USERS ERROR");
+    throw new ApiError(
+      500,
+      "There was a problem while getting the users. Please try again!"
+    );
+  }
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -297,8 +306,47 @@ const deleteUserAccountAdminFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+                                COURSE MANAGEMENT
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------ */
+
+/* ---------------------------------------------------------------------------------------
+GET ALL COURSES CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const getAllCoursesAdminFunction = async (req, res) => {
+  try {
+    const courses = await Course.find({});
+
+    console.log("All the courses fetched!");
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "All courses fetched successfully", courses));
+  } catch (error) {
+    // irrespective of the asynchandler, I'm catching the error here because I want to send a clear response to the frontend
+    console.error("GET ALL COURSES ERROR");
+    throw new ApiError(
+      500,
+      "There was a problem while getting the courses. Please try again!"
+    );
+  }
+};
+
+/* ---------------------------------------------------------------------------------------
+GET A PARTICULAR COURSE CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const getCourseAdminFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
 DELETE A COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
+
+const deleteCourseAdminFunction = async (req, res) => {};
 
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
@@ -315,6 +363,9 @@ const getAllUsers = asyncHandler(getAllUsersFunction);
 const deleteCategory = asyncHandler(deleteCategoryFunction);
 const deleteUserAccountAdmin = asyncHandler(deleteUserAccountAdminFunction);
 const getUserAdmin = asyncHandler(getUserAdminFunction);
+const deleteCourseAdmin = asyncHandler(deleteCourseAdminFunction);
+const getAllCoursesAdmin = asyncHandler(getAllCoursesAdminFunction);
+const getCourseAdmin = asyncHandler(getCourseAdminFunction);
 
 export {
   createCategory,
@@ -324,4 +375,7 @@ export {
   deleteCategory,
   deleteUserAccountAdmin,
   getUserAdmin,
+  deleteCourseAdmin,
+  getAllCoursesAdmin,
+  getCourseAdmin,
 };
