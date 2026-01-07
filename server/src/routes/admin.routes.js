@@ -9,6 +9,7 @@ import {
   deleteCategory,
   deleteUserAccountAdmin,
   getAllUsers,
+  getUserAdmin,
   showAllCategories,
   updateCategory,
 } from "../controllers/admin.controllers.js";
@@ -22,6 +23,7 @@ SPECIFIC ROUTES:
 - Show all categories or update them or delete them 
 - Create a category
 - Get all users 
+- Get a particular user
 - Delete a user 
 ------------------------------------------------------------------------------------------ */
 
@@ -32,6 +34,7 @@ router
   .delete(verifyJwt, deleteCategory);
 router.route("/categories/create").post(verifyJwt, createCategory);
 router.route("/users").get(verifyJwt, getAllUsers);
+router.route("/users/:userId").get(verifyJwt, getUserAdmin);
 router.route("/users/:userId").delete(verifyJwt, deleteUserAccountAdmin);
 
 export { router as adminRouter };
