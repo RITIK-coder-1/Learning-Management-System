@@ -77,7 +77,7 @@ const createCourseFunction = async (req, res) => {
   });
 
   // uploading the thumbnail
-  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
 
   if (!thumbnail) {
     console.error("CREATE COURSE ERROR: thumbnail failed");
@@ -141,6 +141,27 @@ const createCourseFunction = async (req, res) => {
     .json(new ApiResponse(201, "The course has been successfully created!"));
 };
 
-const createCourse = asyncHandler(createCourseFunction);
+const addCourseVideoFunction = async (req, res) => {
+  const { title, description } = req.body;
+  const videoLocalPath = req.file?.courseVideo;
 
-export { createCourse };
+  if (!title.trim() || !description.trim()) {
+    console.error("ADD COURSE VIDEO ERROR: empty fields");
+    throw new ApiError(400, "All the fields are mandatory!");
+  }
+
+  if (description.length > 100) {
+    console.error("ADD COURSE VIDEO ERROR: exceeding description");
+    throw new ApiError(400, "Description can't exceed 100 characters!");
+  }
+
+  if (!videoLocalPath) {
+    console.error("ADD COURSE VIDEO ERROR: no video");
+    throw new ApiError(400, "Please upload a video!");
+  }
+};
+
+const createCourse = asyncHandler(createCourseFunction);
+const addCourseVideo = asyncHandler(addCourseVideoFunction);
+
+export { createCourse, addCourseVideo };
