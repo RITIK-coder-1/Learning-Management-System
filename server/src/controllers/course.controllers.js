@@ -8,7 +8,13 @@ import {
   asyncHandler,
   uploadOnCloudinary,
 } from "../utils/index.utils.js";
-import { Course, CourseSection } from "../models/index.model.js";
+import {
+  Course,
+  CourseSection,
+  User,
+  CourseVideo,
+  CourseCategory,
+} from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
 CREATE COURSE CONTROLLER
