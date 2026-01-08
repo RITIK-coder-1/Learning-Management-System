@@ -362,18 +362,7 @@ This is a function to fetch a single user's details
 ------------------------------------------------------------------------------------------ */
 
 const getUserFunction = async (req, res) => {
-  // getting the user id
-  const userId = req.user._id;
-
-  if (!userId) {
-    console.error("FETCHING USER ERROR: Invalid user id");
-    throw new ApiError(400, "Invalid User ID");
-  }
-
-  // getting the user
-  const user = await User.findOne({ _id: userId }).select(
-    "-password -refreshTokenString"
-  );
+  const user = req.user;
 
   if (!user) {
     console.error("FETCHING USER ERROR: Invalid user");
@@ -397,11 +386,9 @@ const updateUserDetailsFunction = async (req, res) => {
   // gathering data to update
   const { firstName, lastName, username } = req.body; // (Account type and DOB can't be changed once created)
   const profilePicLocalPath = req.file?.path;
-  const userId = req.user?._id;
+  const currentUser = req.user;
 
   // checking if there is no updated value
-  const currentUser = await User.findById(userId);
-
   if (
     currentUser.firstName === firstName &&
     currentUser.lastName === lastName &&
@@ -503,7 +490,7 @@ const updatePasswordFunction = async (req, res) => {
   }
 
   // verifying the old password
-  const user = await User.findById(req.user?._id);
+  const user = req.user;
   const passwordCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!passwordCorrect) {
@@ -579,7 +566,7 @@ const createUpdateEmailOtpFunction = async (req, res) => {
   }
 
   // checking the password
-  const user = await User.findById(req.user?._id);
+  const user = req.user;
   const passwordCorrect = await user.isPasswordCorrect(password);
 
   if (!passwordCorrect) {
@@ -676,7 +663,7 @@ This will be available only on the interface of students
 
 const deleteProfilePicFunction = async (req, res) => {
   // getting the user profile
-  const user = await User.findById(req.user?._id);
+  const user = req.user;
 
   if (!user) {
     console.error("PROFILE PIC DELETE ERROR: invalid user");
@@ -719,7 +706,7 @@ DELETE THE USER ACCOUNT CONTROLLER
 
 const deleteUserAccountFunction = async (req, res) => {
   // getting the user's details
-  const user = await User.findById(req.user?._id);
+  const user = req.user;
 
   if (!user) {
     console.error("USER DELETE ERROR: invalid user");
