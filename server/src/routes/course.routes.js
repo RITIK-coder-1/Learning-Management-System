@@ -12,6 +12,7 @@ import {
 import {
   addCourseVideo,
   createCourse,
+  getCourse,
 } from "../controllers/course.controllers.js";
 
 const router = Router();
@@ -19,12 +20,16 @@ const router = Router();
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 - create a course
+- get a course
 - add a video 
 ------------------------------------------------------------------------------------------ */
 
 router
   .route("/dashboard/courses/create")
   .post(verifyJwt, isInstructor, upload.single("thumbnail"), createCourse);
+router
+  .route("/dashboard/courses/:courseId")
+  .get(verifyJwt, isInstructor, getCourse);
 router
   .route("/dashboard/courses/:courseId/update")
   .post(verifyJwt, isInstructor, upload.single("courseVideo"), addCourseVideo);
