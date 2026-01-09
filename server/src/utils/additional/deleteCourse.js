@@ -4,7 +4,7 @@ This utility function is used to delete a course that involes multi-step procedu
 ------------------------------------------------------------------------------------------ */
 
 import { Course, User } from "../../models/index.model.js";
-import { ApiError, deleteFromCloudinary } from "../index.utils.js";
+import { deleteFromCloudinary } from "../index.utils.js";
 
 const deleteCourse = async (courseId) => {
   // Getting the course

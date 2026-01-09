@@ -9,6 +9,7 @@ import {
   asyncHandler,
   deleteFromCloudinary,
   uploadOnCloudinary,
+  deleteCourse,
 } from "../utils/index.utils.js";
 import {
   Course,
@@ -321,6 +322,20 @@ const updateCourseFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+DELETE COURSE CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const deleteCourseFunction = async (req, res) => {
+  try {
+    const courseId = req.params?.courseId;
+    await deleteCourse(courseId);
+  } catch (error) {
+    console.error("DELETE COURSE ERROR INSTRUCTOR");
+    throw new ApiError(500, "There was a problem while deleting the course!");
+  }
+};
+
+/* ---------------------------------------------------------------------------------------
 ADD COURSE VIDEO CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
@@ -404,6 +419,14 @@ const createCourse = asyncHandler(createCourseFunction);
 const getCourse = asyncHandler(getCourseFunction);
 const getAllCourses = asyncHandler(getAllCoursesFunction);
 const updateCourse = asyncHandler(updateCourseFunction);
+const deleteCourseInstructor = asyncHandler(deleteCourseFunction);
 const addCourseVideo = asyncHandler(addCourseVideoFunction);
 
-export { createCourse, addCourseVideo, getCourse, updateCourse, getAllCourses };
+export {
+  createCourse,
+  addCourseVideo,
+  getCourse,
+  updateCourse,
+  getAllCourses,
+  deleteCourseInstructor,
+};

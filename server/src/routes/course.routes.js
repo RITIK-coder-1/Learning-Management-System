@@ -15,6 +15,7 @@ import {
   getCourse,
   updateCourse,
   getAllCourses,
+  deleteCourseInstructor,
 } from "../controllers/course.controllers.js";
 
 const router = Router();
@@ -32,7 +33,8 @@ router
   .post(verifyJwt, isInstructor, upload.single("thumbnail"), createCourse);
 router
   .route("/dashboard/courses/:courseId")
-  .get(verifyJwt, isInstructor, getCourse);
+  .get(verifyJwt, isInstructor, getCourse)
+  .delete(verifyJwt, isInstructor, deleteCourseInstructor);
 router
   .route("/dashboard/courses/:courseId/update")
   .post(verifyJwt, isInstructor, upload.single("courseVideo"), addCourseVideo)
