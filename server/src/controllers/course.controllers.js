@@ -182,6 +182,35 @@ const getCourseFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+GET ALL COURSES CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const getAllCoursesFunction = async (req, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    console.error("GET ALL COURSES ERROR: user id invalid");
+    throw new ApiError(400, "Invalid User ID");
+  }
+
+  const courses = await Course.find({ owner: userId });
+
+  if (!courses) {
+    console.error("GET ALL COURSES ERROR: courses not fetched");
+    throw new ApiError(
+      400,
+      "The courses couldn't be fetched. Please try again!"
+    );
+  }
+
+  console.log("Courses fetched!");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "All the courses are fetched!", courses));
+};
+
+/* ---------------------------------------------------------------------------------------
 UPDATE COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
@@ -373,6 +402,7 @@ const addCourseVideoFunction = async (req, res) => {
 
 const createCourse = asyncHandler(createCourseFunction);
 const getCourse = asyncHandler(getCourseFunction);
+const getAllCourses = asyncHandler(getAllCoursesFunction);
 const updateCourse = asyncHandler(updateCourseFunction);
 const addCourseVideo = asyncHandler(addCourseVideoFunction);
 
