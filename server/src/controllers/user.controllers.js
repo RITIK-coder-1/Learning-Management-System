@@ -103,7 +103,7 @@ const createRegisterOtpFunction = async (req, res) => {
   }
 
   // uploading the image on cloudinary
-  const profilePic = await uploadOnCloudinary(profilePicLocalPath);
+  const profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
 
   if (!profilePic) {
     console.error("REGISTER USER ERROR: Can't upload the picture.");
@@ -434,7 +434,7 @@ const updateUserDetailsFunction = async (req, res) => {
   // upload profile pic only if it is updated
   let profilePic = "";
   if (profilePicLocalPath) {
-    profilePic = await uploadOnCloudinary(profilePicLocalPath);
+    profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
     if (!profilePic) {
       console.error(
         "UPDATE USER DETAILS ERROR: profile picture couldnt' be uploaded"

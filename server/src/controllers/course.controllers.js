@@ -141,6 +141,44 @@ const createCourseFunction = async (req, res) => {
     .json(new ApiResponse(201, "The course has been successfully created!"));
 };
 
+/* ---------------------------------------------------------------------------------------
+GET COURSE CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const getCourseFunction = async (req, res) => {
+  const { courseId } = req.body;
+
+  if (!courseId) {
+    console.error("GET COURSE ERROR: invalid id");
+    throw new ApiError(400, "Invalid Course ID!");
+  }
+
+  // Getting the course along with the nested sub-documents
+  const course = await Course.findById(courseId)
+    .populate({
+      path: "sections",
+      populate: {
+        path: "courseVideos",
+      },
+    })
+    .exec();
+
+  if (!course) {
+    console.error("GET COURSE ERROR: invalid course");
+    throw new ApiError(400, "The course doesn't exist!");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, "The course has been successfully fetched!", course)
+    );
+};
+
+/* ---------------------------------------------------------------------------------------
+ADD COURSE VIDEO CONTROLLER
+------------------------------------------------------------------------------------------ */
+
 const addCourseVideoFunction = async (req, res) => {
   const { title, description, sectionId } = req.body; // the frontend will send the section id
   const videoLocalPath = req.file?.courseVideo;
@@ -218,6 +256,7 @@ const addCourseVideoFunction = async (req, res) => {
 };
 
 const createCourse = asyncHandler(createCourseFunction);
+const getCourse = asyncHandler(getCourseFunction);
 const addCourseVideo = asyncHandler(addCourseVideoFunction);
 
-export { createCourse, addCourseVideo };
+export { createCourse, addCourseVideo, getCourse };
