@@ -70,7 +70,9 @@ SHOW ALL CATEGORIES CONTROLLER
 
 const showAllCategoriesFunction = async (req, res) => {
   try {
-    const categories = await CourseCategory.find({}).select("-__v");
+    const categories = await CourseCategory.find({})
+      .select("-__v")
+      .populate("courses");
 
     console.log("Categories fetched!");
 
