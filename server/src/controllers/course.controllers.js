@@ -5,7 +5,9 @@ All the controllers for courses. Only instructors can deal with the lifecycle of
 
 import {
   ApiError,
+  ApiResponse,
   asyncHandler,
+  deleteFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/index.utils.js";
 import {
@@ -136,6 +138,8 @@ const createCourseFunction = async (req, res) => {
     }),
   ]);
 
+  console.log("Course has been created!");
+
   return res
     .status(201)
     .json(new ApiResponse(201, "The course has been successfully created!"));
@@ -168,11 +172,123 @@ const getCourseFunction = async (req, res) => {
     throw new ApiError(400, "The course doesn't exist!");
   }
 
+  console.log("Course successfully fetched!");
+
   return res
     .status(200)
     .json(
       new ApiResponse(200, "The course has been successfully fetched!", course)
     );
+};
+
+/* ---------------------------------------------------------------------------------------
+UPDATE COURSE CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const updateCourseFunction = async (req, res) => {
+  const { title, description, price, status, category } = req.body;
+  const thumbnailLocalPath = req.file?.thumbnail;
+  const courseId = req.params?.courseId;
+
+  // validating important data
+
+  const isEmpty = [title, description, status, category].some(
+    (ele) => ele?.trim() === ""
+  );
+
+  if (isEmpty) {
+    console.error("UPDATE COURSE ERROR: empty field");
+    throw new ApiError(400, "Please fill the required fields!");
+  }
+
+  // limit description
+  if (description.length > 1000) {
+    console.error("UPDATE COURSE ERROR: exceeding description");
+    throw new ApiError(400, "Description can't be more than 1000 characters!");
+  }
+
+  // price can't be negative
+  if (price < 0) {
+    console.error("UPDATE COURSE ERROR: negative price");
+    throw new ApiError(400, "Invalid price!");
+  }
+
+  // getting the course
+  const course = await Course.findById(courseId);
+
+  // checking if the values are not updated if no new thumbnail is uploaded
+  if (!thumbnailLocalPath) {
+    if (
+      course.title === title &&
+      course.description === description &&
+      course.price === price &&
+      course.status === status &&
+      course.category === category
+    ) {
+      console.error("UPDATE COURSE ERROR: no updated values");
+      throw new ApiError(400, "Please update at least one field!");
+    }
+  }
+
+  // uploading the new thumbnail
+  let thumbnail = "";
+  if (thumbnailLocalPath) {
+    thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
+    if (!thumbnail) {
+      console.error("UPDATE COURSE ERROR: thumbnail didn't update");
+      throw new ApiError(400, "The thumbnail couldn't be updated!");
+    }
+
+    // deleting the old thumbnail
+    await deleteFromCloudinary(course.thumbnail).catch(() => {
+      console.error(
+        "UPDATE COURSE NON-CRITICAL ERROR: old thumbnail couldn't be deleted"
+      );
+    });
+
+    course.thumbnail = thumbnail;
+  }
+
+  // Managing the category
+  if (category !== course.category) {
+    // Removing from OLD Category
+    await CourseCategory.findByIdAndUpdate(course.category, {
+      $pull: { courses: courseId },
+    });
+
+    // Adding to NEW Category
+    const newCategory = await CourseCategory.findByIdAndUpdate(category, {
+      $addToSet: { courses: courseId },
+    });
+
+    if (!newCategory) {
+      console.error("UPDATE COURSE ERROR: new category doesn't exist!");
+      throw new ApiError(400, "The new category does not exist");
+    }
+  }
+
+  // updating the values
+  course.title = title;
+  course.description = description;
+  course.price = price;
+  course.status = status;
+  course.category = category;
+
+  const updatedCourse = await course.save({ validateBeforeSave: false });
+
+  if (!updatedCourse) {
+    console.error("UPDATE COURSE ERROR: problem updating!");
+    throw new ApiError(
+      500,
+      "There was a problem while updating the details. Please try again!"
+    );
+  }
+
+  console.log("The course has been updated!");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The course has been updated!"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -257,6 +373,7 @@ const addCourseVideoFunction = async (req, res) => {
 
 const createCourse = asyncHandler(createCourseFunction);
 const getCourse = asyncHandler(getCourseFunction);
+const updateCourse = asyncHandler(updateCourseFunction);
 const addCourseVideo = asyncHandler(addCourseVideoFunction);
 
-export { createCourse, addCourseVideo, getCourse };
+export { createCourse, addCourseVideo, getCourse, updateCourse };
