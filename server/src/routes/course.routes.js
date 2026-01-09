@@ -14,6 +14,7 @@ import {
   createCourse,
   getCourse,
   updateCourse,
+  getAllCourses,
 } from "../controllers/course.controllers.js";
 
 const router = Router();
@@ -25,6 +26,7 @@ SPECIFIC ROUTES:
 - add a video or update the course
 ------------------------------------------------------------------------------------------ */
 
+router.route("/dashboard/courses").get(verifyJwt, isInstructor, getAllCourses);
 router
   .route("/dashboard/courses/create")
   .post(verifyJwt, isInstructor, upload.single("thumbnail"), createCourse);

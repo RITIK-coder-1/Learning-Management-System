@@ -406,4 +406,4 @@ const getAllCourses = asyncHandler(getAllCoursesFunction);
 const updateCourse = asyncHandler(updateCourseFunction);
 const addCourseVideo = asyncHandler(addCourseVideoFunction);
 
-export { createCourse, addCourseVideo, getCourse, updateCourse };
+export { createCourse, addCourseVideo, getCourse, updateCourse, getAllCourses };
