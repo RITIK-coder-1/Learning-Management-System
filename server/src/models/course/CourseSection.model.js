@@ -16,6 +16,11 @@ const courseSectionSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
 
     // the actual video lessons
     courseVideos: [

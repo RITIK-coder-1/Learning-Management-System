@@ -142,7 +142,7 @@ const createCourseFunction = async (req, res) => {
 };
 
 const addCourseVideoFunction = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, sectionId } = req.body; // the frontend will send the section id
   const videoLocalPath = req.file?.courseVideo;
 
   if (!title.trim() || !description.trim()) {
@@ -159,6 +159,62 @@ const addCourseVideoFunction = async (req, res) => {
     console.error("ADD COURSE VIDEO ERROR: no video");
     throw new ApiError(400, "Please upload a video!");
   }
+
+  if (!sectionId.trim()) {
+    console.error("ADD COURSE VIDEO ERROR: Invalid section id");
+    throw new ApiError(400, "Invalid Section ID!");
+  }
+
+  const video = await uploadOnCloudinary(videoLocalPath);
+
+  if (!video.url) {
+    console.error("ADD COURSE VIDEO ERROR: failed");
+    throw new ApiError(
+      400,
+      "The video couldn't be uploaded. Please try again!"
+    );
+  }
+
+  const courseVideo = await CourseVideo.create({
+    title,
+    description,
+    videoUrl: video.url,
+    duration: video.duration,
+    courseSection: sectionId,
+  });
+
+  if (!courseVideo) {
+    console.error("ADD COURSE VIDEO ERROR: failed");
+    throw new ApiError(
+      400,
+      "The video couldn't be uploaded. Please try again!"
+    );
+  }
+
+  // adding the video to the section
+  const section = await CourseSection.findByIdAndUpdate(
+    sectionId,
+    {
+      $addToSet: { courseVideos: courseVideo._id },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!section) {
+    console.error("ADD COURSE VIDEO ERROR: section error");
+    throw new ApiError(
+      400,
+      "There was a problem while adding the video to the section. Please try again!"
+    );
+  }
+
+  console.log("Video uploaded and added to the section!");
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, "The video has been uploaded!"));
 };
 
 const createCourse = asyncHandler(createCourseFunction);

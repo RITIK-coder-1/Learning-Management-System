@@ -26,8 +26,13 @@ const courseVideoSchema = new mongoose.Schema(
       type: String, // cloudinary link,
       required: true,
     },
-    durationInMinutes: {
+    duration: {
       type: Number,
+      required: true,
+    },
+    courseSection: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CourseSection",
       required: true,
     },
   },
