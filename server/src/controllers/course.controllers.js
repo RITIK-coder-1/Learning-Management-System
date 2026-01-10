@@ -666,6 +666,62 @@ const updateSectionFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+ENROLL IN A COURSE CONTROLLER
+This controller isn't specific to instructors only. Any user can enroll
+------------------------------------------------------------------------------------------ */
+
+const enrollCourseFunction = async (req, res) => {
+  const userId = req.user?._id;
+  const { courseId } = req.params;
+
+  if (!userId || !courseId) {
+    console.error("ENROLL COURSE ERROR: invalid id");
+    throw new ApiError(400, "Invalid User or Course ID!");
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    console.error("ENROLL COURSE ERROR: no user");
+    throw new ApiError(400, "The user doesn't exist!");
+  }
+
+  const course = await Course.findById(courseId);
+
+  if (!course) {
+    console.error("ENROLL COURSE ERROR: no course");
+    throw new ApiError(400, "The course doesn't exist!");
+  }
+
+  await Promise.all([
+    User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { enrolledCourses: courseId } },
+      { new: true }
+    ),
+    Course.findByIdAndUpdate(
+      courseId,
+      { $addToSet: { enrolledBy: userId } },
+      { new: true }
+    ),
+  ]).catch(() => {
+    console.error("ENROLL COURSE ERROR: enrollment failed");
+    throw new ApiError(400, "Enrollment failed. Please try again!");
+  });
+
+  console.log(`${userId} enrolled the course: ${courseId}`);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        "The student has successfully enrolled in the course"
+      )
+    );
+};
+
+/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
@@ -680,6 +736,7 @@ const deleteCourseVideo = asyncHandler(deleteCourseVideoFunction);
 const addSection = asyncHandler(addSectionFunction);
 const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
+const enrollCourse = asyncHandler(enrollCourseFunction);
 
 export {
   createCourse,
@@ -693,4 +750,5 @@ export {
   addSection,
   deleteSection,
   updateSection,
+  enrollCourse,
 };
