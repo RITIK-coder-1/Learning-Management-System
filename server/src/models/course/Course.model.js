@@ -56,12 +56,6 @@ const courseSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    userRatingsAndReviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "CourseReview",
-      },
-    ],
 
     // USER REFERENCES
     owner: {
