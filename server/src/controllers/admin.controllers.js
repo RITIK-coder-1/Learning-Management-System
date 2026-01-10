@@ -378,7 +378,7 @@ const deleteCourseAdminFunction = async (req, res) => {
   const courseId = req.params?.courseId;
   try {
     await deleteCourse(courseId);
-    console.log("Course successfully deleted!");
+    console.log("Course deleted by the admin!");
     return res
       .status(200)
       .json(new ApiResponse(200, "Course successfully deleted!"));
