@@ -460,6 +460,8 @@ const updateCourseVideoFunction = async (req, res) => {
     );
   }
 
+  console.log("Video updated!");
+
   return res
     .status(200)
     .json(new ApiResponse(200, "The video has been successfully updated!"));
@@ -530,6 +532,8 @@ const addSectionFunction = async (req, res) => {
     );
   }
 
+  console.log("Section added!");
+
   return res
     .status(201)
     .json(new ApiResponse(201, "Successfully added the section!"));
@@ -571,6 +575,8 @@ const updateSectionFunction = async (req, res) => {
       "There was a problem while updating the section. Please try again!"
     );
   }
+
+  console.log("Section updated!");
 
   return res
     .status(200)
