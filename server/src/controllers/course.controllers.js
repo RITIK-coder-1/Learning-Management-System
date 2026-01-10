@@ -471,7 +471,35 @@ const updateCourseVideoFunction = async (req, res) => {
 DELETE COURSE VIDEO CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const deleteCourseVideoFunction = async (req, res) => {};
+const deleteCourseVideoFunction = async (req, res) => {
+  const { videoId, sectionId } = req.body;
+  if (!videoId || !sectionId) {
+    console.error("DELETE VIDEO ERROR: invalid video id or section id");
+    throw new ApiError(400, "Invalid Video or Section ID");
+  }
+  const video = await CourseVideo.findById(videoId);
+  if (!video) {
+    console.error("DELETE VIDEO ERROR: no video");
+    throw new ApiError(400, "The video doesn't exist!");
+  }
+
+  const videoDelete = CourseVideo.deleteOne({ _id: videoId });
+  const sectionDelete = CourseSection.findByIdAndUpdate(sectionId, {
+    $pull: { courseVideos: videoId },
+  });
+  const cloudDelete = deleteFromCloudinary(video.videoUrl, "video");
+
+  await Promise.all([videoDelete, sectionDelete, cloudDelete]).catch(() => {
+    console.error("DELETE VIDEO ERROR");
+    throw new ApiError(400, "The video couldn't be deleted. Please try again!");
+  });
+
+  console.log("Video deleted!");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The video has been deleted!"));
+};
 
 /* ---------------------------------------------------------------------------------------
 ADD COURSE SECTION CONTROLLER
@@ -584,12 +612,6 @@ const updateSectionFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-UPDATE COURSE THUMBNAIL CONTROLLER
------------------------------------------------------------------------------------------- */
-
-const updateThumbnailFunction = async (req, res) => {};
-
-/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
@@ -604,7 +626,6 @@ const deleteCourseVideo = asyncHandler(deleteCourseVideoFunction);
 const addSection = asyncHandler(addSectionFunction);
 const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
-const updateThumbnail = asyncHandler(updateThumbnailFunction);
 
 export {
   createCourse,
@@ -618,5 +639,4 @@ export {
   addSection,
   deleteSection,
   updateSection,
-  updateThumbnail,
 };

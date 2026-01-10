@@ -12,7 +12,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const deleteFromCloudinary = async (fileUrl) => {
+const deleteFromCloudinary = async (fileUrl, resource = "image") => {
   if (!fileUrl) {
     console.error("CLOUDINARY ERROR: The file doesn't exist on cloudinary!");
   }
@@ -23,7 +23,9 @@ const deleteFromCloudinary = async (fileUrl) => {
     const lastString = subStrings.pop(); // the public id
     const publicId = lastString.split(".")[0]; // we need the public id without the extension
 
-    const response = await cloudinary.uploader.destroy(publicId);
+    const response = await cloudinary.uploader.destroy(publicId, {
+      resource_type: resource,
+    });
     console.log(
       "The file has been successfully deleted from cloudinary!: ",
       response
