@@ -415,12 +415,95 @@ const addCourseVideoFunction = async (req, res) => {
     .json(new ApiResponse(201, "The video has been uploaded!"));
 };
 
+/* ---------------------------------------------------------------------------------------
+UPDATE COURSE VIDEO CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const updateCourseVideoFunction = async (req, res) => {
+  const { title, description, videoId } = req.body;
+
+  if (!videoId) {
+    console.error("UPDATE VIDEO ERROR: Invalid video id");
+    throw new ApiError(400, "Invalid Video ID!");
+  }
+
+  const video = await CourseVideo.findById(videoId);
+
+  if (!title.trim() || !description.trim()) {
+    console.error("UPDATE VIDEO ERROR: empty fields");
+    throw new ApiError(400, "The title and the description can't be empty!");
+  }
+
+  if (video.title === title && video.description === description) {
+    console.error("UPDATE VIDEO ERROR: no updated value");
+    throw new ApiError(400, "Please update at least one field!");
+  }
+
+  if (description > 100) {
+    console.error("UPDATE VIDEO ERROR: descp exceed");
+    throw new ApiError(
+      400,
+      "The description can't be more than 100 characters!"
+    );
+  }
+
+  video.title = title;
+  video.description = description;
+
+  const updatedVideo = await video.save({ validateBeforeSave: false });
+
+  if (!updatedVideo) {
+    console.error("UPDATE VIDEO ERROR: not updated");
+    throw new ApiError(
+      500,
+      "There was a problem while updating the video. Please try again!"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The video has been successfully updated!"));
+};
+
+/* ---------------------------------------------------------------------------------------
+DELETE COURSE VIDEO CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const deleteCourseVideoFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
+ADD COURSE SECTION CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const addSectionFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
+DELETE COURSE SECTION CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const deleteSectionFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
+UPDATE COURSE SECTION CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const updateSectionFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
+ERROR HANDLING
+------------------------------------------------------------------------------------------ */
+
 const createCourse = asyncHandler(createCourseFunction);
 const getCourse = asyncHandler(getCourseFunction);
 const getAllCourses = asyncHandler(getAllCoursesFunction);
 const updateCourse = asyncHandler(updateCourseFunction);
 const deleteCourseInstructor = asyncHandler(deleteCourseFunction);
 const addCourseVideo = asyncHandler(addCourseVideoFunction);
+const updateCourseVideo = asyncHandler(updateCourseVideoFunction);
+const deleteCourseVideo = asyncHandler(deleteCourseVideoFunction);
+const addSection = asyncHandler(addSectionFunction);
+const deleteSection = asyncHandler(deleteSectionFunction);
+const updateSection = asyncHandler(updateSectionFunction);
 
 export {
   createCourse,
@@ -429,4 +512,9 @@ export {
   updateCourse,
   getAllCourses,
   deleteCourseInstructor,
+  updateCourseVideo,
+  deleteCourseVideo,
+  addSection,
+  deleteSection,
+  updateSection,
 };
