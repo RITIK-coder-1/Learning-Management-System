@@ -94,15 +94,6 @@ const deleteCourse = async (courseId) => {
 
     // Fire off Cloudinary deletes (we await them just to be clean)
     await cloudinaryCleanUp;
-
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          "Course and all related content deleted successfully"
-        )
-      );
   } catch (error) {
     console.error("DELETE COURSE ERROR:", error);
     throw new ApiError(500, "Failed to delete the course");

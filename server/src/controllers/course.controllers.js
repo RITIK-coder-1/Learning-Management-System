@@ -352,6 +352,10 @@ const deleteCourseFunction = async (req, res) => {
     const courseId = req.params?.courseId;
     console.log("Course deleted by the instructor!");
     await deleteCourse(courseId);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "The course has been deleted!"));
   } catch (error) {
     console.error("DELETE COURSE ERROR INSTRUCTOR");
     throw new ApiError(500, "There was a problem while deleting the course!");
