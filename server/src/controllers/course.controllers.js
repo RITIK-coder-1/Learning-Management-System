@@ -475,7 +475,65 @@ const deleteCourseVideoFunction = async (req, res) => {};
 ADD COURSE SECTION CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const addSectionFunction = async (req, res) => {};
+const addSectionFunction = async (req, res) => {
+  const { title } = req.body;
+  const courseId = req.params?.courseId;
+
+  if (!courseId) {
+    console.error("ADD SECTION ERROR: invalid course id");
+    throw new ApiError(400, "Invalid Course ID!");
+  }
+
+  const course = await Course.findById(courseId);
+
+  if (!course) {
+    console.error("ADD SECTION ERROR: no course");
+    throw new ApiError(404, "Course not found");
+  }
+
+  if (!title.trim()) {
+    console.error("ADD SECTION ERROR: empty title");
+    throw new ApiError(400, "The title can't be empty!");
+  }
+
+  // creating the section
+  const section = await CourseSection.create({
+    title,
+    course: courseId,
+    courseVideos: [],
+  });
+
+  if (!section) {
+    console.error("ADD SECTION ERROR: problem creating");
+    throw new ApiError(
+      500,
+      "There was a problem while adding the section. Please try again!"
+    );
+  }
+
+  // adding the section to the course
+  const updateCourse = await Course.findByIdAndUpdate(
+    courseId,
+    {
+      $push: { sections: section._id },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!updateCourse) {
+    console.error("ADD SECTION ERROR: section isn't added to course");
+    throw new ApiError(
+      500,
+      "There was a problem while adding the section. Please try again!"
+    );
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, "Successfully added the section!"));
+};
 
 /* ---------------------------------------------------------------------------------------
 DELETE COURSE SECTION CONTROLLER
@@ -520,6 +578,12 @@ const updateSectionFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+UPDATE COURSE THUMBNAIL CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const updateThumbnailFunction = async (req, res) => {};
+
+/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
@@ -534,6 +598,7 @@ const deleteCourseVideo = asyncHandler(deleteCourseVideoFunction);
 const addSection = asyncHandler(addSectionFunction);
 const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
+const updateThumbnail = asyncHandler(updateThumbnailFunction);
 
 export {
   createCourse,
@@ -547,4 +612,5 @@ export {
   addSection,
   deleteSection,
   updateSection,
+  updateThumbnail,
 };
