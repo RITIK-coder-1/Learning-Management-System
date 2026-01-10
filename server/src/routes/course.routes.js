@@ -17,15 +17,17 @@ import {
   getAllCourses,
   deleteCourseInstructor,
   updateCourseVideo,
+  updateSection,
 } from "../controllers/course.controllers.js";
 
 const router = Router();
 
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
+- get all the courses
 - create a course
-- get a course
-- add a video, update the course, update a video 
+- get a specific course
+- add a video, update the course, update a video, update a section 
 ------------------------------------------------------------------------------------------ */
 
 router.route("/dashboard/courses").get(verifyJwt, isInstructor, getAllCourses);
@@ -40,6 +42,7 @@ router
   .route("/dashboard/courses/:courseId/update")
   .post(verifyJwt, isInstructor, upload.single("courseVideo"), addCourseVideo)
   .patch(verifyJwt, isInstructor, updateCourse)
-  .patch(verifyJwt, isInstructor, updateCourseVideo);
+  .patch(verifyJwt, isInstructor, updateCourseVideo)
+  .patch(verifyJwt, isInstructor, updateSection);
 
 export { router as courseRouter };

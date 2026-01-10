@@ -487,7 +487,37 @@ const deleteSectionFunction = async (req, res) => {};
 UPDATE COURSE SECTION CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const updateSectionFunction = async (req, res) => {};
+const updateSectionFunction = async (req, res) => {
+  const { title, sectionId } = req.body;
+
+  const section = await CourseVideo.findById(sectionId);
+
+  if (!title.trim()) {
+    console.error("UPDATE SECTION ERROR: empty title");
+    throw new ApiError(400, "The title can't be empty!");
+  }
+
+  if (section.title === title) {
+    console.error("UPDATE SECTION ERROR: no updated value");
+    throw new ApiError(400, "Please submit the updated value!");
+  }
+
+  section.title = title;
+
+  const updateSection = await section.save({ validateBeforeSave: false });
+
+  if (!updateSection) {
+    console.error("UPDATE SECTION ERROR: not updated");
+    throw new ApiError(
+      500,
+      "There was a problem while updating the section. Please try again!"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The section has been successfully updated!"));
+};
 
 /* ---------------------------------------------------------------------------------------
 ERROR HANDLING
