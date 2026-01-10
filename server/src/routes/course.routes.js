@@ -20,6 +20,7 @@ import {
   updateSection,
   addSection,
   deleteCourseVideo,
+  deleteSection,
 } from "../controllers/course.controllers.js";
 
 const router = Router();
@@ -47,6 +48,7 @@ router
   .patch(verifyJwt, isInstructor, updateCourseVideo)
   .patch(verifyJwt, isInstructor, updateSection)
   .post(verifyJwt, isInstructor, addSection)
-  .delete(verifyJwt, isInstructor, deleteCourseVideo);
+  .delete(verifyJwt, isInstructor, deleteCourseVideo)
+  .delete(verifyJwt, isInstructor, deleteSection);
 
 export { router as courseRouter };

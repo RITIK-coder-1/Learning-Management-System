@@ -571,7 +571,60 @@ const addSectionFunction = async (req, res) => {
 DELETE COURSE SECTION CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
-const deleteSectionFunction = async (req, res) => {};
+const deleteSectionFunction = async (req, res) => {
+  const { sectionId } = req.body;
+  const { courseId } = req.params;
+
+  if (!courseId) {
+    console.error("DELETE SECTION ERROR: invalid Course id");
+    throw new ApiError(400, "Invalid Course ID");
+  }
+
+  if (!sectionId) {
+    console.error("DELETE SECTION ERROR: invalid section id");
+    throw new ApiError(400, "Invalid Section ID");
+  }
+
+  const section = await CourseSection.findById(sectionId).populate(
+    "courseVideos"
+  );
+
+  if (!section) {
+    console.error("DELETE SECTION ERROR: no section");
+    throw new ApiError(400, "The section doesn't exist");
+  }
+
+  // deleting all the videos of the section
+  const videosCloudDelete = section.courseVideos.map((video) =>
+    deleteFromCloudinary(video.videoUrl, "video")
+  );
+  const videosDelete = section.courseVideos.map((video) =>
+    CourseVideo.deleteOne({ _id: video._id })
+  );
+  const sectionDelete = CourseSection.deleteOne({ _id: sectionId });
+  const courseSectionRemove = Course.findByIdAndUpdate(courseId, {
+    $pull: { sections: sectionId },
+  });
+
+  await Promise.all([
+    ...videosCloudDelete,
+    ...videosDelete,
+    sectionDelete,
+    courseSectionRemove,
+  ]).catch(() => {
+    console.error("DELETE SECTION ERROR: didn't delete");
+    throw new ApiError(
+      400,
+      "The section couldn't be deleted. Please try again!"
+    );
+  });
+
+  console.log("The section deleted!");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "The section and its videos deleted!"));
+};
 
 /* ---------------------------------------------------------------------------------------
 UPDATE COURSE SECTION CONTROLLER
