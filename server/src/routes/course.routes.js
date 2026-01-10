@@ -22,29 +22,40 @@ import {
   deleteCourseVideo,
   deleteSection,
   enrollCourse,
+  getAllCoursesInstructor,
 } from "../controllers/course.controllers.js";
 
 const router = Router();
 
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
-- get all the courses
+- get all the courses public 
+- get a specific course public 
+- enroll in a course 
+- get all the courses instructor only
 - create a course
-- get a specific course, enroll in the course
+- get a specific course for instructor 
 - add a video, update the course, update a video, update a section, add a section, delete a video
 ------------------------------------------------------------------------------------------ */
 
-router.route("/dashboard/courses").get(verifyJwt, isInstructor, getAllCourses);
+// PUBLIC
+router.route("/dashboard/courses").get(verifyJwt, getAllCourses);
+router.route("/dashboard/courses/:courseId").get(verifyJwt, getCourse);
+router.route("/dashboard/courses/:courseId").patch(verifyJwt, enrollCourse);
+
+// INSTRUCTOR ONLY
 router
-  .route("/dashboard/courses/create")
+  .route("/dashboard/my-courses")
+  .get(verifyJwt, isInstructor, getAllCoursesInstructor);
+router
+  .route("/dashboard/my-courses/create")
   .post(verifyJwt, isInstructor, upload.single("thumbnail"), createCourse);
 router
-  .route("/dashboard/courses/:courseId")
-  .get(verifyJwt, getCourse)
-  .delete(verifyJwt, isInstructor, deleteCourseInstructor)
-  .patch(verifyJwt, enrollCourse);
+  .route("dashboard/my-courses/:courseId")
+  .get(verifyJwt, isInstructor, getCourse)
+  .delete(verifyJwt, isInstructor, deleteCourseInstructor);
 router
-  .route("/dashboard/courses/:courseId/update")
+  .route("/dashboard/my-courses/:courseId/update")
   .post(verifyJwt, isInstructor, upload.single("courseVideo"), addCourseVideo)
   .patch(verifyJwt, isInstructor, upload.single("thumbnail"), updateCourse)
   .patch(verifyJwt, isInstructor, updateCourseVideo)

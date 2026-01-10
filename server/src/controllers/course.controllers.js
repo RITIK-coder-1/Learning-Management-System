@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------------
 course.controllers.js
-All the controllers for courses. Only instructors can deal with the lifecycle of courses. 
+All the controllers for courses including public and instructor specific
 ------------------------------------------------------------------------------------------ */
 
 import {
@@ -183,18 +183,40 @@ const getCourseFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-GET ALL COURSES CONTROLLER
+GET ALL COURSES CONTROLLER (for instructor only)
 ------------------------------------------------------------------------------------------ */
 
-const getAllCoursesFunction = async (req, res) => {
+const getAllInstructorCoursesFunction = async (req, res) => {
   const userId = req.user?._id;
 
   if (!userId) {
-    console.error("GET ALL COURSES ERROR: user id invalid");
+    console.error("GET ALL COURSES INSTRUCTOR ERROR: user id invalid");
     throw new ApiError(400, "Invalid User ID");
   }
 
   const courses = await Course.find({ owner: userId });
+
+  if (!courses) {
+    console.error("GET ALL COURSES INSTRUCTOR ERROR: courses not fetched");
+    throw new ApiError(
+      400,
+      "The courses couldn't be fetched. Please try again!"
+    );
+  }
+
+  console.log("Courses fetched for instructor!");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "All the courses are fetched!", courses));
+};
+
+/* ---------------------------------------------------------------------------------------
+GET ALL COURSES CONTROLLER (for everyone)
+------------------------------------------------------------------------------------------ */
+
+const getAllCoursesFunction = async (_req, res) => {
+  const courses = await Course.find({});
 
   if (!courses) {
     console.error("GET ALL COURSES ERROR: courses not fetched");
@@ -204,7 +226,7 @@ const getAllCoursesFunction = async (req, res) => {
     );
   }
 
-  console.log("Courses fetched!");
+  console.log("Courses fetched for everyone!");
 
   return res
     .status(200)
@@ -728,6 +750,7 @@ ERROR HANDLING
 const createCourse = asyncHandler(createCourseFunction);
 const getCourse = asyncHandler(getCourseFunction);
 const getAllCourses = asyncHandler(getAllCoursesFunction);
+const getAllCoursesInstructor = asyncHandler(getAllInstructorCoursesFunction);
 const updateCourse = asyncHandler(updateCourseFunction);
 const deleteCourseInstructor = asyncHandler(deleteCourseFunction);
 const addCourseVideo = asyncHandler(addCourseVideoFunction);
@@ -744,6 +767,7 @@ export {
   getCourse,
   updateCourse,
   getAllCourses,
+  getAllCoursesInstructor,
   deleteCourseInstructor,
   updateCourseVideo,
   deleteCourseVideo,
