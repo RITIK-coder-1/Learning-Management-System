@@ -616,17 +616,15 @@ const createUpdateEmailOtpFunction = async (req, res) => {
 
   console.log("Update OTP sent!");
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        "The OTP has been successfully sent to your new email!"
-      ),
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "The OTP has been successfully sent to your new email!",
       {
         newEmail,
       }
-    );
+    )
+  );
 };
 
 // this function validates the OTP and updates the email
