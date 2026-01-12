@@ -505,7 +505,7 @@ const updatePasswordFunction = async (req, res) => {
   }
 
   // verifying the old password
-  const user = req.user;
+  const user = await User.findById(req.user._id); // manually finding the document because the object in the request doesn't have the password field
   const passwordCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!passwordCorrect) {
@@ -581,12 +581,21 @@ const createUpdateEmailOtpFunction = async (req, res) => {
   }
 
   // checking the password
-  const user = req.user;
+  const user = await User.findById(req.user._id); // manually finding the document because the object in the request doesn't have the password field
   const passwordCorrect = await user.isPasswordCorrect(password);
 
   if (!passwordCorrect) {
     console.error("UPDATE EMAIL ERROR: incorrect password!");
     throw new ApiError(400, "Incorrect Password!");
+  }
+
+  // checking if it's the same email
+  if (newEmail === user.email) {
+    console.error("UPDATE EMAIL ERROR: no updated email!");
+    throw new ApiError(
+      400,
+      "This email is already registered to your account!"
+    );
   }
 
   // generating an OTP
