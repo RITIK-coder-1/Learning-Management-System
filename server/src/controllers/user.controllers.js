@@ -66,7 +66,7 @@ const createRegisterOtpFunction = async (req, res) => {
   // checking if a malicios user sends skwed account type
   if (
     (accountType !== "Instructor" && accountType !== "Student") ||
-    accountType !== "Admin"
+    accountType === "Admin"
   ) {
     console.error("REGISTER USER ERROR: malicious account type!");
     throw new ApiError(
