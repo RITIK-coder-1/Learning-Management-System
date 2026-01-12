@@ -282,11 +282,11 @@ const createLogInOtpFunction = async (req, res) => {
 
   console.log("OTP for user log in has been created!");
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, "OTP has been successfullt sent!"), {
+  return res.status(200).json(
+    new ApiResponse(200, "OTP has been successfullt sent!", {
       email: existingUser.email, // frontend stores this for the next request
-    });
+    })
+  );
 };
 
 // function to verify the OTP and log the user in
