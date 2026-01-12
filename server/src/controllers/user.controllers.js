@@ -427,7 +427,7 @@ const updateUserDetailsFunction = async (req, res) => {
   // checking if the entered username already matches an existing one
   const existingUsername = await User.findOne({
     username,
-    _id: { $ne: userId }, // find excluding the current user
+    _id: { $ne: currentUser._id }, // find excluding the current user
   });
 
   if (existingUsername) {
@@ -467,7 +467,7 @@ const updateUserDetailsFunction = async (req, res) => {
   }
 
   // updating the user
-  currentUser.fullName = fullName;
+  currentUser.firstName = firstName;
   currentUser.lastName = lastName || "";
   currentUser.username = username;
 
