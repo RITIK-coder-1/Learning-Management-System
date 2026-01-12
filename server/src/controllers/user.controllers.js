@@ -63,6 +63,18 @@ const createRegisterOtpFunction = async (req, res) => {
     throw new ApiError(400, "The password must be of 10 characters at least!");
   }
 
+  if (
+    accountType !== "Instructor" &&
+    accountType !== "Student" &&
+    accountType !== "Admin"
+  ) {
+    console.error("REGISTER USER ERROR: malicious account type!");
+    throw new ApiError(
+      400,
+      "The account type must either be Instructor or Student"
+    ); // no admin message to the user
+  }
+
   // instructor specific validations
   if (accountType === "Instructor") {
     const age = calculateAge(dateOfBirth);
@@ -103,8 +115,9 @@ const createRegisterOtpFunction = async (req, res) => {
   }
 
   // uploading the image on cloudinary (if uploaded by the student)
+  let profilePic = "";
   if (profilePicLocalPath) {
-    const profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
+    profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
 
     if (!profilePic) {
       console.error("REGISTER USER ERROR: Can't upload the picture.");
