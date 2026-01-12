@@ -63,16 +63,16 @@ const createRegisterOtpFunction = async (req, res) => {
     throw new ApiError(400, "The password must be of 10 characters at least!");
   }
 
+  // checking if a malicios user sends skwed account type
   if (
-    accountType !== "Instructor" &&
-    accountType !== "Student" &&
+    (accountType !== "Instructor" && accountType !== "Student") ||
     accountType !== "Admin"
   ) {
     console.error("REGISTER USER ERROR: malicious account type!");
     throw new ApiError(
       400,
       "The account type must either be Instructor or Student"
-    ); // no admin message to the user
+    );
   }
 
   // instructor specific validations
