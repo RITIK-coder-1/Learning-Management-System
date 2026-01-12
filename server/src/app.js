@@ -88,6 +88,9 @@ import { userRouter } from "./routes/user.routes.js";
 import { adminRouter } from "./routes/admin.routes.js";
 import { courseRouter } from "./routes/course.routes.js";
 
+app.use("/api/v1", (req, res) => {
+  res.send("The server is successfully running!");
+});
 app.use("/api/v1", userRouter);
 app.use("/api/v1", courseRouter);
 app.use("/api/v1/admin", adminRouter);
