@@ -49,7 +49,7 @@ router.route("/token").post(newAccessToken); // generate a new access token afte
 // SECURED ROUTES
 
 router.route("/logout").post(verifyJwt, logoutUser); // log the user out
-router.route("/profile").post(verifyJwt, getUser); // getting a user's details
+router.route("/profile").get(verifyJwt, getUser); // getting a user's details
 router
   .route("/profile/details")
   .patch(verifyJwt, updateUserDetails) // updating a user's details

@@ -12,7 +12,7 @@ const verifyJwtFunction = async (req, _, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", ""); // replace "Bearer <token>" to "<token>"
 
   if (!token) {
-    console.log("Token Error: It is not verified.");
+    console.error("Token Error: It is not verified.");
 
     throw new ApiError(401, "Unauthorized request");
   } // throw an error if there is no access token
