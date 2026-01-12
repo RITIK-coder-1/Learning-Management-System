@@ -8,6 +8,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import helmet from "helmet";
+import { ApiError } from "./utils/index.utils.js";
 
 const app = express(); // the express app
 const jsonlimit = "16kb"; // setting the JSON limit for accepting data
@@ -97,13 +98,13 @@ Error Handling
 
 // Error handler for non-existant routes
 app.use((req, _res, next) => {
+  console.error("APP ERROR: invalid resource requested!");
   next(
     new ApiError(
       404,
       `The requested resource was not found at ${req.originalUrl}`
     )
   );
-  console.error("APP ERROR: invalid resource requested!");
 });
 
 // Global Error Handler
