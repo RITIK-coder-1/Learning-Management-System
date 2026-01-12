@@ -102,15 +102,17 @@ const createRegisterOtpFunction = async (req, res) => {
     );
   }
 
-  // uploading the image on cloudinary
-  const profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
+  // uploading the image on cloudinary (if uploaded by the student)
+  if (profilePicLocalPath) {
+    const profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
 
-  if (!profilePic) {
-    console.error("REGISTER USER ERROR: Can't upload the picture.");
-    throw new ApiError(
-      500,
-      "There was a problem while uploading the profile picture. Please try again!"
-    );
+    if (!profilePic) {
+      console.error("REGISTER USER ERROR: Can't upload the picture.");
+      throw new ApiError(
+        500,
+        "There was a problem while uploading the profile picture. Please try again!"
+      );
+    }
   }
 
   // Generating OTP

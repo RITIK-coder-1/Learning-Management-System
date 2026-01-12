@@ -55,12 +55,11 @@ async function sendVerificationEmail(email, code) {
 }
 
 // The middleware
-OTPSchema.pre("save", async function (next) {
+OTPSchema.pre("save", async function () {
   // Only send email if the document is new (not being updated)
   if (this.isNew) {
     await sendVerificationEmail(this.email, this.code);
   }
-  next(); // Continue to save to Database
 });
 
 /* ---------------------------------------------------------------------------------------
