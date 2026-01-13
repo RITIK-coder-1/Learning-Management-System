@@ -3,7 +3,7 @@ user.controllers.js
 All the controllers for users including authentication 
 ------------------------------------------------------------------------------------------ */
 
-import { User, OTP, Course } from "../models/index.model.js";
+import { User, OTP } from "../models/index.model.js";
 import {
   ApiError,
   ApiResponse,
@@ -820,7 +820,7 @@ const newAccessTokenFunction = async (req, res) => {
     );
 
     // we get the user
-    const user = await User.findById(decodedToken?.id);
+    const user = await User.findById(decodedToken?._id);
 
     if (!user) {
       console.error("NEW TOKEN ERROR: invalid user");
