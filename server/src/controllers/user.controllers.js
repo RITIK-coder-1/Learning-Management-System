@@ -728,7 +728,7 @@ DELETE THE USER ACCOUNT CONTROLLER
 
 const deleteUserAccountFunction = async (req, res) => {
   // getting the user's details
-  const user = req.user;
+  const user = await User.findById(req.user._id);
 
   if (!user) {
     console.error("USER DELETE ERROR: invalid user");
