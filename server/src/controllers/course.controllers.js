@@ -25,8 +25,8 @@ CREATE COURSE CONTROLLER
 
 const createCourseFunction = async (req, res) => {
   // getting the course data
-  const { title, description, price, tags, status, category, sections } =
-    req.body;
+  const { title, description, price, status, category } = req.body;
+  let { sections, tags } = req.body;
   const thumbnailLocalPath = req.file?.thumbnail;
 
   // parsing the strings data as I'm uploading a multiform from the frontend
