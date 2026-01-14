@@ -56,6 +56,22 @@ const createCourseFunction = async (req, res) => {
     throw new ApiError(400, "Invalid price!");
   }
 
+  // status validity
+  if (status !== "Draft" && status !== "Published") {
+    console.error("CREATE COURSE ERROR: invalid status");
+    throw new ApiError(400, "Invalid status!");
+  }
+
+  // category checker (only the categories created by the admin can be used)
+
+  const existingCategory = await CourseCategory.findOne({ name: category });
+
+  if (!existingCategory) {
+    console.error("CREATE COURSE ERROR: invalid category");
+    throw new ApiError(400, "Invalid category!");
+  }
+
+  // tag validity
   const invalidTag = tags.some((ele) => ele?.trim() === "");
 
   // one tag is needed
@@ -64,10 +80,8 @@ const createCourseFunction = async (req, res) => {
     throw new ApiError(400, "Please Add At Least One Tag!");
   }
 
-  const invalidSection = tags.some((ele) => ele?.trim() === "");
-
   // one section is needed
-  if (sections.length === 0 || invalidSection) {
+  if (sections.length === 0) {
     console.error("CREATE COURSE ERROR: no section");
     throw new ApiError(
       400,
@@ -76,7 +90,7 @@ const createCourseFunction = async (req, res) => {
   }
 
   // created sections should have a title
-  sections.forEach(async (ele) => {
+  sections.forEach((ele) => {
     if (!ele?.title?.trim()) {
       console.error("CREATE COURSE ERROR: empty section title");
       throw new ApiError(400, "Please Add The Section Title!");
@@ -138,7 +152,7 @@ const createCourseFunction = async (req, res) => {
       $addToSet: { createdCourses: course._id },
     }),
     // add to Category's List
-    CourseCategory.findByIdAndUpdate(category, {
+    CourseCategory.findByIdAndUpdate(existingCategory._id, {
       $addToSet: { courses: course._id },
     }),
   ]);
