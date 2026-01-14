@@ -408,7 +408,7 @@ SYSTEM STATS CONTROLLER
 const systemStatsFunction = async (req, res) => {
   try {
     const asyncTasks = [
-      User.countDocuments(),
+      User.countDocuments({ accountType: { $ne: "Admin" } }),
       User.countDocuments({ accountType: "Student" }),
       User.countDocuments({ accountType: "Instructor" }),
       Course.countDocuments(),
