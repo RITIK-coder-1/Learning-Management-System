@@ -51,19 +51,23 @@ const createCourseFunction = async (req, res) => {
   }
 
   // price can't be negative
-  if (price < 0) {
+  if (Number(price) < 0) {
     console.error("CREATE COURSE ERROR: negative price");
     throw new ApiError(400, "Invalid price!");
   }
 
+  const invalidTag = tags.some((ele) => ele?.trim() === "");
+
   // one tag is needed
-  if (tags.length === 0) {
+  if (tags.length === 0 || invalidTag) {
     console.error("CREATE COURSE ERROR: no tags");
     throw new ApiError(400, "Please Add At Least One Tag!");
   }
 
+  const invalidSection = tags.some((ele) => ele?.trim() === "");
+
   // one section is needed
-  if (sections.length === 0) {
+  if (sections.length === 0 || invalidSection) {
     console.error("CREATE COURSE ERROR: no section");
     throw new ApiError(
       400,
