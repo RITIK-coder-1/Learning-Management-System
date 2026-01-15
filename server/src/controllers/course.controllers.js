@@ -305,7 +305,6 @@ const updateCourseFunction = async (req, res) => {
   const course = await Course.findById(courseId);
 
   console.log(course);
-  
 
   // checking if no value is updated
   if (
@@ -341,16 +340,22 @@ const updateCourseFunction = async (req, res) => {
   // Managing the category
   if (category !== course.category) {
     // Removing from OLD Category
-    await CourseCategory.findOneAndUpdate({
-      name: course.category
-    }, {
-      $pull: { courses: courseId },
-    });
+    await CourseCategory.findOneAndUpdate(
+      {
+        name: course.category,
+      },
+      {
+        $pull: { courses: courseId },
+      }
+    );
 
     // Adding to NEW Category
-    const newCategory = await CourseCategory.findByIdAndUpdate(existingCategory._id, {
-      $addToSet: { courses: courseId },
-    });
+    const newCategory = await CourseCategory.findByIdAndUpdate(
+      existingCategory._id,
+      {
+        $addToSet: { courses: courseId },
+      }
+    );
 
     if (!newCategory) {
       console.error("UPDATE COURSE ERROR: new category doesn't exist!");
@@ -704,7 +709,7 @@ const updateSectionFunction = async (req, res) => {
     throw new ApiError(400, "Invalid Section ID!");
   }
 
-  const section = await CourseVideo.findById(sectionId);
+  const section = await CourseSection.findById(sectionId);
 
   if (!title.trim()) {
     console.error("UPDATE SECTION ERROR: empty title");
