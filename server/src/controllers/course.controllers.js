@@ -173,7 +173,7 @@ GET COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getCourseFunction = async (req, res) => {
-  const { courseId } = req.body;
+  const { courseId } = req.params;
 
   if (!courseId) {
     console.error("GET COURSE ERROR: invalid id");
