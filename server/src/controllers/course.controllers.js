@@ -98,9 +98,9 @@ const createCourseFunction = async (req, res) => {
   });
 
   // uploading the thumbnail
-  if (!thumbnailLocalPath){
+  if (!thumbnailLocalPath) {
     console.error("CREATE COURSE ERROR: no thumbnail");
-      throw new ApiError(400, "Please Upload A Thumbnail!");
+    throw new ApiError(400, "Please Upload A Thumbnail!");
   }
   const thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
 
@@ -266,7 +266,7 @@ const updateCourseFunction = async (req, res) => {
 
   // validating important data
 
-  const isEmpty = [title, description, status, category].some(
+  const isEmpty = [title, description, status, category, price].some(
     (ele) => ele?.trim() === ""
   );
 
@@ -282,26 +282,38 @@ const updateCourseFunction = async (req, res) => {
   }
 
   // price can't be negative
-  if (price < 0) {
+  if (Number(price) < 0) {
     console.error("UPDATE COURSE ERROR: negative price");
     throw new ApiError(400, "Invalid price!");
+  }
+
+  // status validator
+  if (status !== "Draft" && status !== "Published") {
+    console.error("UPDATE COURSE ERROR: invalid status");
+    throw new ApiError(400, "Status can only be Draft or Published!");
+  }
+
+  // checking the category validity
+  const existingCategory = await CourseCategory.findOne({ name: category });
+
+  if (!existingCategory) {
+    console.error("CREATE COURSE ERROR: invalid category");
+    throw new ApiError(400, "Invalid category!");
   }
 
   // getting the course
   const course = await Course.findById(courseId);
 
-  // checking if the values are not updated if no new thumbnail is uploaded
-  if (!thumbnailLocalPath) {
-    if (
-      course.title === title &&
-      course.description === description &&
-      course.price === price &&
-      course.status === status &&
-      course.category === category
-    ) {
-      console.error("UPDATE COURSE ERROR: no updated values");
-      throw new ApiError(400, "Please update at least one field!");
-    }
+  // checking if no value is updated
+  if (
+    course.title === title &&
+    course.description === description &&
+    course.price === price &&
+    course.status === status &&
+    course.category === category
+  ) {
+    console.error("UPDATE COURSE ERROR: no updated values");
+    throw new ApiError(400, "Please update at least one field!");
   }
 
   // uploading the new thumbnail
@@ -326,12 +338,14 @@ const updateCourseFunction = async (req, res) => {
   // Managing the category
   if (category !== course.category) {
     // Removing from OLD Category
-    await CourseCategory.findByIdAndUpdate(course.category, {
+    await CourseCategory.findOneAndUpdate({
+      name: course.category
+    }, {
       $pull: { courses: courseId },
     });
 
     // Adding to NEW Category
-    const newCategory = await CourseCategory.findByIdAndUpdate(category, {
+    const newCategory = await CourseCategory.findByIdAndUpdate(existingCategory._id, {
       $addToSet: { courses: courseId },
     });
 
