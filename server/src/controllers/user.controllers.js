@@ -318,11 +318,11 @@ const loginFunction = async (req, res) => {
 
   console.log("User has successfully logged in!");
 
-  return res.status(200).cookie("refreshToken", refreshToken, options).json(
-    new ApiResponse(200, "The user has successfully logged in!", {
-      accessToken,
-    })
-  );
+  return res
+    .status(200)
+    .cookie("refreshToken", refreshToken, options)
+    .cookie("accessToken", accessToken, options)
+    .json(new ApiResponse(200, "The user has successfully logged in!"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -850,7 +850,8 @@ const newAccessTokenFunction = async (req, res) => {
     return res
       .status(200)
       .cookie("refreshToken", refreshToken, options)
-      .json(new ApiResponse(200, "Access Token Refreshed!", { accessToken }));
+      .cookie("accessToken", accessToken, options)
+      .json(new ApiResponse(200, "Access Token Refreshed!"));
   } catch (error) {
     // JWT errors (like signature mismatch or simple expiration)
     if (

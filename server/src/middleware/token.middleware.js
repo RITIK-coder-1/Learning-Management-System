@@ -8,8 +8,9 @@ import { User } from "../models/index.model.js";
 import { ApiError, asyncHandler } from "../utils/index.utils.js";
 
 const verifyJwtFunction = async (req, _, next) => {
-  // I'm sending the access token only through headers, not cookies
-  const token = req.header("Authorization")?.replace("Bearer ", ""); // replace "Bearer <token>" to "<token>"
+  const token =
+    req.cookies?.accessToken ||
+    req.header("Authorization")?.replace("Bearer ", ""); // replace "Bearer <token>" to "<token>"
 
   if (!token) {
     console.error("Token Error: It is not verified.");
