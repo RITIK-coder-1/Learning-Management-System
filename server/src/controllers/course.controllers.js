@@ -699,6 +699,11 @@ UPDATE COURSE SECTION CONTROLLER
 const updateSectionFunction = async (req, res) => {
   const { title, sectionId } = req.body;
 
+  if (!sectionId.trim()) {
+    console.error("UPDATE SECTION ERROR: invalid section id");
+    throw new ApiError(400, "Invalid Section ID!");
+  }
+
   const section = await CourseVideo.findById(sectionId);
 
   if (!title.trim()) {

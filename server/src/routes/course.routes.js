@@ -56,11 +56,11 @@ router
   .delete(verifyJwt, isInstructor, deleteCourseInstructor);
 router
   .route("/dashboard/my-courses/:courseId/update")
+  .post(verifyJwt, isInstructor, addSection)
+  .patch(verifyJwt, isInstructor, updateSection)
   .patch(verifyJwt, isInstructor, upload.single("thumbnail"), updateCourse)
   .post(verifyJwt, isInstructor, upload.single("courseVideo"), addCourseVideo)
   .patch(verifyJwt, isInstructor, updateCourseVideo)
-  .patch(verifyJwt, isInstructor, updateSection)
-  .post(verifyJwt, isInstructor, addSection)
   .delete(verifyJwt, isInstructor, deleteCourseVideo)
   .delete(verifyJwt, isInstructor, deleteSection);
 
