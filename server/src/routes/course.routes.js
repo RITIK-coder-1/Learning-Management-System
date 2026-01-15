@@ -51,7 +51,7 @@ router
   .route("/dashboard/my-courses/create")
   .post(verifyJwt, isInstructor, upload.single("thumbnail"), createCourse);
 router
-  .route("dashboard/my-courses/:courseId")
+  .route("/dashboard/my-courses/:courseId")
   .get(verifyJwt, isInstructor, getCourse)
   .delete(verifyJwt, isInstructor, deleteCourseInstructor);
 router
