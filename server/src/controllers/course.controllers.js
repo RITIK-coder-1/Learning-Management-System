@@ -304,11 +304,14 @@ const updateCourseFunction = async (req, res) => {
   // getting the course
   const course = await Course.findById(courseId);
 
+  console.log(course);
+  
+
   // checking if no value is updated
   if (
     course.title === title &&
     course.description === description &&
-    course.price === price &&
+    course.price === Number(price) &&
     course.status === status &&
     course.category === category
   ) {
