@@ -98,6 +98,10 @@ const createCourseFunction = async (req, res) => {
   });
 
   // uploading the thumbnail
+  if (!thumbnailLocalPath){
+    console.error("CREATE COURSE ERROR: no thumbnail");
+      throw new ApiError(400, "Please Upload A Thumbnail!");
+  }
   const thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
 
   if (!thumbnail) {
