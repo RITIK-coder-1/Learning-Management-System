@@ -164,7 +164,9 @@ const createCourseFunction = async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(201, "The course has been successfully created!"));
+    .json(
+      new ApiResponse(201, "The course has been successfully created!", course)
+    );
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -359,7 +361,7 @@ const updateCourseFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "The course has been updated!"));
+    .json(new ApiResponse(200, "The course has been updated!", updatedCourse));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -458,7 +460,7 @@ const addCourseVideoFunction = async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(201, "The video has been uploaded!"));
+    .json(new ApiResponse(201, "The video has been uploaded!", section));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -510,7 +512,13 @@ const updateCourseVideoFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "The video has been successfully updated!"));
+    .json(
+      new ApiResponse(
+        200,
+        "The video has been successfully updated!",
+        updatedVideo
+      )
+    );
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -610,7 +618,9 @@ const addSectionFunction = async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(201, "Successfully added the section!"));
+    .json(
+      new ApiResponse(201, "Successfully added the section!", updatedCourse)
+    );
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -618,8 +628,7 @@ DELETE COURSE SECTION CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const deleteSectionFunction = async (req, res) => {
-  const { sectionId } = req.body;
-  const { courseId } = req.params;
+  const { courseId, sectionId } = req.params;
 
   if (!courseId) {
     console.error("DELETE SECTION ERROR: invalid Course id");
@@ -677,7 +686,8 @@ UPDATE COURSE SECTION CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const updateSectionFunction = async (req, res) => {
-  const { title, sectionId } = req.body;
+  const { title } = req.body;
+  const sectionId = req.params?.sectionId
 
   if (!sectionId.trim()) {
     console.error("UPDATE SECTION ERROR: invalid section id");
@@ -712,7 +722,7 @@ const updateSectionFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "The section has been successfully updated!"));
+    .json(new ApiResponse(200, "The section has been successfully updated!", updatedSection));
 };
 
 const getAllCoursesInstructor = asyncHandler(getAllInstructorCoursesFunction);

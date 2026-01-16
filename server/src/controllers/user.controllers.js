@@ -132,7 +132,7 @@ const updateUserDetailsFunction = async (req, res) => {
   console.log("User details are updated!");
 
   // sending the response
-  return res.status(200).json(new ApiResponse(200, "Update successful!"));
+  return res.status(200).json(new ApiResponse(200, "Update successful!", newUser));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -319,7 +319,7 @@ const updateEmailFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "The email has been successfully updated!"));
+    .json(new ApiResponse(200, "The email has been successfully updated!", user));
 };
 
 /* ---------------------------------------------------------------------------------------

@@ -203,7 +203,7 @@ const registerUserFunction = async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(201, "User has been created successfully!"));
+    .json(new ApiResponse(201, "User has been created successfully!", user));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -320,7 +320,7 @@ const loginFunction = async (req, res) => {
     .status(200)
     .cookie("refreshToken", refreshToken, options)
     .cookie("accessToken", accessToken, options)
-    .json(new ApiResponse(200, "The user has successfully logged in!"));
+    .json(new ApiResponse(200, "The user has successfully logged in!", user));
 };
 
 /* ---------------------------------------------------------------------------------------

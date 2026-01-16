@@ -61,7 +61,13 @@ const createCategoryFunction = async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(201, "The category has been successfully created!"));
+    .json(
+      new ApiResponse(
+        201,
+        "The category has been successfully created!",
+        category
+      )
+    );
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -93,7 +99,8 @@ UPDATE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const updateCategoryFunction = async (req, res) => {
-  const { name, description, categoryId } = req.body; // the frontend will send the categoryId for query purposes. I'll be updating the categories on the display page itself so I won't have the id access in the parameters
+  const { categoryId } = req.params;
+  const { name, description } = req.body;
 
   if (!name.trim() || !description.trim()) {
     console.error("UPDATE CATEGORY ERROR: Empty fields!");
@@ -144,7 +151,7 @@ const updateCategoryFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "Category successfully updated"));
+    .json(new ApiResponse(200, "Category successfully updated", updatedCategory));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -152,7 +159,7 @@ DELETE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const deleteCategoryFunction = async (req, res) => {
-  const { categoryId } = req.body; // the frontend will send the categoryId for query purposes. I'll be updating the categories on the display page itself so I won't have the id access in the parameters
+  const { categoryId } = req.params; 
 
   if (!categoryId) {
     console.error("CATEGORY DELETE ERROR: Invalid category ID!");
@@ -226,11 +233,11 @@ SHOW A PARTICULAR USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getUserAdminFunction = async (req, res) => {
-  const { userId } = req.body; // the frontend will provide the user id
+  const { userId } = req.params; 
 
   if (!userId) {
     console.error("GET USER ADMIN ERROR: Invalid user id");
-    throw new ApiError(500, "Invalid User ID!");
+    throw new ApiError(400, "Invalid User ID!");
   }
 
   const user = await User.findById(userId).select(
@@ -238,9 +245,7 @@ const getUserAdminFunction = async (req, res) => {
   );
 
   if (!user) {
-    console.error(
-      "GET USER ADMIN ERROR: the user doesn't exist"
-    );
+    console.error("GET USER ADMIN ERROR: the user doesn't exist");
     throw new ApiError(404, "The user doesn't exist!");
   }
 
@@ -347,7 +352,7 @@ GET A PARTICULAR COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getCourseAdminFunction = async (req, res) => {
-  const { courseId } = req.body; // the frontend will provide the course id
+  const { courseId } = req.params; 
 
   if (!courseId) {
     console.error("GET COURSE ADMIN ERROR: Invalid course id");
@@ -357,10 +362,8 @@ const getCourseAdminFunction = async (req, res) => {
   const course = await User.findById(courseId);
 
   if (!course) {
-    console.error(
-      "GET COURSE ADMIN ERROR: The course doesn't exist"
-    );
-    throw new ApiError(500, "The course doesn't exist!");
+    console.error("GET COURSE ADMIN ERROR: The course doesn't exist");
+    throw new ApiError(404, "The course doesn't exist!");
   }
 
   console.log("Course fetched for Admin");
