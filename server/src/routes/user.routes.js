@@ -26,6 +26,7 @@ SPECIFIC ROUTES:
 - Update the user's password
 ------------------------------------------------------------------------------------------ */
 
+// USER PROFILE OPERATIONS
 router
   .route("/profile")
   .get(verifyJwt, getUser) // getting a user's details
