@@ -25,6 +25,8 @@ import {
 
 const router = Router();
 
+router.use(verifyJwt, isInstructor); // important verifications
+
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 - get all the courses or create a course 
@@ -35,24 +37,24 @@ SPECIFIC ROUTES:
 
 router
   .route("/courses")
-  .get(verifyJwt, isInstructor, getAllCoursesInstructor) // get all the courses
-  .post(verifyJwt, isInstructor, upload.single("thumbnail"), createCourse); // create a course
+  .get(getAllCoursesInstructor) // get all the courses
+  .post(upload.single("thumbnail"), createCourse); // create a course
 router
   .route("/:courseId")
-  .get(verifyJwt, isInstructor, getCourse) // get a particular course
-  .patch(verifyJwt, isInstructor, upload.single("thumbnail"), updateCourse) // update the course
-  .delete(verifyJwt, isInstructor, deleteCourseInstructor); // delete the course
-router.route("/:courseId/sections").post(verifyJwt, isInstructor, addSection); // add a section to this course
+  .get(getCourse) // get a particular course
+  .patch(upload.single("thumbnail"), updateCourse) // update the course
+  .delete(deleteCourseInstructor); // delete the course
+router.route("/:courseId/sections").post(addSection); // add a section to this course
 router
   .route("/:courseId/sections/:sectionId")
-  .patch(verifyJwt, isInstructor, updateSection) // update the section
-  .delete(verifyJwt, isInstructor, deleteSection); // delete the section
+  .patch(updateSection) // update the section
+  .delete(deleteSection); // delete the section
 router
   .route("/:courseId/sections/:sectionId/videos")
-  .post(verifyJwt, isInstructor, upload.single("courseVideo"), addCourseVideo); // add a video to this section
+  .post(upload.single("courseVideo"), addCourseVideo); // add a video to this section
 router
   .route("/:courseId/sections/:sectionId/videos/:videoId")
-  .patch(verifyJwt, isInstructor, updateCourseVideo) // update the video subsection
-  .delete(verifyJwt, isInstructor, deleteCourseVideo); // delete the video subsection
+  .patch(updateCourseVideo) // update the video subsection
+  .delete(deleteCourseVideo); // delete the video subsection
 
 export { router as instructorRouter };

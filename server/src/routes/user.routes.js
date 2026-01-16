@@ -17,6 +17,8 @@ import {
 
 const router = Router();
 
+router.use(verifyJwt) // important verification 
+
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 
@@ -29,14 +31,14 @@ SPECIFIC ROUTES:
 // USER PROFILE OPERATIONS
 router
   .route("/profile")
-  .get(verifyJwt, getUser) // getting a user's details
-  .patch(verifyJwt, upload.single("profilePic"), updateUserDetails) // updating a user's details
-  .delete(verifyJwt, deleteUserAccount); // deleting the user
+  .get(getUser) // getting a user's details
+  .patch(upload.single("profilePic"), updateUserDetails) // updating a user's details
+  .delete(deleteUserAccount); // deleting the user
 router
   .route("/profile/email")
-  .post(verifyJwt, createUpdateEmailOtp) // validate data and generate an OTP
-  .patch(verifyJwt, updateEmail); // validate OTP and update the email
-router.route("/profile/pic").delete(verifyJwt, deleteProfilePic); // deleting a user's profile pic (only for students)
-router.route("/profile/password").patch(verifyJwt, updatePassword); // updating the password of a user
+  .post(createUpdateEmailOtp) // validate data and generate an OTP
+  .patch(updateEmail); // validate OTP and update the email
+router.route("/profile/pic").delete(deleteProfilePic); // deleting a user's profile pic (only for students)
+router.route("/profile/password").patch(updatePassword); // updating the password of a user
 
 export { router as userRouter };

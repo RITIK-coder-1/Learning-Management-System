@@ -19,10 +19,10 @@ SPECIFIC ROUTES:
 - Get a particular course, or enroll into it
 ------------------------------------------------------------------------------------------ */
 
-router.route("/").get(verifyJwt, getAllCourses); // get all the courses
+router.route("/").get(getAllCourses); // get all the courses
 router
   .route("/:courseId")
-  .get(verifyJwt, getCourse) // get a particular course
+  .get(getCourse) // get a particular course
   .patch(verifyJwt, enrollCourse); // enroll into a course
 
 export { router as courseRouter };
