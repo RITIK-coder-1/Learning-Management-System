@@ -26,10 +26,10 @@ router.use(verifyJwt, isAdmin); // important verifications
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 
-- Show all categories or update them or delete them 
-- Create a category
+- Show all categories or create a new one 
+- Update a category or delete it 
 - Get all users 
-- Get a particular user or delete a user
+- Get a specific user or delete them 
 - Get all courses 
 - Get a particular course or delete a course
 - System stats
