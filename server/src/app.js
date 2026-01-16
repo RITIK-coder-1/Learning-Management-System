@@ -84,15 +84,21 @@ app.use("/static", express.static(path.join(path.resolve(), "public")));
 /* ---------------------------------------------------------------------------------------
 All the routes will go here
 ------------------------------------------------------------------------------------------ */
-import { userRouter } from "./routes/user.routes.js";
-import { adminRouter } from "./routes/admin.routes.js";
-import { courseRouter } from "./routes/course.routes.js";
 
-app.get("/api/v1", (req, res) => {
+import {
+  userRouter,
+  adminRouter,
+  courseRouter,
+  authRouter,
+} from "./routes/index.routes.js";
+
+app.get("/api/v1", (_, res) => {
   res.send("The server is successfully running!");
 });
-app.use("/api/v1", userRouter);
-app.use("/api/v1", courseRouter);
+
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/instructor", courseRouter);
 app.use("/api/v1/admin", adminRouter);
 
 /* ---------------------------------------------------------------------------------------
