@@ -77,7 +77,7 @@ const updateUserDetailsFunction = async (req, res) => {
   if (existingUsername) {
     console.error("UPDATE USER DETAILS ERROR: updated username already exists");
     throw new ApiError(
-      400,
+      409,
       "This username already exists. Please enter a new one!"
     );
   }
@@ -99,7 +99,7 @@ const updateUserDetailsFunction = async (req, res) => {
         "UPDATE USER DETAILS ERROR: profile picture couldnt' be uploaded"
       );
       throw new ApiError(
-        400,
+        500,
         "The profile picture couldn't be uploaded. Please try again!"
       );
     }
@@ -124,7 +124,7 @@ const updateUserDetailsFunction = async (req, res) => {
   if (!newUser) {
     console.error("UPDATE USER DETAILS ERROR: problem updating!");
     throw new ApiError(
-      400,
+      500,
       "There was a problem while updating the details. Please try again!"
     );
   }
@@ -181,7 +181,7 @@ const updatePasswordFunction = async (req, res) => {
   if (!newUser) {
     console.error("UPDATE USER PASSWORD ERROR: problem updating!");
     throw new ApiError(
-      400,
+      500,
       "There was a problem while updating the password. Please try again!"
     );
   }
@@ -237,7 +237,7 @@ const createUpdateEmailOtpFunction = async (req, res) => {
   if (newEmail === user.email) {
     console.error("UPDATE EMAIL ERROR: no updated email!");
     throw new ApiError(
-      400,
+      409,
       "This email is already registered to your account!"
     );
   }
@@ -253,7 +253,7 @@ const createUpdateEmailOtpFunction = async (req, res) => {
   if (!generatedOtp) {
     console.error("UPDATE EMAIL ERROR: otp couldnt' be generated!");
     throw new ApiError(
-      400,
+      500,
       "There was a problem while generating an OTP. Please try again!"
     );
   }
@@ -310,8 +310,8 @@ const updateEmailFunction = async (req, res) => {
   if (!user) {
     console.error("UPDATE EMAIL ERROR: email didn't update!");
     throw new ApiError(
-      400,
-      "There was a problem while updating the eamil. Please try again!"
+      500,
+      "There was a problem while updating the email. Please try again!"
     );
   }
 
@@ -354,7 +354,7 @@ const deleteProfilePicFunction = async (req, res) => {
   if (!newUser) {
     console.error("PROFILE PIC DELETE ERROR: problem updating!");
     throw new ApiError(
-      400,
+      500,
       "There was a problem while deleting the pic. Please try again!"
     );
   }
@@ -438,9 +438,10 @@ const deleteUserAccountFunction = async (req, res) => {
   console.log("Account deleted!");
 
   return res
-    .status(200)
+    .status(204)
     .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, "The user has been successfully deleted"));
+    .clearCookie("accessToken", options)
+    .json(new ApiResponse(204, "The user has been successfully deleted"));
 };
 
 /* ---------------------------------------------------------------------------------------

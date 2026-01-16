@@ -107,7 +107,7 @@ const createRegisterOtpFunction = async (req, res) => {
   if (isUserPresent) {
     console.error("REGISTER USER ERROR: the user is already present!");
     throw new ApiError(
-      400,
+      409,
       "The user with this username or email is already present!"
     );
   }
@@ -202,8 +202,8 @@ const registerUserFunction = async (req, res) => {
   console.log("User has been successfully registered!");
 
   return res
-    .status(200)
-    .json(new ApiResponse(200, "User has been created successfully!"));
+    .status(201)
+    .json(new ApiResponse(201, "User has been created successfully!"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -257,7 +257,7 @@ const createLogInOtpFunction = async (req, res) => {
   if (!existingUser || !passwordValidator) {
     console.error("LOG IN ERROR: invalid credentials!");
     throw new ApiError(
-      401,
+      400,
       "Invalid credentials. Please check your username/email and password, or sign up!"
     );
   }
@@ -349,7 +349,7 @@ const logoutFunction = async (req, res) => {
 
   if (!user) {
     console.error("LOGOUT FAILED!");
-    throw new ApiError(400, "The user couldn't be logged out!");
+    throw new ApiError(500, "The user couldn't be logged out!");
   }
 
   // cookie security options
@@ -366,6 +366,7 @@ const logoutFunction = async (req, res) => {
   return res
     .status(200)
     .clearCookie("refreshToken", options)
+    .clearCookie("accessToken", options)
     .json(new ApiResponse(200, "User Logged Out Succesfully!"));
 };
 

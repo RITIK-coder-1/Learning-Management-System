@@ -41,7 +41,7 @@ const createCategoryFunction = async (req, res) => {
 
   if (existingCategory) {
     console.error("CREATE CATEGORY ERROR: category exists!");
-    throw new ApiError(400, "Category already exists!");
+    throw new ApiError(409, "Category already exists!");
   }
 
   const category = await CourseCategory.create({
@@ -122,7 +122,7 @@ const updateCategoryFunction = async (req, res) => {
 
     if (existingCategory) {
       console.error("UPDATE CATEGORY ERROR: category exists!");
-      throw new ApiError(400, "Category already exists!");
+      throw new ApiError(409, "Category already exists!");
     }
   }
 
@@ -135,7 +135,7 @@ const updateCategoryFunction = async (req, res) => {
   if (!updatedCategory) {
     console.error("UPDATE CATEGORY ERROR: problem updating!");
     throw new ApiError(
-      400,
+      500,
       "There was a problem while updating the category. Please try again!"
     );
   }
@@ -182,8 +182,8 @@ const deleteCategoryFunction = async (req, res) => {
   console.log("Category deleted!");
 
   return res
-    .status(200)
-    .json(new ApiResponse(200, "The category has been successfully deleted!"));
+    .status(204)
+    .json(new ApiResponse(204, "The category has been successfully deleted!"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -239,9 +239,9 @@ const getUserAdminFunction = async (req, res) => {
 
   if (!user) {
     console.error(
-      "GET USER ADMIN ERROR: there was a problem while getting the user"
+      "GET USER ADMIN ERROR: the user doesn't exist"
     );
-    throw new ApiError(500, "There was a problem while getting the user!");
+    throw new ApiError(404, "The user doesn't exist!");
   }
 
   console.log("User fetched for Admin");
@@ -307,8 +307,8 @@ const deleteUserAccountAdminFunction = async (req, res) => {
   console.log("User deleted!");
 
   return res
-    .status(200)
-    .json(new ApiResponse(200, "The user has been successfully deleted"));
+    .status(204)
+    .json(new ApiResponse(204, "The user has been successfully deleted"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -358,9 +358,9 @@ const getCourseAdminFunction = async (req, res) => {
 
   if (!course) {
     console.error(
-      "GET COURSE ADMIN ERROR: there was a problem while getting the course"
+      "GET COURSE ADMIN ERROR: The course doesn't exist"
     );
-    throw new ApiError(500, "There was a problem while getting the course!");
+    throw new ApiError(500, "The course doesn't exist!");
   }
 
   console.log("Course fetched for Admin");
@@ -380,8 +380,8 @@ const deleteCourseAdminFunction = async (req, res) => {
     await deleteCourse(courseId);
     console.log("Course deleted by the admin!");
     return res
-      .status(200)
-      .json(new ApiResponse(200, "Course successfully deleted!"));
+      .status(204)
+      .json(new ApiResponse(204, "Course successfully deleted!"));
   } catch (error) {
     console.error(
       "COURSE DELETE ADMIN ERROR: There was a problem while deleting the course."

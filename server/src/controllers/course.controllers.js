@@ -16,7 +16,7 @@ const getAllCoursesFunction = async (_req, res) => {
   if (!courses) {
     console.error("GET ALL COURSES ERROR: courses not fetched");
     throw new ApiError(
-      400,
+      500,
       "The courses couldn't be fetched. Please try again!"
     );
   }
@@ -52,7 +52,7 @@ const getCourseFunction = async (req, res) => {
 
   if (!course) {
     console.error("GET COURSE ERROR: invalid course");
-    throw new ApiError(400, "The course doesn't exist!");
+    throw new ApiError(404, "The course doesn't exist!");
   }
 
   console.log("Course successfully fetched!");
@@ -81,14 +81,14 @@ const enrollCourseFunction = async (req, res) => {
 
   if (!user) {
     console.error("ENROLL COURSE ERROR: no user");
-    throw new ApiError(400, "The user doesn't exist!");
+    throw new ApiError(404, "The user doesn't exist!");
   }
 
   const course = await Course.findById(courseId);
 
   if (!course) {
     console.error("ENROLL COURSE ERROR: no course");
-    throw new ApiError(400, "The course doesn't exist!");
+    throw new ApiError(404, "The course doesn't exist!");
   }
 
   await Promise.all([
@@ -104,7 +104,7 @@ const enrollCourseFunction = async (req, res) => {
     ),
   ]).catch(() => {
     console.error("ENROLL COURSE ERROR: enrollment failed");
-    throw new ApiError(400, "Enrollment failed. Please try again!");
+    throw new ApiError(500, "Enrollment failed. Please try again!");
   });
 
   console.log(`${userId} enrolled the course: ${courseId}`);

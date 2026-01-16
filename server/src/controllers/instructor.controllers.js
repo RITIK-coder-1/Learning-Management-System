@@ -106,7 +106,7 @@ const createCourseFunction = async (req, res) => {
   if (!thumbnail) {
     console.error("CREATE COURSE ERROR: thumbnail failed");
     throw new ApiError(
-      400,
+      500,
       "There was a problem while adding the thumbnail. Please try again!"
     );
   }
@@ -191,7 +191,7 @@ const getCourseFunction = async (req, res) => {
 
   if (!course) {
     console.error("GET COURSE ERROR: invalid course");
-    throw new ApiError(400, "The course doesn't exist!");
+    throw new ApiError(404, "The course doesn't exist!");
   }
 
   console.log("Course successfully fetched!");
@@ -220,7 +220,7 @@ const getAllInstructorCoursesFunction = async (req, res) => {
   if (!courses) {
     console.error("GET ALL COURSES INSTRUCTOR ERROR: courses not fetched");
     throw new ApiError(
-      400,
+      500,
       "The courses couldn't be fetched. Please try again!"
     );
   }
@@ -281,8 +281,6 @@ const updateCourseFunction = async (req, res) => {
   // getting the course
   const course = await Course.findById(courseId);
 
-  console.log(course);
-
   // checking if no value is updated
   if (
     course.title === title &&
@@ -301,7 +299,7 @@ const updateCourseFunction = async (req, res) => {
     thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
     if (!thumbnail) {
       console.error("UPDATE COURSE ERROR: thumbnail didn't update");
-      throw new ApiError(400, "The thumbnail couldn't be updated!");
+      throw new ApiError(500, "The thumbnail couldn't be updated!");
     }
 
     // deleting the old thumbnail
@@ -336,7 +334,7 @@ const updateCourseFunction = async (req, res) => {
 
     if (!newCategory) {
       console.error("UPDATE COURSE ERROR: new category doesn't exist!");
-      throw new ApiError(400, "The new category does not exist");
+      throw new ApiError(404, "The new category does not exist");
     }
   }
 
@@ -375,8 +373,8 @@ const deleteCourseFunction = async (req, res) => {
     await deleteCourse(courseId);
 
     return res
-      .status(200)
-      .json(new ApiResponse(200, "The course has been deleted!"));
+      .status(204)
+      .json(new ApiResponse(204, "The course has been deleted!"));
   } catch (error) {
     console.error("DELETE COURSE ERROR INSTRUCTOR");
     throw new ApiError(500, "There was a problem while deleting the course!");
@@ -416,7 +414,7 @@ const addCourseVideoFunction = async (req, res) => {
   if (!video.url) {
     console.error("ADD COURSE VIDEO ERROR: failed");
     throw new ApiError(
-      400,
+      500,
       "The video couldn't be uploaded. Please try again!"
     );
   }
@@ -432,7 +430,7 @@ const addCourseVideoFunction = async (req, res) => {
   if (!courseVideo) {
     console.error("ADD COURSE VIDEO ERROR: failed");
     throw new ApiError(
-      400,
+      500,
       "The video couldn't be uploaded. Please try again!"
     );
   }
@@ -451,7 +449,7 @@ const addCourseVideoFunction = async (req, res) => {
   if (!section) {
     console.error("ADD COURSE VIDEO ERROR: section error");
     throw new ApiError(
-      400,
+      500,
       "There was a problem while adding the video to the section. Please try again!"
     );
   }
@@ -528,7 +526,7 @@ const deleteCourseVideoFunction = async (req, res) => {
   const video = await CourseVideo.findById(videoId);
   if (!video) {
     console.error("DELETE VIDEO ERROR: no video");
-    throw new ApiError(400, "The video doesn't exist!");
+    throw new ApiError(404, "The video doesn't exist!");
   }
 
   const videoDelete = CourseVideo.deleteOne({ _id: videoId });
@@ -539,14 +537,14 @@ const deleteCourseVideoFunction = async (req, res) => {
 
   await Promise.all([videoDelete, sectionDelete, cloudDelete]).catch(() => {
     console.error("DELETE VIDEO ERROR");
-    throw new ApiError(400, "The video couldn't be deleted. Please try again!");
+    throw new ApiError(500, "The video couldn't be deleted. Please try again!");
   });
 
   console.log("Video deleted!");
 
   return res
-    .status(200)
-    .json(new ApiResponse(200, "The video has been deleted!"));
+    .status(204)
+    .json(new ApiResponse(204, "The video has been deleted!"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -662,7 +660,7 @@ const deleteSectionFunction = async (req, res) => {
   ]).catch(() => {
     console.error("DELETE SECTION ERROR: didn't delete");
     throw new ApiError(
-      400,
+      500,
       "The section couldn't be deleted. Please try again!"
     );
   });
@@ -670,8 +668,8 @@ const deleteSectionFunction = async (req, res) => {
   console.log("The section deleted!");
 
   return res
-    .status(200)
-    .json(new ApiResponse(200, "The section and its videos deleted!"));
+    .status(204)
+    .json(new ApiResponse(204, "The section and its videos deleted!"));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -695,7 +693,7 @@ const updateSectionFunction = async (req, res) => {
 
   if (section.title === title) {
     console.error("UPDATE SECTION ERROR: no updated value");
-    throw new ApiError(400, "Please submit the updated value!");
+    throw new ApiError(409, "Please submit the updated value!");
   }
 
   section.title = title;
