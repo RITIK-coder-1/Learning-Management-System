@@ -23,6 +23,6 @@ router.route("/").get(getAllCourses); // get all the courses
 router
   .route("/:courseId")
   .get(getCourse) // get a particular course
-  .patch(verifyJwt, enrollCourse); // enroll into a course
+  .post(verifyJwt, enrollCourse); // enroll into a course
 
 export { router as courseRouter };

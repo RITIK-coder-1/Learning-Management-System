@@ -10,7 +10,7 @@ import {
   useLoginOtpMutation,
   useLogoutMutation,
   useNewTokenMutation,
-} from "./auth/authApi";
+} from "./auth/authApi.js";
 
 import {
   useGetUserQuery,
@@ -20,7 +20,13 @@ import {
   useUpdateUserEmailMutation,
   useUpdateUserEmailOtpMutation,
   useUpdateUserPasswordMutation,
-} from "./users/userApi";
+} from "./users/userApi.js";
+
+import {
+  useGetAllTheCoursesQuery,
+  useGetCourseQuery,
+  useEnrollCourseMutation,
+} from "./courses/courseApi.js";
 
 export {
   useRegisterOtpMutation,
@@ -36,4 +42,7 @@ export {
   useUpdateUserEmailMutation,
   useUpdateUserEmailOtpMutation,
   useUpdateUserPasswordMutation,
+  useGetAllTheCoursesQuery,
+  useGetCourseQuery,
+  useEnrollCourseMutation,
 };
