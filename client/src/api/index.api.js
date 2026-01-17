@@ -42,6 +42,20 @@ import {
   useCreateCourseMutation,
 } from "./users/instructorApi.js";
 
+import {
+  useGetAllCategoriesQuery,
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+  useGetAllUsersQuery,
+  useGetUserAdminQuery,
+  useDeleteUserAdminMutation,
+  useGetAllCoursesAdminQuery,
+  useGetCourseAdminQuery,
+  useDeleteCourseAdminMutation,
+  useGetSystemStatsQuery,
+} from "./users/adminApi.js";
+
 export {
   useRegisterOtpMutation,
   useRegisterMutation,
@@ -70,4 +84,15 @@ export {
   useDeleteSectionMutation,
   useDeleteVideoMutation,
   useCreateCourseMutation,
+  useGetAllCategoriesQuery,
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+  useGetAllUsersQuery,
+  useGetUserAdminQuery,
+  useDeleteUserAdminMutation,
+  useGetAllCoursesAdminQuery,
+  useGetCourseAdminQuery,
+  useDeleteCourseAdminMutation,
+  useGetSystemStatsQuery,
 };
