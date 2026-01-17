@@ -30,7 +30,7 @@ const userApi = apiSlice.injectEndpoints({
         method: "DELETE",
         body: credentials,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Stats"],
     }),
 
     // CREATE OTP TO UPDATE USER EMAIL

@@ -20,7 +20,7 @@ const instructorApi = apiSlice.injectEndpoints({
         method: "POST",
         body: courseData,
       }),
-      invalidatesTags: ["Course"],
+      invalidatesTags: ["Course", "Stats"],
     }),
 
     // GET A PARTICULAR COURSE
@@ -45,7 +45,7 @@ const instructorApi = apiSlice.injectEndpoints({
         url: `/instructor/${courseId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Course"],
+      invalidatesTags: ["Course", "Stats"],
     }),
 
     // ADD A SECTION

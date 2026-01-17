@@ -20,7 +20,7 @@ const adminApi = apiSlice.injectEndpoints({
         method: "POST",
         body: categoryData,
       }),
-      invalidatesTags: ["Category"],
+      invalidatesTags: ["Category", "Stats"],
     }),
 
     // UPDATE CATEGORY
@@ -39,7 +39,7 @@ const adminApi = apiSlice.injectEndpoints({
         url: `/admin/categories/${categoryId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Category"],
+      invalidatesTags: ["Category", "Stats"],
     }),
 
     // GET ALL USERS
@@ -60,7 +60,7 @@ const adminApi = apiSlice.injectEndpoints({
         url: `/admin/users/${userId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Stats"],
     }),
 
     // GET ALL COURSES
@@ -81,12 +81,13 @@ const adminApi = apiSlice.injectEndpoints({
         url: `/admin/courses/${courseId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Course"],
+      invalidatesTags: ["Course", "Stats"],
     }),
 
     // SYSTEM STATS
     getSystemStats: builder.query({
       query: () => "/admin/stats",
+      providesTags: ["Stats"],
     }),
   }),
 });
