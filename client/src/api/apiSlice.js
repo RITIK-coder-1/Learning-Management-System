@@ -7,6 +7,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const apiSlice = createApi({
   reducerPath: "api",
+  credentials: "include",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000/api/v1",
     prepareHeaders: (headers) => {
@@ -18,23 +19,34 @@ const apiSlice = createApi({
     /* ----------------------------------------------------------------------------------------------
     API calls to register the user    
     ------------------------------------------------------------------------------------------------- */
-    registerOTP: builder.mutation({
+
+    // to create OTP for registering
+    registerOtp: builder.mutation({
       query: (userData) => ({
-        url: "/register",
+        url: "/auth/register-otp",
         method: "POST",
         body: userData,
       }),
     }),
 
+    // to validate the OTP and register the user
     register: builder.mutation({
       query: (userData) => ({
-        url: "/register/otp",
+        url: "/auth/register",
         method: "POST",
         body: userData,
       }),
+    }),
+
+    /* ----------------------------------------------------------------------------------------------
+    API call to get the current user    
+    ------------------------------------------------------------------------------------------------- */
+    getUser: builder.query({
+      query: () => "/users/profile",
+      providesTags: ["User"]
     }),
   }),
 });
 
 export { apiSlice };
-export const { useRegisterOTPMutation, useRegisterMutation } = apiSlice;
+export const { useRegisterOtpMutation, useRegisterMutation, useGetUserQuery } = apiSlice;
