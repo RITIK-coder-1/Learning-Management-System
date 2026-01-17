@@ -12,6 +12,16 @@ import {
   useNewTokenMutation,
 } from "./auth/authApi";
 
+import {
+  useGetUserQuery,
+  useUpdateUserDetailsMutation,
+  useDeleteUserAccountMutation,
+  useDeleteUserProfilePicMutation,
+  useUpdateUserEmailMutation,
+  useUpdateUserEmailOtpMutation,
+  useUpdateUserPasswordMutation,
+} from "./users/userApi";
+
 export {
   useRegisterOtpMutation,
   useRegisterMutation,
@@ -19,4 +29,11 @@ export {
   useLoginOtpMutation,
   useLogoutMutation,
   useNewTokenMutation,
+  useGetUserQuery,
+  useUpdateUserDetailsMutation,
+  useDeleteUserAccountMutation,
+  useDeleteUserProfilePicMutation,
+  useUpdateUserEmailMutation,
+  useUpdateUserEmailOtpMutation,
+  useUpdateUserPasswordMutation,
 };
