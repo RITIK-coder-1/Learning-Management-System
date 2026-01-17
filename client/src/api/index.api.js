@@ -28,6 +28,20 @@ import {
   useEnrollCourseMutation,
 } from "./courses/courseApi.js";
 
+import {
+  useGetAllCoursesInstructorQuery,
+  useGetCourseInstructorQuery,
+  useUpdateCourseMutation,
+  useUpdateSectionMutation,
+  useUpdateVideoMutation,
+  useAddNewSectionMutation,
+  useAddNewVideoMutation,
+  useDeleteCourseInstructorMutation,
+  useDeleteSectionMutation,
+  useDeleteVideoMutation,
+  useCreateCourseMutation,
+} from "./users/instructorApi.js";
+
 export {
   useRegisterOtpMutation,
   useRegisterMutation,
@@ -45,4 +59,15 @@ export {
   useGetAllTheCoursesQuery,
   useGetCourseQuery,
   useEnrollCourseMutation,
+  useGetAllCoursesInstructorQuery,
+  useGetCourseInstructorQuery,
+  useUpdateCourseMutation,
+  useUpdateSectionMutation,
+  useUpdateVideoMutation,
+  useAddNewSectionMutation,
+  useAddNewVideoMutation,
+  useDeleteCourseInstructorMutation,
+  useDeleteSectionMutation,
+  useDeleteVideoMutation,
+  useCreateCourseMutation,
 };

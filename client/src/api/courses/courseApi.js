@@ -15,13 +15,13 @@ const courseApi = apiSlice.injectEndpoints({
 
     // GET A PARTICULAR COURSE
     getCourse: builder.query({
-      query: (courseId) => `/courses/${courseId}`,
+      query: ({ courseId }) => `/courses/${courseId}`,
       providesTags: ["Course"],
     }),
 
     // ENROLL INTO A COURSE
     enrollCourse: builder.mutation({
-      query: (courseId) => ({
+      query: ({ courseId }) => ({
         url: `/courses/${courseId}`,
         method: "POST",
       }),
