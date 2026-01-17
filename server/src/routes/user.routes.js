@@ -17,7 +17,7 @@ import {
 
 const router = Router();
 
-router.use(verifyJwt) // important verification 
+router.use(verifyJwt); // important verification
 
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
@@ -39,6 +39,6 @@ router
   .post(createUpdateEmailOtp) // validate data and generate an OTP
   .patch(updateEmail); // validate OTP and update the email
 router.route("/profile/pic").delete(deleteProfilePic); // deleting a user's profile pic (only for students)
-router.route("/profile/password").patch(updatePassword); // updating the password of a user
+router.route("/password").patch(updatePassword); // updating the password of a user
 
 export { router as userRouter };
