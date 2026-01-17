@@ -20,7 +20,7 @@ const apiSlice = createApi({
       ? "Resource Not Found"
       : response.data.message;
   },
-  tagTypes: ["Auth", "Users", "Courses"], // Global Tags
+  tagTypes: ["Users", "Courses"], // Global Tags
   endpoints: (builder) => ({}),
 });
 
