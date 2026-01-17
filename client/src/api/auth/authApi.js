@@ -22,7 +22,7 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["User"],
     }),
 
     // CREATE LOGIN OTP
@@ -40,7 +40,7 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["User"],
     }),
 
     // ISSUE A NEW TOKEN
@@ -57,7 +57,7 @@ const authApi = apiSlice.injectEndpoints({
         url: "/auth/logout",
         method: "POST",
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["User"],
     }),
   }),
 });
