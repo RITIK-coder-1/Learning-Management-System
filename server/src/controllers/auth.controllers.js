@@ -56,7 +56,7 @@ const createRegisterOtpFunction = async (req, res) => {
   }
 
   // checking if the password is less than 10 characters
-  if (password.trim().length < 6) {
+  if (password.trim().length < 10) {
     console.error("REGISTER USER ERROR: password less than 10 chars!");
     throw new ApiError(400, "The password must be of 10 characters at least!");
   }
