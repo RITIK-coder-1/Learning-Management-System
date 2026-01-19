@@ -4,7 +4,7 @@ This file stores every single redux state
 ------------------------------------------------------------------------------------------------- */
 
 import { configureStore } from "@reduxjs/toolkit";
-import { apiSlice } from "../api/apiSlice.js";
+import apiSlice from "../api/base/apiSlice.js";
 import {
   authReducer,
   userReducer,

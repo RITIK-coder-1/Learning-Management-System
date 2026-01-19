@@ -4,9 +4,14 @@ This is the main entry point of the app
 ------------------------------------------------------------------------------------------------- */
 
 import "./styles/App.css";
+import { RegisterOtp } from "./pages/index.pages.js";
 
 function App() {
-  return <h1 className="text-3xl">Hey</h1>;
+  return (
+    <>
+      <RegisterOtp />
+    </>
+  );
 }
 
 export default App;
