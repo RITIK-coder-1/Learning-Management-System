@@ -14,6 +14,19 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
+      transformResponse: (response) => {
+        return {
+          data: response?.data,
+          message: response?.message,
+        };
+      },
+      transformErrorResponse: (response) => {
+        return (
+          {
+            message: response?.data?.message,
+          } || { message: "An error occurred" }
+        );
+      },
     }),
     // VALIDATE THE OTP AND REGISTER THE USER
     register: builder.mutation({
@@ -22,6 +35,19 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
+      transformResponse: (response) => {
+        return {
+          data: response?.data,
+          message: response?.message,
+        };
+      },
+      transformErrorResponse: (response) => {
+        return (
+          {
+            message: response?.data?.message,
+          } || { message: "An error occurred" }
+        );
+      },
       invalidatesTags: ["User"],
     }),
 

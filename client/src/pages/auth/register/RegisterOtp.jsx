@@ -22,12 +22,12 @@ function RegisterOtp() {
     email: "",
     dateOfBirth: "",
     accountType: "Student",
-    profilePic: "",
   });
+  const [profilePic, setProfilePic] = useState("");
   // condition to show the OTP box
   const [isOtp, setIsOtp] = useState(false);
   // the otp entered by the user
-  const [userOTP, setOtpCode] = useState("");
+  const [userOTP, setUserOtp] = useState("");
 
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Query hooks for registeration 
@@ -42,6 +42,7 @@ function RegisterOtp() {
 
   // setting the user text data
   const setRegisteringData = (e) => {
+    // update the value of every single field as per the input value
     setUserData({
       ...userData,
       [e.target.name]: e.target.value,
@@ -51,14 +52,19 @@ function RegisterOtp() {
   // setting the user profile image
   const fileData = (e) => {
     const image = e.target.files[0];
-    setUserData({ ...userData, profilePic: image });
+    setProfilePic(image); // set the value of the profile pic as the file object
+    setUserData({ ...userData, profilePic: image }); // explictly setting the value as image because the state changes are async and not immediate
   };
 
   // setting the otp code
-  const otpCodeFunction = (e) => setOtpCode(e.target.value);
+  const otpCodeFunction = (e) => setUserOtp(e.target.value);
 
   // re-registering option
-  const reRegister = () => setIsOtp(false);
+  const reRegister = () => {
+    setIsOtp(false);
+    setUserOtp(""); // remove the old otp
+    setUserData({ ...userData, profilePic }); // reset the value of the profile pic (from the server local file path to the user file object)
+  };
 
   /* ---------------------------------------------------------------------------------------
   sending data to the server
@@ -67,7 +73,7 @@ function RegisterOtp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if otp is not generated, send the form data. If otp is generated, send the registeration data
+    // if otp is not generated, send the form data including the profile pic. If otp is generated, send the registeration data with the otp
 
     if (!isOtp) {
       const formData = new FormData();
@@ -77,16 +83,20 @@ function RegisterOtp() {
       });
 
       try {
-        await createRegisterOtp(formData).unwrap();
+        const { data } = await createRegisterOtp(formData).unwrap();
         setIsOtp(true);
+        setUserData({ ...userData, profilePic: data.profilePic }); // resetting the value of the profile pic to the server local file path so that it gets uploaded to cloudinary
       } catch (error) {
-        console.log(error.data?.message);
+        console.log(error.message);
       }
     } else {
       try {
-        await registerUser({ ...userData, userOTP }).unwrap();
+        const {} = await registerUser({
+          ...userData,
+          userOTP,
+        }).unwrap();
       } catch (error) {
-        console.log(error.data?.message);
+        console.log(error.message);
       }
     }
   };
@@ -205,6 +215,7 @@ function RegisterOtp() {
           name="userOTP"
           required={isOtp}
           onChange={otpCodeFunction}
+          value={userOTP}
         />
       </div>
 

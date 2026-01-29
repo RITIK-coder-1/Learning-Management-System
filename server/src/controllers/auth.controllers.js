@@ -112,20 +112,6 @@ const createRegisterOtpFunction = async (req, res) => {
     );
   }
 
-  // uploading the image on cloudinary (if uploaded by the student)
-  let profilePic = "";
-  if (profilePicLocalPath) {
-    profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
-
-    if (!profilePic) {
-      console.error("REGISTER USER ERROR: Can't upload the picture.");
-      throw new ApiError(
-        500,
-        "There was a problem while uploading the profile picture. Please try again!"
-      );
-    }
-  }
-
   // Generating OTP
   const code = generateOTP();
 
@@ -146,8 +132,7 @@ const createRegisterOtpFunction = async (req, res) => {
   // success response to the client
   return res.status(200).json(
     new ApiResponse(200, "OTP has been sent successfully!", {
-      // The profile pic string is saved temporarily by the frontend so that it can send on the OTP page
-      profilePic,
+      profilePic: profilePicLocalPath || "",
     })
   );
 };
@@ -158,7 +143,7 @@ const registerUserFunction = async (req, res) => {
   // the frontend will temporarily save the user data and send it back for creation
   const {
     userOTP,
-    profilePic,
+    profilePic: profilePicLocalPath,
     firstName,
     lastName,
     username,
@@ -170,12 +155,32 @@ const registerUserFunction = async (req, res) => {
 
   const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 }); // the OTP saved in the database (the latest one only)
 
-  if (userOTP !== recentOtp.code) {
+  if (recentOtp) {
+    if (userOTP !== recentOtp?.code) {
+      console.error("REGISTER USER ERROR: Wrong OTP!");
+      throw new ApiError(
+        400,
+        "The OTP doesn't match! Please enter the correct one!"
+      );
+    }
+  } else {
     console.error("REGISTER USER ERROR: Wrong OTP!");
-    throw new ApiError(
-      400,
-      "The OTP doesn't match! Please enter the correct one!"
-    );
+    throw new ApiError(500, "The OTP expired. Please try again!");
+  }
+
+  // uploading the image on cloudinary (if uploaded by the student)
+  let picResponse = "";
+  if (profilePicLocalPath) {
+
+    picResponse = await uploadOnCloudinary(profilePicLocalPath);
+    
+    if (!picResponse) {
+      console.error("REGISTER USER ERROR: Can't upload the picture.");
+      throw new ApiError(
+        500,
+        "There was a problem while uploading the profile picture. Please try again!"
+      );
+    }
   }
 
   // uploading the user to the database
@@ -187,7 +192,7 @@ const registerUserFunction = async (req, res) => {
     email,
     dateOfBirth,
     accountType,
-    profilePic: profilePic || "",
+    profilePic: picResponse.url || "",
   });
 
   // last validation if the user has been registered
