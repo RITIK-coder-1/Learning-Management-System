@@ -3,6 +3,6 @@ index.pages.js
 Centralized exporting file for all the pages
 ------------------------------------------------------------------------------------------------- */
 
-import RegisterOtp from "./auth/register/RegisterOtp";
+import Register from "./auth/register/Register";
 
-export { RegisterOtp };
+export { Register };
