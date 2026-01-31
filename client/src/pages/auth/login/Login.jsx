@@ -11,10 +11,18 @@ function Login() {
   The states of the page 
   ------------------------------------------------------------------------------------------ */
 
+  // the data for otp creation
   const [loginData, setLoginData] = useState({
     credential: "",
     password: "",
   });
+
+  // the data to validate the otp and logging in
+  const [otpValidationData, setOtpValidationData] = useState({
+    email: "",
+    userOTP: "",
+  });
+
   const [isOtp, setIsOtp] = useState(false); // control visibility of the otp field
 
   /* ---------------------------------------------------------------------------------------
@@ -33,6 +41,13 @@ function Login() {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
+  // setting the otp data
+  const otpCodeFunction = (e) =>
+    setOtpValidationData({
+      ...otpValidationData,
+      [e.target.name]: e.target.value,
+    });
+
   /* ---------------------------------------------------------------------------------------
   sending data to the server
   ------------------------------------------------------------------------------------------ */
@@ -40,11 +55,23 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // send login data
-    try {
-      createLoginOtp(loginData).unwrap();
-    } catch (error) {
-      console.error(error);
+    // 1: send login data for otp creation
+    // 2: send the email and user submitted otp for logging in
+
+    if (!isOtp) {
+      try {
+        const { data } = await createLoginOtp(loginData).unwrap();
+        setIsOtp(true);
+        setOtpValidationData({ ...otpValidationData, email: data.email }); // accessing the email for sending to the server
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      try {
+        loginUser(otpValidationData).unwrap();
+      } catch (error) {
+        console.log(error.message);
+      }
     }
   };
 
@@ -78,7 +105,13 @@ function Login() {
       {/* OTP */}
       <div className={isOtp ? "visible" : "hidden"}>
         <label htmlFor="userOTP">Enter the OTP: </label>
-        <input type={"text"} className="outline" id="userOTP" name="userOTP" />
+        <input
+          type={"text"}
+          className="outline"
+          id="userOTP"
+          name="userOTP"
+          onChange={otpCodeFunction}
+        />
       </div>
 
       {/* Submit */}
