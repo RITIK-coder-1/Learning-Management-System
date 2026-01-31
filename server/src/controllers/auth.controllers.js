@@ -128,11 +128,26 @@ const createRegisterOtpFunction = async (req, res) => {
     );
   }
 
+  // uploading the image on cloudinary (if uploaded by the student)
+  let picResponse = "";
+  if (profilePicLocalPath) {
+    picResponse = await uploadOnCloudinary(profilePicLocalPath);
+    
+    if (!picResponse) {
+      console.error("REGISTER USER ERROR: Can't upload the picture.");
+      throw new ApiError(
+        500,
+        "There was a problem while uploading the profile picture. Please try again!"
+      );
+    }
+  }
+
   console.log("OTP for user registeration has been successfully created!");
+  
   // success response to the client
   return res.status(200).json(
     new ApiResponse(200, "OTP has been sent successfully!", {
-      profilePic: profilePicLocalPath || "",
+      profilePic: picResponse.url || "",
     })
   );
 };
@@ -143,7 +158,7 @@ const registerUserFunction = async (req, res) => {
   // the frontend will temporarily save the user data and send it back for creation
   const {
     userOTP,
-    profilePic: profilePicLocalPath,
+    profilePic,
     firstName,
     lastName,
     username,
@@ -168,21 +183,6 @@ const registerUserFunction = async (req, res) => {
     throw new ApiError(500, "The OTP expired. Please try again!");
   }
 
-  // uploading the image on cloudinary (if uploaded by the student)
-  let picResponse = "";
-  if (profilePicLocalPath) {
-
-    picResponse = await uploadOnCloudinary(profilePicLocalPath);
-    
-    if (!picResponse) {
-      console.error("REGISTER USER ERROR: Can't upload the picture.");
-      throw new ApiError(
-        500,
-        "There was a problem while uploading the profile picture. Please try again!"
-      );
-    }
-  }
-
   // uploading the user to the database
   const user = await User.create({
     firstName,
@@ -192,7 +192,7 @@ const registerUserFunction = async (req, res) => {
     email,
     dateOfBirth,
     accountType,
-    profilePic: picResponse.url || "",
+    profilePic,
   });
 
   // last validation if the user has been registered
