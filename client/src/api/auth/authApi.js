@@ -5,6 +5,22 @@ This file does all the auth related API calls
 
 import apiSlice from "../base/apiSlice";
 
+// response functions
+const transformResponse = (response) => {
+  return {
+    data: response?.data,
+    message: response?.message,
+  };
+};
+
+const transformErrorResponse = (response) => {
+  return (
+    {
+      message: response?.data?.message,
+    } || { message: "An error occurred" }
+  );
+};
+
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // CREATE REGISTER OTP
@@ -14,19 +30,8 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
-      transformResponse: (response) => {
-        return {
-          data: response?.data,
-          message: response?.message,
-        };
-      },
-      transformErrorResponse: (response) => {
-        return (
-          {
-            message: response?.data?.message,
-          } || { message: "An error occurred" }
-        );
-      },
+      transformResponse: transformResponse,
+      transformErrorResponse: transformErrorResponse,
     }),
     // VALIDATE THE OTP AND REGISTER THE USER
     register: builder.mutation({
@@ -35,19 +40,8 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
-      transformResponse: (response) => {
-        return {
-          data: response?.data,
-          message: response?.message,
-        };
-      },
-      transformErrorResponse: (response) => {
-        return (
-          {
-            message: response?.data?.message,
-          } || { message: "An error occurred" }
-        );
-      },
+      transformResponse: transformResponse,
+      transformErrorResponse: transformErrorResponse,
       invalidatesTags: ["User"],
     }),
 
@@ -58,6 +52,8 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
+      transformResponse: transformResponse,
+      transformErrorResponse: transformErrorResponse,
     }),
     // VALIDATE THE OTP AND LOGIN THE USER
     login: builder.mutation({
@@ -66,6 +62,8 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: userData,
       }),
+      transformResponse: transformResponse,
+      transformErrorResponse: transformErrorResponse,
       invalidatesTags: ["User"],
     }),
 
