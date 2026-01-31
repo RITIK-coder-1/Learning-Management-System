@@ -11,7 +11,11 @@ function Login() {
   The states of the page 
   ------------------------------------------------------------------------------------------ */
 
-  const [isOtp, setIsOtp] = useState(false)
+  const [loginData, setLoginData] = useState({
+    credential: "",
+    password: "",
+  });
+  const [isOtp, setIsOtp] = useState(false); // control visibility of the otp field
 
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Query hooks for login 
@@ -24,12 +28,24 @@ function Login() {
   The methods to manipulate the states 
   ------------------------------------------------------------------------------------------ */
 
+  // set the value of each login field
+  const setValue = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
+
   /* ---------------------------------------------------------------------------------------
   sending data to the server
   ------------------------------------------------------------------------------------------ */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // send login data
+    try {
+      createLoginOtp(loginData).unwrap();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -46,6 +62,7 @@ function Login() {
         id="credential"
         name="credential"
         required
+        onChange={setValue}
       />
 
       {/* Password */}
@@ -55,17 +72,13 @@ function Login() {
         className="outline"
         id="password"
         name="password"
+        onChange={setValue}
       />
 
       {/* OTP */}
       <div className={isOtp ? "visible" : "hidden"}>
         <label htmlFor="userOTP">Enter the OTP: </label>
-        <input
-          type={"text"}
-          className="outline"
-          id="userOTP"
-          name="userOTP"
-        />
+        <input type={"text"} className="outline" id="userOTP" name="userOTP" />
       </div>
 
       {/* Submit */}
