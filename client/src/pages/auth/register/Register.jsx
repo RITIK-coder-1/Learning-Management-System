@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------------------
-RegisterOtp.jsx
-The page to take the user data and generate an OTP
+Register.jsx
+The page to register a user
 ------------------------------------------------------------------------------------------ */
 import React, { useState } from "react";
 import {

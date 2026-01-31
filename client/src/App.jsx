@@ -4,12 +4,12 @@ This is the main entry point of the app
 ------------------------------------------------------------------------------------------------- */
 
 import "./styles/App.css";
-import { RegisterOtp } from "./pages/index.pages.js";
+import { Register, Login } from "./pages/index.pages.js";
 
 function App() {
   return (
     <>
-      <RegisterOtp />
+      <Login />
     </>
   );
 }
