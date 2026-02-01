@@ -5,6 +5,8 @@ The page to login a user
 
 import React, { useState } from "react";
 import { useLoginMutation, useLoginOtpMutation } from "../../../api/index.api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../../features/authSlice";
 
 function Login() {
   /* ---------------------------------------------------------------------------------------
@@ -31,6 +33,8 @@ function Login() {
 
   const [createLoginOtp, {}] = useLoginOtpMutation();
   const [loginUser, {}] = useLoginMutation();
+
+  const dispatch = useDispatch();
 
   /* ---------------------------------------------------------------------------------------
   The methods to manipulate the states 
@@ -68,7 +72,8 @@ function Login() {
       }
     } else {
       try {
-        loginUser(otpValidationData).unwrap();
+        const { data: user } = await loginUser(otpValidationData).unwrap();
+        dispatch(setUser(user)); // changing the value of the authentication state
       } catch (error) {
         console.log(error.message);
       }
