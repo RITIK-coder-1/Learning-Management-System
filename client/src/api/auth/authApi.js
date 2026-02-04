@@ -4,23 +4,12 @@ This file does all the auth related API calls
 ------------------------------------------------------------------------------------------------- */
 
 import apiSlice from "../base/apiSlice";
+import queryResponses from "../../utils/queryResponses";
 
 // response functions
-const transformResponse = (response) => {
-  return {
-    data: response?.data,
-    message: response?.message,
-  };
-};
+const { transformResponse, transformErrorResponse } = queryResponses;
 
-const transformErrorResponse = (response) => {
-  return (
-    {
-      message: response?.data?.message,
-    } || { message: "An error occurred" }
-  );
-};
-
+// the API calls
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // CREATE REGISTER OTP

@@ -5,6 +5,10 @@ This file does all the user API calls
 
 import apiSlice from "../base/apiSlice";
 
+// response functions
+const { transformResponse, transformErrorResponse } = queryResponses;
+
+// the API calls
 const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // GET THE USER PROFILE
