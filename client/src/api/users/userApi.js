@@ -15,8 +15,8 @@ const userApi = apiSlice.injectEndpoints({
     // GET THE USER PROFILE
     getUser: builder.query({
       query: () => "/users/profile",
-      transformResponse: transformResponse,
-      transformErrorResponse: transformErrorResponse,
+      transformResponse,
+      transformErrorResponse,
       providesTags: ["User"],
     }),
 
