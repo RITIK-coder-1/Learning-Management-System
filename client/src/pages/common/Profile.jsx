@@ -3,17 +3,16 @@ Profile.jsx
 The user profile page 
 ------------------------------------------------------------------------------------------------- */
 
-import React from "react";
 import { useGetUserQuery } from "../../api/index.api";
 
 function Profile() {
   const { data } = useGetUserQuery();
   const user = data?.data;
   const dob = user?.dateOfBirth;
-  const date = new Date();
-  const year = date.getFullYear(dob);
-  const month = date.getMonth(dob);
-  const day = date.getDay(dob);
+  const date = new Date(dob);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
 
   return (
     <>
