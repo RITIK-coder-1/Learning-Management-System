@@ -81,6 +81,8 @@ const authApi = apiSlice.injectEndpoints({
         url: "/auth/logout",
         method: "POST",
       }),
+      transformResponse: transformResponse,
+      transformErrorResponse: transformErrorResponse,
       invalidatesTags: ["User"],
     }),
   }),

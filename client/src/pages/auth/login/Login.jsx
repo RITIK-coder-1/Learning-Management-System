@@ -5,7 +5,7 @@ The page to login a user
 
 import React, { useState } from "react";
 import { useLoginMutation, useLoginOtpMutation } from "../../../api/index.api";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../../features/authSlice";
 
 function Login() {
