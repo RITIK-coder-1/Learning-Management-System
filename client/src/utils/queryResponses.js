@@ -3,9 +3,9 @@ queryResponses.js
 This function provides the specific transformed responses for Redux Toolkit Query success and errors
 ------------------------------------------------------------------------------------------------- */
 
-function queryResponses(response) {
+function queryResponses() {
   // success response
-  const transformResponse = () => {
+  const transformResponse = (response) => {
     return {
       data: response?.data,
       message: response?.message,
@@ -13,7 +13,7 @@ function queryResponses(response) {
   };
 
   // error response
-  const transformErrorResponse = () => {
+  const transformErrorResponse = (response) => {
     return (
       {
         message: response?.data?.message,
@@ -24,4 +24,4 @@ function queryResponses(response) {
   return { transformResponse, transformErrorResponse };
 }
 
-export default queryResponses;
+export const { transformErrorResponse, transformResponse } = queryResponses();

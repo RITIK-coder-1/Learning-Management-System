@@ -4,10 +4,10 @@ This file does all the auth related API calls
 ------------------------------------------------------------------------------------------------- */
 
 import apiSlice from "../base/apiSlice";
-import queryResponses from "../../utils/queryResponses";
-
-// response functions
-const { transformResponse, transformErrorResponse } = queryResponses;
+import {
+  transformResponse,
+  transformErrorResponse,
+} from "../../utils/queryResponses";
 
 // the API calls
 const authApi = apiSlice.injectEndpoints({
