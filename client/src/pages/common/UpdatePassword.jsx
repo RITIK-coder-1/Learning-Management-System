@@ -1,6 +1,6 @@
 /* ----------------------------------------------------------------------------------------------
 UpdateProfile.jsx
-The page to update the user profile 
+The page to update the user password 
 ------------------------------------------------------------------------------------------------- */
 
 import { useState } from "react";
