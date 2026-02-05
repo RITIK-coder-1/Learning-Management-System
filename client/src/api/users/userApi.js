@@ -47,7 +47,7 @@ const userApi = apiSlice.injectEndpoints({
     // CREATE OTP TO UPDATE USER EMAIL
     updateUserEmailOtp: builder.mutation({
       query: (updatedData) => ({
-        url: "/users/email",
+        url: "/users/profile/email",
         method: "POST",
         body: updatedData,
       }),
@@ -57,7 +57,7 @@ const userApi = apiSlice.injectEndpoints({
     // VALIDATE OTP AND UPDATE USER EMAIL
     updateUserEmail: builder.mutation({
       query: (updatedData) => ({
-        url: "/users/email",
+        url: "/users/profile/email",
         method: "PATCH",
         body: updatedData,
       }),

@@ -23,6 +23,8 @@ function UpdateEmail() {
     newEmail: "",
     password: "",
   });
+  const [isOtp, setIsOtp] = useState(false);
+  const [userOtp, setUserOtp] = useState("");
 
   /* ---------------------------------------------------------------------------------------
   The method to set the states 
@@ -30,41 +32,69 @@ function UpdateEmail() {
   const setValue = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
+  const setOtpFunction = (e) => {
+    setUserOtp(e.target.value);
+  };
 
   /* ---------------------------------------------------------------------------------------
   The API call to update the email 
   ------------------------------------------------------------------------------------------ */
-  const updateEmail = async (e) => {
+  const update = async (e) => {
     e.preventDefault();
-
-    try {
-    } catch (error) {
-      console.error(error.message);
+    if (!isOtp) {
+      try {
+        const res = await getUpdateOtp(userData).unwrap();
+        setIsOtp(true);
+      } catch (error) {
+        console.error(error.message);
+      }
+    } else {
+      try {
+        const newEmail = userData.newEmail;
+        await updateEmail({ userOtp, newEmail }).unwrap();
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
   return (
-    <form onSubmit={updateDetails} className="flex flex-col gap-2">
-      <label htmlFor="oldPassword">Enter your old password:</label>
+    <form onSubmit={update} className="flex flex-col gap-2">
+      <label htmlFor="newEmail">Enter the new email: </label>
       <input
-        type="password"
-        id="oldPassword"
-        name="oldPassword"
+        type="email"
+        id="newEmail"
+        name="newEmail"
         onChange={setValue}
         className="outline"
         required
+        disabled={isOtp}
       />
-      <label htmlFor="newPassword">Enter your new password:</label>
+      <label htmlFor="password">Enter your password:</label>
       <input
         type="password"
-        id="newPassword"
-        name="newPassword"
+        id="password"
+        name="password"
         onChange={setValue}
         className="outline"
         required
+        disabled={isOtp}
       />
+      {isOtp && (
+        <>
+          <label htmlFor="userOtp">Enter the OTP sent to your new email:</label>
+          <input
+            type="text"
+            id="userOtp"
+            name="userOtp"
+            onChange={setOtpFunction}
+            className="outline"
+            required
+          />
+        </>
+      )}
       <button type="submit" className="outline">
-        Update
+        Submit
       </button>
     </form>
   );

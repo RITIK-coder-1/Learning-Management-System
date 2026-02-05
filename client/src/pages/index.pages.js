@@ -8,5 +8,6 @@ import Login from "./auth/login/Login.jsx";
 import Profile from "./common/Profile.jsx";
 import UpdateProfile from "./common/UpdateProfile.jsx";
 import UpdatePassword from "./common/UpdatePassword.jsx";
+import UpdateEmail from "./common/UpdateEmail.jsx";
 
-export { Register, Login, Profile, UpdateProfile, UpdatePassword };
+export { Register, Login, Profile, UpdateProfile, UpdatePassword, UpdateEmail };
