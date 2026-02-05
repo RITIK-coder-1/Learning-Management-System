@@ -1,70 +1,59 @@
 /* ----------------------------------------------------------------------------------------------
-UpdatePassword.jsx
-The page to update the user password 
+DeleteAccount.jsx
+The page to delete the user account
 ------------------------------------------------------------------------------------------------- */
 
 import { useState } from "react";
-import { useUpdateUserPasswordMutation } from "../../api/index.api";
+import { useDeleteUserAccountMutation } from "../../api/index.api";
 
-function UpdatePassword() {
+function DeleteAccount() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
-  const [update] = useUpdateUserPasswordMutation();
+
+  const [deleteAccount] = useDeleteUserAccountMutation();
 
   /* ---------------------------------------------------------------------------------------
-  The passwords  
+  The password
   ------------------------------------------------------------------------------------------ */
-  const [passwords, setPasswords] = useState({
-    oldPassword: "",
-    newPassword: "",
-  });
+  const [password, setPassword] = useState("");
 
   /* ---------------------------------------------------------------------------------------
-  The method to set the new and old passwords 
+  The method to set the password
   ------------------------------------------------------------------------------------------ */
   const setValue = (e) => {
-    setPasswords({ ...passwords, [e.target.name]: e.target.value });
+    setPassword(e.target.value);
   };
 
   /* ---------------------------------------------------------------------------------------
-  The API call to update the password 
+  The API call  
   ------------------------------------------------------------------------------------------ */
-  const updatePassword = async (e) => {
+  const deleteAccountFunction = async (e) => {
     e.preventDefault();
 
     try {
-      await update(passwords).unwrap();
+      await deleteAccount({ password }).unwrap();
     } catch (error) {
       console.error(error.message);
     }
   };
 
   return (
-    <form onSubmit={updatePassword} className="flex flex-col gap-2">
-      <label htmlFor="oldPassword">Enter your old password:</label>
+    <form onSubmit={deleteAccountFunction} className="flex flex-col gap-2">
+      <label htmlFor="password">Enter your password:</label>
       <input
         type="password"
-        id="oldPassword"
-        name="oldPassword"
-        onChange={setValue}
-        className="outline"
-        required
-      />
-      <label htmlFor="newPassword">Enter your new password:</label>
-      <input
-        type="password"
-        id="newPassword"
-        name="newPassword"
+        id="password"
+        name="password"
         onChange={setValue}
         className="outline"
         required
       />
       <button type="submit" className="outline">
-        Update
+        Delete
       </button>
     </form>
   );
 }
 
-export default UpdatePassword;
+export default DeleteAccount;
