@@ -16,7 +16,13 @@ function Profile() {
 
   return (
     <>
-      <img src={user?.profilePic} className="w-12 h-12" />
+      <img
+        src={
+          user?.profilePic ||
+          "https://api.dicebear.com/5.x/initials/svg?seed=Admin"
+        }
+        className="w-12 h-12"
+      />
       <h1>
         {user?.firstName} {user?.lastName}
       </h1>

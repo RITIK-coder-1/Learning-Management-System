@@ -5,6 +5,7 @@ The page to update the user profile
 
 import { useEffect, useState } from "react";
 import {
+  useDeleteUserProfilePicMutation,
   useGetUserQuery,
   useUpdateUserDetailsMutation,
 } from "../../api/index.api";
@@ -16,6 +17,7 @@ function UpdateProfile() {
   const [update] = useUpdateUserDetailsMutation();
   const { data, isLoading } = useGetUserQuery();
   const user = data?.data;
+  const [deleteProfilePic] = useDeleteUserProfilePicMutation();
 
   /* ---------------------------------------------------------------------------------------
   The user details 
@@ -63,7 +65,7 @@ function UpdateProfile() {
       if (!profilePic) {
         await update(userDetails).unwrap();
       } else {
-        // else upload a form data 
+        // else upload a form data
         const formData = new FormData();
 
         Object.keys(userDetails).forEach((field) => {
@@ -76,13 +78,30 @@ function UpdateProfile() {
     }
   };
 
+  /* ---------------------------------------------------------------------------------------
+  The API call to delete the profile pic 
+  ------------------------------------------------------------------------------------------ */
+  const deletePicFunction = async () => {
+    try {
+      await deleteProfilePic();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       {isLoading ? (
         <span>Loading...</span>
       ) : (
         <>
-          <img src={user?.profilePic} className="w-12 h-12" />
+          <img
+            src={
+              user?.profilePic ||
+              "https://api.dicebear.com/5.x/initials/svg?seed=Admin"
+            }
+            className="w-12 h-12"
+          />
           <form className="flex flex-col gap-2" onSubmit={updateDetails}>
             <label htmlFor="profilePic">Update your profile: </label>
             <input
@@ -91,6 +110,14 @@ function UpdateProfile() {
               className="outline cursor-pointer"
               onChange={updateProfilePic}
             />
+            <label htmlFor="">Delete Your Profile Pic: </label>
+            <button
+              type="button"
+              className="border"
+              onClick={deletePicFunction}
+            >
+              Delete
+            </button>
             <label htmlFor="username">Username:</label>
             <input
               type="text"

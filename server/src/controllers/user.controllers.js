@@ -46,7 +46,7 @@ const updateUserDetailsFunction = async (req, res) => {
   const { firstName, lastName, username } = req.body; // (Account type and DOB can't be changed once created)
   const profilePicLocalPath = req.file?.path;
   console.log(profilePicLocalPath);
-  
+
   const currentUser = req.user;
 
   // checking if there is no updated value
@@ -106,10 +106,12 @@ const updateUserDetailsFunction = async (req, res) => {
       );
     }
 
-    // deleting the old file from cloudinary
+    // deleting the old file from cloudinary (only if the user had a profile)
 
-    const oldProfile = currentUser.profilePic; // the old file
-    await deleteFromCloudinary(oldProfile);
+    if (currentUser.profilePic) {
+      const oldProfile = currentUser.profilePic; // the old file
+      await deleteFromCloudinary(oldProfile);
+    }
   }
 
   // updating the user
@@ -134,7 +136,9 @@ const updateUserDetailsFunction = async (req, res) => {
   console.log("User details are updated!");
 
   // sending the response
-  return res.status(200).json(new ApiResponse(200, "Update successful!", newUser));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Update successful!", newUser));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -321,7 +325,9 @@ const updateEmailFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "The email has been successfully updated!", user));
+    .json(
+      new ApiResponse(200, "The email has been successfully updated!", user)
+    );
 };
 
 /* ---------------------------------------------------------------------------------------
