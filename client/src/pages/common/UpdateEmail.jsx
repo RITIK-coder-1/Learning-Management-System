@@ -4,44 +4,47 @@ The page to update the user profile
 ------------------------------------------------------------------------------------------------- */
 
 import { useState } from "react";
-import { useUpdateUserPasswordMutation } from "../../api/index.api";
+import {
+  useUpdateUserEmailMutation,
+  useUpdateUserEmailOtpMutation,
+} from "../../api/index.api";
 
-function UpdatePassword() {
+function UpdateEmail() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
-  const [update] = useUpdateUserPasswordMutation();
+  const [getUpdateOtp] = useUpdateUserEmailOtpMutation();
+  const [updateEmail] = useUpdateUserEmailMutation();
 
   /* ---------------------------------------------------------------------------------------
-  The passwords  
+  The states  
   ------------------------------------------------------------------------------------------ */
-  const [passwords, setPasswords] = useState({
-    oldPassword: "",
-    newPassword: "",
+  const [userData, setUserData] = useState({
+    newEmail: "",
+    password: "",
   });
 
   /* ---------------------------------------------------------------------------------------
-  The method to set the new and old passwords 
+  The method to set the states 
   ------------------------------------------------------------------------------------------ */
   const setValue = (e) => {
-    setPasswords({ ...passwords, [e.target.name]: e.target.value });
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
   /* ---------------------------------------------------------------------------------------
-  The API call to update the password 
+  The API call to update the email 
   ------------------------------------------------------------------------------------------ */
-  const updatePassword = async (e) => {
+  const updateEmail = async (e) => {
     e.preventDefault();
 
     try {
-      await update(passwords).unwrap();
     } catch (error) {
       console.error(error.message);
     }
   };
 
   return (
-    <form onSubmit={updatePassword} className="flex flex-col gap-2">
+    <form onSubmit={updateDetails} className="flex flex-col gap-2">
       <label htmlFor="oldPassword">Enter your old password:</label>
       <input
         type="password"
@@ -67,4 +70,4 @@ function UpdatePassword() {
   );
 }
 
-export default UpdatePassword;
+export default UpdateEmail;
