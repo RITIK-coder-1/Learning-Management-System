@@ -9,13 +9,14 @@ import {
   Login,
   Profile,
   UpdateProfile,
+  UpdatePassword,
 } from "./pages/index.pages.js";
 import { Logout } from "./components/index.components.js";
 
 function App() {
   return (
     <>
-      <UpdateProfile />
+      <UpdatePassword />
       <Profile />
       <Login />
     </>
