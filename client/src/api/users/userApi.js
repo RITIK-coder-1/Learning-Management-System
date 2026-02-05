@@ -27,6 +27,8 @@ const userApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatedData,
       }),
+      transformResponse,
+      transformErrorResponse,
       invalidatesTags: ["User"],
     }),
 
@@ -37,6 +39,8 @@ const userApi = apiSlice.injectEndpoints({
         method: "DELETE",
         body: credentials,
       }),
+      transformResponse,
+      transformErrorResponse,
       invalidatesTags: ["User", "Stats"],
     }),
 
@@ -47,6 +51,8 @@ const userApi = apiSlice.injectEndpoints({
         method: "POST",
         body: updatedData,
       }),
+      transformResponse,
+      transformErrorResponse,
     }),
     // VALIDATE OTP AND UPDATE USER EMAIL
     updateUserEmail: builder.mutation({
@@ -55,6 +61,8 @@ const userApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatedData,
       }),
+      transformResponse,
+      transformErrorResponse,
       invalidatesTags: ["User"],
     }),
 
@@ -64,6 +72,8 @@ const userApi = apiSlice.injectEndpoints({
         url: "/users/profile/pic",
         method: "DELETE",
       }),
+      transformResponse,
+      transformErrorResponse,
       invalidatesTags: ["User"],
     }),
 
@@ -74,6 +84,8 @@ const userApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatedData,
       }),
+      transformResponse,
+      transformErrorResponse,
     }),
   }),
 });
