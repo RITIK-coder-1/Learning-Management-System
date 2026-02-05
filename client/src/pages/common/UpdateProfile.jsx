@@ -110,14 +110,19 @@ function UpdateProfile() {
               className="outline cursor-pointer"
               onChange={updateProfilePic}
             />
-            <label htmlFor="">Delete Your Profile Pic: </label>
-            <button
-              type="button"
-              className="border"
-              onClick={deletePicFunction}
-            >
-              Delete
-            </button>
+            {/* Only students can delete the profile pic */}
+            {user?.accountType === "Student" && (
+              <>
+                <label htmlFor="">Delete Your Profile Pic: </label>
+                <button
+                  type="button"
+                  className="border"
+                  onClick={deletePicFunction}
+                >
+                  Delete
+                </button>
+              </>
+            )}
             <label htmlFor="username">Username:</label>
             <input
               type="text"
