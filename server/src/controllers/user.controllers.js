@@ -45,6 +45,8 @@ const updateUserDetailsFunction = async (req, res) => {
   // gathering data to update
   const { firstName, lastName, username } = req.body; // (Account type and DOB can't be changed once created)
   const profilePicLocalPath = req.file?.path;
+  console.log(profilePicLocalPath);
+  
   const currentUser = req.user;
 
   // checking if there is no updated value
@@ -93,7 +95,7 @@ const updateUserDetailsFunction = async (req, res) => {
   // upload profile pic only if it is updated
   let profilePic = "";
   if (profilePicLocalPath) {
-    profilePic = await uploadOnCloudinary(profilePicLocalPath).url;
+    profilePic = await uploadOnCloudinary(profilePicLocalPath);
     if (!profilePic) {
       console.error(
         "UPDATE USER DETAILS ERROR: profile picture couldnt' be uploaded"
@@ -116,7 +118,7 @@ const updateUserDetailsFunction = async (req, res) => {
   currentUser.username = username;
 
   if (profilePic) {
-    currentUser.profilePic = profilePic; // re-write the profile pic only if it is updated
+    currentUser.profilePic = profilePic.url; // re-write the profile pic only if it is updated
   }
 
   const newUser = await currentUser.save({ validateBeforeSave: false });
