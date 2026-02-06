@@ -30,44 +30,27 @@ function CreateCourse() {
   const [courseTags, setCourseTags] = useState([]);
 
   // the number of input count for adding more tags
-  const [numberOfInputs, setNumberOfInputs] = useState([
-    <li>
-      <input type="text" required onChange={addNewTag} className="outline" />
-    </li>,
-  ]);
+  const [numberOfInputs, setNumberOfInputs] = useState([crypto.randomUUID()]); // storing unique ids for keys
 
   /* ---------------------------------------------------------------------------------------
   The methods
   ------------------------------------------------------------------------------------------ */
 
   // setting the value of the course object
-  function setValue(e) {
+  const setValue = (e) =>
     setCourseData({ ...courseData, [e.target.name]: e.target.value });
-  }
 
   // to add a new input field to add a new tag
   const addNewInput = () => {
-    setNumberOfInputs([
-      ...numberOfInputs,
-      <li>
-        <input type="text" required onChange={addNewTag} className="outline" />
-        <button type="button" className="border" onClick={deleteInput}>
-          -
-        </button>
-      </li>,
-    ]);
+    setNumberOfInputs([...numberOfInputs, crypto.randomUUID()]);
   };
 
-  // to remove any unwanted input field for adding a new tag
-  function deleteInput() {
-    const newInputArray = numberOfInputs.slice(0, numberOfInputs.length);
-    setNumberOfInputs(newInputArray);
-  }
+  // to remove any unwanted input field (or tag)
+  const deleteInput = (id) => () =>
+    setNumberOfInputs(numberOfInputs.filter((ele) => ele !== id));
 
   // to add a new value to the tags array
-  function addNewTag(e) {
-    setCourseTags([...courseTags, e.target.value]);
-  }
+  const addNewTag = (e) => setCourseTags([...courseTags, e.target.value]);
 
   /* ---------------------------------------------------------------------------------------
   The API call to create the course
@@ -114,7 +97,29 @@ function CreateCourse() {
         defaultValue={0}
       />
       <label htmlFor="tags">Add some tags: </label>
-      <ul>{numberOfInputs}</ul>
+      <ul>
+        {numberOfInputs.map((id) => {
+          return (
+            <li key={id}>
+              <input
+                type="text"
+                required
+                onChange={addNewTag}
+                className="outline"
+              />
+              {numberOfInputs.length > 1 && (
+                <button
+                  type="button"
+                  className="border"
+                  onClick={deleteInput(id)}
+                >
+                  -
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
       <button className="border" onClick={addNewInput} type="button">
         +
       </button>
