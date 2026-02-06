@@ -90,7 +90,7 @@ import {
   adminRouter,
   courseRouter,
   authRouter,
-  instructorRouter
+  instructorRouter,
 } from "./routes/index.routes.js";
 
 app.get("/api/v1", (_, res) => {
@@ -101,7 +101,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/instructor", instructorRouter);
 app.use("/api/v1/admin", adminRouter);
-app.use("/api/v1/courses", courseRouter)
+app.use("/api/v1/courses", courseRouter);
 
 /* ---------------------------------------------------------------------------------------
 Error Handling 

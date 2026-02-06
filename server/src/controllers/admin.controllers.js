@@ -71,30 +71,6 @@ const createCategoryFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-SHOW ALL CATEGORIES CONTROLLER
------------------------------------------------------------------------------------------- */
-
-const showAllCategoriesFunction = async (req, res) => {
-  try {
-    const categories = await CourseCategory.find({})
-      .select("-__v")
-      .populate("courses");
-
-    console.log("Categories fetched!");
-
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(200, "All Categories fetched successfully", categories)
-      );
-  } catch (error) {
-    // in case of error, I want to send the message to the frontend. I'm handling it irrespective of asyncHandler
-    console.error("SHOW CATEGORIES ERROR:", error);
-    throw new ApiError(500, "Could not fetch categories. Please try again!");
-  }
-};
-
-/* ---------------------------------------------------------------------------------------
 UPDATE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
@@ -151,7 +127,9 @@ const updateCategoryFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "Category successfully updated", updatedCategory));
+    .json(
+      new ApiResponse(200, "Category successfully updated", updatedCategory)
+    );
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -159,7 +137,7 @@ DELETE CATEGORY CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const deleteCategoryFunction = async (req, res) => {
-  const { categoryId } = req.params; 
+  const { categoryId } = req.params;
 
   if (!categoryId) {
     console.error("CATEGORY DELETE ERROR: Invalid category ID!");
@@ -233,7 +211,7 @@ SHOW A PARTICULAR USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getUserAdminFunction = async (req, res) => {
-  const { userId } = req.params; 
+  const { userId } = req.params;
 
   if (!userId) {
     console.error("GET USER ADMIN ERROR: Invalid user id");
@@ -352,7 +330,7 @@ GET A PARTICULAR COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getCourseAdminFunction = async (req, res) => {
-  const { courseId } = req.params; 
+  const { courseId } = req.params;
 
   if (!courseId) {
     console.error("GET COURSE ADMIN ERROR: Invalid course id");
@@ -448,7 +426,6 @@ const systemStatsFunction = async (req, res) => {
 };
 
 const createCategory = asyncHandler(createCategoryFunction);
-const showAllCategories = asyncHandler(showAllCategoriesFunction);
 const updateCategory = asyncHandler(updateCategoryFunction);
 const getAllUsers = asyncHandler(getAllUsersFunction);
 const deleteCategory = asyncHandler(deleteCategoryFunction);
@@ -461,7 +438,6 @@ const systemStats = asyncHandler(systemStatsFunction);
 
 export {
   createCategory,
-  showAllCategories,
   updateCategory,
   getAllUsers,
   deleteCategory,

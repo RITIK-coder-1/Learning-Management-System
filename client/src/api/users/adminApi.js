@@ -7,12 +7,6 @@ import apiSlice from "../base/apiSlice";
 
 const adminApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // SHOW ALL CATEGORIES
-    getAllCategories: builder.query({
-      query: () => "/admin/categories",
-      providesTags: ["Category"],
-    }),
-
     // CREATE CATEGORY
     createCategory: builder.mutation({
       query: (categoryData) => ({
@@ -93,7 +87,6 @@ const adminApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetAllCategoriesQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,

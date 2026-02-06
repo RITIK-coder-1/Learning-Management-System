@@ -4,13 +4,19 @@ The page to update the user password
 ------------------------------------------------------------------------------------------------- */
 
 import { useState } from "react";
-import { useCreateCourseMutation } from "../../api/index.api";
+import {
+  useCreateCourseMutation,
+  useGetAllCategoriesQuery,
+} from "../../api/index.api";
 
 function CreateCourse() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
   const [create] = useCreateCourseMutation();
+  const { data } = useGetAllCategoriesQuery();
+
+  console.log(data);
 
   /* ---------------------------------------------------------------------------------------
   The states  
@@ -32,6 +38,9 @@ function CreateCourse() {
   // the number of input count for adding more tags
   const [numberOfInputs, setNumberOfInputs] = useState([crypto.randomUUID()]); // storing unique ids for keys
 
+  // the thumbnail
+  const [thumbnail, setThumbnail] = useState("");
+
   /* ---------------------------------------------------------------------------------------
   The methods
   ------------------------------------------------------------------------------------------ */
@@ -52,6 +61,9 @@ function CreateCourse() {
   // to add a new value to the tags array
   const addNewTag = (e) => setCourseTags([...courseTags, e.target.value]);
 
+  // to set the thumbnail
+  const setThumbnailImage = (e) => setThumbnail(e.target.files[0]);
+
   /* ---------------------------------------------------------------------------------------
   The API call to create the course
   ------------------------------------------------------------------------------------------ */
@@ -59,7 +71,20 @@ function CreateCourse() {
     e.preventDefault();
 
     try {
-      await create(courseData).unwrap();
+      const formData = new FormData();
+
+      // setting the text fields
+      Object.keys(courseData).forEach((field) =>
+        formData.append(field, courseData[field])
+      );
+
+      // setting the tags
+      formData.append("tags", JSON.stringify(tags));
+
+      // setting the thumbnail
+      formData.append("thumbnail", thumbnail);
+
+      await create(formData).unwrap();
     } catch (error) {
       console.error(error.message);
     }
@@ -138,7 +163,7 @@ function CreateCourse() {
         name="thumbnail"
         id="thumbnail"
         required
-        onChange={setValue}
+        onChange={setThumbnailImage}
         className="outline"
       />
     </form>

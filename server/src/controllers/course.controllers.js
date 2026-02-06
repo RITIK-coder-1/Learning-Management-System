@@ -120,11 +120,36 @@ const enrollCourseFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+SHOW ALL CATEGORIES CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const showAllCategoriesFunction = async (req, res) => {
+  try {
+    const categories = await CourseCategory.find({})
+      .select("-__v")
+      .populate("courses");
+
+    console.log("Categories fetched!");
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, "All Categories fetched successfully", categories)
+      );
+  } catch (error) {
+    // in case of error, I want to send the message to the frontend. I'm handling it irrespective of asyncHandler
+    console.error("SHOW CATEGORIES ERROR:", error);
+    throw new ApiError(500, "Could not fetch categories. Please try again!");
+  }
+};
+
+/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
 const getCourse = asyncHandler(getCourseFunction);
 const getAllCourses = asyncHandler(getAllCoursesFunction);
 const enrollCourse = asyncHandler(enrollCourseFunction);
+const showAllCategories = asyncHandler(showAllCategoriesFunction);
 
-export { getCourse, getAllCourses, enrollCourse };
+export { getCourse, getAllCourses, enrollCourse, showAllCategories };

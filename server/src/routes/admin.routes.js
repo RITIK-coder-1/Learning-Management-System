@@ -13,7 +13,6 @@ import {
   getAllUsers,
   getCourseAdmin,
   getUserAdmin,
-  showAllCategories,
   systemStats,
   updateCategory,
 } from "../controllers/admin.controllers.js";
@@ -21,12 +20,12 @@ import { verifyJwt, isAdmin } from "../middleware/index.middleware.js";
 
 const router = Router();
 
-router.use(verifyJwt, isAdmin); // important verifications 
+router.use(verifyJwt, isAdmin); // important verifications
 
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 
-- Show all categories or create a new one 
+- Create a new category 
 - Update a category or delete it 
 - Get all users 
 - Get a specific user or delete them 
@@ -35,10 +34,7 @@ SPECIFIC ROUTES:
 - System stats
 ------------------------------------------------------------------------------------------ */
 
-router
-  .route("/categories")
-  .get(showAllCategories) // get all the categories
-  .post(createCategory); // create a new category
+router.route("/categories").post(createCategory); // create a new category
 router
   .route("/categories/:categoryId")
   .patch(updateCategory) // update a category
