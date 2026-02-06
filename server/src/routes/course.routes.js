@@ -22,10 +22,10 @@ SPECIFIC ROUTES:
 ------------------------------------------------------------------------------------------ */
 
 router.route("/").get(getAllCourses); // get all the courses
+router.route("/categories").get(showAllCategories); // get all the categories
 router
   .route("/:courseId")
   .get(getCourse) // get a particular course
   .post(verifyJwt, enrollCourse); // enroll into a course
-router.route("/categories").get(showAllCategories); // get all the categories
 
 export { router as courseRouter };
