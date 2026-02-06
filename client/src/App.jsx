@@ -12,14 +12,14 @@ import {
   UpdatePassword,
   UpdateEmail,
   DeleteAccount,
+  CreateCourse,
 } from "./pages/index.pages.js";
 import { Logout } from "./components/index.components.js";
 
 function App() {
   return (
     <>
-      <DeleteAccount />
-      <Profile />
+      <CreateCourse />
       <Login />
     </>
   );

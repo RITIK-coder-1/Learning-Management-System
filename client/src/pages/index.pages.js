@@ -10,6 +10,7 @@ import UpdateProfile from "./common/UpdateProfile.jsx";
 import UpdatePassword from "./common/UpdatePassword.jsx";
 import UpdateEmail from "./common/UpdateEmail.jsx";
 import DeleteAccount from "./common/DeleteAccount.jsx";
+import CreateCourse from "./course/CreateCourse.jsx";
 
 export {
   Register,
@@ -19,4 +20,5 @@ export {
   UpdatePassword,
   UpdateEmail,
   DeleteAccount,
+  CreateCourse,
 };
