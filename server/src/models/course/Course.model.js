@@ -42,16 +42,12 @@ const courseSchema = new mongoose.Schema(
       default: "Draft",
       required: true,
     },
+    category: {
+      type: String,
+      required: true,
+    },
 
     // SEPERATED DOCUMENTS (I've seperated the documents to keep them light individually)
-
-    category: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "CourseCategory",
-        required: true,
-      },
-    ],
     sections: [
       // The chapters of the course.
       {
