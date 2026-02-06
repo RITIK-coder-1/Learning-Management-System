@@ -4,7 +4,7 @@ All the controllers for courses that are public
 ------------------------------------------------------------------------------------------ */
 
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.utils.js";
-import { Course, User } from "../models/index.model.js";
+import { Course, User, CourseCategory } from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
 GET ALL COURSES CONTROLLER

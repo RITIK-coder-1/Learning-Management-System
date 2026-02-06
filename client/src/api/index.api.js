@@ -26,6 +26,7 @@ import {
   useGetAllTheCoursesQuery,
   useGetCourseQuery,
   useEnrollCourseMutation,
+  useGetAllCategoriesQuery,
 } from "./courses/courseApi.js";
 
 import {
@@ -43,7 +44,6 @@ import {
 } from "./users/instructorApi.js";
 
 import {
-  useGetAllCategoriesQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
