@@ -15,8 +15,7 @@ function CreateCourse() {
   ------------------------------------------------------------------------------------------ */
   const [create] = useCreateCourseMutation();
   const { data } = useGetAllCategoriesQuery();
-
-  console.log(data);
+  const categories = data?.data; // the course categories created by the admin
 
   /* ---------------------------------------------------------------------------------------
   The states  
@@ -155,7 +154,11 @@ function CreateCourse() {
       </select>
       <label htmlFor="category">Category: </label>
       <select name="category" id="category" className="outline">
-        <option value="Demo">Demo</option>
+        {categories?.map((category) => (
+          <option key={category._id} value={category.name}>
+            {category.name}
+          </option>
+        ))}
       </select>
       <label htmlFor="thumbnail">Upload the thumbnail: </label>
       <input
