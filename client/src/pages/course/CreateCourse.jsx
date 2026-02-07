@@ -27,7 +27,7 @@ function CreateCourse() {
     description: "",
     price: 0,
     status: "Draft",
-    category: categories && categories[0]["name"], // the default category value
+    category: "" // the default category value
   });
 
   // the course tags
