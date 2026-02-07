@@ -26,9 +26,8 @@ function CreateCourse() {
     title: "",
     description: "",
     price: 0,
-    thumbnail: "",
     status: "Draft",
-    category: "",
+    category: categories && categories[0]["name"], // the default category value
   });
 
   // the course tags
@@ -78,14 +77,14 @@ function CreateCourse() {
       );
 
       // setting the tags
-      formData.append("tags", JSON.stringify(tags));
+      formData.append("tags", JSON.stringify(courseTags));
 
       // setting the thumbnail
       formData.append("thumbnail", thumbnail);
 
       await create(formData).unwrap();
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   };
 
@@ -148,12 +147,17 @@ function CreateCourse() {
         +
       </button>
       <label htmlFor="status">Select the status: </label>
-      <select name="status" id="status" className="outline">
+      <select name="status" id="status" className="outline" onChange={setValue}>
         <option value="Draft">Draft</option>
         <option value="Published">Published</option>
       </select>
       <label htmlFor="category">Category: </label>
-      <select name="category" id="category" className="outline">
+      <select
+        name="category"
+        id="category"
+        className="outline"
+        onChange={setValue}
+      >
         {categories?.map((category) => (
           <option key={category._id} value={category.name}>
             {category.name}
@@ -169,6 +173,10 @@ function CreateCourse() {
         onChange={setThumbnailImage}
         className="outline"
       />
+
+      <button type="submit" className="border">
+        Create
+      </button>
     </form>
   );
 }

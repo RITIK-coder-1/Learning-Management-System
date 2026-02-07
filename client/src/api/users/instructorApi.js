@@ -4,12 +4,18 @@ This file does all the instructor API calls
 ------------------------------------------------------------------------------------------------- */
 
 import apiSlice from "../base/apiSlice";
+import {
+  transformErrorResponse,
+  transformResponse,
+} from "../../utils/queryResponses";
 
 const instructorApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // GET ALL THE COURSES
     getAllCoursesInstructor: builder.query({
       query: () => "/instructor/courses",
+      transformErrorResponse,
+      transformResponse,
       providesTags: ["Course"],
     }),
 
@@ -20,12 +26,16 @@ const instructorApi = apiSlice.injectEndpoints({
         method: "POST",
         body: courseData,
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course", "Stats"],
     }),
 
     // GET A PARTICULAR COURSE
     getCourseInstructor: builder.query({
       query: ({ courseId }) => `/instructor/${courseId}`,
+      transformErrorResponse,
+      transformResponse,
       providesTags: ["Course"],
     }),
 
@@ -36,6 +46,8 @@ const instructorApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatedData,
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course"],
     }),
 
@@ -45,6 +57,8 @@ const instructorApi = apiSlice.injectEndpoints({
         url: `/instructor/${courseId}`,
         method: "DELETE",
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course", "Stats"],
     }),
 
@@ -55,6 +69,8 @@ const instructorApi = apiSlice.injectEndpoints({
         method: "POST",
         body: sectionData,
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course"],
     }),
 
@@ -65,6 +81,8 @@ const instructorApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatedData,
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course"],
     }),
 
@@ -74,6 +92,8 @@ const instructorApi = apiSlice.injectEndpoints({
         url: `/instructor/${courseId}/sections/${sectionId}`,
         method: "DELETE",
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course"],
     }),
 
@@ -84,6 +104,8 @@ const instructorApi = apiSlice.injectEndpoints({
         method: "POST",
         body: videoData,
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course"],
     }),
 
@@ -94,6 +116,8 @@ const instructorApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatedData,
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course"],
     }),
 
@@ -103,6 +127,8 @@ const instructorApi = apiSlice.injectEndpoints({
         url: `/instructor/${courseId}/sections/${sectionId}/videos`,
         method: "DELETE",
       }),
+      transformErrorResponse,
+      transformResponse,
       invalidatesTags: ["Course"],
     }),
   }),

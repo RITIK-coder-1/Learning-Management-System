@@ -687,7 +687,7 @@ UPDATE COURSE SECTION CONTROLLER
 
 const updateSectionFunction = async (req, res) => {
   const { title } = req.body;
-  const sectionId = req.params?.sectionId
+  const sectionId = req.params?.sectionId;
 
   if (!sectionId.trim()) {
     console.error("UPDATE SECTION ERROR: invalid section id");
@@ -722,7 +722,13 @@ const updateSectionFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "The section has been successfully updated!", updatedSection));
+    .json(
+      new ApiResponse(
+        200,
+        "The section has been successfully updated!",
+        updatedSection
+      )
+    );
 };
 
 const getAllCoursesInstructor = asyncHandler(getAllInstructorCoursesFunction);
