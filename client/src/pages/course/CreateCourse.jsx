@@ -69,8 +69,6 @@ function CreateCourse() {
     }
   }, [categories]);
 
-  console.log(courseTags);
-
   /* ---------------------------------------------------------------------------------------
   The API call to create the course
   ------------------------------------------------------------------------------------------ */
@@ -155,11 +153,6 @@ function CreateCourse() {
       <button className="border" onClick={addNewInput} type="button">
         +
       </button>
-      <label htmlFor="status">Select the status: </label>
-      <select name="status" id="status" className="outline" onChange={setValue}>
-        <option value="Draft">Draft</option>
-        <option value="Published">Published</option>
-      </select>
       <label htmlFor="category">Category: </label>
       <select
         name="category"

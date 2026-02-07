@@ -24,7 +24,7 @@ CREATE COURSE CONTROLLER
 
 const createCourseFunction = async (req, res) => {
   // getting the course data
-  const { title, description, price, status, category } = req.body;
+  const { title, description, price, category } = req.body;
   let { sections, tags } = req.body;
   const thumbnailLocalPath = req.file?.thumbnail;
 
@@ -34,7 +34,7 @@ const createCourseFunction = async (req, res) => {
 
   // validating important data
 
-  const isEmpty = [title, description, status, category].some(
+  const isEmpty = [title, description, category].some(
     (ele) => ele?.trim() === ""
   );
 
@@ -53,12 +53,6 @@ const createCourseFunction = async (req, res) => {
   if (Number(price) < 0) {
     console.error("CREATE COURSE ERROR: negative price");
     throw new ApiError(400, "Invalid price!");
-  }
-
-  // status validity
-  if (status !== "Draft" && status !== "Published") {
-    console.error("CREATE COURSE ERROR: invalid status");
-    throw new ApiError(400, "Invalid status!");
   }
 
   // category checker (only the categories created by the admin can be used)
@@ -117,7 +111,7 @@ const createCourseFunction = async (req, res) => {
     description,
     price,
     tags,
-    status,
+    status: "Draft",
     category,
     thumbnail,
     owner: req.user._id,
