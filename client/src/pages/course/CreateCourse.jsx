@@ -3,7 +3,7 @@ CreateCourse.jsx
 The page to update the user password 
 ------------------------------------------------------------------------------------------------- */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useCreateCourseMutation,
   useGetAllCategoriesQuery,
@@ -27,7 +27,7 @@ function CreateCourse() {
     description: "",
     price: 0,
     status: "Draft",
-    category: "" // the default category value
+    category: "",
   });
 
   // the course tags
@@ -61,6 +61,15 @@ function CreateCourse() {
 
   // to set the thumbnail
   const setThumbnailImage = (e) => setThumbnail(e.target.files[0]);
+
+  // as soon as the categories are fetched, set the default value of the category field to send to the server
+  useEffect(() => {
+    if (categories) {
+      setCourseData({ ...courseData, category: categories[0]["name"] });
+    }
+  }, [categories]);
+
+  console.log(courseTags);
 
   /* ---------------------------------------------------------------------------------------
   The API call to create the course
@@ -127,7 +136,7 @@ function CreateCourse() {
               <input
                 type="text"
                 required
-                onChange={addNewTag}
+                onBlur={addNewTag}
                 className="outline"
               />
               {numberOfInputs.length > 1 && (

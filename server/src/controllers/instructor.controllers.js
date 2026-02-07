@@ -28,8 +28,6 @@ const createCourseFunction = async (req, res) => {
   let { sections, tags } = req.body;
   const thumbnailLocalPath = req.file?.thumbnail;
 
-  console.log(req.body);
-
   // parsing the strings data as I'm uploading a multiform from the frontend
   if (typeof sections === "string") sections = JSON.parse(sections);
   if (typeof tags === "string") tags = JSON.parse(tags);
@@ -78,7 +76,7 @@ const createCourseFunction = async (req, res) => {
   // one tag is needed
   if (tags.length === 0 || invalidTag) {
     console.error("CREATE COURSE ERROR: no tags");
-    throw new ApiError(400, "Please Add At Least One Tag!");
+    throw new ApiError(400, "Tags can't be empty!");
   }
 
   // one section is needed
