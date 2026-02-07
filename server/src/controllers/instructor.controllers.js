@@ -98,6 +98,21 @@ const createCourseFunction = async (req, res) => {
     }
   });
 
+  // uploading the thumbnail
+  if (!thumbnailLocalPath) {
+    console.error("CREATE COURSE ERROR: no thumbnail");
+    throw new ApiError(400, "Please Upload A Thumbnail!");
+  }
+  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
+
+  if (!thumbnail) {
+    console.error("CREATE COURSE ERROR: thumbnail failed");
+    throw new ApiError(
+      500,
+      "There was a problem while adding the thumbnail. Please try again!"
+    );
+  }
+
   // create the course
   const course = await Course.create({
     title,
@@ -106,7 +121,7 @@ const createCourseFunction = async (req, res) => {
     tags,
     status,
     category,
-    thumbnail: "",
+    thumbnail,
     owner: req.user._id,
     sections: [],
   });
@@ -132,25 +147,8 @@ const createCourseFunction = async (req, res) => {
   // wait for all sections to be created
   const sectionIds = await Promise.all(sectionPromises); // as .map() returned an array of pending promises, I had to resolve them all
 
-
-  // uploading the thumbnail
-  if (!thumbnailLocalPath) {
-    console.error("CREATE COURSE ERROR: no thumbnail");
-    throw new ApiError(400, "Please Upload A Thumbnail!");
-  }
-  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
-
-  if (!thumbnail) {
-    console.error("CREATE COURSE ERROR: thumbnail failed");
-    throw new ApiError(
-      500,
-      "There was a problem while adding the thumbnail. Please try again!"
-    );
-  }
-
-  // update Course with these new Section IDs and the thumbnail 
+  // update Course with these new Section IDs
   course.sections = sectionIds;
-  course.thumbnail = thumbnail;
   await course.save();
 
   await Promise.all([
