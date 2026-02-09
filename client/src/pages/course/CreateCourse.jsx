@@ -26,7 +26,6 @@ function CreateCourse() {
     title: "",
     description: "",
     price: 0,
-    status: "Draft",
     category: "",
   });
 
@@ -38,6 +37,8 @@ function CreateCourse() {
 
   // the thumbnail
   const [thumbnail, setThumbnail] = useState("");
+
+  console.log(courseTags);
 
   /* ---------------------------------------------------------------------------------------
   The methods
@@ -57,7 +58,24 @@ function CreateCourse() {
     setNumberOfInputs(numberOfInputs.filter((ele) => ele !== id));
 
   // to add a new value to the tags array
-  const addNewTag = (e) => setCourseTags([...courseTags, e.target.value]);
+  const addNewTag = (id) => (e) => {
+    const newValue = e.target.value;
+
+    setCourseTags((prevTags) => {
+      // Check if the ID already exists in the current state
+      const exists = prevTags.some((tag) => tag.id === id);
+
+      if (exists) {
+        // If it exists, update just that specific object
+        return prevTags.map((tag) =>
+          tag.id === id ? { ...tag, value: newValue } : tag
+        );
+      } else {
+        // If it doesn't exist, append the new object
+        return [...prevTags, { id: id, value: newValue }];
+      }
+    });
+  };
 
   // to set the thumbnail
   const setThumbnailImage = (e) => setThumbnail(e.target.files[0]);
@@ -134,7 +152,7 @@ function CreateCourse() {
               <input
                 type="text"
                 required
-                onBlur={addNewTag}
+                onBlur={addNewTag(id)}
                 className="outline"
               />
               {numberOfInputs.length > 1 && (
