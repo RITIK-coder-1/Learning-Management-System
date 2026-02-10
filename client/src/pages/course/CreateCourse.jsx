@@ -59,22 +59,22 @@ function CreateCourse() {
 
   // to add a new value to the tags array
   const addNewTag = (id) => (e) => {
-    const newValue = e.target.value;
-
-    setCourseTags((prevTags) => {
-      // Check if the ID already exists in the current state
-      const exists = prevTags.some((tag) => tag.id === id);
-
-      if (exists) {
-        // If it exists, update just that specific object
-        return prevTags.map((tag) =>
-          tag.id === id ? { ...tag, value: newValue } : tag
-        );
-      } else {
-        // If it doesn't exist, append the new object
-        return [...prevTags, { id: id, value: newValue }];
-      }
-    });
+    const newValue = e.target.value.trim();
+    if (newValue.trim() !== "") {
+      setCourseTags((prevTags) => {
+        // Check if the ID already exists in the current state
+        const exists = prevTags.some((tag) => tag.id === id);
+        if (exists) {
+          // If it exists, update just that specific object
+          return prevTags.map((tag) =>
+            tag.id === id ? { ...tag, value: newValue } : tag
+          );
+        } else {
+          // If it doesn't exist, append the new object
+          return [...prevTags, { id: id, value: newValue }];
+        }
+      });
+    }
   };
 
   // to set the thumbnail
