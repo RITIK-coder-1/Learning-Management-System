@@ -32,50 +32,32 @@ function CreateCourse() {
   // the course tags
   const [courseTags, setCourseTags] = useState([]);
 
+  // the course sections
+  const [courseSections, setCourseSections] = useState([]);
+
+  console.log("tags: ", courseTags);
+  console.log("sections: ", courseSections);
+
   // the number of input count for adding more tags
-  const [numberOfInputs, setNumberOfInputs] = useState([crypto.randomUUID()]); // storing unique ids for keys
+  const [numberOfTagsInputs, setNumberOfTagsInputs] = useState([
+    crypto.randomUUID(),
+  ]); // storing unique ids for keys
+
+  // the number of input count for adding more sections
+  const [numberOfSectionsInputs, setNumberOfSectionsInputs] = useState([
+    crypto.randomUUID(),
+  ]);
 
   // the thumbnail
   const [thumbnail, setThumbnail] = useState("");
 
   /* ---------------------------------------------------------------------------------------
-  The methods
+  The course data and file setting methods
   ------------------------------------------------------------------------------------------ */
 
   // setting the value of the course object
   const setValue = (e) =>
     setCourseData({ ...courseData, [e.target.name]: e.target.value });
-
-  // to add a new input field to add a new tag
-  const addNewInput = () => {
-    setNumberOfInputs([...numberOfInputs, crypto.randomUUID()]);
-  };
-
-  // to remove any unwanted input field (or tag)
-  const deleteInput = (id) => () => {
-    setNumberOfInputs(numberOfInputs.filter((ele) => ele !== id));
-    setCourseTags(courseTags.filter((ele) => ele.id !== id));
-  };
-
-  // to add a new value to the tags array
-  const addNewTag = (id) => (e) => {
-    const newValue = e.target.value.trim();
-    if (newValue.trim() !== "") {
-      setCourseTags((prevTags) => {
-        // Check if the ID already exists in the current state
-        const exists = prevTags.some((tag) => tag.id === id);
-        if (exists) {
-          // If it exists, update just that specific object
-          return prevTags.map((tag) =>
-            tag.id === id ? { ...tag, value: newValue } : tag
-          );
-        } else {
-          // If it doesn't exist, append the new object
-          return [...prevTags, { id: id, value: newValue }];
-        }
-      });
-    }
-  };
 
   // to set the thumbnail
   const setThumbnailImage = (e) => setThumbnail(e.target.files[0]);
@@ -86,6 +68,99 @@ function CreateCourse() {
       setCourseData({ ...courseData, category: categories[0]["name"] });
     }
   }, [categories]);
+
+  /* ---------------------------------------------------------------------------------------
+  Special methods for manipulating input fields and arrays for tags and sections 
+  - Input type: the input element for inputting data
+  - Array type: the tags or sections array for storing the values provided by the user
+  ------------------------------------------------------------------------------------------ */
+
+  // to add a new input field
+  const addNewInput = (inputSetterFunction, inputType) => () =>
+    inputSetterFunction([...inputType, crypto.randomUUID()]);
+
+  // to remove any unwanted input field
+  const deleteInput =
+    (id, inputSetterFunction, inputType, arraySetterFunction, arrayType) =>
+    () => {
+      inputSetterFunction(inputType.filter((ele) => ele !== id));
+      arraySetterFunction(arrayType.filter((ele) => ele.id !== id));
+    };
+
+  // to add a new value to the array (tags or sections)
+  const addNewValueToArray = (id, arraySetterFunction) => (e) => {
+    const newValue = e.target.value.trim();
+    if (newValue.trim() !== "") {
+      arraySetterFunction((prevArray) => {
+        // Check if the ID already exists in the current state
+        const exists = prevArray.some((ele) => ele.id === id);
+        if (exists) {
+          // If it exists, update just that specific object
+          return prevArray.map((ele) =>
+            ele.id === id ? { ...ele, value: newValue } : ele
+          );
+        } else {
+          // If it doesn't exist, append the new object
+          return [...prevArray, { id: id, value: newValue }];
+        }
+      });
+    }
+  };
+
+  /* ---------------------------------------------------------------------------------------
+  The common UI for displaying getting the tags and sections values 
+  ------------------------------------------------------------------------------------------ */
+
+  const tagsAndSectionsUI = ({
+    forField,
+    label,
+    inputType,
+    inputSetterFunction,
+    arrayType,
+    arraySetterFunction,
+  }) => {
+    return (
+      <>
+        <label htmlFor={forField}>{label}</label>
+        <ul>
+          {inputType.map((id) => {
+            return (
+              <li key={id}>
+                <input
+                  type="text"
+                  required
+                  onBlur={addNewValueToArray(id, arraySetterFunction)}
+                  className="outline"
+                />
+                {inputType.length > 1 && (
+                  <button
+                    type="button"
+                    className="border"
+                    onClick={deleteInput(
+                      id,
+                      inputSetterFunction,
+                      inputType,
+                      arraySetterFunction,
+                      arrayType
+                    )}
+                  >
+                    -
+                  </button>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+        <button
+          className="border"
+          onClick={addNewInput(inputSetterFunction, inputType)}
+          type="button"
+        >
+          +
+        </button>
+      </>
+    );
+  };
 
   /* ---------------------------------------------------------------------------------------
   The API call to create the course
@@ -145,33 +220,14 @@ function CreateCourse() {
         min={0}
         defaultValue={0}
       />
-      <label htmlFor="tags">Add some tags: </label>
-      <ul>
-        {numberOfInputs.map((id) => {
-          return (
-            <li key={id}>
-              <input
-                type="text"
-                required
-                onBlur={addNewTag(id)}
-                className="outline"
-              />
-              {numberOfInputs.length > 1 && (
-                <button
-                  type="button"
-                  className="border"
-                  onClick={deleteInput(id)}
-                >
-                  -
-                </button>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-      <button className="border" onClick={addNewInput} type="button">
-        +
-      </button>
+      {tagsAndSectionsUI({
+        forField: "tags",
+        label: "Add Some Tags",
+        inputType: numberOfTagsInputs,
+        inputSetterFunction: setNumberOfTagsInputs,
+        arrayType: courseTags,
+        arraySetterFunction: setCourseTags,
+      })}
       <label htmlFor="category">Category: </label>
       <select
         name="category"
@@ -185,6 +241,14 @@ function CreateCourse() {
           </option>
         ))}
       </select>
+      {tagsAndSectionsUI({
+        forField: "sections",
+        label: "Add a Section (Chapter Titles)",
+        inputType: numberOfSectionsInputs,
+        inputSetterFunction: setNumberOfSectionsInputs,
+        arrayType: courseSections,
+        arraySetterFunction: setCourseSections,
+      })}
       <label htmlFor="thumbnail">Upload the thumbnail: </label>
       <input
         type="file"
