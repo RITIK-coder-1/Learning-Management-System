@@ -35,9 +35,6 @@ function CreateCourse() {
   // the course sections
   const [courseSections, setCourseSections] = useState([]);
 
-  console.log("tags: ", courseTags);
-  console.log("sections: ", courseSections);
-
   // the number of input count for adding more tags
   const [numberOfTagsInputs, setNumberOfTagsInputs] = useState([
     crypto.randomUUID(),
@@ -181,7 +178,9 @@ function CreateCourse() {
       formData.append("tags", JSON.stringify(tags));
 
       // setting the sections
-      const sections = courseSections.map((ele) => ele.value);
+      const sections = courseSections.map((ele) => {
+        return { title: ele.value };
+      });
       formData.append("sections", JSON.stringify(sections));
 
       // setting the thumbnail

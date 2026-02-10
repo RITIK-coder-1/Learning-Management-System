@@ -26,7 +26,7 @@ const createCourseFunction = async (req, res) => {
   // getting the course data
   const { title, description, price, category } = req.body;
   let { sections, tags } = req.body;
-  const thumbnailLocalPath = req.file?.thumbnail;
+  const thumbnailLocalPath = req.file?.path;
 
   // parsing the strings data as I'm uploading a multiform from the frontend
   if (typeof sections === "string") sections = JSON.parse(sections);
@@ -95,7 +95,7 @@ const createCourseFunction = async (req, res) => {
     console.error("CREATE COURSE ERROR: no thumbnail");
     throw new ApiError(400, "Please Upload A Thumbnail!");
   }
-  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
+  const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
 
   if (!thumbnail) {
     console.error("CREATE COURSE ERROR: thumbnail failed");
@@ -113,7 +113,7 @@ const createCourseFunction = async (req, res) => {
     tags,
     status: "Draft",
     category,
-    thumbnail,
+    thumbnail: thumbnail.url,
     owner: req.user._id,
     sections: [],
   });
