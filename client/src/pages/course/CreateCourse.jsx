@@ -38,8 +38,6 @@ function CreateCourse() {
   // the thumbnail
   const [thumbnail, setThumbnail] = useState("");
 
-  console.log(courseTags);
-
   /* ---------------------------------------------------------------------------------------
   The methods
   ------------------------------------------------------------------------------------------ */
@@ -54,8 +52,10 @@ function CreateCourse() {
   };
 
   // to remove any unwanted input field (or tag)
-  const deleteInput = (id) => () =>
+  const deleteInput = (id) => () => {
     setNumberOfInputs(numberOfInputs.filter((ele) => ele !== id));
+    setCourseTags(courseTags.filter((ele) => ele.id !== id));
+  };
 
   // to add a new value to the tags array
   const addNewTag = (id) => (e) => {
@@ -102,7 +102,8 @@ function CreateCourse() {
       );
 
       // setting the tags
-      formData.append("tags", JSON.stringify(courseTags));
+      const tags = courseTags.map((ele) => ele.value);
+      formData.append("tags", JSON.stringify(tags));
 
       // setting the thumbnail
       formData.append("thumbnail", thumbnail);
