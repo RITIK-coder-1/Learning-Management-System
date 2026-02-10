@@ -180,6 +180,10 @@ function CreateCourse() {
       const tags = courseTags.map((ele) => ele.value);
       formData.append("tags", JSON.stringify(tags));
 
+      // setting the sections
+      const sections = courseSections.map((ele) => ele.value);
+      formData.append("sections", JSON.stringify(sections));
+
       // setting the thumbnail
       formData.append("thumbnail", thumbnail);
 
