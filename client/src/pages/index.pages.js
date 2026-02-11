@@ -13,6 +13,7 @@ import DeleteAccount from "./common/DeleteAccount.jsx";
 import CreateCourse from "./course/CreateCourse.jsx";
 import UpdateCourse from "./course/UpdateCourse.jsx";
 import Home from "./common/Home.jsx";
+import Dashboard from "./common/Dashboard.jsx";
 
 export {
   Register,
@@ -25,4 +26,5 @@ export {
   CreateCourse,
   UpdateCourse,
   Home,
+  Dashboard,
 };
