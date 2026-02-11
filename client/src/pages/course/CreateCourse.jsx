@@ -1,6 +1,6 @@
 /* ----------------------------------------------------------------------------------------------
 CreateCourse.jsx
-The page to update the user password 
+The page to create a course 
 ------------------------------------------------------------------------------------------------- */
 
 import { useState, useEffect } from "react";
