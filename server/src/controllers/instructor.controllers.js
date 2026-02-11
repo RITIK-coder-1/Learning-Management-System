@@ -164,42 +164,6 @@ const createCourseFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-GET COURSE CONTROLLER
------------------------------------------------------------------------------------------- */
-
-const getCourseFunction = async (req, res) => {
-  const { courseId } = req.params;
-
-  if (!courseId) {
-    console.error("GET COURSE ERROR: invalid id");
-    throw new ApiError(400, "Invalid Course ID!");
-  }
-
-  // Getting the course along with the nested sub-documents
-  const course = await Course.findById(courseId)
-    .populate({
-      path: "sections",
-      populate: {
-        path: "courseVideos",
-      },
-    })
-    .exec();
-
-  if (!course) {
-    console.error("GET COURSE ERROR: invalid course");
-    throw new ApiError(404, "The course doesn't exist!");
-  }
-
-  console.log("Course successfully fetched!");
-
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(200, "The course has been successfully fetched!", course)
-    );
-};
-
-/* ---------------------------------------------------------------------------------------
 GET ALL COURSES CONTROLLER (for instructor only)
 ------------------------------------------------------------------------------------------ */
 
@@ -735,12 +699,10 @@ const addSection = asyncHandler(addSectionFunction);
 const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
 const createCourse = asyncHandler(createCourseFunction);
-const getCourse = asyncHandler(getCourseFunction);
 
 export {
   createCourse,
   addCourseVideo,
-  getCourse,
   updateCourse,
   getAllCoursesInstructor,
   deleteCourseInstructor,

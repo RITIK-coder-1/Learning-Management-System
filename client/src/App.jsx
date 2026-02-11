@@ -13,13 +13,14 @@ import {
   UpdateEmail,
   DeleteAccount,
   CreateCourse,
+  UpdateCourse,
 } from "./pages/index.pages.js";
 import { Logout } from "./components/index.components.js";
 
 function App() {
   return (
     <>
-      <CreateCourse />
+      <UpdateCourse />
       <Login />
     </>
   );

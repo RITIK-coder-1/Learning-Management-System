@@ -12,7 +12,6 @@ import {
 import {
   addCourseVideo,
   createCourse,
-  getCourse,
   deleteCourseInstructor,
   updateCourseVideo,
   updateSection,
@@ -30,7 +29,7 @@ router.use(verifyJwt, isInstructor); // important verifications
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
 - get all the courses or create a course 
-- get a specific course or update it or delete the course or add a section to this course 
+- update or delete the course or add a section to this course 
 - update a section or delete it or add a video to this section 
 - update the video or delete it 
 ------------------------------------------------------------------------------------------ */
@@ -41,7 +40,6 @@ router
   .post(upload.single("thumbnail"), createCourse); // create a course
 router
   .route("/:courseId")
-  .get(getCourse) // get a particular course
   .patch(upload.single("thumbnail"), updateCourse) // update the course
   .delete(deleteCourseInstructor); // delete the course
 router.route("/:courseId/sections").post(addSection); // add a section to this course
