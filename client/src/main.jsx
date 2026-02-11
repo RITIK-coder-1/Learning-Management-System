@@ -35,17 +35,29 @@ const myRouter = createBrowserRouter([
         element: <Home />,
         index: true,
       },
+      {
+        element: <Register />,
+        path: "register",
+      },
+      {
+        element: <Login />,
+        path: "login",
+      },
     ],
   },
 
   // Private Pages
   {
-    path: "/dashboard",
+    path: "/app",
     element: <PrivateLayout />,
     children: [
       {
         element: <Dashboard />,
-        index: true,
+        path: "dashboard",
+      },
+      {
+        element: <Profile />,
+        path: "profile",
       },
     ],
   },
