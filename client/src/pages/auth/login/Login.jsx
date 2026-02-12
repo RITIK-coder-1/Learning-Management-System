@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { useLoginMutation, useLoginOtpMutation } from "../../../api/index.api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../features/authSlice";
+import UserProfilePic from "../../../components/layout/UserProfilePic";
 
 function Login() {
   /* ---------------------------------------------------------------------------------------
@@ -123,6 +124,7 @@ function Login() {
       <button type="submit" className="outline">
         Submit
       </button>
+      <UserProfilePic />
     </form>
   );
 }

@@ -5,11 +5,13 @@ Global State Management for authentication
 
 import { createSlice } from "@reduxjs/toolkit";
 
+const persistentUser = JSON.parse(localStorage.getItem("user"));
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    isAuthenticated: false,
-    user: null,
+    isAuthenticated: !!persistentUser,
+    user: persistentUser || null,
   },
   reducers: {
     setUser: (state, action) => {
