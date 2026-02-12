@@ -132,7 +132,7 @@ const createRegisterOtpFunction = async (req, res) => {
   let picResponse = "";
   if (profilePicLocalPath) {
     picResponse = await uploadOnCloudinary(profilePicLocalPath);
-    
+
     if (!picResponse) {
       console.error("REGISTER USER ERROR: Can't upload the picture.");
       throw new ApiError(
@@ -143,7 +143,7 @@ const createRegisterOtpFunction = async (req, res) => {
   }
 
   console.log("OTP for user registeration has been successfully created!");
-  
+
   // success response to the client
   return res.status(200).json(
     new ApiResponse(200, "OTP has been sent successfully!", {
@@ -307,7 +307,9 @@ const loginFunction = async (req, res) => {
   }
 
   // if the otp matches, we need to generate the access and refresh token
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select(
+    "-password -refreshTokenString"
+  );
   const { accessToken, refreshToken } = await generateTokens(user._id);
 
   // once the user has successfully logged in, we need to send in the cookies to the client

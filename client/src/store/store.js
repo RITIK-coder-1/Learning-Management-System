@@ -21,6 +21,6 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .repend(userListener.middleware)
+      .prepend(userListener.middleware)
       .concat(apiSlice.middleware),
 });
