@@ -73,24 +73,22 @@ const myRouter = createBrowserRouter([
       {
         element: <Profile />,
         path: "profile",
-        children: [
-          {
-            element: <UpdateProfile />,
-            path: "update-profile",
-          },
-          {
-            element: <UpdatePassword />,
-            path: "update-password",
-          },
-          {
-            element: <UpdateEmail />,
-            path: "update-email",
-          },
-        ],
       },
       {
         element: <DeleteAccount />,
         path: "delete-profile",
+      },
+      {
+        element: <UpdateProfile />,
+        path: "update-profile",
+      },
+      {
+        element: <UpdatePassword />,
+        path: "update-password",
+      },
+      {
+        element: <UpdateEmail />,
+        path: "update-email",
       },
     ],
   },

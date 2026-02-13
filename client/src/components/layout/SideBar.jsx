@@ -4,7 +4,6 @@ The static side bar for navigation
 ------------------------------------------------------------------------------------------------- */
 
 import { useSelector } from "react-redux";
-// import { NavLink } from "react-router-dom";
 import { Navlink } from "../index.components";
 
 function SideBar() {

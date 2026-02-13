@@ -3,8 +3,8 @@ Profile.jsx
 The user profile page 
 ------------------------------------------------------------------------------------------------- */
 
-import { NavLink } from "react-router-dom";
 import { useGetUserQuery } from "../../api/index.api";
+import { Navlink } from "../../components/index.components";
 
 function Profile() {
   const { data } = useGetUserQuery();
@@ -34,12 +34,16 @@ function Profile() {
       <span>
         Date of birth: {day}/{month}/{year}
       </span>
-      <NavLink>
+      <br />
+      <Navlink to="/app/update-profile">
         <button>Update Profile</button>
-      </NavLink>
-      <NavLink>
-        <button>Update Profile</button>
-      </NavLink>
+      </Navlink>
+      <Navlink to="/app/update-password">
+        <button>Update Password</button>
+      </Navlink>
+      <Navlink to="/app/update-email">
+        <button>Update Email</button>
+      </Navlink>
     </>
   );
 }
