@@ -4,7 +4,7 @@ It contains the routing for every single private page that requires authenticati
 ------------------------------------------------------------------------------------------------- */
 
 import { TopBar } from "./components/index.components";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function PrivateLayout() {
   return (
