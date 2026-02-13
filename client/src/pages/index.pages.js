@@ -14,6 +14,7 @@ import CreateCourse from "./course/CreateCourse.jsx";
 import UpdateCourse from "./course/UpdateCourse.jsx";
 import Home from "./common/Home.jsx";
 import Dashboard from "./common/Dashboard.jsx";
+import EnrolledCourses from "./course/EnrolledCourses.jsx";
 
 export {
   Register,
@@ -27,4 +28,5 @@ export {
   UpdateCourse,
   Home,
   Dashboard,
+  EnrolledCourses,
 };
