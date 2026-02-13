@@ -81,8 +81,17 @@ const myRouter = createBrowserRouter([
             path: "create",
           },
           {
-            element: <Course />,
             path: ":courseId",
+            children: [
+              {
+                element: <Course />,
+                index: true,
+              },
+              {
+                element: <UpdateCourse />,
+                path: "update",
+              },
+            ],
           },
         ],
       },
