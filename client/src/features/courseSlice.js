@@ -8,7 +8,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const courseSlice = createSlice({
   name: "course",
   initialState: {
-    course: null,
+    course: localStorage.getItem("course") || null,
   },
   reducers: {
     setCourse: (state, action) => {

@@ -10,7 +10,10 @@ import {
   userReducer,
   courseReducer,
 } from "../features/index.features.js";
-import userListener from "../middleware/userLocalStorage.js";
+import {
+  userListener,
+  courseListener,
+} from "../middleware/index.middleware.js";
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +25,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(apiSlice.middleware)
-      .prepend(userListener.middleware),
+      .prepend(userListener.middleware)
+      .prepend(courseListener.middleware),
 });

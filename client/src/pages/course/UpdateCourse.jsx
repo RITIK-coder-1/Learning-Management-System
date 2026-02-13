@@ -16,6 +16,27 @@ function UpdateCourse() {
   /* ---------------------------------------------------------------------------------------
   The states  
   ------------------------------------------------------------------------------------------ */
+  const [courseDetails, setCourseDetails] = useState({
+    title: "",
+    description: "",
+    price: "",
+    status: "",
+    category: "",
+  });
+
+  console.log(course);
+
+  useEffect(() => {
+    setCourseDetails({
+      title: course?.title,
+      description: course?.description,
+      price: course?.price,
+      status: course?.status,
+      category: course?.category,
+    });
+  }, [course]);
+
+  console.log(courseDetails);
 
   /* ---------------------------------------------------------------------------------------
   The course data and file setting methods
