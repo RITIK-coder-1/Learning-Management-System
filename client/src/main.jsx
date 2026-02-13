@@ -75,24 +75,29 @@ const myRouter = createBrowserRouter([
 
       // account specific routes
       {
-        element: <Profile />,
         path: "profile",
-      },
-      {
-        element: <DeleteAccount />,
-        path: "delete-profile",
-      },
-      {
-        element: <UpdateProfile />,
-        path: "update-profile",
-      },
-      {
-        element: <UpdatePassword />,
-        path: "update-password",
-      },
-      {
-        element: <UpdateEmail />,
-        path: "update-email",
+        children: [
+          {
+            element: <Profile />,
+            index: true,
+          },
+          {
+            element: <DeleteAccount />,
+            path: "delete-profile",
+          },
+          {
+            element: <UpdateProfile />,
+            path: "update-profile",
+          },
+          {
+            element: <UpdatePassword />,
+            path: "update-password",
+          },
+          {
+            element: <UpdateEmail />,
+            path: "update-email",
+          },
+        ],
       },
     ],
   },

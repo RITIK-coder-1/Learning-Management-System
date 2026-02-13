@@ -35,13 +35,13 @@ function Profile() {
         Date of birth: {day}/{month}/{year}
       </span>
       <br />
-      <Navlink to="/app/update-profile">
+      <Navlink to="/app/profile/update-profile">
         <button>Update Profile</button>
       </Navlink>
-      <Navlink to="/app/update-password">
+      <Navlink to="/app/profile/update-password">
         <button>Update Password</button>
       </Navlink>
-      <Navlink to="/app/update-email">
+      <Navlink to="/app/profile/update-email">
         <button>Update Email</button>
       </Navlink>
     </>
