@@ -6,17 +6,16 @@ The page to update the user profile
 import { useEffect, useState } from "react";
 import {
   useDeleteUserProfilePicMutation,
-  useGetUserQuery,
   useUpdateUserDetailsMutation,
 } from "../../api/index.api";
+import { useSelector } from "react-redux";
 
 function UpdateProfile() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
   const [update] = useUpdateUserDetailsMutation();
-  const { data, isLoading } = useGetUserQuery();
-  const user = data?.data;
+  const user = useSelector((state) => state.auth.user);
   const [deleteProfilePic] = useDeleteUserProfilePicMutation();
 
   /* ---------------------------------------------------------------------------------------
@@ -91,73 +90,67 @@ function UpdateProfile() {
 
   return (
     <>
-      {isLoading ? (
-        <span>Loading...</span>
-      ) : (
-        <>
-          <img
-            src={
-              user?.profilePic ||
-              "https://api.dicebear.com/5.x/initials/svg?seed=Admin"
-            }
-            className="w-12 h-12"
-          />
-          <form className="flex flex-col gap-2" onSubmit={updateDetails}>
-            <label htmlFor="profilePic">Update your profile: </label>
-            <input
-              type="file"
-              id="profilePic"
-              className="outline cursor-pointer"
-              onChange={updateProfilePic}
-            />
-            {/* Only students can delete the profile pic */}
-            {user?.accountType === "Student" && (
-              <>
-                <label htmlFor="">Delete Your Profile Pic: </label>
-                <button
-                  type="button"
-                  className="border"
-                  onClick={deletePicFunction}
-                >
-                  Delete
-                </button>
-              </>
-            )}
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={userDetails.username}
-              className="outline"
-              onChange={changeValue}
-              required
-            />
-            <label htmlFor="firstName">First Name:</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={userDetails.firstName}
-              className="outline"
-              onChange={changeValue}
-              required
-            />
-            <label htmlFor="lastName">Last Name:</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={userDetails.lastName}
-              className="outline"
-              onChange={changeValue}
-            />
-            <button type="submit" className="border">
-              Update
+      <img
+        src={
+          user?.profilePic ||
+          "https://api.dicebear.com/5.x/initials/svg?seed=Admin"
+        }
+        className="w-12 h-12"
+      />
+      <form className="flex flex-col gap-2" onSubmit={updateDetails}>
+        <label htmlFor="profilePic">Update your profile: </label>
+        <input
+          type="file"
+          id="profilePic"
+          className="outline cursor-pointer"
+          onChange={updateProfilePic}
+        />
+        {/* Only students can delete the profile pic */}
+        {user?.accountType === "Student" && (
+          <>
+            <label htmlFor="">Delete Your Profile Pic: </label>
+            <button
+              type="button"
+              className="border"
+              onClick={deletePicFunction}
+            >
+              Delete
             </button>
-          </form>
-        </>
-      )}
+          </>
+        )}
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={userDetails.username}
+          className="outline"
+          onChange={changeValue}
+          required
+        />
+        <label htmlFor="firstName">First Name:</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          value={userDetails.firstName}
+          className="outline"
+          onChange={changeValue}
+          required
+        />
+        <label htmlFor="lastName">Last Name:</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          value={userDetails.lastName}
+          className="outline"
+          onChange={changeValue}
+        />
+        <button type="submit" className="border">
+          Update
+        </button>
+      </form>
     </>
   );
 }
