@@ -8,7 +8,8 @@ import {
   useDeleteUserProfilePicMutation,
   useUpdateUserDetailsMutation,
 } from "../../api/index.api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../features/authSlice";
 
 function UpdateProfile() {
   /* ---------------------------------------------------------------------------------------
@@ -17,6 +18,7 @@ function UpdateProfile() {
   const [update] = useUpdateUserDetailsMutation();
   const user = useSelector((state) => state.auth.user);
   const [deleteProfilePic] = useDeleteUserProfilePicMutation();
+  const dispatch = useDispatch();
 
   /* ---------------------------------------------------------------------------------------
   The user details 
@@ -62,7 +64,8 @@ function UpdateProfile() {
     try {
       // upload the simple object if the profile pic isn't updated
       if (!profilePic) {
-        await update(userDetails).unwrap();
+        const { data } = await update(userDetails).unwrap();
+        dispatch(setUser(data));
       } else {
         // else upload a form data
         const formData = new FormData();
