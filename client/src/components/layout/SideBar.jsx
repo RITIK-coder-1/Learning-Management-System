@@ -4,7 +4,8 @@ The static side bar for navigation
 ------------------------------------------------------------------------------------------------- */
 
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
+import { Navlink } from "../index.components";
 
 function SideBar() {
   const user = useSelector((state) => state.auth.user);
@@ -34,15 +35,15 @@ function SideBar() {
         <ul>
           {user.accountType === "Instructor" &&
             instructorNavigationList.map((ele) => (
-              <NavLink to={ele.path}>
-                <li key={ele.id}>{ele.label}</li>
-              </NavLink>
+              <Navlink to={ele.path} key={ele.id}>
+                <li>{ele.label}</li>
+              </Navlink>
             ))}
           {user.accountType === "Student" &&
             userNavigationFilter.map((ele) => (
-              <NavLink to={ele.path}>
-                <li key={ele.id}>{ele.label}</li>
-              </NavLink>
+              <Navlink to={ele.path} key={ele.id}>
+                <li>{ele.label}</li>
+              </Navlink>
             ))}
         </ul>
       </nav>
