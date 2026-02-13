@@ -4,12 +4,14 @@ The page to update a course
 ------------------------------------------------------------------------------------------------- */
 
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {} from "../../api/index.api";
 
 function UpdateCourse() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
+  const course = useSelector((state) => state.course.course);
 
   /* ---------------------------------------------------------------------------------------
   The states  
