@@ -69,8 +69,17 @@ const myRouter = createBrowserRouter([
 
       // course specific routes
       {
-        element: <CreatedCourses />,
         path: "created-courses",
+        children: [
+          {
+            element: <CreatedCourses />,
+            index: true,
+          },
+          {
+            element: <CreateCourse />,
+            path: "create",
+          },
+        ],
       },
 
       // account specific routes
