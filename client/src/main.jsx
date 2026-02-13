@@ -26,7 +26,7 @@ import {
   EnrolledCourses,
   CreatedCourses,
 } from "./pages/index.pages.js";
-import ExploreCourses from "./pages/course/ExploreCourses.jsx";
+import ExploreCourses from "./pages/common/ExploreCourses.jsx";
 
 const myRouter = createBrowserRouter([
   // Public Pages
