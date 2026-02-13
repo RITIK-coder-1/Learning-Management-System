@@ -8,6 +8,8 @@ import {
   useUpdateUserEmailMutation,
   useUpdateUserEmailOtpMutation,
 } from "../../api/index.api";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/authSlice";
 
 function UpdateEmail() {
   /* ---------------------------------------------------------------------------------------
@@ -15,6 +17,7 @@ function UpdateEmail() {
   ------------------------------------------------------------------------------------------ */
   const [getUpdateOtp] = useUpdateUserEmailOtpMutation();
   const [updateEmail] = useUpdateUserEmailMutation();
+  const dispatch = useDispatch();
 
   /* ---------------------------------------------------------------------------------------
   The states  
@@ -51,7 +54,8 @@ function UpdateEmail() {
     } else {
       try {
         const newEmail = userData.newEmail;
-        await updateEmail({ userOtp, newEmail }).unwrap();
+        const { data } = await updateEmail({ userOtp, newEmail }).unwrap();
+        dispatch(setUser(data));
       } catch (error) {
         console.error(error.message);
       }
