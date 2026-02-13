@@ -16,6 +16,7 @@ import Home from "./common/Home.jsx";
 import Dashboard from "./common/Dashboard.jsx";
 import EnrolledCourses from "./common/EnrolledCourses.jsx";
 import CreatedCourses from "./course/CreatedCourses.jsx";
+import Course from "./course/Course.jsx";
 
 export {
   Register,
@@ -31,4 +32,5 @@ export {
   Dashboard,
   EnrolledCourses,
   CreatedCourses,
+  Course,
 };

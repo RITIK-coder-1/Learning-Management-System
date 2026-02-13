@@ -25,6 +25,7 @@ import {
   Dashboard,
   EnrolledCourses,
   CreatedCourses,
+  Course,
 } from "./pages/index.pages.js";
 import ExploreCourses from "./pages/common/ExploreCourses.jsx";
 
@@ -78,6 +79,10 @@ const myRouter = createBrowserRouter([
           {
             element: <CreateCourse />,
             path: "create",
+          },
+          {
+            element: <Course />,
+            path: ":courseId",
           },
         ],
       },

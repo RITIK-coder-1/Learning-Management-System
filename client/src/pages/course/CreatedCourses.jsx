@@ -8,11 +8,11 @@ import { Navlink } from "../../components/index.components";
 
 function CreatedCourses() {
   const { data } = useGetAllCoursesInstructorQuery();
-  console.log(data?.data);
 
   const courses = data?.data?.map((course) => {
     return {
-      id: crypto.randomUUID(),
+      arrayId: crypto.randomUUID(),
+      courseId: course._id,
       title: course?.title,
       desc: course?.description,
       createdAt: course?.createdAt,
@@ -24,9 +24,12 @@ function CreatedCourses() {
       <div className="flex flex-col p-2 gap-3">
         {courses?.map((course) => {
           return (
-            <div key={course.id} className="border">
-              {course.title}
-            </div>
+            <Navlink
+              key={course.arrayId}
+              to={`/app/created-courses/${course.courseId}`}
+            >
+              <div className="border">{course.title}</div>
+            </Navlink>
           );
         })}
       </div>
