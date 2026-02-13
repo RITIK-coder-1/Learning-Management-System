@@ -23,7 +23,9 @@ import {
   CreateCourse,
   UpdateCourse,
   Dashboard,
+  EnrolledCourses,
 } from "./pages/index.pages.js";
+import ExploreCourses from "./pages/course/ExploreCourses.jsx";
 
 const myRouter = createBrowserRouter([
   // Public Pages
@@ -54,6 +56,14 @@ const myRouter = createBrowserRouter([
       {
         element: <Dashboard />,
         path: "dashboard",
+      },
+      {
+        element: <EnrolledCourses />,
+        path: "enrolled-courses",
+      },
+      {
+        element: <ExploreCourses />,
+        path: "courses",
       },
       {
         element: <Profile />,
