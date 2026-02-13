@@ -66,10 +66,14 @@ const myRouter = createBrowserRouter([
         element: <ExploreCourses />,
         path: "courses",
       },
+
+      // course specific routes
       {
         element: <CreatedCourses />,
         path: "created-courses",
       },
+
+      // account specific routes
       {
         element: <Profile />,
         path: "profile",
