@@ -198,12 +198,13 @@ UPDATE COURSE CONTROLLER
 
 const updateCourseFunction = async (req, res) => {
   const { title, description, price, status, category } = req.body;
+
   const thumbnailLocalPath = req.file?.thumbnail;
   const courseId = req.params?.courseId;
 
   // validating important data
 
-  const isEmpty = [title, description, status, category, price].some(
+  const isEmpty = [title, description, status, category, String(price)].some(
     (ele) => ele?.trim() === ""
   );
 
@@ -219,7 +220,7 @@ const updateCourseFunction = async (req, res) => {
   }
 
   // price can't be negative
-  if (Number(price) < 0) {
+  if (price < 0) {
     console.error("UPDATE COURSE ERROR: negative price");
     throw new ApiError(400, "Invalid price!");
   }

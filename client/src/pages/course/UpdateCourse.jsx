@@ -67,9 +67,13 @@ function UpdateCourse() {
     e.preventDefault();
 
     try {
+      const courseId = course._id;
       // upload the simple object if the thumbnail isn't updated
       if (!newThumbnail) {
-        const { data } = await update(courseDetails).unwrap();
+        console.log("details: ", courseDetails);
+
+        const { data } = await update({ courseDetails, courseId }).unwrap();
+        console.log("Data: ", data);
         dispatch(setCourse(data));
       } else {
         // else upload a form data
@@ -78,7 +82,7 @@ function UpdateCourse() {
         Object.keys(courseDetails).forEach((field) => {
           formData.append(field, courseDetails[field]);
         });
-        const { data } = await update(formData).unwrap();
+        const { data } = await update({ formData, courseId }).unwrap();
         dispatch(setCourse(data));
       }
     } catch (error) {
@@ -126,14 +130,16 @@ function UpdateCourse() {
         min={0}
       />
       <label htmlFor="status">Status: </label>
-      <input
-        type="text"
-        value={courseDetails.status || "Draft"}
-        id="status"
+      <select
         name="status"
+        id="status"
         className="outline"
         onChange={changeValue}
-      />
+        value={courseDetails.status}
+      >
+        <option value="Draft">Draft</option>
+        <option value="Published">Publish</option>
+      </select>
       <label htmlFor="category">Category: </label>
       <select
         name="category"

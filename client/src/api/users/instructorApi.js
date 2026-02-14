@@ -41,10 +41,10 @@ const instructorApi = apiSlice.injectEndpoints({
 
     // UPDATE A COURSE
     updateCourse: builder.mutation({
-      query: ({ updatedData, courseId }) => ({
+      query: ({ courseDetails, courseId }) => ({
         url: `/instructor/${courseId}`,
         method: "PATCH",
-        body: updatedData,
+        body: courseDetails,
       }),
       transformErrorResponse,
       transformResponse,
