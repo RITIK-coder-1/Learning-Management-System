@@ -73,7 +73,8 @@ function UpdateProfile() {
         Object.keys(userDetails).forEach((field) => {
           formData.append(field, userDetails[field]);
         });
-        await update(formData).unwrap();
+        const { data } = await update(formData).unwrap();
+        dispatch(setUser(data));
       }
     } catch (error) {
       console.error(error.message);
