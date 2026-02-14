@@ -54,7 +54,12 @@ function UpdateCourse() {
     }
   };
 
-  return <form onSubmit={updateCourse} className="flex flex-col gap-2"></form>;
+  return (
+    <form onSubmit={updateCourse} className="flex flex-col gap-2">
+      <label>Name: </label>
+      <input type="text" value={courseDetails.title || ""} />
+    </form>
+  );
 }
 
 export default UpdateCourse;
