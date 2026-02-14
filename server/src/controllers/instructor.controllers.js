@@ -243,21 +243,25 @@ const updateCourseFunction = async (req, res) => {
   const course = await Course.findById(courseId);
 
   // checking if no value is updated
-  if (
-    course.title === title &&
-    course.description === description &&
-    course.price === Number(price) &&
-    course.status === status &&
-    course.category === category
-  ) {
-    console.error("UPDATE COURSE ERROR: no updated values");
-    throw new ApiError(400, "Please update at least one field!");
+  if (!thumbnailLocalPath) {
+    console.log(thumbnailLocalPath);
+
+    if (
+      course.title === title &&
+      course.description === description &&
+      course.price === price &&
+      course.status === status &&
+      course.category === category
+    ) {
+      console.error("UPDATE COURSE ERROR: no updated values");
+      throw new ApiError(400, "Please update at least one field!");
+    }
   }
 
   // uploading the new thumbnail
   let thumbnail = "";
   if (thumbnailLocalPath) {
-    thumbnail = await uploadOnCloudinary(thumbnailLocalPath).url;
+    thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
     if (!thumbnail) {
       console.error("UPDATE COURSE ERROR: thumbnail didn't update");
       throw new ApiError(500, "The thumbnail couldn't be updated!");
@@ -270,7 +274,7 @@ const updateCourseFunction = async (req, res) => {
       );
     });
 
-    course.thumbnail = thumbnail;
+    course.thumbnail = thumbnail.url;
   }
 
   // Managing the category

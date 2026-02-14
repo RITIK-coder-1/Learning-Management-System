@@ -23,6 +23,7 @@ function Course() {
   return (
     <div>
       <div>
+        <img src={course?.thumbnail || null} className="h-12 w-12" />
         <h1>{course?.title}</h1>
         <p>{course?.description}</p>
       </div>

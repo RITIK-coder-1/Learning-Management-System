@@ -80,15 +80,12 @@ function UpdateCourse() {
           formData.append(field, courseDetails[field]);
         });
 
-        const formObject = Object.fromEntries(formData.entries());
-
-        // Log the resulting object to the console
-        console.log(formObject);
-
         const { data } = await update({
           courseDetails: formData,
           courseId,
         }).unwrap();
+        console.log(data);
+
         dispatch(setCourse(data));
       }
     } catch (error) {
