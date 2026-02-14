@@ -70,10 +70,7 @@ function UpdateCourse() {
       const courseId = course._id;
       // upload the simple object if the thumbnail isn't updated
       if (!newThumbnail) {
-        console.log("details: ", courseDetails);
-
         const { data } = await update({ courseDetails, courseId }).unwrap();
-        console.log("Data: ", data);
         dispatch(setCourse(data));
       } else {
         // else upload a form data
@@ -82,7 +79,16 @@ function UpdateCourse() {
         Object.keys(courseDetails).forEach((field) => {
           formData.append(field, courseDetails[field]);
         });
-        const { data } = await update({ formData, courseId }).unwrap();
+
+        const formObject = Object.fromEntries(formData.entries());
+
+        // Log the resulting object to the console
+        console.log(formObject);
+
+        const { data } = await update({
+          courseDetails: formData,
+          courseId,
+        }).unwrap();
         dispatch(setCourse(data));
       }
     } catch (error) {
@@ -92,7 +98,7 @@ function UpdateCourse() {
 
   return (
     <form onSubmit={updateCourse} className="flex flex-col gap-2">
-      <img src={courseDetails.thumbnail} className="h-12 w-12" />
+      <img src={course.thumbnail || null} className="h-12 w-12" />
       <label htmlFor="thumbnail">Update Thumbnail: </label>
       <input
         type="file"
@@ -109,6 +115,7 @@ function UpdateCourse() {
         name="title"
         className="outline"
         onChange={changeValue}
+        required
       />
       <label htmlFor="description">Description: </label>
       <input
@@ -118,6 +125,7 @@ function UpdateCourse() {
         name="description"
         className="outline"
         onChange={changeValue}
+        required
       />
       <label htmlFor="price">Price: </label>
       <input
@@ -128,6 +136,7 @@ function UpdateCourse() {
         className="outline"
         onChange={changeValue}
         min={0}
+        required
       />
       <label htmlFor="status">Status: </label>
       <select
