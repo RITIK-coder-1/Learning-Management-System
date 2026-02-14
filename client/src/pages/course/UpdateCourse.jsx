@@ -84,7 +84,6 @@ function UpdateCourse() {
           courseDetails: formData,
           courseId,
         }).unwrap();
-        console.log(data);
 
         dispatch(setCourse(data));
       }

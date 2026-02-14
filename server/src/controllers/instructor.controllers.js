@@ -198,12 +198,10 @@ UPDATE COURSE CONTROLLER
 
 const updateCourseFunction = async (req, res) => {
   const { title, description, price, status, category } = req.body;
-
-  const thumbnailLocalPath = req.file?.thumbnail;
+  const thumbnailLocalPath = req.file?.path;
   const courseId = req.params?.courseId;
 
   // validating important data
-
   const isEmpty = [title, description, status, category, String(price)].some(
     (ele) => ele?.trim() === ""
   );
@@ -244,8 +242,6 @@ const updateCourseFunction = async (req, res) => {
 
   // checking if no value is updated
   if (!thumbnailLocalPath) {
-    console.log(thumbnailLocalPath);
-
     if (
       course.title === title &&
       course.description === description &&
