@@ -330,8 +330,8 @@ DELETE COURSE CONTROLLER
 const deleteCourseFunction = async (req, res) => {
   try {
     const courseId = req.params?.courseId;
-    console.log("Course deleted by the instructor!");
     await deleteCourse(courseId);
+    console.log("Course deleted by the instructor!");
 
     return res
       .status(204)

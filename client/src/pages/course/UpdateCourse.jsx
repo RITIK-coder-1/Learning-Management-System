@@ -91,7 +91,7 @@ function UpdateCourse() {
 
   return (
     <form onSubmit={updateCourse} className="flex flex-col gap-2">
-      <img src={course.thumbnail || null} className="h-12 w-12" />
+      <img src={course?.thumbnail || null} className="h-12 w-12" />
       <label htmlFor="thumbnail">Update Thumbnail: </label>
       <input
         type="file"

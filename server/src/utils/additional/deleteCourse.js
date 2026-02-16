@@ -11,15 +11,18 @@ import {
   User,
 } from "../../models/index.model.js";
 import { deleteFromCloudinary } from "../index.utils.js";
+import ApiError from "../api/apiError.js";
 
 const deleteCourse = async (courseId) => {
   // Getting the course
-  const course = await Course.findById(courseId).populate({
-    path: "sections",
-    populate: {
-      path: "courseVideos",
-    },
-  });
+  const course = await Course.findById(courseId)
+    .populate({
+      path: "sections",
+      populate: {
+        path: "courseVideos",
+      },
+    })
+    .exec();
 
   if (!course) {
     console.error("COURSE DELETE ERROR: course not found!");
@@ -52,19 +55,13 @@ const deleteCourse = async (courseId) => {
     $pull: { createdCourses: courseId },
   });
 
-  const dbCleanUp = Promise.all([
-    sectionDelete,
-    userCourseDelete,
-    categoryCourseDelete,
-    instructorCourseDelete,
-    ...videosDelete,
-  ]).catch(() => {
-    console.error("COURSE DELETE ERROR");
-    throw new ApiError(
-      500,
-      "There was a problem while deleting the course. Please try again!"
-    );
-  });
+  // const dbCleanUp = Promise.all([
+  //   sectionDelete,
+  //   userCourseDelete,
+  //   categoryCourseDelete,
+  //   instructorCourseDelete,
+  //   ...videosDelete,
+  // ]);
 
   // CLOUDINARY DELETES
 
@@ -84,16 +81,30 @@ const deleteCourse = async (courseId) => {
     ...videosDeleteCloudinary,
   ]);
 
-  await Promise.all([thumbnailDelete, ...videosDeleteCloudinary]).catch(() => {
-    console.error("COURSE DELETE CLOUDINARY ERROR");
-  });
-
   try {
-    await dbCleanUp;
-    await Course.findByIdAndDelete(courseId); // Delete the Parent last
+    await dbCleanUp.catch((err) => {
+      console.error("COURSE DELETE ERROR: Children", err);
+
+      throw new ApiError(
+        500,
+        "There was a problem while deleting the course. Please try again!"
+      );
+    });
+
+    // Delete the Parent last
+    await Course.findByIdAndDelete(courseId).catch((error) => {
+      console.error("COURSE DELETE ERROR: Parent", error);
+
+      throw new ApiError(
+        500,
+        "There was a problem while deleting the course. Please try again!"
+      );
+    });
 
     // Fire off Cloudinary deletes (we await them just to be clean)
-    await cloudinaryCleanUp;
+    await cloudinaryCleanUp.catch((error) => {
+      console.error("COURSE DELETE ERROR: cloudinary", error);
+    });
   } catch (error) {
     console.error("DELETE COURSE ERROR:", error);
     throw new ApiError(500, "Failed to delete the course");

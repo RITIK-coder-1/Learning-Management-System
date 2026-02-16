@@ -4,7 +4,10 @@ The page for displaying a course
 ------------------------------------------------------------------------------------------------- */
 
 import { useParams } from "react-router-dom";
-import { useGetCourseQuery } from "../../api/index.api";
+import {
+  useDeleteCourseInstructorMutation,
+  useGetCourseQuery,
+} from "../../api/index.api";
 import { Navlink } from "../../components/index.components";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -15,9 +18,12 @@ function Course() {
   const { data } = useGetCourseQuery({ courseId });
   const course = data?.data;
   const dispatch = useDispatch();
+  const [deleteCourse] = useDeleteCourseInstructorMutation();
 
   useEffect(() => {
-    dispatch(setCourse(course));
+    if (course) {
+      dispatch(setCourse(course));
+    }
   }, [course]);
 
   return (
@@ -30,6 +36,13 @@ function Course() {
       <Navlink to={`/app/created-courses/${courseId}/update`}>
         <button>Update</button>
       </Navlink>
+      <button
+        onClick={() => {
+          deleteCourse({ courseId });
+        }}
+      >
+        Delete
+      </button>
     </div>
   );
 }

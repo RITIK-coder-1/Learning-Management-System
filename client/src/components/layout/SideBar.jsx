@@ -32,13 +32,13 @@ function SideBar() {
     <aside className="flex flex-col justify-around border">
       <nav>
         <ul>
-          {user.accountType === "Instructor" &&
+          {user?.accountType === "Instructor" &&
             instructorNavigationList.map((ele) => (
               <Navlink to={ele.path} key={ele.id}>
                 <li>{ele.label}</li>
               </Navlink>
             ))}
-          {user.accountType === "Student" &&
+          {user?.accountType === "Student" &&
             userNavigationFilter.map((ele) => (
               <Navlink to={ele.path} key={ele.id}>
                 <li>{ele.label}</li>

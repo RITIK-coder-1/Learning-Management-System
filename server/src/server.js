@@ -11,7 +11,7 @@ import connectDB from "./db/index.js";
 All the variables of the file
 ------------------------------------------------------------------------------------------ */
 
-const port = process.env.PORT || 3000; // the port number for the server to listen to
+const port = process.env.PORT || 3001; // the port number for the server to listen to
 
 /* ---------------------------------------------------------------------------------------
 Connecting to the database and listening as the server
