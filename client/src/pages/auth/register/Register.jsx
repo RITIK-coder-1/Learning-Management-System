@@ -7,6 +7,7 @@ import {
   useRegisterMutation,
   useRegisterOtpMutation,
 } from "../../../api/index.api.js";
+import getFormData from "../../../utils/getFormData.js";
 
 function Register() {
   /* ---------------------------------------------------------------------------------------
@@ -76,11 +77,7 @@ function Register() {
     // if otp is not generated, send the form data including the profile pic. If otp is generated, send the registeration data with the otp
 
     if (!isOtp) {
-      const formData = new FormData();
-
-      Object.keys(userData).forEach((key) => {
-        formData.append(key, userData[key]);
-      });
+      const formData = getFormData(userData);
 
       try {
         const { data } = await createRegisterOtp(formData).unwrap();

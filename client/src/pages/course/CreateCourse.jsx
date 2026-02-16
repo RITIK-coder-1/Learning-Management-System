@@ -8,6 +8,7 @@ import {
   useCreateCourseMutation,
   useGetAllCategoriesQuery,
 } from "../../api/index.api";
+import getFormData from "../../utils/getFormData";
 
 function CreateCourse() {
   /* ---------------------------------------------------------------------------------------
@@ -166,12 +167,7 @@ function CreateCourse() {
     e.preventDefault();
 
     try {
-      const formData = new FormData();
-
-      // setting the text fields
-      Object.keys(courseData).forEach((field) =>
-        formData.append(field, courseData[field])
-      );
+      const formData = getFormData(courseData);
 
       // setting the tags
       const tags = courseTags.map((ele) => ele.value);

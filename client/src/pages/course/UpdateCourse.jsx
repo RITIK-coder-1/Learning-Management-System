@@ -10,6 +10,7 @@ import {
   useGetAllCategoriesQuery,
 } from "../../api/index.api";
 import { setCourse } from "../../features/courseSlice";
+import getFormData from "../../utils/getFormData";
 
 function UpdateCourse() {
   /* ---------------------------------------------------------------------------------------
@@ -74,11 +75,7 @@ function UpdateCourse() {
         dispatch(setCourse(data));
       } else {
         // else upload a form data
-        const formData = new FormData();
-
-        Object.keys(courseDetails).forEach((field) => {
-          formData.append(field, courseDetails[field]);
-        });
+        const formData = getFormData(courseDetails);
 
         const { data } = await update({
           courseDetails: formData,

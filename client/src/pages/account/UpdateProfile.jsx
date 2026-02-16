@@ -10,6 +10,7 @@ import {
 } from "../../api/index.api";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../features/authSlice";
+import getFormData from "../../utils/getFormData";
 
 function UpdateProfile() {
   /* ---------------------------------------------------------------------------------------
@@ -68,11 +69,7 @@ function UpdateProfile() {
         dispatch(setUser(data));
       } else {
         // else upload a form data
-        const formData = new FormData();
-
-        Object.keys(userDetails).forEach((field) => {
-          formData.append(field, userDetails[field]);
-        });
+        const formData = getFormData(userDetails);
         const { data } = await update(formData).unwrap();
         dispatch(setUser(data));
       }
