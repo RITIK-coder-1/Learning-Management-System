@@ -3,7 +3,7 @@ TopBar.jsx
 The static top bar for displaying the app logo and user profile 
 ------------------------------------------------------------------------------------------------- */
 
-import UserProfilePic from "../common/UserProfilePic";
+import UserProfilePic from "./UserProfilePic";
 
 function TopBar() {
   return (
