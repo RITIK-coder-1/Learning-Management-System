@@ -7,5 +7,6 @@ import Logout from "./shared/Logout";
 import TopBar from "./layout/TopBar";
 import SideBar from "./layout/SideBar";
 import Navlink from "./shared/Navlink";
+import FieldInput from "./shared/FieldInput";
 
-export { Logout, TopBar, SideBar, Navlink };
+export { Logout, TopBar, SideBar, Navlink, FieldInput };

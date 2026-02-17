@@ -8,6 +8,7 @@ import {
   useRegisterOtpMutation,
 } from "../../../api/index.api.js";
 import getFormData from "../../../utils/getFormData.js";
+import { FieldInput } from "../../../components/index.components.js";
 
 function Register() {
   /* ---------------------------------------------------------------------------------------
@@ -104,6 +105,7 @@ function Register() {
       className="border w-88 h-auto p-3 flex flex-col justify-center gap-2 items-center"
       onSubmit={handleSubmit}
     >
+      <FieldInput />
       {/* First Name */}
       <label htmlFor="firstName">First Name: </label>
       <input
