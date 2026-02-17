@@ -8,5 +8,6 @@ import TopBar from "./layout/TopBar";
 import SideBar from "./layout/SideBar";
 import Navlink from "./shared/Navlink";
 import FieldInput from "./shared/FieldInput";
+import Form from "./shared/Form";
 
-export { Logout, TopBar, SideBar, Navlink, FieldInput };
+export { Logout, TopBar, SideBar, Navlink, FieldInput, Form };
