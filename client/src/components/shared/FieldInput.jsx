@@ -32,7 +32,7 @@ function FieldInput({
         onBlur={onBlur}
         name={name}
         disabled={disabled}
-        className="focus-visible:ring-1 focus-visible:ring-offset-0 "
+        className="focus-visible:ring-1 focus-visible:ring-offset-0 bg-black"
       />
       <FieldDescription>{description}</FieldDescription>
     </Field>
