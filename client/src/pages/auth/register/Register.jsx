@@ -8,7 +8,11 @@ import {
   useRegisterOtpMutation,
 } from "../../../api/index.api.js";
 import getFormData from "../../../utils/getFormData.js";
-import { FieldInput, Form } from "../../../components/index.components.js";
+import {
+  FieldInput,
+  Form,
+  MainSection,
+} from "../../../components/index.components.js";
 
 function Register() {
   /* ---------------------------------------------------------------------------------------
@@ -101,116 +105,118 @@ function Register() {
 
   return (
     // the form element
-    <Form onSubmit={handleSubmit}>
-      {/* First Name */}
-      <FieldInput
-        label="First Name"
-        name="firstName"
-        onChange={setRegisteringData}
-        disabled={isOtp}
-      />
-
-      {/* Last Name */}
-      <FieldInput
-        label="Last Name"
-        name="lastName"
-        onChange={setRegisteringData}
-        disabled={isOtp}
-      />
-
-      {/* Username */}
-      <FieldInput
-        label="Username"
-        name="username"
-        onChange={setRegisteringData}
-        disabled={isOtp}
-        description="Enter a unique username (Must be more than 6 characters)"
-      />
-
-      {/* Email */}
-      <FieldInput
-        label="Email"
-        name="email"
-        inputType="email"
-        onChange={setRegisteringData}
-        disabled={isOtp}
-      />
-
-      {/* Password */}
-      <FieldInput
-        label="Password"
-        name="password"
-        inputType="password"
-        onChange={setRegisteringData}
-        disabled={isOtp}
-        description="At least 10 characters"
-      />
-
-      {/* Account type */}
-      <label htmlFor="accountType">Account Type </label>
-      <select
-        id="accountType"
-        className="outline"
-        name="accountType"
-        required
-        onChange={setRegisteringData}
-        disabled={isOtp}
-      >
-        <option value="Student">Student</option>
-        <option value="Instructor">Instructor</option>
-      </select>
-
-      {/* DOB */}
-      <label htmlFor="dateOfBirth">Date Of Birth: </label>
-      <input
-        type={"date"}
-        className="outline"
-        id="dateOfBirth"
-        name="dateOfBirth"
-        required
-        onChange={setRegisteringData}
-        disabled={isOtp}
-      />
-
-      {/* Profile pic */}
-      <label htmlFor="profilePic">Choose Your Profile: </label>
-      <input
-        type={"file"}
-        className="outline"
-        id="profilePic"
-        name="profilePic"
-        onChange={fileData}
-        disabled={isOtp}
-      />
-
-      {/* OTP */}
-      <div className={isOtp ? "visible" : "hidden"}>
-        <label htmlFor="userOTP">Enter the OTP: </label>
-        <input
-          type={"text"}
-          className="outline"
-          id="userOTP"
-          name="userOTP"
-          required={isOtp}
-          onChange={otpCodeFunction}
-          value={userOTP}
+    <MainSection>
+      <Form onSubmit={handleSubmit}>
+        {/* First Name */}
+        <FieldInput
+          label="First Name"
+          name="firstName"
+          onChange={setRegisteringData}
+          disabled={isOtp}
         />
-      </div>
 
-      {/* Submit */}
-      <button type="submit" className="outline">
-        Submit
-      </button>
+        {/* Last Name */}
+        <FieldInput
+          label="Last Name"
+          name="lastName"
+          onChange={setRegisteringData}
+          disabled={isOtp}
+        />
 
-      {/* Re-submit */}
-      <button
-        className={`outline ${isOtp ? "visible" : "hidden"}`}
-        onClick={reRegister}
-        type="button"
-      >
-        Re-register
-      </button>
-    </Form>
+        {/* Username */}
+        <FieldInput
+          label="Username"
+          name="username"
+          onChange={setRegisteringData}
+          disabled={isOtp}
+          description="Enter a unique username (Must be more than 6 characters)"
+        />
+
+        {/* Email */}
+        <FieldInput
+          label="Email"
+          name="email"
+          inputType="email"
+          onChange={setRegisteringData}
+          disabled={isOtp}
+        />
+
+        {/* Password */}
+        <FieldInput
+          label="Password"
+          name="password"
+          inputType="password"
+          onChange={setRegisteringData}
+          disabled={isOtp}
+          description="At least 10 characters"
+        />
+
+        {/* Account type */}
+        <label htmlFor="accountType">Account Type </label>
+        <select
+          id="accountType"
+          className="outline"
+          name="accountType"
+          required
+          onChange={setRegisteringData}
+          disabled={isOtp}
+        >
+          <option value="Student">Student</option>
+          <option value="Instructor">Instructor</option>
+        </select>
+
+        {/* DOB */}
+        <label htmlFor="dateOfBirth">Date Of Birth: </label>
+        <input
+          type={"date"}
+          className="outline"
+          id="dateOfBirth"
+          name="dateOfBirth"
+          required
+          onChange={setRegisteringData}
+          disabled={isOtp}
+        />
+
+        {/* Profile pic */}
+        <label htmlFor="profilePic">Choose Your Profile: </label>
+        <input
+          type={"file"}
+          className="outline"
+          id="profilePic"
+          name="profilePic"
+          onChange={fileData}
+          disabled={isOtp}
+        />
+
+        {/* OTP */}
+        <div className={isOtp ? "visible" : "hidden"}>
+          <label htmlFor="userOTP">Enter the OTP: </label>
+          <input
+            type={"text"}
+            className="outline"
+            id="userOTP"
+            name="userOTP"
+            required={isOtp}
+            onChange={otpCodeFunction}
+            value={userOTP}
+          />
+        </div>
+
+        {/* Submit */}
+        <button type="submit" className="outline">
+          Submit
+        </button>
+
+        {/* Re-submit */}
+        <button
+          className={`outline ${isOtp ? "visible" : "hidden"}`}
+          onClick={reRegister}
+          type="button"
+        >
+          Re-register
+        </button>
+      </Form>
+    </MainSection>
   );
 }
 
