@@ -337,7 +337,7 @@ const deleteCourseFunction = async (req, res) => {
       .status(204)
       .json(new ApiResponse(204, "The course has been deleted!"));
   } catch (error) {
-    console.error("DELETE COURSE ERROR INSTRUCTOR");
+    console.error("DELETE COURSE ERROR INSTRUCTOR", error);
     throw new ApiError(500, "There was a problem while deleting the course!");
   }
 };

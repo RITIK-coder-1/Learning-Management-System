@@ -43,8 +43,8 @@ const deleteCourse = async (courseId) => {
   );
 
   // Removing the course from the category lists
-  const categoryCourseDelete = CourseCategory.findByIdAndUpdate(
-    course.category,
+  const categoryCourseDelete = CourseCategory.updateOne(
+    { name: course.category },
     {
       $pull: { courses: courseId },
     }
@@ -55,13 +55,13 @@ const deleteCourse = async (courseId) => {
     $pull: { createdCourses: courseId },
   });
 
-  // const dbCleanUp = Promise.all([
-  //   sectionDelete,
-  //   userCourseDelete,
-  //   categoryCourseDelete,
-  //   instructorCourseDelete,
-  //   ...videosDelete,
-  // ]);
+  const dbCleanUp = Promise.all([
+    sectionDelete,
+    userCourseDelete,
+    categoryCourseDelete,
+    instructorCourseDelete,
+    ...videosDelete,
+  ]);
 
   // CLOUDINARY DELETES
 
