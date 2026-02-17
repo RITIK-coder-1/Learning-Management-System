@@ -4,7 +4,7 @@ The profile of the user at the top of the header
 ------------------------------------------------------------------------------------------------- */
 
 import { useSelector } from "react-redux";
-import { Navlink } from "../../components/index.components";
+import { Navlink } from "../index.components";
 
 function UserProfilePic() {
   const user = useSelector((state) => state.auth.user);
