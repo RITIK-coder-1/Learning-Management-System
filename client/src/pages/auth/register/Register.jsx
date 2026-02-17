@@ -102,66 +102,48 @@ function Register() {
   return (
     // the form element
     <Form onSubmit={handleSubmit}>
-      <FieldInput />
       {/* First Name */}
-      <label htmlFor="firstName">First Name: </label>
-      <input
-        type={"text"}
-        className="outline"
-        id="firstName"
+      <FieldInput
+        label="First Name"
         name="firstName"
-        required
         onChange={setRegisteringData}
         disabled={isOtp}
       />
 
       {/* Last Name */}
-      <label htmlFor="lastName">Last Name: </label>
-      <input
-        type={"text"}
-        className="outline"
-        id="lastName"
+      <FieldInput
+        label="Last Name"
         name="lastName"
         onChange={setRegisteringData}
         disabled={isOtp}
       />
 
       {/* Username */}
-      <label htmlFor="username">Username: </label>
-      <input
-        type={"text"}
-        className="outline"
-        id="username"
+      <FieldInput
+        label="Username"
         name="username"
-        required
         onChange={setRegisteringData}
         disabled={isOtp}
+        description="Enter a unique username (Must be more than 6 characters)"
       />
 
       {/* Email */}
-      <label htmlFor="email">Email: </label>
-      <input
-        type={"email"}
-        className="outline"
-        id="email"
+      <FieldInput
+        label="Email"
         name="email"
-        autoComplete="email"
-        required
+        inputType="email"
         onChange={setRegisteringData}
         disabled={isOtp}
       />
 
       {/* Password */}
-      <label htmlFor="password">Password:</label>
-      <input
-        type={"password"}
-        className="outline"
-        id="password"
+      <FieldInput
+        label="Password"
         name="password"
-        autoComplete="new-password"
-        required
+        inputType="password"
         onChange={setRegisteringData}
         disabled={isOtp}
+        description="At least 10 characters"
       />
 
       {/* Account type */}

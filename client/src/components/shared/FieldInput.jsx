@@ -8,15 +8,32 @@ import { Input } from "@/components/ui/input";
 
 function FieldInput({
   label,
-  inputId,
+  name,
   inputType = "text",
   placeholder,
   description = "",
+  required = true,
+  onChange = () => {},
+  onBlur = () => {},
+  disabled = false,
 }) {
   return (
     <Field>
-      <FieldLabel htmlFor={inputId}>Username</FieldLabel>
-      <Input id={inputId} type={inputType} placeholder={placeholder} />
+      <FieldLabel htmlFor={name} className="text-md">
+        {label}
+        {required && <span className="text-destructive text-red-600">*</span>}
+      </FieldLabel>
+      <Input
+        id={name}
+        type={inputType}
+        placeholder={placeholder}
+        required={required}
+        onChange={onChange}
+        onBlur={onBlur}
+        name={name}
+        disabled={disabled}
+        className="focus-visible:ring-1 focus-visible:ring-offset-0 "
+      />
       <FieldDescription>{description}</FieldDescription>
     </Field>
   );
