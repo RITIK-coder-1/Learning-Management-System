@@ -1,4 +1,7 @@
-"use client";
+/* ---------------------------------------------------------------------------------------
+DatePicker.jsx
+The component to choose the date of birth
+------------------------------------------------------------------------------------------ */
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
@@ -10,7 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker({ setterFunction, disabled = false }) {
+export function DatePicker({ dateSelectionMethod, disabled = false }) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState();
 
@@ -46,7 +49,7 @@ export function DatePicker({ setterFunction, disabled = false }) {
             onSelect={(newDate) => {
               setDate(newDate);
               setOpen(false);
-              setterFunction(newDate);
+              dateSelectionMethod(newDate.toISOString());
             }}
           />
         </PopoverContent>

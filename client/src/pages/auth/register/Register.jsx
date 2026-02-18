@@ -32,6 +32,7 @@ function Register() {
     accountType: "Student",
   });
   const [profilePic, setProfilePic] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   // condition to show the OTP box
   const [isOtp, setIsOtp] = useState(false);
   // the otp entered by the user
@@ -62,6 +63,10 @@ function Register() {
     const image = e.target.files[0];
     setProfilePic(image); // set the value of the profile pic as the file object
     setUserData({ ...userData, profilePic: image }); // explictly setting the value as image because the state changes are async and not immediate
+  };
+
+  const selectDate = (date) => {
+    setUserData({ ...userData, dateOfBirth: date });
   };
 
   // setting the otp code
@@ -104,6 +109,8 @@ function Register() {
       }
     }
   };
+
+  console.log(userData);
 
   return (
     // the form element
@@ -159,15 +166,7 @@ function Register() {
         />
 
         {/* DOB */}
-        <label htmlFor="dateOfBirth">Date Of Birth: </label>
-        <input
-          type={"date"}
-          className="outline"
-          id="dateOfBirth"
-          name="dateOfBirth"
-          required
-        />
-        <DatePicker disabled={isOtp} setterFunction={setRegisteringData} />
+        <DatePicker disabled={isOtp} dateSelectionMethod={selectDate} />
 
         {/* Account type */}
         <SelectInputManual
