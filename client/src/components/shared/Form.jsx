@@ -2,13 +2,12 @@
 FieldInput.jsx
 The form for entering data 
 ------------------------------------------------------------------------------------------ */
-import React from "react";
 
 function Form({ onSubmit, children }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="border w-88 h-auto p-3 flex flex-col justify-center gap-2 items-center rounded-md"
+      className="border border-white-10 w-full h-auto p-3 flex flex-col justify-center gap-6 items-center rounded-md shadow-2xl shadow-black/90"
     >
       {children}
     </form>

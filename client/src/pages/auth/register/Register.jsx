@@ -12,6 +12,7 @@ import {
   FieldInput,
   Form,
   MainSection,
+  SelectInputManual,
 } from "../../../components/index.components.js";
 
 function Register() {
@@ -113,6 +114,7 @@ function Register() {
           name="firstName"
           onChange={setRegisteringData}
           disabled={isOtp}
+          placeholder="Ex: Ritik"
         />
 
         {/* Last Name */}
@@ -121,6 +123,7 @@ function Register() {
           name="lastName"
           onChange={setRegisteringData}
           disabled={isOtp}
+          placeholder="Ex: Mahapatra"
         />
 
         {/* Username */}
@@ -130,6 +133,7 @@ function Register() {
           onChange={setRegisteringData}
           disabled={isOtp}
           description="Enter a unique username (Must be more than 6 characters)"
+          placeholder="Ex: ritik123"
         />
 
         {/* Email */}
@@ -139,6 +143,7 @@ function Register() {
           inputType="email"
           onChange={setRegisteringData}
           disabled={isOtp}
+          placeholder="ritik@gmail.com"
         />
 
         {/* Password */}
@@ -149,11 +154,19 @@ function Register() {
           onChange={setRegisteringData}
           disabled={isOtp}
           description="At least 10 characters"
+          placeholder="••••••••••••••••"
         />
 
         {/* Account type */}
-        <label htmlFor="accountType">Account Type </label>
-        <select
+        <SelectInputManual
+          label="Account Type"
+          option1="Student"
+          option2="Instructor"
+          name="accountType"
+          disabled={isOtp}
+          onChange={setRegisteringData}
+        />
+        {/* <select
           id="accountType"
           className="outline"
           name="accountType"
@@ -163,7 +176,7 @@ function Register() {
         >
           <option value="Student">Student</option>
           <option value="Instructor">Instructor</option>
-        </select>
+        </select> */}
 
         {/* DOB */}
         <label htmlFor="dateOfBirth">Date Of Birth: </label>
