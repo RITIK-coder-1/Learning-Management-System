@@ -11,5 +11,17 @@ import FieldInput from "./shared/FieldInput";
 import Form from "./shared/Form";
 import MainSection from "./shared/MainSection";
 import { SelectInputDynamic, SelectInputManual } from "./shared/SelectInput";
+import { DatePicker } from "./shared/DatePicker";
 
-export { Logout, TopBar, SideBar, Navlink, FieldInput, Form, MainSection, SelectInputDynamic, SelectInputManual };
+export {
+  Logout,
+  TopBar,
+  SideBar,
+  Navlink,
+  FieldInput,
+  Form,
+  MainSection,
+  SelectInputDynamic,
+  SelectInputManual,
+  DatePicker,
+};

@@ -14,6 +14,7 @@ import {
   MainSection,
   SelectInputManual,
 } from "../../../components/index.components.js";
+import { DatePicker } from "../../../components/index.components.js";
 
 function Register() {
   /* ---------------------------------------------------------------------------------------
@@ -157,27 +158,6 @@ function Register() {
           placeholder="••••••••••••••••"
         />
 
-        {/* Account type */}
-        <SelectInputManual
-          label="Account Type"
-          option1="Student"
-          option2="Instructor"
-          name="accountType"
-          disabled={isOtp}
-          onChange={setRegisteringData}
-        />
-        {/* <select
-          id="accountType"
-          className="outline"
-          name="accountType"
-          required
-          onChange={setRegisteringData}
-          disabled={isOtp}
-        >
-          <option value="Student">Student</option>
-          <option value="Instructor">Instructor</option>
-        </select> */}
-
         {/* DOB */}
         <label htmlFor="dateOfBirth">Date Of Birth: </label>
         <input
@@ -186,8 +166,17 @@ function Register() {
           id="dateOfBirth"
           name="dateOfBirth"
           required
-          onChange={setRegisteringData}
+        />
+        <DatePicker disabled={isOtp} setterFunction={setRegisteringData} />
+
+        {/* Account type */}
+        <SelectInputManual
+          label="Account Type"
+          option1="Student"
+          option2="Instructor"
+          name="accountType"
           disabled={isOtp}
+          onChange={setRegisteringData}
         />
 
         {/* Profile pic */}
