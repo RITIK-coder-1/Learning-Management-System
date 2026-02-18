@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker({ dateSelectionMethod, disabled = false }) {
+function DatePicker({ dateSelectionMethod, disabled = false }) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState();
 
@@ -57,3 +57,5 @@ export function DatePicker({ dateSelectionMethod, disabled = false }) {
     </Field>
   );
 }
+
+export default DatePicker;

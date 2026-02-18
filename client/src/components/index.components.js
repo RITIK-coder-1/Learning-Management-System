@@ -11,7 +11,8 @@ import FieldInput from "./shared/FieldInput";
 import Form from "./shared/Form";
 import MainSection from "./shared/MainSection";
 import { SelectInputDynamic, SelectInputManual } from "./shared/SelectInput";
-import { DatePicker } from "./shared/DatePicker";
+import DatePicker from "./shared/DatePicker";
+import InputFile from "./shared/InputFile";
 
 export {
   Logout,
@@ -24,4 +25,5 @@ export {
   SelectInputDynamic,
   SelectInputManual,
   DatePicker,
+  InputFile,
 };

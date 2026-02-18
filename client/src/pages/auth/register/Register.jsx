@@ -11,6 +11,7 @@ import getFormData from "../../../utils/getFormData.js";
 import {
   FieldInput,
   Form,
+  InputFile,
   MainSection,
   SelectInputManual,
 } from "../../../components/index.components.js";
@@ -179,14 +180,13 @@ function Register() {
         />
 
         {/* Profile pic */}
-        <label htmlFor="profilePic">Choose Your Profile: </label>
-        <input
-          type={"file"}
-          className="outline"
-          id="profilePic"
+        <InputFile
+          label="Upload Profile"
           name="profilePic"
-          onChange={fileData}
+          description="Important: Instructors are required to upload a profile picture."
           disabled={isOtp}
+          onChange={fileData}
+          required={userData.accountType === "Instructor" ? true : false}
         />
 
         {/* OTP */}
