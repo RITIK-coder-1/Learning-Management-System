@@ -13,6 +13,7 @@ import MainSection from "./shared/MainSection";
 import { SelectInputDynamic, SelectInputManual } from "./shared/SelectInput";
 import DatePicker from "./shared/DatePicker";
 import InputFile from "./shared/InputFile";
+import CommonButton from "./shared/CommonButton";
 
 export {
   Logout,
@@ -26,4 +27,5 @@ export {
   SelectInputManual,
   DatePicker,
   InputFile,
+  CommonButton,
 };

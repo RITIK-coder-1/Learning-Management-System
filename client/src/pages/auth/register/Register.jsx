@@ -9,6 +9,7 @@ import {
 } from "../../../api/index.api.js";
 import getFormData from "../../../utils/getFormData.js";
 import {
+  CommonButton,
   FieldInput,
   Form,
   InputFile,
@@ -123,7 +124,7 @@ function Register() {
           name="firstName"
           onChange={setRegisteringData}
           disabled={isOtp}
-          placeholder="Ex: Ritik"
+          placeholder="Ritik"
         />
 
         {/* Last Name */}
@@ -132,7 +133,7 @@ function Register() {
           name="lastName"
           onChange={setRegisteringData}
           disabled={isOtp}
-          placeholder="Ex: Mahapatra"
+          placeholder="Mahapatra"
         />
 
         {/* Username */}
@@ -142,7 +143,7 @@ function Register() {
           onChange={setRegisteringData}
           disabled={isOtp}
           description="Enter a unique username (Must be more than 6 characters)"
-          placeholder="Ex: ritik123"
+          placeholder="ritik123"
         />
 
         {/* Email */}
@@ -204,9 +205,7 @@ function Register() {
         </div>
 
         {/* Submit */}
-        <button type="submit" className="outline">
-          Submit
-        </button>
+        <CommonButton type="submit" label="Submit" />
 
         {/* Re-submit */}
         <button
