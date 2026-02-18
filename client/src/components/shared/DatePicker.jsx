@@ -18,12 +18,7 @@ function DatePicker({ dateSelectionMethod, disabled = false }) {
   const [date, setDate] = React.useState();
 
   return (
-    <Field
-      className="mx-auto w-full"
-      required
-      disabled={disabled}
-      name="dateOfBirth"
-    >
+    <Field className="mx-auto w-full" name="dateOfBirth">
       <FieldLabel htmlFor="dateOfBirth" className="text-md">
         Date Of Birth <span className="text-destructive text-red-600">*</span>
       </FieldLabel>
@@ -33,6 +28,7 @@ function DatePicker({ dateSelectionMethod, disabled = false }) {
             variant="outline"
             id="dateOfBirth"
             className="justify-start font-normal bg-black"
+            disabled={disabled}
           >
             {date ? date.toLocaleDateString() : "Select Date"}
           </Button>
@@ -49,7 +45,7 @@ function DatePicker({ dateSelectionMethod, disabled = false }) {
             onSelect={(newDate) => {
               setDate(newDate);
               setOpen(false);
-              dateSelectionMethod(newDate.toISOString());
+              dateSelectionMethod(newDate.toISOString()); // to pass the date selected by the user to the parent component
             }}
           />
         </PopoverContent>

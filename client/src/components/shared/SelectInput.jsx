@@ -27,7 +27,9 @@ export function SelectInputManual({
       onChange={onChange}
       className="bg-black"
     >
-      <NativeSelectOption value="">{label} </NativeSelectOption>
+      <NativeSelectOption value="" className="text-foreground">
+        {label}{" "}
+      </NativeSelectOption>
       <NativeSelectOption value={option1}>{option1}</NativeSelectOption>
       <NativeSelectOption value={option2}>{option2}</NativeSelectOption>
       {children}

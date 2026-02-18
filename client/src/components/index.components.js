@@ -14,6 +14,7 @@ import { SelectInputDynamic, SelectInputManual } from "./shared/SelectInput";
 import DatePicker from "./shared/DatePicker";
 import InputFile from "./shared/InputFile";
 import CommonButton from "./shared/CommonButton";
+import OtpInput from "./shared/OtpInput";
 
 export {
   Logout,
@@ -28,4 +29,5 @@ export {
   DatePicker,
   InputFile,
   CommonButton,
+  OtpInput,
 };

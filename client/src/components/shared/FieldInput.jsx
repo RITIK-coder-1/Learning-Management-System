@@ -33,9 +33,9 @@ function FieldInput({
         name={name}
         disabled={disabled}
       />
-      {
-        description && <FieldDescription className="text-xs">{description}</FieldDescription>
-      }
+      {description && (
+        <FieldDescription className="text-xs">{description}</FieldDescription>
+      )}
     </Field>
   );
 }

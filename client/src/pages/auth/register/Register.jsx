@@ -15,8 +15,8 @@ import {
   InputFile,
   MainSection,
   SelectInputManual,
+  DatePicker,
 } from "../../../components/index.components.js";
-import { DatePicker } from "../../../components/index.components.js";
 
 function Register() {
   /* ---------------------------------------------------------------------------------------
@@ -34,7 +34,6 @@ function Register() {
     accountType: "Student",
   });
   const [profilePic, setProfilePic] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
   // condition to show the OTP box
   const [isOtp, setIsOtp] = useState(false);
   // the otp entered by the user
@@ -67,6 +66,7 @@ function Register() {
     setUserData({ ...userData, profilePic: image }); // explictly setting the value as image because the state changes are async and not immediate
   };
 
+  // the method to set the date selected by the user using the shadcn date picker component
   const selectDate = (date) => {
     setUserData({ ...userData, dateOfBirth: date });
   };
@@ -112,8 +112,6 @@ function Register() {
     }
   };
 
-  console.log(userData);
-
   return (
     // the form element
     <MainSection>
@@ -125,6 +123,16 @@ function Register() {
           onChange={setRegisteringData}
           disabled={isOtp}
           placeholder="Ritik"
+        />
+
+        {/* Account type */}
+        <SelectInputManual
+          label="Account Type"
+          option1="Student"
+          option2="Instructor"
+          name="accountType"
+          disabled={isOtp}
+          onChange={setRegisteringData}
         />
 
         {/* Last Name */}
@@ -169,16 +177,6 @@ function Register() {
 
         {/* DOB */}
         <DatePicker disabled={isOtp} dateSelectionMethod={selectDate} />
-
-        {/* Account type */}
-        <SelectInputManual
-          label="Account Type"
-          option1="Student"
-          option2="Instructor"
-          name="accountType"
-          disabled={isOtp}
-          onChange={setRegisteringData}
-        />
 
         {/* Profile pic */}
         <InputFile
