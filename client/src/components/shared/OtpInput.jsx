@@ -10,7 +10,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-function OtpInput() {
+function OtpInput({ setterFunction, name, required }) {
   const [value, setValue] = React.useState("");
 
   return (
@@ -18,7 +18,12 @@ function OtpInput() {
       <InputOTP
         maxLength={6}
         value={value}
-        onChange={(value) => setValue(value)}
+        onChange={(value) => {
+          setValue(value);
+          setterFunction(value); // pass the otp value to the parent component
+        }}
+        required={required}
+        name={name}
       >
         <InputOTPGroup>
           <InputOTPSlot index={0} />
@@ -29,13 +34,7 @@ function OtpInput() {
           <InputOTPSlot index={5} />
         </InputOTPGroup>
       </InputOTP>
-      <div className="text-center text-sm">
-        {value === "" ? (
-          <>Enter your one-time password.</>
-        ) : (
-          <>You entered: {value}</>
-        )}
-      </div>
+      <div className="text-center text-sm">Enter your one-time password.</div>
     </div>
   );
 }

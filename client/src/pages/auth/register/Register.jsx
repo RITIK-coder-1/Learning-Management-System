@@ -16,6 +16,7 @@ import {
   MainSection,
   SelectInputManual,
   DatePicker,
+  OtpInput,
 } from "../../../components/index.components.js";
 
 function Register() {
@@ -72,7 +73,7 @@ function Register() {
   };
 
   // setting the otp code
-  const otpCodeFunction = (e) => setUserOtp(e.target.value);
+  const otpCodeFunction = (value) => setUserOtp(value);
 
   // re-registering option
   const reRegister = () => {
@@ -142,6 +143,7 @@ function Register() {
           onChange={setRegisteringData}
           disabled={isOtp}
           placeholder="Mahapatra"
+          required={false}
         />
 
         {/* Username */}
@@ -190,29 +192,24 @@ function Register() {
 
         {/* OTP */}
         <div className={isOtp ? "visible" : "hidden"}>
-          <label htmlFor="userOTP">Enter the OTP: </label>
-          <input
-            type={"text"}
-            className="outline"
-            id="userOTP"
+          <OtpInput
+            setterFunction={otpCodeFunction}
             name="userOTP"
             required={isOtp}
-            onChange={otpCodeFunction}
-            value={userOTP}
           />
         </div>
 
         {/* Submit */}
-        <CommonButton type="submit" label="Submit" />
+        <CommonButton type="submit" label={isOtp ? "Register" : "Submit"} />
 
-        {/* Re-submit */}
-        <button
-          className={`outline ${isOtp ? "visible" : "hidden"}`}
+        {/* Re-register */}
+        <CommonButton
+          label="Re-submit"
           onClick={reRegister}
-          type="button"
-        >
-          Re-register
-        </button>
+          className={`${
+            isOtp ? "visible" : "hidden"
+          } bg-blue-950 hover:bg-blue-900`}
+        />
       </Form>
     </MainSection>
   );
