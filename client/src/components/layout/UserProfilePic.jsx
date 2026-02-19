@@ -19,6 +19,7 @@ function UserProfilePic() {
               : "https://github.com/shadcn.png"
           }
           alt={"user"}
+          title="Click to visit your profile"
         />
       </Navlink>
     </div>

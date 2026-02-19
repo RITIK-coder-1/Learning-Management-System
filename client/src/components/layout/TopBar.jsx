@@ -8,9 +8,9 @@ import { Image } from "../index.components";
 
 function TopBar() {
   return (
-    <header className="flex justify-between items-center p-2 border-b border-white/10 h-22 shadow-lg shadow-black">
+    <header className="flex justify-between items-center p-2 border-b border-white/10 h-22 shadow-lg shadow-black md:h-25">
       {/* The Logo */}
-      <Image src="../../../public/LMS.png" alt="LearnIt" />
+      <Image src="../../../public/LMS.png" alt="LearnIt" title="LearnIt"/>
 
       {/* The profile pic of the user */}
       <UserProfilePic />
