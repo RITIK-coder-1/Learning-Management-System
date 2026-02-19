@@ -27,7 +27,7 @@ function DatePicker({ dateSelectionMethod, disabled = false }) {
           <Button
             variant="outline"
             id="dateOfBirth"
-            className="justify-start font-normal bg-black"
+            className="justify-start font-normal bg-black sm:text-lg"
             disabled={disabled}
           >
             {date ? date.toLocaleDateString() : "Select Date"}

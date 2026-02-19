@@ -19,7 +19,7 @@ function FieldInput({
 }) {
   return (
     <Field>
-      <FieldLabel htmlFor={name} className="text-md sm:text-lg">
+      <FieldLabel htmlFor={name} className="text-md sm:text-lg md:text-xl">
         {label}
         {required && <span className="text-destructive text-red-600">*</span>}
       </FieldLabel>
@@ -35,7 +35,9 @@ function FieldInput({
         className="sm:py-5 text-md sm:text-lg"
       />
       {description && (
-        <FieldDescription className="text-xs">{description}</FieldDescription>
+        <FieldDescription className="text-xs md:text-sm">
+          {description}
+        </FieldDescription>
       )}
     </Field>
   );
