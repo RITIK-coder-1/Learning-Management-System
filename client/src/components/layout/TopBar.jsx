@@ -8,7 +8,7 @@ import { Image } from "../index.components";
 
 function TopBar() {
   return (
-    <header className="flex justify-between p-2 border">
+    <header className="flex justify-between items-center p-2 border-b border-white/10 h-22 shadow-lg shadow-black">
       {/* The Logo */}
       <Image src="../../../public/LMS.png" alt="LearnIt" />
 

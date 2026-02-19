@@ -10,7 +10,7 @@ function UserProfilePic() {
   const user = useSelector((state) => state.auth.user);
 
   return (
-    <div className="h-20 w-20">
+    <div>
       <Navlink to="/app/profile">
         <Image
           src={
