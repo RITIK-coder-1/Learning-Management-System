@@ -15,6 +15,7 @@ import DatePicker from "./shared/DatePicker";
 import InputFile from "./shared/InputFile";
 import CommonButton from "./shared/CommonButton";
 import OtpInput from "./shared/OtpInput";
+import Image from "./shared/Image";
 
 export {
   Logout,
@@ -30,4 +31,5 @@ export {
   InputFile,
   CommonButton,
   OtpInput,
+  Image,
 };
