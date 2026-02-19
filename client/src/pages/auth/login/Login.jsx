@@ -53,10 +53,10 @@ function Login() {
   };
 
   // setting the otp data
-  const otpCodeFunction = (e) =>
+  const otpCodeFunction = (data) =>
     setOtpValidationData({
       ...otpValidationData,
-      [e.target.name]: e.target.value,
+      userOTP: data,
     });
 
   /* ---------------------------------------------------------------------------------------
@@ -110,7 +110,11 @@ function Login() {
 
         {/* OTP */}
         <div className={isOtp ? "visible" : "hidden"}>
-          <OtpInput name="userOTP" required={isOtp} />
+          <OtpInput
+            name="userOTP"
+            required={isOtp}
+            setterFunction={otpCodeFunction}
+          />
         </div>
 
         {/* Submit */}
