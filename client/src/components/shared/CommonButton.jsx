@@ -13,7 +13,7 @@ function CommonButton({
   return (
     <Button
       type={type}
-      className={`text-md w-30 shadow-2xl shadow-black hover:bg-purple-950 ${className}`}
+      className={`text-lg w-50 p-5 shadow-2xl shadow-black hover:bg-purple-950 ${className}`}
       onClick={onClick}
     >
       {label}

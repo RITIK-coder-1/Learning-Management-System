@@ -25,7 +25,7 @@ export function SelectInputManual({
       required={required}
       disabled={disabled}
       onChange={onChange}
-      className="bg-black"
+      className="bg-black sm:h-10"
     >
       <NativeSelectOption value="" className="text-foreground">
         {label}{" "}

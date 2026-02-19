@@ -14,7 +14,7 @@ function OtpInput({ setterFunction, name, required }) {
   const [value, setValue] = React.useState("");
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-90">
       <InputOTP
         maxLength={6}
         value={value}
@@ -24,17 +24,20 @@ function OtpInput({ setterFunction, name, required }) {
         }}
         required={required}
         name={name}
+        className="w-full"
       >
-        <InputOTPGroup>
-          <InputOTPSlot index={0} />
-          <InputOTPSlot index={1} />
-          <InputOTPSlot index={2} />
-          <InputOTPSlot index={3} />
-          <InputOTPSlot index={4} />
-          <InputOTPSlot index={5} />
+        <InputOTPGroup className={"w-full flex justify-center items-center"}>
+          <InputOTPSlot index={0} className="w-12" />
+          <InputOTPSlot index={1} className="w-12" />
+          <InputOTPSlot index={2} className="w-12" />
+          <InputOTPSlot index={3} className="w-12" />
+          <InputOTPSlot index={4} className="w-12" />
+          <InputOTPSlot index={5} className="w-12" />
         </InputOTPGroup>
+        <span className="text-center text-sm">
+          Enter your one-time password.
+        </span>
       </InputOTP>
-      <div className="text-center text-sm">Enter your one-time password.</div>
     </div>
   );
 }
