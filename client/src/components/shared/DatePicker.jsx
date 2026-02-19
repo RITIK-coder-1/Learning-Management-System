@@ -19,7 +19,7 @@ function DatePicker({ dateSelectionMethod, disabled = false }) {
 
   return (
     <Field className="mx-auto w-full" name="dateOfBirth">
-      <FieldLabel htmlFor="dateOfBirth" className="text-md">
+      <FieldLabel htmlFor="dateOfBirth">
         Date Of Birth <span className="text-destructive text-red-600">*</span>
       </FieldLabel>
       <Popover open={open} onOpenChange={setOpen}>
@@ -27,7 +27,7 @@ function DatePicker({ dateSelectionMethod, disabled = false }) {
           <Button
             variant="outline"
             id="dateOfBirth"
-            className="justify-start font-normal bg-black sm:text-lg"
+            className="justify-start border-0 focus:ring-1 font-normal bg-black sm:text-lg lg:text-xl"
             disabled={disabled}
           >
             {date ? date.toLocaleDateString() : "Select Date"}

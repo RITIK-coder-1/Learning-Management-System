@@ -16,9 +16,7 @@ function InputFile({
 }) {
   return (
     <Field>
-      <FieldLabel htmlFor={name} className="text-md">
-        {label}
-      </FieldLabel>
+      <FieldLabel htmlFor={name}>{label}</FieldLabel>
       <Input
         id={name}
         type="file"

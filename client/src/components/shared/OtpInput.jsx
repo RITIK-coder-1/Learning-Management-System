@@ -27,12 +27,12 @@ function OtpInput({ setterFunction, name, required }) {
         className="w-full"
       >
         <InputOTPGroup className={"w-full flex justify-center items-center"}>
-          <InputOTPSlot index={0} className="w-12" />
-          <InputOTPSlot index={1} className="w-12" />
-          <InputOTPSlot index={2} className="w-12" />
-          <InputOTPSlot index={3} className="w-12" />
-          <InputOTPSlot index={4} className="w-12" />
-          <InputOTPSlot index={5} className="w-12" />
+          <InputOTPSlot index={0} className="w-8 sm:w-12" />
+          <InputOTPSlot index={1} className="w-8 sm:w-12" />
+          <InputOTPSlot index={2} className="w-8 sm:w-12" />
+          <InputOTPSlot index={3} className="w-8 sm:w-12" />
+          <InputOTPSlot index={4} className="w-8 sm:w-12" />
+          <InputOTPSlot index={5} className="w-8 sm:w-12" />
         </InputOTPGroup>
         <span className="text-center text-sm">
           Enter your one-time password.

@@ -19,7 +19,7 @@ function FieldInput({
 }) {
   return (
     <Field>
-      <FieldLabel htmlFor={name} className="text-md sm:text-lg md:text-xl">
+      <FieldLabel htmlFor={name} >
         {label}
         {required && <span className="text-destructive text-red-600">*</span>}
       </FieldLabel>
@@ -32,7 +32,7 @@ function FieldInput({
         onBlur={onBlur}
         name={name}
         disabled={disabled}
-        className="sm:py-5 text-md sm:text-lg"
+        className="sm:py-5 text-md sm:text-lg lg:text-xl border-0"
       />
       {description && (
         <FieldDescription className="text-xs md:text-sm">

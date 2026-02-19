@@ -191,9 +191,7 @@ function Register() {
         />
 
         {/* OTP */}
-        <div
-        // className={isOtp ? "visible" : "hidden"}
-        >
+        <div className={isOtp ? "visible" : "hidden"}>
           <OtpInput
             setterFunction={otpCodeFunction}
             name="userOTP"
@@ -201,17 +199,19 @@ function Register() {
           />
         </div>
 
-        {/* Submit */}
-        <CommonButton type="submit" label={isOtp ? "Register" : "Submit"} />
+        <div className="flex flex-col gap-2 lg:flex-row">
+          {/* Submit */}
+          <CommonButton type="submit" label={isOtp ? "Register" : "Submit"} />
 
-        {/* Re-register */}
-        <CommonButton
-          label="Re-submit"
-          onClick={reRegister}
-          // className={`${
-          //   isOtp ? "visible" : "hidden"
-          // } bg-blue-950 hover:bg-blue-900`}
-        />
+          {/* Re-register */}
+          <CommonButton
+            label="Re-submit"
+            onClick={reRegister}
+            className={`${
+              isOtp ? "visible" : "hidden"
+            } bg-blue-950 hover:bg-blue-900`}
+          />
+        </div>
       </Form>
     </MainSection>
   );
