@@ -5,11 +5,13 @@
 :root {
   --background: 240 47% 7%;
   --foreground: 214 32% 91%;
+  --contrastBackgound: 240 47% 8%;
 }
 
 @theme {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
+  --color-backgroundContrast: hsl(var(--contrastBackgound));
 }
 
 body {

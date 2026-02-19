@@ -191,7 +191,9 @@ function Register() {
         />
 
         {/* OTP */}
-        <div className={isOtp ? "visible" : "hidden"}>
+        <div
+        // className={isOtp ? "visible" : "hidden"}
+        >
           <OtpInput
             setterFunction={otpCodeFunction}
             name="userOTP"
@@ -206,9 +208,9 @@ function Register() {
         <CommonButton
           label="Re-submit"
           onClick={reRegister}
-          className={`${
-            isOtp ? "visible" : "hidden"
-          } bg-blue-950 hover:bg-blue-900`}
+          // className={`${
+          //   isOtp ? "visible" : "hidden"
+          // } bg-blue-950 hover:bg-blue-900`}
         />
       </Form>
     </MainSection>
