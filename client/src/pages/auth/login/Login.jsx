@@ -7,6 +7,13 @@ import React, { useState } from "react";
 import { useLoginMutation, useLoginOtpMutation } from "../../../api/index.api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../features/authSlice";
+import {
+  CommonButton,
+  FieldInput,
+  Form,
+  MainSection,
+  OtpInput,
+} from "@/components/index.components";
 
 function Login() {
   /* ---------------------------------------------------------------------------------------
@@ -82,48 +89,34 @@ function Login() {
 
   return (
     // the form element
-    <form
-      className="border w-88 h-auto p-3 flex flex-col justify-center gap-2 items-center"
-      onSubmit={handleSubmit}
-    >
-      {/* Credential */}
-      <label htmlFor="credential">Enter your email or username: </label>
-      <input
-        type={"text"}
-        className="outline"
-        id="credential"
-        name="credential"
-        required
-        onChange={setValue}
-      />
-
-      {/* Password */}
-      <label htmlFor="password">Enter your password: </label>
-      <input
-        type={"password"}
-        className="outline"
-        id="password"
-        name="password"
-        onChange={setValue}
-      />
-
-      {/* OTP */}
-      <div className={isOtp ? "visible" : "hidden"}>
-        <label htmlFor="userOTP">Enter the OTP: </label>
-        <input
-          type={"text"}
-          className="outline"
-          id="userOTP"
-          name="userOTP"
-          onChange={otpCodeFunction}
+    <MainSection>
+      <Form onSubmit={handleSubmit}>
+        {/* Credential */}
+        <FieldInput
+          name="credential"
+          onChange={setValue}
+          label="Enter email/username"
+          placeholder="username/email"
         />
-      </div>
 
-      {/* Submit */}
-      <button type="submit" className="outline">
-        Submit
-      </button>
-    </form>
+        {/* Password */}
+        <FieldInput
+          name="password"
+          onChange={setValue}
+          label="Password"
+          inputType="password"
+          placeholder="••••••••••••••••"
+        />
+
+        {/* OTP */}
+        <div className={isOtp ? "visible" : "hidden"}>
+          <OtpInput name="userOTP" required={isOtp} />
+        </div>
+
+        {/* Submit */}
+        <CommonButton type="submit" label={isOtp ? "Log in" : "Submit"} />
+      </Form>
+    </MainSection>
   );
 }
 
