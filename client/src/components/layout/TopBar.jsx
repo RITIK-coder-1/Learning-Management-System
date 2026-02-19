@@ -10,7 +10,6 @@ function TopBar() {
   return (
     <header className="flex justify-between p-2 border">
       {/* The Logo */}
-      <img src="../../../public/LMS.png" className="h-22 w-22 rounded-full" />
       <Image src="../../../public/LMS.png" alt="LearnIt" />
 
       {/* The profile pic of the user */}
