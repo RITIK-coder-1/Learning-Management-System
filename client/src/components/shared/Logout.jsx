@@ -25,11 +25,7 @@ function Logout() {
     }
   };
 
-  return (
-    <button className="border cursor-pointer" onClick={logoutUserFunction}>
-      Logout
-    </button>
-  );
+  return <button onClick={logoutUserFunction}>Logout</button>;
 }
 
 export default Logout;
