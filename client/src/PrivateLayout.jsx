@@ -4,7 +4,6 @@ It contains the routing for every single private page that requires authenticati
 ------------------------------------------------------------------------------------------------- */
 
 import {
-  SideBar,
   TopBar,
   MainSection,
   AppSidebar,
@@ -16,14 +15,13 @@ function PrivateLayout() {
   return (
     <>
       <TopBar />
-      {/* <SideBar /> */}
 
       <SidebarProvider>
         {/* The side bar for navigation */}
         <AppSidebar />
 
         {/* The sidebar trigger */}
-        <SidebarTrigger />
+        <SidebarTrigger className="fixed" />
 
         {/* The main section of the page */}
         <MainSection>
