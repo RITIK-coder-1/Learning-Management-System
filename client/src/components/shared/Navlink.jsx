@@ -5,11 +5,12 @@ The common router navigation element
 
 import { NavLink } from "react-router-dom";
 
-function Navlink({ to, children }) {
+function Navlink({ to, children, className }) {
   return (
     <NavLink
       to={to}
-      className={({ isActive }) => (isActive ? "text-blue-900" : "text-white")}
+      className={`${({ isActive }) =>
+        isActive ? "text-blue-900" : "text-white"} ${className}`}
     >
       {children}
     </NavLink>

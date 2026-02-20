@@ -33,20 +33,20 @@ function UserProfilePic() {
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-32 bg-black mr-5 border-white/10 p-0 shadow-xl shadow-black">
-        <DropdownMenuGroup>
-          <Navlink to="/app/profile">
-            <DropdownMenuItem
-              className="hover:bg-yellow-900"
-              title="Visit Profile"
-            >
+      <DropdownMenuContent className="w-40 h-22 lg:w-54 lg:h-28 bg-black mr-5 border-white/10 p-0 shadow-xl shadow-black">
+        <DropdownMenuGroup className="w-full h-full flex flex-col ">
+          <Navlink
+            to="/app/profile"
+            className="grow flex flex-col justify-center hover:bg-purple-950 transition-all duration-100"
+          >
+            <DropdownMenuItem title="Visit Profile">
               Profile
             </DropdownMenuItem>
           </Navlink>
           <DropdownMenuSeparator className="border-b border-white/10 m-0" />
           <DropdownMenuItem
             variant="destructive"
-            className="text-red-700 hover:bg-red-500 hover:text-black"
+            className="text-red-700 hover:bg-red-500 hover:text-black grow"
             title="log out"
           >
             <Logout />
