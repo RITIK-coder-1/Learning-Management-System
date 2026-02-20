@@ -40,16 +40,22 @@ export function AppSidebar() {
   const NavigationItem = (list) => {
     return list.map((ele) => {
       return (
-        <SidebarGroupLabel
-          className={ele.className ? ele.className : ""}
-          title={
-            ele.label === "Explore" ? "Explore Courses" : `Visit ${ele.label}`
-          }
-        >
-          <Navlink to={ele.path} key={ele.id}>
-            {ele.label}
-          </Navlink>
-        </SidebarGroupLabel>
+        <Navlink to={ele.path} key={ele.id}>
+          {({ isActive }) => (
+            <SidebarGroupLabel
+              className={`${ele.className || ""} ${
+                isActive ? "text-blue-900" : ""
+              }`}
+              title={
+                ele.label === "Explore"
+                  ? "Explore Courses"
+                  : `Visit ${ele.label}`
+              }
+            >
+              {ele.label}
+            </SidebarGroupLabel>
+          )}
+        </Navlink>
       );
     });
   };

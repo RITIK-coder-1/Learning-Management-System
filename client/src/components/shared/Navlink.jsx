@@ -13,7 +13,13 @@ function Navlink({ to, children, className }) {
         `${isActive ? "text-blue-900" : "text-white"} ${className || ""}`
       }
     >
-      {children}
+      {/* 
+          We call children as a function if it's provided as one, 
+          passing the isActive state down.
+      */}
+      {({ isActive }) =>
+        typeof children === "function" ? children({ isActive }) : children
+      }
     </NavLink>
   );
 }
