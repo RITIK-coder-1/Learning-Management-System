@@ -16,14 +16,17 @@ function PrivateLayout() {
   return (
     <>
       <TopBar />
-      <SideBar />
+      {/* <SideBar /> */}
 
-      {/* The side bar for navigation */}
       <SidebarProvider>
+        {/* The side bar for navigation */}
         <AppSidebar />
+
+        {/* The sidebar trigger */}
+        <SidebarTrigger />
+
         {/* The main section of the page */}
         <MainSection>
-          <SidebarTrigger />
           {/* The children */}
           <Outlet />
         </MainSection>
