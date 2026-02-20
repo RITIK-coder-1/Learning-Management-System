@@ -9,12 +9,14 @@ function CommonButton({
   label,
   onClick = () => {},
   className,
+  title
 }) {
   return (
     <Button
       type={type}
       className={`text-lg w-50 p-5 shadow-2xl shadow-black hover:bg-purple-950 ${className}`}
       onClick={onClick}
+      title={title}
     >
       {label}
     </Button>

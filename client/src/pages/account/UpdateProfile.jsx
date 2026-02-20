@@ -9,11 +9,16 @@ import {
   useUpdateUserDetailsMutation,
   useGetUserQuery,
 } from "../../api/index.api";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../../features/authSlice";
 import getFormData from "../../utils/getFormData";
-import UserProfilePic from "@/components/layout/UserProfilePic";
-
+import {
+  CommonButton,
+  FieldInput,
+  Form,
+  InputFile,
+  UserProfilePic,
+} from "@/components/index.components";
 function UpdateProfile() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
@@ -95,60 +100,59 @@ function UpdateProfile() {
   return (
     <>
       <UserProfilePic />
-      <form className="flex flex-col gap-2" onSubmit={updateDetails}>
-        <label htmlFor="profilePic">Update your profile: </label>
-        <input
-          type="file"
-          id="profilePic"
-          className="outline cursor-pointer"
+      <Form onSubmit={updateDetails}>
+        {/* The profile pic */}
+        <InputFile
+          description="Update Your Profile Pic"
+          required={false}
+          name="profilePic"
           onChange={updateProfilePic}
         />
+
         {/* Only students can delete the profile pic */}
-        {user?.accountType === "Student" && (
-          <>
-            <label htmlFor="">Delete Your Profile Pic: </label>
-            <button
-              type="button"
-              className="border"
+        {user?.accountType === "Student" && user?.profilePic !== "" && (
+          <span className="w-full">
+            <CommonButton
+              label="Delete Pic"
               onClick={deletePicFunction}
-            >
-              Delete
-            </button>
-          </>
+              className="bg-red-900 hover:bg-red-950 w-24 text-md"
+              title="Delete Pic"
+            />
+          </span>
         )}
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
+
+        <hr className="border-b border-white/10 w-full" />
+
+        {/* The username */}
+        <FieldInput
+          label="Username"
           name="username"
-          value={userDetails.username}
-          className="outline"
+          placeholder={userDetails.username}
           onChange={changeValue}
-          required
+          required={false}
         />
-        <label htmlFor="firstName">First Name:</label>
-        <input
-          type="text"
-          id="firstName"
+
+        {/* The first name */}
+        <FieldInput
+          label="First Name"
           name="firstName"
-          value={userDetails.firstName}
-          className="outline"
+          placeholder={userDetails.firstName}
           onChange={changeValue}
-          required
+          required={false}
         />
-        <label htmlFor="lastName">Last Name:</label>
-        <input
-          type="text"
-          id="lastName"
+
+        {/* The last name */}
+        <FieldInput
+          label="Last Name"
           name="lastName"
-          value={userDetails.lastName}
-          className="outline"
+          placeholder={userDetails.lastName}
           onChange={changeValue}
+          required={false}
         />
-        <button type="submit" className="border">
-          Update
-        </button>
-      </form>
+
+        {/* The button */}
+        <CommonButton type="submit" label="Update" title="Update Details" />
+      </Form>
     </>
   );
 }

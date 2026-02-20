@@ -16,6 +16,7 @@ import CommonButton from "./shared/CommonButton";
 import OtpInput from "./shared/OtpInput";
 import Image from "./shared/Image";
 import AppSidebar from "./layout/AppSidebar";
+import UserProfilePic from "./layout/UserProfilePic";
 
 export {
   Logout,
@@ -32,4 +33,5 @@ export {
   OtpInput,
   Image,
   AppSidebar,
+  UserProfilePic,
 };

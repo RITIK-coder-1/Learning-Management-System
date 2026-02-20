@@ -3,8 +3,7 @@ TopBar.jsx
 The static top bar for displaying the app logo and user profile 
 ------------------------------------------------------------------------------------------------- */
 
-import UserProfilePic from "./UserProfilePic";
-import { Image } from "../index.components";
+import { Image, UserProfilePic } from "../index.components";
 
 function TopBar() {
   return (
@@ -13,7 +12,7 @@ function TopBar() {
       <Image src="../../../public/LMS.png" alt="LearnIt" title="LearnIt" />
 
       {/* The profile pic of the user */}
-      <UserProfilePic isTopBar={true}/>
+      <UserProfilePic isTopBar={true} />
     </header>
   );
 }

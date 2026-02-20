@@ -19,7 +19,7 @@ function FieldInput({
 }) {
   return (
     <Field>
-      <FieldLabel htmlFor={name} >
+      <FieldLabel htmlFor={name}>
         {label}
         {required && <span className="text-destructive text-red-600">*</span>}
       </FieldLabel>

@@ -1,6 +1,6 @@
 /* ----------------------------------------------------------------------------------------------
 UserProfilePic.jsx
-The profile of the user at the top of the header
+The profile of the user
 ------------------------------------------------------------------------------------------------- */
 
 import { useSelector } from "react-redux";
