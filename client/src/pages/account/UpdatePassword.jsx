@@ -5,6 +5,7 @@ The page to update the user password
 
 import { useState } from "react";
 import { useUpdateUserPasswordMutation } from "../../api/index.api";
+import { Form, CommonButton, FieldInput } from "@/components/index.components";
 
 function UpdatePassword() {
   /* ---------------------------------------------------------------------------------------
@@ -41,7 +42,7 @@ function UpdatePassword() {
   };
 
   return (
-    <form onSubmit={updatePassword} className="flex flex-col gap-2">
+    <Form onSubmit={updatePassword} className="flex flex-col gap-2">
       <label htmlFor="oldPassword">Enter your old password:</label>
       <input
         type="password"
@@ -60,10 +61,8 @@ function UpdatePassword() {
         className="outline"
         required
       />
-      <button type="submit" className="outline">
-        Update
-      </button>
-    </form>
+      <CommonButton label="Update Password"/>
+    </Form>
   );
 }
 
