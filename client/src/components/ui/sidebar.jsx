@@ -249,7 +249,7 @@ function SidebarTrigger({ className, onClick, ...props }) {
       variant="ghost"
       size="icon"
       className={cn(
-        "size-7 left-2 relative border bg-black border-white/10",
+        "size-7 left-2 relative border bg-black border-white/10 md:size-8",
         className
       )}
       onClick={(event) => {
@@ -259,7 +259,7 @@ function SidebarTrigger({ className, onClick, ...props }) {
       title="Navigate"
       {...props}
     >
-      <PanelLeftIcon className="size-5 " />
+      <PanelLeftIcon className="size-5 md:size-6" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
