@@ -3,7 +3,7 @@ Profile.jsx
 The user profile page 
 ------------------------------------------------------------------------------------------------- */
 
-import { Navlink } from "../../components/index.components";
+import { CommonButton, Navlink } from "../../components/index.components";
 import { useSelector } from "react-redux";
 
 function Profile() {
@@ -56,15 +56,17 @@ function Profile() {
         </div>
       </div>
 
-      {/* <Navlink to="/app/profile/update-profile">
-        <button>Update Profile</button>
-      </Navlink>
-      <Navlink to="/app/profile/update-password">
-        <button>Update Password</button>
-      </Navlink>
-      <Navlink to="/app/profile/update-email">
-        <button>Update Email</button>
-      </Navlink> */}
+      <div className="w-full border border-white/10 p-2 py-4 flex flex-col justify-center items-center gap-2">
+        <Navlink to="/app/profile/update-profile">
+          <CommonButton label="Update Profile"/>
+        </Navlink>
+        <Navlink to="/app/profile/update-password">
+          <CommonButton label="Update Password" className="bg-blue-900 hover:bg-blue-950"/>
+        </Navlink>
+        <Navlink to="/app/profile/update-email">
+          <CommonButton label="Update Email" className="bg-blue-950 hover:bg-blue-900"/>
+        </Navlink>
+      </div>
     </section>
   );
 }
