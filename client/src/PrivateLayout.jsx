@@ -10,7 +10,7 @@ function PrivateLayout() {
   return (
     <>
       <TopBar />
-      {/* <SideBar /> */}
+      <SideBar />
       <Outlet />
     </>
   );

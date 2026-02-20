@@ -29,7 +29,7 @@ function SideBar() {
   );
 
   return (
-    <aside className="flex flex-col justify-around border">
+    <aside className="flex flex-col justify-around border fixed top-30 z-50">
       <nav>
         <ul>
           {user?.accountType === "Instructor" &&
