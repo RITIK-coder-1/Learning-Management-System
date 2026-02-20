@@ -44,7 +44,7 @@ export function AppSidebar() {
           {({ isActive }) => (
             <SidebarGroupLabel
               className={`${ele.className || ""} ${
-                isActive ? "text-blue-900" : ""
+                isActive ? "text-yellow-300" : ""
               }`}
               title={
                 ele.label === "Explore"
@@ -61,8 +61,8 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar side="left">
-      <SidebarContent className="rounded-br-lg rounded-tr-lg border border-white/10">
+    <Sidebar side="left" className="md:shadow-2xl shadow-black">
+      <SidebarContent className="rounded-br-lg rounded-tr-lg border border-l-0 border-white/50">
         {user?.accountType === "Instructor" &&
           NavigationItem(instructorNavigationList)}
         {user?.accountType === "Student" &&
