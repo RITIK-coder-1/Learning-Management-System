@@ -23,48 +23,54 @@ function Profile() {
       <div className="flex flex-col gap-3 justify-center items-center">
         <img
           src={user?.profilePic || "https://github.com/shadcn.png"}
-          className="w-30 h-30 rounded-full shadow-lg shadow-black"
+          className="w-30 h-30 rounded-full shadow-lg shadow-black lg:w-40 lg:h-40"
         />
-        <h1 className="text-3xl p-3 rounded-lg flex justify-center items-center border-b border-t border-white/10 font-black shadow-lg shadow-black bg-backgroundContrast">
+        <h1 className="text-3xl p-3 rounded-lg flex justify-center items-center border-b border-t border-white/10 font-black shadow-lg shadow-black bg-backgroundContrast lg:text-5xl">
           {user?.firstName} {user?.lastName}
         </h1>
       </div>
 
-      <div className="w-full border border-white/10 p-2 flex flex-col gap-2">
+      <div className="w-full border border-white/10 p-2 flex flex-col gap-2 text-lg lg:text-xl">
         {/* The email */}
         <div className="flex flex-col border border-white/5 rounded-lg p-2">
-          <span className="text-lg text-yellow-50">{user?.email}</span>
-          <span className="text-xs text-foreground">Email</span>
+          <span className="text-yellow-50">{user?.email}</span>
+          <span className="text-xs lg:text-sm text-foreground">Email</span>
         </div>
 
         {/* The username */}
         <div className="flex flex-col border border-white/5 rounded-lg p-2">
-          <span className="text-lg text-yellow-50">{user?.username}</span>
-          <span className="text-xs text-foreground">Username</span>
+          <span className=" text-yellow-50">{user?.username}</span>
+          <span className="text-xs lg:text-sm  text-foreground">Username</span>
         </div>
 
         {/* The DOB */}
         <div className="flex flex-col border border-white/5 rounded-lg p-2">
-          <span className="text-lg text-yellow-50">{`${day}/${month}/${year}`}</span>
-          <span className="text-xs text-foreground">D.O.B</span>
+          <span className=" text-yellow-50">{`${day}/${month}/${year}`}</span>
+          <span className="text-xs lg:text-sm  text-foreground">D.O.B</span>
         </div>
 
         {/* The Account Type */}
         <div className="flex flex-col border border-white/5 rounded-lg p-2">
-          <span className="text-lg text-yellow-50">{user?.accountType}</span>
-          <span className="text-xs text-foreground">Type</span>
+          <span className=" text-yellow-50">{user?.accountType}</span>
+          <span className="text-xs lg:text-sm  text-foreground">Type</span>
         </div>
       </div>
 
       <div className="w-full border border-white/10 p-2 py-4 flex flex-col justify-center items-center gap-2">
         <Navlink to="/app/profile/update-profile">
-          <CommonButton label="Update Profile"/>
+          <CommonButton label="Update Profile" />
         </Navlink>
         <Navlink to="/app/profile/update-password">
-          <CommonButton label="Update Password" className="bg-blue-900 hover:bg-blue-950"/>
+          <CommonButton
+            label="Update Password"
+            className="bg-blue-900 hover:bg-blue-950"
+          />
         </Navlink>
         <Navlink to="/app/profile/update-email">
-          <CommonButton label="Update Email" className="bg-blue-950 hover:bg-blue-900"/>
+          <CommonButton
+            label="Update Email"
+            className="bg-blue-950 hover:bg-blue-900"
+          />
         </Navlink>
       </div>
     </section>

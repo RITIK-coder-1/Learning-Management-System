@@ -94,10 +94,7 @@ function UpdateProfile() {
   return (
     <>
       <img
-        src={
-          user?.profilePic ||
-          "https://api.dicebear.com/5.x/initials/svg?seed=Admin"
-        }
+        src={user?.profilePic || "https://github.com/shadcn.png"}
         className="w-12 h-12"
       />
       <form className="flex flex-col gap-2" onSubmit={updateDetails}>
