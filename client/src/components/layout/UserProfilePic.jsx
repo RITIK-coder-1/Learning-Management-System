@@ -19,6 +19,7 @@ function UserProfilePic({ isTopBar = false }) {
   const user = useSelector((state) => state.auth.user);
 
   if (isTopBar) {
+    // Return the dropdown menu at the topbar
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -55,6 +56,7 @@ function UserProfilePic({ isTopBar = false }) {
       </DropdownMenu>
     );
   } else {
+    // Return the normal profile if not topbar
     return (
       <img
         src={user?.profilePic || "https://github.com/shadcn.png"}
