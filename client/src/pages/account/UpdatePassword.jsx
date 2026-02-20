@@ -43,25 +43,21 @@ function UpdatePassword() {
 
   return (
     <Form onSubmit={updatePassword} className="flex flex-col gap-2">
-      <label htmlFor="oldPassword">Enter your old password:</label>
-      <input
-        type="password"
-        id="oldPassword"
+      <FieldInput
         name="oldPassword"
+        label="Old Password "
+        inputType="password"
         onChange={setValue}
-        className="outline"
-        required
       />
-      <label htmlFor="newPassword">Enter your new password:</label>
-      <input
-        type="password"
-        id="newPassword"
+
+      <FieldInput
         name="newPassword"
+        label="New Password "
+        inputType="password"
         onChange={setValue}
-        className="outline"
-        required
       />
-      <CommonButton label="Update Password"/>
+
+      <CommonButton label="Update Password" type="submit" title="Update Password"/>
     </Form>
   );
 }
