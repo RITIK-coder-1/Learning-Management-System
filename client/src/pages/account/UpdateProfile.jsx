@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import {
   useDeleteUserProfilePicMutation,
   useUpdateUserDetailsMutation,
+  useGetUserQuery,
 } from "../../api/index.api";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../features/authSlice";
@@ -17,7 +18,8 @@ function UpdateProfile() {
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
   const [update] = useUpdateUserDetailsMutation();
-  const user = useSelector((state) => state.auth.user);
+  const { data } = useGetUserQuery();
+  const user = data?.data;
   const [deleteProfilePic] = useDeleteUserProfilePicMutation();
   const dispatch = useDispatch();
 

@@ -3,12 +3,13 @@ Profile.jsx
 The user profile page 
 ------------------------------------------------------------------------------------------------- */
 
-import { useGetUserQuery } from "../../api/index.api";
 import { Navlink } from "../../components/index.components";
+import { useSelector } from "react-redux";
 
 function Profile() {
-  const { data } = useGetUserQuery();
-  const user = data?.data;
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
+  
   const dob = user?.dateOfBirth;
   const date = new Date(dob);
   const year = date.getFullYear();
@@ -18,10 +19,7 @@ function Profile() {
   return (
     <>
       <img
-        src={
-          user?.profilePic ||
-          "https://api.dicebear.com/5.x/initials/svg?seed=Admin"
-        }
+        src={user?.profilePic || "https://github.com/shadcn.png"}
         className="w-12 h-12"
       />
       <h1>
