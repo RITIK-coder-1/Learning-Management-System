@@ -369,7 +369,7 @@ const deleteProfilePicFunction = async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "The profile has been successfully deleted!"));
+    .json(new ApiResponse(200, "The profile has been successfully deleted!", newUser));
 };
 
 /* ---------------------------------------------------------------------------------------

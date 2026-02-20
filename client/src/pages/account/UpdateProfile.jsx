@@ -91,7 +91,8 @@ function UpdateProfile() {
   ------------------------------------------------------------------------------------------ */
   const deletePicFunction = async () => {
     try {
-      await deleteProfilePic();
+      const { data } = await deleteProfilePic().unwrap();
+      dispatch(setUser(data));
     } catch (error) {
       console.error(error);
     }
