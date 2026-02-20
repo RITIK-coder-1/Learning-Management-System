@@ -3,12 +3,12 @@ Profile.jsx
 The user profile page 
 ------------------------------------------------------------------------------------------------- */
 
+import UserProfilePic from "@/components/layout/UserProfilePic";
 import { CommonButton, Navlink } from "../../components/index.components";
 import { useSelector } from "react-redux";
 
 function Profile() {
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
 
   // The date of birth of the user
   const dob = user?.dateOfBirth;
@@ -21,10 +21,7 @@ function Profile() {
     <section className="w-full h-full flex flex-col justify-start gap-5">
       {/* The profile pic and Name */}
       <div className="flex flex-col gap-3 justify-center items-center">
-        <img
-          src={user?.profilePic || "https://github.com/shadcn.png"}
-          className="w-30 h-30 rounded-full shadow-lg shadow-black lg:w-40 lg:h-40"
-        />
+        <UserProfilePic />
         <h1 className="text-3xl p-3 rounded-lg flex justify-center items-center border-b border-t border-white/10 font-black shadow-lg shadow-black bg-backgroundContrast lg:text-5xl">
           {user?.firstName} {user?.lastName}
         </h1>
@@ -56,6 +53,7 @@ function Profile() {
         </div>
       </div>
 
+      {/* The navigation links to the update pages */}
       <div className="w-full border border-white/10 p-2 py-4 flex flex-col justify-center items-center gap-2">
         <Navlink to="/app/profile/update-profile">
           <CommonButton label="Update Profile" />

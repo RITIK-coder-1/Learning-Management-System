@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../features/authSlice";
 import getFormData from "../../utils/getFormData";
+import UserProfilePic from "@/components/layout/UserProfilePic";
 
 function UpdateProfile() {
   /* ---------------------------------------------------------------------------------------
@@ -93,10 +94,7 @@ function UpdateProfile() {
 
   return (
     <>
-      <img
-        src={user?.profilePic || "https://github.com/shadcn.png"}
-        className="w-12 h-12"
-      />
+      <UserProfilePic />
       <form className="flex flex-col gap-2" onSubmit={updateDetails}>
         <label htmlFor="profilePic">Update your profile: </label>
         <input

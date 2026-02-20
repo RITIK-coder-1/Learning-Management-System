@@ -13,7 +13,7 @@ function TopBar() {
       <Image src="../../../public/LMS.png" alt="LearnIt" title="LearnIt" />
 
       {/* The profile pic of the user */}
-      <UserProfilePic />
+      <UserProfilePic isTopBar={true}/>
     </header>
   );
 }
