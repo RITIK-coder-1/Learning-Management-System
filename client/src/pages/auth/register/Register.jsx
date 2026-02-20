@@ -13,7 +13,6 @@ import {
   FieldInput,
   Form,
   InputFile,
-  MainSection,
   SelectInputManual,
   DatePicker,
   OtpInput,
@@ -115,105 +114,103 @@ function Register() {
 
   return (
     // the form element
-    <MainSection>
-      <Form onSubmit={handleSubmit}>
-        {/* First Name */}
-        <FieldInput
-          label="First Name"
-          name="firstName"
-          onChange={setRegisteringData}
-          disabled={isOtp}
-          placeholder="Ritik"
+    <Form onSubmit={handleSubmit}>
+      {/* First Name */}
+      <FieldInput
+        label="First Name"
+        name="firstName"
+        onChange={setRegisteringData}
+        disabled={isOtp}
+        placeholder="Ritik"
+      />
+
+      {/* Account type */}
+      <SelectInputManual
+        label="Account Type"
+        option1="Student"
+        option2="Instructor"
+        name="accountType"
+        disabled={isOtp}
+        onChange={setRegisteringData}
+      />
+
+      {/* Last Name */}
+      <FieldInput
+        label="Last Name"
+        name="lastName"
+        onChange={setRegisteringData}
+        disabled={isOtp}
+        placeholder="Mahapatra"
+        required={false}
+      />
+
+      {/* Username */}
+      <FieldInput
+        label="Username"
+        name="username"
+        onChange={setRegisteringData}
+        disabled={isOtp}
+        description="Enter a unique username (Must be more than 6 characters)"
+        placeholder="ritik123"
+      />
+
+      {/* Email */}
+      <FieldInput
+        label="Email"
+        name="email"
+        inputType="email"
+        onChange={setRegisteringData}
+        disabled={isOtp}
+        placeholder="ritik@gmail.com"
+      />
+
+      {/* Password */}
+      <FieldInput
+        label="Password"
+        name="password"
+        inputType="password"
+        onChange={setRegisteringData}
+        disabled={isOtp}
+        description="At least 10 characters"
+        placeholder="••••••••••••••••"
+      />
+
+      {/* DOB */}
+      <DatePicker disabled={isOtp} dateSelectionMethod={selectDate} />
+
+      {/* Profile pic */}
+      <InputFile
+        label="Upload Profile"
+        name="profilePic"
+        description="Important: Instructors are required to upload a profile picture."
+        disabled={isOtp}
+        onChange={fileData}
+        required={userData.accountType === "Instructor" ? true : false}
+      />
+
+      {/* OTP */}
+      <div className={isOtp ? "visible" : "hidden"}>
+        <OtpInput
+          setterFunction={otpCodeFunction}
+          name="userOTP"
+          required={isOtp}
         />
+      </div>
 
-        {/* Account type */}
-        <SelectInputManual
-          label="Account Type"
-          option1="Student"
-          option2="Instructor"
-          name="accountType"
-          disabled={isOtp}
-          onChange={setRegisteringData}
+      <div className="flex flex-col gap-2 lg:flex-row">
+        {/* Submit */}
+        <CommonButton type="submit" label={isOtp ? "Register" : "Submit"} />
+
+        {/* Re-register */}
+        <CommonButton
+          label="Re-submit"
+          onClick={reRegister}
+          className={`${
+            isOtp ? "visible" : "hidden"
+          } bg-blue-950 hover:bg-blue-900`}
         />
-
-        {/* Last Name */}
-        <FieldInput
-          label="Last Name"
-          name="lastName"
-          onChange={setRegisteringData}
-          disabled={isOtp}
-          placeholder="Mahapatra"
-          required={false}
-        />
-
-        {/* Username */}
-        <FieldInput
-          label="Username"
-          name="username"
-          onChange={setRegisteringData}
-          disabled={isOtp}
-          description="Enter a unique username (Must be more than 6 characters)"
-          placeholder="ritik123"
-        />
-
-        {/* Email */}
-        <FieldInput
-          label="Email"
-          name="email"
-          inputType="email"
-          onChange={setRegisteringData}
-          disabled={isOtp}
-          placeholder="ritik@gmail.com"
-        />
-
-        {/* Password */}
-        <FieldInput
-          label="Password"
-          name="password"
-          inputType="password"
-          onChange={setRegisteringData}
-          disabled={isOtp}
-          description="At least 10 characters"
-          placeholder="••••••••••••••••"
-        />
-
-        {/* DOB */}
-        <DatePicker disabled={isOtp} dateSelectionMethod={selectDate} />
-
-        {/* Profile pic */}
-        <InputFile
-          label="Upload Profile"
-          name="profilePic"
-          description="Important: Instructors are required to upload a profile picture."
-          disabled={isOtp}
-          onChange={fileData}
-          required={userData.accountType === "Instructor" ? true : false}
-        />
-
-        {/* OTP */}
-        <div className={isOtp ? "visible" : "hidden"}>
-          <OtpInput
-            setterFunction={otpCodeFunction}
-            name="userOTP"
-            required={isOtp}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2 lg:flex-row">
-          {/* Submit */}
-          <CommonButton type="submit" label={isOtp ? "Register" : "Submit"} />
-
-          {/* Re-register */}
-          <CommonButton
-            label="Re-submit"
-            onClick={reRegister}
-            className={`${
-              isOtp ? "visible" : "hidden"
-            } bg-blue-950 hover:bg-blue-900`}
-          />
-        </div>
-      </Form>
-    </MainSection>
+      </div>
+    </Form>
   );
 }
 

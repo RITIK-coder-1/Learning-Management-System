@@ -11,7 +11,6 @@ import {
   CommonButton,
   FieldInput,
   Form,
-  MainSection,
   OtpInput,
 } from "@/components/index.components";
 
@@ -89,38 +88,36 @@ function Login() {
 
   return (
     // the form element
-    <MainSection>
-      <Form onSubmit={handleSubmit}>
-        {/* Credential */}
-        <FieldInput
-          name="credential"
-          onChange={setValue}
-          label="Enter email/username"
-          placeholder="username/email"
+    <Form onSubmit={handleSubmit}>
+      {/* Credential */}
+      <FieldInput
+        name="credential"
+        onChange={setValue}
+        label="Enter email/username"
+        placeholder="username/email"
+      />
+
+      {/* Password */}
+      <FieldInput
+        name="password"
+        onChange={setValue}
+        label="Password"
+        inputType="password"
+        placeholder="••••••••••••••••"
+      />
+
+      {/* OTP */}
+      <div className={isOtp ? "visible" : "hidden"}>
+        <OtpInput
+          name="userOTP"
+          required={isOtp}
+          setterFunction={otpCodeFunction}
         />
+      </div>
 
-        {/* Password */}
-        <FieldInput
-          name="password"
-          onChange={setValue}
-          label="Password"
-          inputType="password"
-          placeholder="••••••••••••••••"
-        />
-
-        {/* OTP */}
-        <div className={isOtp ? "visible" : "hidden"}>
-          <OtpInput
-            name="userOTP"
-            required={isOtp}
-            setterFunction={otpCodeFunction}
-          />
-        </div>
-
-        {/* Submit */}
-        <CommonButton type="submit" label={isOtp ? "Log in" : "Submit"} />
-      </Form>
-    </MainSection>
+      {/* Submit */}
+      <CommonButton type="submit" label={isOtp ? "Log in" : "Submit"} />
+    </Form>
   );
 }
 
