@@ -10,6 +10,12 @@ import {
 } from "../../api/index.api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/authSlice";
+import {
+  Form,
+  FieldInput,
+  CommonButton,
+  OtpInput,
+} from "@/components/index.components";
 
 function UpdateEmail() {
   /* ---------------------------------------------------------------------------------------
@@ -35,8 +41,8 @@ function UpdateEmail() {
   const setValue = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  const setOtpFunction = (e) => {
-    setUserOtp(e.target.value);
+  const setOtpFunction = (otp) => {
+    setUserOtp(otp);
   };
 
   /* ---------------------------------------------------------------------------------------
@@ -63,44 +69,39 @@ function UpdateEmail() {
   };
 
   return (
-    <form onSubmit={update} className="flex flex-col gap-2">
-      <label htmlFor="newEmail">Enter the new email: </label>
-      <input
-        type="email"
-        id="newEmail"
+    <Form onSubmit={update}>
+      {/* The new email */}
+      <FieldInput
+        label="New Email"
         name="newEmail"
+        inputType="email"
+        placeholder="New Email"
         onChange={setValue}
-        className="outline"
-        required
         disabled={isOtp}
       />
-      <label htmlFor="password">Enter your password:</label>
-      <input
-        type="password"
-        id="password"
+
+      {/* Password */}
+      <FieldInput
+        label="Password"
         name="password"
+        inputType="password"
+        placeholder="Password"
         onChange={setValue}
-        className="outline"
-        required
         disabled={isOtp}
       />
+
+      {/* OTP */}
       {isOtp && (
-        <>
-          <label htmlFor="userOtp">Enter the OTP sent to your new email:</label>
-          <input
-            type="text"
-            id="userOtp"
-            name="userOtp"
-            onChange={setOtpFunction}
-            className="outline"
-            required
-          />
-        </>
+        <OtpInput
+          name="userOtp"
+          required={isOtp}
+          setterFunction={setOtpFunction}
+        />
       )}
-      <button type="submit" className="outline">
+      <CommonButton type="submit" label="Update Email">
         Submit
-      </button>
-    </form>
+      </CommonButton>
+    </Form>
   );
 }
 
