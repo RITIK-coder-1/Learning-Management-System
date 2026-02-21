@@ -21,18 +21,24 @@ function CreatedCourses() {
 
   return (
     <>
-      <div className="flex flex-col p-2 gap-3">
-        {courses?.map((course) => {
-          return (
-            <Navlink
-              key={course.arrayId}
-              to={`/app/created-courses/${course.courseId}`}
-            >
-              <div className="border">{course.title}</div>
-            </Navlink>
-          );
-        })}
-      </div>
+      {courses.length === 0 ? (
+        <span className="text-foreground italic md:text-lg">
+          You don't have any created courses yet.
+        </span>
+      ) : (
+        <div className="flex flex-col p-2 gap-3">
+          {courses?.map((course) => {
+            return (
+              <Navlink
+                key={course.arrayId}
+                to={`/app/created-courses/${course.courseId}`}
+              >
+                <div className="border">{course.title}</div>
+              </Navlink>
+            );
+          })}
+        </div>
+      )}
       <Navlink to="/app/created-courses/create">
         <button>Create</button>
       </Navlink>
