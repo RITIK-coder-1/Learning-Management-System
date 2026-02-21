@@ -48,6 +48,7 @@ function UpdatePassword() {
         label="Old Password "
         inputType="password"
         onChange={setValue}
+        placeholder="Old Password"
       />
 
       <FieldInput
@@ -55,9 +56,14 @@ function UpdatePassword() {
         label="New Password "
         inputType="password"
         onChange={setValue}
+        placeholder="New Password"
       />
 
-      <CommonButton label="Update Password" type="submit" title="Update Password"/>
+      <CommonButton
+        label="Update Password"
+        type="submit"
+        title="Update Password"
+      />
     </Form>
   );
 }

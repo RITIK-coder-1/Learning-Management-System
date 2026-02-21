@@ -57,7 +57,7 @@ function UserProfilePic({ isTopBar = false }) {
       <Image
         src={user?.profilePic || "https://github.com/shadcn.png"}
         alt={"user"}
-        title="Click to visit your profile"
+        title="Your profile"
         className="w-30 h-30 rounded-full shadow-lg shadow-black md:w-40 md:h-40"
       />
     );
