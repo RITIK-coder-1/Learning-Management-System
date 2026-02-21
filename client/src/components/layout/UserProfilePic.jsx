@@ -25,11 +25,7 @@ function UserProfilePic({ isTopBar = false }) {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon-custom" className="rounded-full">
             <Image
-              src={
-                user?.profile !== ""
-                  ? user?.profilePic
-                  : "https://github.com/shadcn.png"
-              }
+              src={user?.profilePic || "https://github.com/shadcn.png"}
               alt={"user"}
               title="Click to visit your profile"
             />
