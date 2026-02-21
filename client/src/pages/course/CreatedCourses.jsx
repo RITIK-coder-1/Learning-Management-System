@@ -4,7 +4,7 @@ The page for displaying all the created courses of an instructor
 ------------------------------------------------------------------------------------------------- */
 
 import { useGetAllCoursesInstructorQuery } from "../../api/index.api";
-import { Navlink } from "../../components/index.components";
+import { Navlink, CommonButton } from "../../components/index.components";
 
 function CreatedCourses() {
   const { data } = useGetAllCoursesInstructorQuery();
@@ -21,8 +21,8 @@ function CreatedCourses() {
 
   return (
     <>
-      {courses.length === 0 ? (
-        <span className="text-foreground italic md:text-lg">
+      {courses?.length === 0 ? (
+        <span className="text-foreground italic mt-5 md:text-lg">
           You don't have any created courses yet.
         </span>
       ) : (
@@ -39,9 +39,15 @@ function CreatedCourses() {
           })}
         </div>
       )}
-      <Navlink to="/app/created-courses/create">
-        <button>Create</button>
-      </Navlink>
+      <div className="h-90 z-10 w-full fixed flex justify-end items-end pr-2 lg:h-100 lg:pr-5">
+        <Navlink to="/app/created-courses/create">
+          <CommonButton
+            label="+"
+            className="rounded-full w-12 h-12 text-lg md:w-18 md:h-18 md:text-3xl"
+            title="Create Course"
+          />
+        </Navlink>
+      </div>
     </>
   );
 }

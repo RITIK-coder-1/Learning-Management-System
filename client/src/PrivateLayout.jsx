@@ -16,12 +16,12 @@ function PrivateLayout() {
     <>
       <TopBar />
 
-      <SidebarProvider>
+      <SidebarProvider className="">
         {/* The side bar for navigation */}
         <AppSidebar />
 
         {/* The sidebar trigger */}
-        <SidebarTrigger className="fixed" />
+        <SidebarTrigger className="fixed z-50" />
 
         {/* The main section of the page */}
         <MainSection>

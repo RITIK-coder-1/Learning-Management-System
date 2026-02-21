@@ -14,7 +14,7 @@ function CommonButton({
   return (
     <Button
       type={type}
-      className={`text-lg w-50 p-5 shadow-2xl shadow-black hover:bg-purple-950 ${className}`}
+      className={`text-lg w-50 p-5 shadow-2xl shadow-black hover:bg-purple-950 border border-black/90 ${className}`}
       onClick={onClick}
       title={title}
     >
