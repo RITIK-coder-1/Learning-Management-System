@@ -54,9 +54,11 @@ function UserProfilePic({ isTopBar = false }) {
   } else {
     // Return the normal profile if not topbar
     return (
-      <img
+      <Image
         src={user?.profilePic || "https://github.com/shadcn.png"}
-        className="w-30 h-30 rounded-full shadow-lg shadow-black lg:w-40 lg:h-40"
+        alt={"user"}
+        title="Click to visit your profile"
+        className="w-30 h-30 rounded-full shadow-lg shadow-black md:w-40 md:h-40"
       />
     );
   }

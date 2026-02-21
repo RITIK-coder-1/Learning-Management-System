@@ -9,7 +9,7 @@ function TopBar() {
   return (
     <header className="sticky top-0 left-0 w-full flex justify-between items-center p-2 border-b border-white/10 h-22 shadow-lg shadow-black md:h-25 z-50 bg-background mb-5">
       {/* The Logo */}
-      <Image src="../../../public/LMS.png" alt="LearnIt" title="LearnIt" />
+      <Image src="../../../LMS.png" alt="LearnIt" title="LearnIt" />
 
       {/* The profile pic of the user */}
       <UserProfilePic isTopBar={true} />

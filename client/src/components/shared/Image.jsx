@@ -5,9 +5,9 @@ Common component for displaying an image
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
-function Image({ src, alt, title, size }) {
+function Image({ src, alt, title, size, className }) {
   return (
-    <Avatar size={size}>
+    <Avatar size={size} className={className}>
       <AvatarImage src={src} alt={alt} title={title} />
     </Avatar>
   );
