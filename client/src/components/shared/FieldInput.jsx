@@ -16,6 +16,7 @@ function FieldInput({
   onChange = () => {},
   onBlur = () => {},
   disabled = false,
+  defaultValue = ""
 }) {
   return (
     <Field>
@@ -32,6 +33,7 @@ function FieldInput({
         onBlur={onBlur}
         name={name}
         disabled={disabled}
+        defaultValue={defaultValue}
         className="sm:py-5 text-md sm:text-lg lg:text-xl border-0"
       />
       {description && (

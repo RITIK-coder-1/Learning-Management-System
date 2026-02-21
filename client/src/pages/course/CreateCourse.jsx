@@ -9,6 +9,12 @@ import {
   useGetAllCategoriesQuery,
 } from "../../api/index.api";
 import getFormData from "../../utils/getFormData";
+import {
+  Form,
+  FieldInput,
+  CommonButton,
+  InputFile,
+} from "@/components/index.components";
 
 function CreateCourse() {
   /* ---------------------------------------------------------------------------------------
@@ -189,34 +195,29 @@ function CreateCourse() {
   };
 
   return (
-    <form onSubmit={createCourse} className="flex flex-col gap-2">
-      <label htmlFor="title">The title of the course: </label>
-      <input
-        type="text"
+    <Form onSubmit={createCourse}>
+      {/* The Title */}
+      <FieldInput
+        label="Title"
         name="title"
-        id="title"
-        required
         onChange={setValue}
-        className="outline"
+        placeholder="Title"
       />
-      <label htmlFor="description">The description: </label>
-      <input
-        type="text"
+
+      {/* The Description */}
+      <FieldInput
+        label="Add Description"
         name="description"
-        id="description"
-        required
         onChange={setValue}
-        className="outline"
+        placeholder="Description"
       />
-      <label htmlFor="price">The price: </label>
-      <input
-        type="number"
+
+      {/* The Price */}
+      <FieldInput
+        label="Set Price"
         name="price"
-        id="price"
-        required
         onChange={setValue}
-        className="outline"
-        min={0}
+        placeholder="Description"
         defaultValue={0}
       />
       {tagsAndSectionsUI({
@@ -248,20 +249,17 @@ function CreateCourse() {
         arrayType: courseSections,
         arraySetterFunction: setCourseSections,
       })}
-      <label htmlFor="thumbnail">Upload the thumbnail: </label>
-      <input
-        type="file"
+
+      {/* The thumbnail */}
+      <InputFile
         name="thumbnail"
-        id="thumbnail"
-        required
         onChange={setThumbnailImage}
-        className="outline"
+        description="Upload A Thumbnail"
       />
 
-      <button type="submit" className="border">
-        Create
-      </button>
-    </form>
+      {/* Submit */}
+      <CommonButton type="submit" label="Create Course" title="Create"/>
+    </Form>
   );
 }
 

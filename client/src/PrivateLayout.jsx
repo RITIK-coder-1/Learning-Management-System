@@ -3,11 +3,7 @@ PrivateLayout.jsx
 It contains the routing for every single private page that requires authentication
 ------------------------------------------------------------------------------------------------- */
 
-import {
-  TopBar,
-  MainSection,
-  AppSidebar,
-} from "./components/index.components";
+import { TopBar, MainSection, AppSidebar } from "./components/index.components";
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -16,7 +12,7 @@ function PrivateLayout() {
     <>
       <TopBar />
 
-      <SidebarProvider className="">
+      <SidebarProvider>
         {/* The side bar for navigation */}
         <AppSidebar />
 

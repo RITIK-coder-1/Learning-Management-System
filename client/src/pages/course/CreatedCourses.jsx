@@ -7,8 +7,9 @@ import { useGetAllCoursesInstructorQuery } from "../../api/index.api";
 import { Navlink, CommonButton } from "../../components/index.components";
 
 function CreatedCourses() {
-  const { data } = useGetAllCoursesInstructorQuery();
+  const { data } = useGetAllCoursesInstructorQuery(); // the course data
 
+  // the specific courses data to show on the page
   const courses = data?.data?.map((course) => {
     return {
       arrayId: crypto.randomUUID(),
@@ -22,10 +23,12 @@ function CreatedCourses() {
   return (
     <>
       {courses?.length === 0 ? (
+        // Special label for no created courses
         <span className="text-foreground italic mt-5 md:text-lg">
           You don't have any created courses yet.
         </span>
       ) : (
+        // the courses
         <div className="flex flex-col p-2 gap-3">
           {courses?.map((course) => {
             return (
@@ -39,6 +42,8 @@ function CreatedCourses() {
           })}
         </div>
       )}
+
+      {/* The create button  */}
       <div className="h-90 z-10 w-full fixed flex justify-end items-end pr-2 lg:h-100 lg:pr-5">
         <Navlink to="/app/created-courses/create">
           <CommonButton
