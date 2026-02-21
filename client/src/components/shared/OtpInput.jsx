@@ -14,7 +14,7 @@ function OtpInput({ setterFunction, name, required }) {
   const [value, setValue] = React.useState("");
 
   return (
-    <div className="space-y-2 w-90">
+    <div className="space-y-2 w-full">
       <InputOTP
         maxLength={6}
         value={value}
