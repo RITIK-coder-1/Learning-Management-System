@@ -28,7 +28,7 @@ function CourseCard({
           <span className="text-lg text-foreground">{instructor}</span> // instructor name should only be dislayed for students for viweing courses
         )}
         <span className="text-sm text-white/60">
-          {description?.length > 70 ? compactDescription : description}
+          {description?.length > 70 ? `${compactDescription}.......` : description}
         </span>
         <span className="text-white/80 font-black">
           {price === 0 ? "Free" : `₹ ${price}`}
