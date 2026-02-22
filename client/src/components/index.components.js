@@ -17,6 +17,7 @@ import OtpInput from "./shared/OtpInput";
 import Image from "./shared/Image";
 import AppSidebar from "./layout/AppSidebar";
 import UserProfilePic from "./layout/UserProfilePic";
+import CourseCard from "./shared/CourseCard";
 
 export {
   Logout,
@@ -33,4 +34,5 @@ export {
   Image,
   AppSidebar,
   UserProfilePic,
+  CourseCard
 };

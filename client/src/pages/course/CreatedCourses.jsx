@@ -4,10 +4,16 @@ The page for displaying all the created courses of an instructor
 ------------------------------------------------------------------------------------------------- */
 
 import { useGetAllCoursesInstructorQuery } from "../../api/index.api";
-import { Navlink, CommonButton } from "../../components/index.components";
+import {
+  Navlink,
+  CommonButton,
+  CourseCard,
+} from "../../components/index.components";
 
 function CreatedCourses() {
   const { data } = useGetAllCoursesInstructorQuery(); // the course data
+
+  console.log(data?.data);
 
   // the specific courses data to show on the page
   const courses = data?.data?.map((course) => {
@@ -22,6 +28,7 @@ function CreatedCourses() {
 
   return (
     <>
+      <h1 className="text-white text-4xl md:text-6xl">Created Courses</h1>
       {courses?.length === 0 ? (
         // Special label for no created courses
         <span className="text-foreground italic mt-5 md:text-lg">
@@ -29,14 +36,19 @@ function CreatedCourses() {
         </span>
       ) : (
         // the courses
-        <div className="flex flex-col p-2 gap-3">
+        <div className="w-full flex flex-col p-2 gap-3 justify-center items-center">
           {courses?.map((course) => {
             return (
               <Navlink
                 key={course.arrayId}
                 to={`/app/created-courses/${course.courseId}`}
               >
-                <div className="border">{course.title}</div>
+                <CourseCard
+                  image={course.thumbnail}
+                  title={course.title}
+                  description={course.description}
+                  price={course.price}
+                />
               </Navlink>
             );
           })}
