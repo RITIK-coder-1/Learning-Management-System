@@ -122,19 +122,24 @@ function CreateCourse() {
     inputSetterFunction,
     arrayType,
     arraySetterFunction,
+    placeholder,
+    title,
   }) => {
     return (
-      <>
-        <label htmlFor={forField}>{label}</label>
+      <div className="w-full flex flex-col gap-2">
+        <label htmlFor={forField}>
+          {label}
+          <span className="text-destructive text-red-600"> *</span>
+        </label>
         <ul>
           {inputType.map((id) => {
             return (
               <li key={id}>
-                <input
-                  type="text"
-                  required
+                <FieldInput
+                  name={forField}
                   onBlur={addNewValueToArray(id, arraySetterFunction)}
-                  className="outline"
+                  isLabel={false}
+                  placeholder={placeholder}
                 />
                 {inputType.length > 1 && (
                   <button
@@ -155,14 +160,13 @@ function CreateCourse() {
             );
           })}
         </ul>
-        <button
-          className="border"
+        <CommonButton
+          label="+"
           onClick={addNewInput(inputSetterFunction, inputType)}
-          type="button"
-        >
-          +
-        </button>
-      </>
+          className="w-full bg-blue-950 hover:bg-blue-900"
+          title={title}
+        />
+      </div>
     );
   };
 
@@ -220,14 +224,20 @@ function CreateCourse() {
         placeholder="Description"
         defaultValue={0}
       />
+
+      {/* The tags */}
       {tagsAndSectionsUI({
         forField: "tags",
         label: "Add Some Tags",
+        placeholder: "New Tag",
+        title: "Add Tag",
         inputType: numberOfTagsInputs,
         inputSetterFunction: setNumberOfTagsInputs,
         arrayType: courseTags,
         arraySetterFunction: setCourseTags,
       })}
+
+      {/* The category */}
       <label htmlFor="category">Category: </label>
       <select
         name="category"
@@ -241,9 +251,13 @@ function CreateCourse() {
           </option>
         ))}
       </select>
+
+      {/* The sections */}
       {tagsAndSectionsUI({
         forField: "sections",
         label: "Add a Section (Chapter Titles)",
+        placeholder: "New Chapter",
+        title: "Add Section",
         inputType: numberOfSectionsInputs,
         inputSetterFunction: setNumberOfSectionsInputs,
         arrayType: courseSections,
@@ -258,7 +272,7 @@ function CreateCourse() {
       />
 
       {/* Submit */}
-      <CommonButton type="submit" label="Create Course" title="Create"/>
+      <CommonButton type="submit" label="Create Course" title="Create" />
     </Form>
   );
 }
