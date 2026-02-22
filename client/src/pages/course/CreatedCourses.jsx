@@ -37,7 +37,7 @@ function CreatedCourses() {
         </span>
       ) : (
         // the courses
-        <div className="w-full flex flex-col p-2 gap-3 justify-center items-center">
+        <div className="w-full flex flex-col-reverse p-2 gap-3 justify-center items-center">
           {courses?.map((course) => {
             return (
               <Navlink
