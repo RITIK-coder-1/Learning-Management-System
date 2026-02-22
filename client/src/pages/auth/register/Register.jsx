@@ -13,10 +13,11 @@ import {
   FieldInput,
   Form,
   InputFile,
-  SelectInputManual,
+  SelectInput,
   DatePicker,
   OtpInput,
 } from "../../../components/index.components.js";
+import { NativeSelectOption } from "@/components/ui/native-select.jsx";
 
 function Register() {
   /* ---------------------------------------------------------------------------------------
@@ -125,14 +126,17 @@ function Register() {
       />
 
       {/* Account type */}
-      <SelectInputManual
-        label="Account Type"
-        option1="Student"
-        option2="Instructor"
-        name="accountType"
+      <SelectInput
         disabled={isOtp}
         onChange={setRegisteringData}
-      />
+        name={"accountType"}
+      >
+        <NativeSelectOption value="" className="text-foreground">
+          Choose Account Type
+        </NativeSelectOption>
+        <NativeSelectOption value="Student">Student</NativeSelectOption>
+        <NativeSelectOption value="Instructor">Instructor</NativeSelectOption>
+      </SelectInput>
 
       {/* Last Name */}
       <FieldInput

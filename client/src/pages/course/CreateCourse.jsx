@@ -14,7 +14,10 @@ import {
   FieldInput,
   CommonButton,
   InputFile,
+  SelectInput,
 } from "@/components/index.components";
+import { NativeSelectOption } from "@/components/ui/native-select";
+import { FieldLabel } from "@/components/ui/field";
 
 function CreateCourse() {
   /* ---------------------------------------------------------------------------------------
@@ -127,10 +130,10 @@ function CreateCourse() {
   }) => {
     return (
       <div className="w-full flex flex-col gap-2">
-        <label htmlFor={forField}>
+        <FieldLabel htmlFor={forField}>
           {label}
           <span className="text-destructive text-red-600"> *</span>
-        </label>
+        </FieldLabel>
         <ul className="flex flex-col gap-3">
           {inputType.map((id) => {
             return (
@@ -197,6 +200,8 @@ function CreateCourse() {
     }
   };
 
+  console.log(categories);
+
   return (
     <Form onSubmit={createCourse}>
       {/* The Title */}
@@ -222,6 +227,7 @@ function CreateCourse() {
         onChange={setValue}
         placeholder="Description"
         defaultValue={0}
+        type="number"
       />
 
       {/* The tags */}
@@ -237,24 +243,24 @@ function CreateCourse() {
       })}
 
       {/* The category */}
-      <label htmlFor="category">Category: </label>
-      <select
-        name="category"
-        id="category"
-        className="outline"
-        onChange={setValue}
-      >
-        {categories?.map((category) => (
-          <option key={category._id} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
+      <div className="flex flex-col w-full gap-2">
+        <FieldLabel htmlFor="category">
+          Choose Category
+          <span className="text-destructive text-red-600"> *</span>
+        </FieldLabel>
+        <SelectInput name="category" onChange={setValue}>
+          {categories?.map((category) => (
+            <NativeSelectOption key={category._id} value={category.name}>
+              {category.name}
+            </NativeSelectOption>
+          ))}
+        </SelectInput>
+      </div>
 
       {/* The sections */}
       {tagsAndSectionsUI({
         forField: "sections",
-        label: "Add a Section (Chapter Titles)",
+        label: "Add a Section",
         placeholder: "New Chapter",
         title: "Add Section",
         inputType: numberOfSectionsInputs,

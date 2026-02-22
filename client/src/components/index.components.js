@@ -9,7 +9,7 @@ import Navlink from "./shared/Navlink";
 import FieldInput from "./shared/FieldInput";
 import Form from "./shared/Form";
 import MainSection from "./layout/MainSection";
-import { SelectInputDynamic, SelectInputManual } from "./shared/SelectInput";
+import SelectInput from "./shared/SelectInput";
 import DatePicker from "./shared/DatePicker";
 import InputFile from "./shared/InputFile";
 import CommonButton from "./shared/CommonButton";
@@ -25,8 +25,7 @@ export {
   FieldInput,
   Form,
   MainSection,
-  SelectInputDynamic,
-  SelectInputManual,
+  SelectInput,
   DatePicker,
   InputFile,
   CommonButton,
