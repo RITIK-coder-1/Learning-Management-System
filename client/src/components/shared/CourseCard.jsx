@@ -18,11 +18,11 @@ function CourseCard({
   }
   return (
     <div
-      className="border w-64 border-white/10 rounded-lg overflow-hidden shadow-2xl shadow-black hover:shadow-4xl"
+      className="border w-64 h-84 border-white/10 rounded-lg overflow-hidden shadow-2xl shadow-black hover:shadow-4xl flex flex-col cursor-pointer relative z-50"
       title="Visit the course"
     >
       <img src={image} alt="course thumbnail" className="w-full h-50" />
-      <div className="w-full flex flex-col p-3 gap-1">
+      <div className="w-full flex flex-col justify-between grow pt-1 p-3 gap-1">
         <h3 className="text-white text-xl font-bold">{title}</h3>
         {accountType === "Student" && (
           <span className="text-lg text-foreground">{instructor}</span> // instructor name should only be dislayed for students for viweing courses

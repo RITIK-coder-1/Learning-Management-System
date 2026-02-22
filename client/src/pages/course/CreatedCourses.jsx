@@ -13,8 +13,6 @@ import {
 function CreatedCourses() {
   const { data } = useGetAllCoursesInstructorQuery(); // the course data
 
-  console.log(data?.data);
-
   // the specific courses data to show on the page
   const courses = data?.data?.map((course) => {
     return {
@@ -37,7 +35,7 @@ function CreatedCourses() {
         </span>
       ) : (
         // the courses
-        <div className="w-full flex flex-col-reverse p-2 gap-3 justify-center items-center">
+        <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
           {courses?.map((course) => {
             return (
               <Navlink
