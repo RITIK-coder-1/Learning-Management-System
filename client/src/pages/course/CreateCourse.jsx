@@ -200,8 +200,6 @@ function CreateCourse() {
     }
   };
 
-  console.log(categories);
-
   return (
     <Form onSubmit={createCourse}>
       {/* The Title */}
@@ -227,7 +225,8 @@ function CreateCourse() {
         onChange={setValue}
         placeholder="Description"
         defaultValue={0}
-        type="number"
+        inputType="number"
+        min={0}
       />
 
       {/* The tags */}

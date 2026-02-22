@@ -18,6 +18,7 @@ function FieldInput({
   disabled = false,
   defaultValue = "",
   isLabel = true,
+  min
 }) {
   return (
     <Field>
@@ -38,6 +39,7 @@ function FieldInput({
         disabled={disabled}
         defaultValue={defaultValue}
         className="sm:py-5 text-md sm:text-lg lg:text-xl border-0"
+        min={min}
       />
       {description && (
         <FieldDescription className="text-xs md:text-sm">
