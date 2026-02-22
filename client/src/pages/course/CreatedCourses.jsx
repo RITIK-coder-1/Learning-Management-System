@@ -22,7 +22,8 @@ function CreatedCourses() {
       courseId: course._id,
       title: course?.title,
       desc: course?.description,
-      createdAt: course?.createdAt,
+      img: course?.thumbnail,
+      price: course?.price
     };
   });
 
@@ -44,9 +45,9 @@ function CreatedCourses() {
                 to={`/app/created-courses/${course.courseId}`}
               >
                 <CourseCard
-                  image={course.thumbnail}
+                  image={course.img}
                   title={course.title}
-                  description={course.description}
+                  description={course.desc}
                   price={course.price}
                 />
               </Navlink>
