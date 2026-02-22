@@ -131,10 +131,10 @@ function CreateCourse() {
           {label}
           <span className="text-destructive text-red-600"> *</span>
         </label>
-        <ul>
+        <ul className="flex flex-col gap-3">
           {inputType.map((id) => {
             return (
-              <li key={id}>
+              <li key={id} className="flex items-center justify-between gap-2">
                 <FieldInput
                   name={forField}
                   onBlur={addNewValueToArray(id, arraySetterFunction)}
@@ -142,9 +142,8 @@ function CreateCourse() {
                   placeholder={placeholder}
                 />
                 {inputType.length > 1 && (
-                  <button
-                    type="button"
-                    className="border"
+                  <CommonButton
+                    label={"-"}
                     onClick={deleteInput(
                       id,
                       inputSetterFunction,
@@ -152,9 +151,9 @@ function CreateCourse() {
                       arraySetterFunction,
                       arrayType
                     )}
-                  >
-                    -
-                  </button>
+                    className="w-10 p-1 bg-pink-950 hover:bg-pink-900"
+                    title="remove"
+                  />
                 )}
               </li>
             );
