@@ -10,6 +10,9 @@ import { CourseCard } from "../../components/index.components";
 function ExploreCourses() {
   const { data } = useGetAllTheCoursesQuery(); // the course data
 
+  console.log(data);
+  
+
   // the specific courses data to show on the page
   const courses = filterCourses(data);
 

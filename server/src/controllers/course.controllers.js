@@ -11,7 +11,10 @@ GET ALL COURSES CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getAllCoursesFunction = async (_req, res) => {
-  const courses = await Course.find({});
+  const courses = await Course.find({}).populate({
+    path: "owner",
+    select: "-password -refreshTokenString -__v -enrolledCourses",
+  });
 
   if (!courses) {
     console.error("GET ALL COURSES ERROR: courses not fetched");
