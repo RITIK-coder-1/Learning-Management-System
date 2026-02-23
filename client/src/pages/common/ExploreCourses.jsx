@@ -34,7 +34,7 @@ function ExploreCourses() {
                 description={course.desc}
                 price={course.price}
                 key={course.arrayId}
-                path={`/app/created-courses/${course.courseId}`}
+                path={`/app/courses/${course.courseId}`}
                 accountType="Student"
                 instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
               />
