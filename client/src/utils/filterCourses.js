@@ -12,6 +12,8 @@ function filterCourses(data) {
       desc: course?.description,
       img: course?.thumbnail,
       price: course?.price,
+      instructorFirstName: course?.owner?.firstName,
+      instructorLastName: course?.owner?.lastName,
     };
   });
 

@@ -11,7 +11,6 @@ function ExploreCourses() {
   const { data } = useGetAllTheCoursesQuery(); // the course data
 
   console.log(data);
-  
 
   // the specific courses data to show on the page
   const courses = filterCourses(data);
@@ -36,6 +35,8 @@ function ExploreCourses() {
                 price={course.price}
                 key={course.arrayId}
                 path={`/app/created-courses/${course.courseId}`}
+                accountType="Student"
+                instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
               />
             );
           })}
