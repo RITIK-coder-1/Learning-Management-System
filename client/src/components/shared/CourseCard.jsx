@@ -13,36 +13,40 @@ function CourseCard({
   price,
   accountType,
   key,
-  path
+  path,
 }) {
-  // trim the description if it's too long
-  let compactDescription = "";
-  if (description?.length > 70) {
-    compactDescription = description.slice(0, 70);
-  }
   return (
-    <Navlink
-      key={key}
-      to={path}
-    >
+    <Navlink key={key} to={path}>
       <div
-        className="border w-64 h-84 border-white/10 rounded-lg overflow-hidden shadow-2xl shadow-black hover:shadow-4xl flex flex-col cursor-pointer relative z-50 hover:border-white/50"
+        className="border w-64 h-88 border-white/10 rounded-lg shadow-2xl shadow-black hover:shadow-4xl flex flex-col cursor-pointer relative z-10 hover:border-white/50 overflow-hidden"
         title="Visit the course"
       >
-        <img src={image} alt="course thumbnail" className="w-full h-50" />
-        <div className="w-full flex flex-col justify-between grow pt-1 p-3 gap-1">
-          <h3 className="text-white text-xl font-bold">{title}</h3>
-          {accountType === "Student" && (
-            <span className="text-lg text-foreground">{instructor}</span> // instructor name should only be dislayed for students for viweing courses
-          )}
-          <span className="text-sm text-white/60">
-            {description?.length > 70
-              ? `${compactDescription}.......`
-              : description}
-          </span>
-          <span className="text-white/80 font-black">
-            {price === 0 ? "Free" : `₹ ${price}`}
-          </span>
+        <img
+          src={image}
+          alt="course thumbnail"
+          className="w-full h-44 object-cover"
+        />
+
+        <div className="w-full flex flex-col grow">
+          <h3 className="text-yellow-200 text-xl font-bold leading-tight h-7 line-clamp-1 pl-3 pt-1">
+            {title}
+          </h3>
+
+          <div className="w-full flex flex-col grow p-3">
+            <div className="w-full flex flex-col gap-1">
+              {accountType === "Student" && (
+                <span className="text-md text-white/80">{instructor}</span>
+              )}
+
+              <span className="text-xs text-white/60 h-8 line-clamp-2">
+                {description}
+              </span>
+            </div>
+
+            <span className="text-white/80 font-black text-lg mt-auto">
+              {price === 0 ? "Free" : `₹ ${price}`}
+            </span>
+          </div>
         </div>
       </div>
     </Navlink>
