@@ -11,10 +11,13 @@ GET ALL COURSES CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const getAllCoursesFunction = async (_req, res) => {
-  const courses = await Course.find({}).populate({
-    path: "owner",
-    select: "-password -refreshTokenString -__v -enrolledCourses",
-  });
+  // only show the courses that are published by the instructors
+  const courses = await Course.find({ status: "Published" })
+    .select("-enrolledBy -status -__v")
+    .populate({
+      path: "owner",
+      select: "-password -refreshTokenString -__v -enrolledCourses",
+    });
 
   if (!courses) {
     console.error("GET ALL COURSES ERROR: courses not fetched");
@@ -45,6 +48,7 @@ const getCourseFunction = async (req, res) => {
 
   // Getting the course along with the nested sub-documents
   const course = await Course.findById(courseId)
+    .select("-enrolledBy -status -__v")
     .populate({
       path: "sections",
       populate: {
