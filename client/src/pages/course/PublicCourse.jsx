@@ -14,8 +14,8 @@ function PublicCourse() {
   console.log(course);
 
   return (
-    <div className="border w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row">
-      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black">
+    <div className="border w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
+      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
         <img
           src={course?.thumbnail || null}
           className="h-64 w-full object-cover"
@@ -37,7 +37,7 @@ function PublicCourse() {
           </ul>
         </div>
       </div>
-      <div className="border w-full h-auto"></div>
+      <div className="border w-full h-auto">hey</div>
     </div>
   );
 }
