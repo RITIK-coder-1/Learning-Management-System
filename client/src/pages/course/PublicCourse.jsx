@@ -14,7 +14,7 @@ function PublicCourse() {
   console.log(course);
 
   return (
-    <div className="border w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
+    <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
       <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
         <img
           src={course?.thumbnail || null}
@@ -37,10 +37,18 @@ function PublicCourse() {
           </ul>
         </div>
       </div>
-      <div className="border w-full h-auto">
-        <h1 className="text-yellow-500 font-black text-3xl text-center">{course?.title}</h1>
-        <p>{course?.description}</p>
-        <Link>Created By: {course?.owner?.firstName} {course?.owner?.lastName}</Link>
+      <div className="w-full h-auto p-5 pt-0 flex flex-col gap-2">
+        <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
+        <p className="text-white/70 text-xs">{course?.description}</p>
+        <span className="text-sm">
+          Created By:{" "}
+          <Link className="underline underline-offset-4 cursor-pointer text-blue-500 hover:text-blue-900">
+            {course?.owner?.firstName} {course?.owner?.lastName}
+          </Link>
+        </span>
+        <div className="w-full border mt-5">
+          <span>Course Structure</span>
+        </div>
       </div>
     </div>
   );
