@@ -3,6 +3,7 @@ CreatedCourses.jsx
 The page for displaying all the created courses of an instructor
 ------------------------------------------------------------------------------------------------- */
 
+import filterCourses from "@/utils/filterCourses";
 import { useGetAllCoursesInstructorQuery } from "../../api/index.api";
 import {
   Navlink,
@@ -14,16 +15,7 @@ function CreatedCourses() {
   const { data } = useGetAllCoursesInstructorQuery(); // the course data
 
   // the specific courses data to show on the page
-  const courses = data?.data?.map((course) => {
-    return {
-      arrayId: crypto.randomUUID(),
-      courseId: course._id,
-      title: course?.title,
-      desc: course?.description,
-      img: course?.thumbnail,
-      price: course?.price,
-    };
-  });
+  const courses = filterCourses(data);
 
   return (
     <>

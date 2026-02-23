@@ -1,0 +1,21 @@
+/* ----------------------------------------------------------------------------------------------
+filterCourse.js
+The utility to filter the course fields for display 
+------------------------------------------------------------------------------------------------- */
+
+function filterCourses(data) {
+  const courses = data?.data?.map((course) => {
+    return {
+      arrayId: crypto.randomUUID(),
+      courseId: course._id,
+      title: course?.title,
+      desc: course?.description,
+      img: course?.thumbnail,
+      price: course?.price,
+    };
+  });
+
+  return courses;
+}
+
+export default filterCourses;
