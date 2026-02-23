@@ -12,11 +12,10 @@ function CourseCard({
   description,
   price,
   accountType,
-  key,
   path,
 }) {
   return (
-    <Navlink key={key} to={path}>
+    <Navlink to={path}>
       <div
         className="border w-64 h-88 border-white/10 rounded-lg shadow-2xl shadow-black hover:shadow-4xl flex flex-col cursor-pointer relative z-20 hover:border-white/50 overflow-hidden"
         title="Visit the course"
