@@ -21,7 +21,7 @@ function CreatedCourses() {
       title: course?.title,
       desc: course?.description,
       img: course?.thumbnail,
-      price: course?.price
+      price: course?.price,
     };
   });
 
@@ -38,17 +38,14 @@ function CreatedCourses() {
         <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
           {courses?.map((course) => {
             return (
-              <Navlink
+              <CourseCard
+                image={course.img}
+                title={course.title}
+                description={course.desc}
+                price={course.price}
                 key={course.arrayId}
-                to={`/app/created-courses/${course.courseId}`}
-              >
-                <CourseCard
-                  image={course.img}
-                  title={course.title}
-                  description={course.desc}
-                  price={course.price}
-                />
-              </Navlink>
+                path={`/app/created-courses/${course.courseId}`}
+              />
             );
           })}
         </div>
