@@ -18,7 +18,7 @@ function CourseCard({
   return (
     <Navlink key={key} to={path}>
       <div
-        className="border w-64 h-88 border-white/10 rounded-lg shadow-2xl shadow-black hover:shadow-4xl flex flex-col cursor-pointer relative z-10 hover:border-white/50 overflow-hidden"
+        className="border w-64 h-88 border-white/10 rounded-lg shadow-2xl shadow-black hover:shadow-4xl flex flex-col cursor-pointer relative z-20 hover:border-white/50 overflow-hidden"
         title="Visit the course"
       >
         <img
@@ -43,7 +43,11 @@ function CourseCard({
               </span>
             </div>
 
-            <span className="text-white/80 font-black text-lg mt-auto">
+            <span
+              className={`font-black text-lg mt-auto ${
+                price === 0 ? "text-green-500" : "text-white/80"
+              }`}
+            >
               {price === 0 ? "Free" : `₹ ${price}`}
             </span>
           </div>
