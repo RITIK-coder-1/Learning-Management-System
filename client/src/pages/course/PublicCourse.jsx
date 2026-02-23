@@ -53,7 +53,7 @@ function PublicCourse() {
         </div>
       </div>
 
-      <div className="w-full h-auto p-5 pt-0 flex flex-col gap-2">
+      <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
         {/* Title */}
         <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
 
@@ -69,18 +69,18 @@ function PublicCourse() {
         </span>
 
         {/* The lessons */}
-        <div className="w-full border mt-5">
-          <span className="text-foreground text-lg">Course Structure</span>
+        <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
+          <span className="text-foreground text-2xl">Course Structure</span>
 
           {/* The accordion */}
-          <Accordion type="multiple" className="max-w-lg">
+          <Accordion type="multiple" className="max-w-lg flex flex-col">
             {sections?.map((section) => (
-              <AccordionItem key={section._id} value={section.title}>
+              <AccordionItem key={section._id} value={section.title} className="border border-white/5">
                 {/* The chapter name */}
-                <AccordionTrigger>{section.title}</AccordionTrigger>
+                <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md">{section.title}</AccordionTrigger>
 
                 {/* The videos */}
-                {/* <AccordionContent></AccordionContent> */}
+                <AccordionContent className="">demo content</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
