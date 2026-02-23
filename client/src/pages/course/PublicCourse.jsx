@@ -6,21 +6,32 @@ The page for displaying a course publicly
 import { Link, useParams } from "react-router-dom";
 import { useGetCourseQuery } from "@/api/index.api";
 import { CommonButton } from "@/components/index.components";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 function PublicCourse() {
   const { courseId } = useParams();
   const { data } = useGetCourseQuery({ courseId });
   const course = data?.data;
+  const sections = course?.sections;
   console.log(course);
+  console.log(sections);
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
       <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
+        {/* Thumbnail */}
         <img
           src={course?.thumbnail || null}
           className="h-64 w-full object-cover"
         />
+
         <div className="w-full h-auto p-5 flex flex-col gap-3">
+          {/* Price */}
           <span
             className={`text-3xl font-black ${
               course?.price === 0 ? "text-green-500" : "text-white"
@@ -28,7 +39,11 @@ function PublicCourse() {
           >
             {course?.price === 0 ? "Free" : `₹ ${course?.price}`}
           </span>
+
+          {/* Enroll now */}
           <CommonButton label="Enroll Now" className="w-full" title="Enroll" />
+
+          {/* Course specifics */}
           <span className="text-xl">What is in the course?</span>
           <ul className="list-disc flex flex-col text-sm pl-6 text-white/70">
             <li>Lifetime Access With Free Updates</li>
@@ -37,17 +52,38 @@ function PublicCourse() {
           </ul>
         </div>
       </div>
+
       <div className="w-full h-auto p-5 pt-0 flex flex-col gap-2">
+        {/* Title */}
         <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
+
+        {/* Description */}
         <p className="text-white/70 text-xs">{course?.description}</p>
+
+        {/* Instructor Info */}
         <span className="text-sm">
           Created By:{" "}
           <Link className="underline underline-offset-4 cursor-pointer text-blue-500 hover:text-blue-900">
             {course?.owner?.firstName} {course?.owner?.lastName}
           </Link>
         </span>
+
+        {/* The lessons */}
         <div className="w-full border mt-5">
-          <span>Course Structure</span>
+          <span className="text-foreground text-lg">Course Structure</span>
+
+          {/* The accordion */}
+          <Accordion type="multiple" className="max-w-lg">
+            {sections?.map((section) => (
+              <AccordionItem key={section._id} value={section.title}>
+                {/* The chapter name */}
+                <AccordionTrigger>{section.title}</AccordionTrigger>
+
+                {/* The videos */}
+                {/* <AccordionContent></AccordionContent> */}
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
     </div>

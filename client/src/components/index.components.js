@@ -34,5 +34,5 @@ export {
   Image,
   AppSidebar,
   UserProfilePic,
-  CourseCard
+  CourseCard,
 };
