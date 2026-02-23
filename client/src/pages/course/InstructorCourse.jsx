@@ -1,6 +1,6 @@
 /* ----------------------------------------------------------------------------------------------
-Course.jsx
-The page for displaying a course
+InstructorCourse.jsx
+The page for displaying a course for instructors
 ------------------------------------------------------------------------------------------------- */
 
 import { useParams } from "react-router-dom";

@@ -25,7 +25,8 @@ import {
   Dashboard,
   EnrolledCourses,
   CreatedCourses,
-  Course,
+  InstructorCourse,
+  PublicCourse,
 } from "./pages/index.pages.js";
 import ExploreCourses from "./pages/common/ExploreCourses.jsx";
 
@@ -63,12 +64,23 @@ const myRouter = createBrowserRouter([
         element: <EnrolledCourses />,
         path: "enrolled-courses",
       },
+
+      // public course routes
       {
-        element: <ExploreCourses />,
         path: "courses",
+        children: [
+          {
+            element: <ExploreCourses />,
+            index: true,
+          },
+          {
+            element: <PublicCourse />,
+            path: ":courseId",
+          },
+        ],
       },
 
-      // course specific routes
+      // instructor course routes
       {
         path: "created-courses",
         children: [
@@ -84,7 +96,7 @@ const myRouter = createBrowserRouter([
             path: ":courseId",
             children: [
               {
-                element: <Course />,
+                element: <InstructorCourse />,
                 index: true,
               },
               {
