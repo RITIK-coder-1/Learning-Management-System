@@ -55,6 +55,10 @@ const getCourseFunction = async (req, res) => {
         path: "courseVideos",
       },
     })
+    .populate({
+      path: "owner",
+      select: "-password -refreshTokenString -__v -enrolledCourses",
+    })
     .exec();
 
   if (!course) {

@@ -3,7 +3,7 @@ PublicCourse.jsx
 The page for displaying a course publicly 
 ------------------------------------------------------------------------------------------------- */
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetCourseQuery } from "@/api/index.api";
 import { CommonButton } from "@/components/index.components";
 
@@ -28,7 +28,7 @@ function PublicCourse() {
           >
             {course?.price === 0 ? "Free" : `₹ ${course?.price}`}
           </span>
-          <CommonButton label="Enroll Now" className="w-full" title="Enroll"/>
+          <CommonButton label="Enroll Now" className="w-full" title="Enroll" />
           <span className="text-xl">What is in the course?</span>
           <ul className="list-disc flex flex-col text-sm pl-6 text-white/70">
             <li>Lifetime Access With Free Updates</li>
@@ -37,7 +37,11 @@ function PublicCourse() {
           </ul>
         </div>
       </div>
-      <div className="border w-full h-auto">hey</div>
+      <div className="border w-full h-auto">
+        <h1 className="text-yellow-500 font-black text-3xl text-center">{course?.title}</h1>
+        <p>{course?.description}</p>
+        <Link>Created By: {course?.owner?.firstName} {course?.owner?.lastName}</Link>
+      </div>
     </div>
   );
 }
