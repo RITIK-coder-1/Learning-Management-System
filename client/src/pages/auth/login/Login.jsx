@@ -96,6 +96,7 @@ function Login() {
           onChange={setValue}
           label="Enter email/username"
           placeholder="username/email"
+          disabled={isOtp}
         />
 
         {/* Password */}
@@ -105,6 +106,7 @@ function Login() {
           label="Password"
           inputType="password"
           placeholder="••••••••••••••••"
+          disabled={isOtp}
         />
 
         {/* OTP */}

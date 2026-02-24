@@ -10,7 +10,11 @@ import {
   useGetCourseInstructorQuery,
   useUpdateSectionMutation,
 } from "../../api/index.api";
-import { Navlink, CommonButton } from "../../components/index.components";
+import {
+  Navlink,
+  CommonButton,
+  InputFile,
+} from "../../components/index.components";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setCourse } from "../../features/courseSlice";
@@ -49,6 +53,7 @@ function Course() {
   ------------------------------------------------------------------------------------------------- */
 
   const [sectionData, setSectionData] = useState([]);
+  const [videoInputs, setVideoInputs] = useState([]);
 
   useEffect(() => {
     setSectionData(sections);
@@ -57,6 +62,18 @@ function Course() {
   /* ----------------------------------------------------------------------------------------------
     The methods
   ------------------------------------------------------------------------------------------------- */
+
+  // add a new video input
+  const addNewVideoInput = () => {
+    setVideoInputs((currentArray) => {
+      return [...currentArray, crypto.randomUUID()];
+    });
+  };
+
+  // remove a video input
+  const removeVideoInput = (id) => {
+    setVideoInputs(videoInputs.filter((input) => input !== id));
+  };
 
   // update the section data
   const updateSectionData = (id) => {
@@ -144,12 +161,15 @@ function Course() {
               >
                 {/* The chapter name */}
                 <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md flex justify-center items-center">
+                  {/* The mutable title */}
                   <input
                     type="text"
                     defaultValue={section.title}
                     className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
                     onChange={updateSectionData(section._id)}
                   />
+
+                  {/* The delete button  */}
                   <CommonButton
                     label="-"
                     className="bg-red-900 hover:bg-red-950 w-7 h-7 p-0"
@@ -160,14 +180,31 @@ function Course() {
 
                 {/* The videos */}
                 <AccordionContent className="px-2 flex flex-col gap-2 justify-between items-center">
+                  {/* The content  */}
                   demo content
-                  <CommonButton
-                    label="Update"
-                    onClick={updateSectionCall(section._id)}
-                    className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
-                    title="update chapter"
-                  />
+                  {/* The add new video input */}
+                  {videoInputs.map((videoInput) => {
+                    return (
+                      <span className="w-full flex justify-center items-center">
+                        <InputFile key={videoInput} />
+                      </span>
+                    );
+                  })}
                 </AccordionContent>
+                {/* The update button */}
+                <CommonButton
+                  label="Update"
+                  onClick={updateSectionCall(section._id)}
+                  className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
+                  title="update chapter"
+                />
+                {/* Add new video */}
+                <CommonButton
+                  label="Add A Video"
+                  onClick={addNewVideoInput}
+                  className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
+                  title="add video"
+                />
               </AccordionItem>
             ))}
           </Accordion>
