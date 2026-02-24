@@ -6,6 +6,7 @@ The page for displaying a course for instructors
 import { useParams } from "react-router-dom";
 import {
   useDeleteCourseInstructorMutation,
+  useDeleteSectionMutation,
   useGetCourseInstructorQuery,
   useUpdateSectionMutation,
 } from "../../api/index.api";
@@ -34,6 +35,7 @@ function Course() {
   const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
   const [updateSection] = useUpdateSectionMutation();
+  const [deleteSection] = useDeleteSectionMutation();
 
   // set the course as soon as it loads
   useEffect(() => {
@@ -91,6 +93,17 @@ function Course() {
     };
   };
 
+  // delete a section
+  const deleteSectionCall = (id) => {
+    return async () => {
+      try {
+        await deleteSection({ courseId, sectionId: id }).unwrap;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
       <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
@@ -130,12 +143,18 @@ function Course() {
                 className="border border-white/5"
               >
                 {/* The chapter name */}
-                <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md">
+                <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md flex justify-center items-center">
                   <input
                     type="text"
                     defaultValue={section.title}
                     className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
                     onChange={updateSectionData(section._id)}
+                  />
+                  <CommonButton
+                    label="-"
+                    className="bg-red-900 hover:bg-red-950 w-7 h-7 p-0"
+                    title="Delete Section"
+                    onClick={deleteSectionCall(section._id)}
                   />
                 </AccordionTrigger>
 
@@ -146,7 +165,7 @@ function Course() {
                     label="Update"
                     onClick={updateSectionCall(section._id)}
                     className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
-                    title="update section"
+                    title="update chapter"
                   />
                 </AccordionContent>
               </AccordionItem>
@@ -154,8 +173,14 @@ function Course() {
           </Accordion>
         </div>
         <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
-          <CommonButton label="Update Course" title="update course"/>
-          <CommonButton label="Delete Course" className="bg-red-900 hover:bg-red-950" title="delete"/>
+          <Navlink to={`/app/created-courses/${courseId}/update`}>
+            <CommonButton label="Update Course" title="update course" />
+          </Navlink>
+          <CommonButton
+            label="Delete Course"
+            className="bg-red-900 hover:bg-red-950"
+            title="delete"
+          />
         </div>
       </div>
     </div>
