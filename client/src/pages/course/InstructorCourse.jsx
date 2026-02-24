@@ -18,24 +18,56 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useState } from "react";
 
 function Course() {
+  /* ----------------------------------------------------------------------------------------------
+    The data
+  ------------------------------------------------------------------------------------------------- */
+
   const { courseId } = useParams();
   const { data } = useGetCourseInstructorQuery({ courseId });
-  console.log(data);
-
   const course = data?.data;
-  console.log(course);
   const sections = course?.sections;
 
   const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
 
+  // set the course as soon as it loads
   useEffect(() => {
     if (course) {
       dispatch(setCourse(course));
     }
   }, [course]);
+
+  /* ----------------------------------------------------------------------------------------------
+    The states
+  ------------------------------------------------------------------------------------------------- */
+
+  const [sectionData, setSectionData] = useState([]);
+
+  useEffect(() => {
+    setSectionData(sections);
+  }, [sections]);
+
+  /* ----------------------------------------------------------------------------------------------
+    The methods
+  ------------------------------------------------------------------------------------------------- */
+
+  // update the section data
+  const updateSectionData = (id) => {
+    return (e) => {
+      sectionData.map((section) => {
+        if (section?._id === id) {
+          const newData = { ...section, title: e.target.value }; // change the existing value with the input value
+          const filteredArray = sectionData.filter(
+            (section) => section._id !== id // create a new array removing the exisiting section
+          );
+          setSectionData([...filteredArray, newData]); // return another array with the new array merged with the new section data
+        }
+      });
+    };
+  };
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
@@ -79,15 +111,22 @@ function Course() {
               >
                 {/* The chapter name */}
                 <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md">
-                  {section.title}
+                  <input
+                    type="text"
+                    defaultValue={section.title}
+                    className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
+                    onChange={updateSectionData(section._id)}
+                  />
                 </AccordionTrigger>
 
                 {/* The videos */}
                 <AccordionContent className="">demo content</AccordionContent>
+                <CommonButton label="Update Section" />
               </AccordionItem>
             ))}
           </Accordion>
         </div>
+        <CommonButton label="Update Course" />
       </div>
     </div>
   );
