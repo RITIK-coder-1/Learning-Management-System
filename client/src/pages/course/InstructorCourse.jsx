@@ -14,6 +14,7 @@ import {
   Navlink,
   CommonButton,
   InputFile,
+  FieldInput,
 } from "../../components/index.components";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -24,6 +25,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 
 function Course() {
@@ -65,14 +67,15 @@ function Course() {
 
   // add a new video input
   const addNewVideoInput = () => {
-    setVideoInputs((currentArray) => {
-      return [...currentArray, crypto.randomUUID()];
-    });
+    setVideoInputs([...videoInputs, crypto.randomUUID()]);
   };
 
   // remove a video input
   const removeVideoInput = (id) => {
-    setVideoInputs(videoInputs.filter((input) => input !== id));
+    return (e) => {
+      e.stopPropagation();
+      setVideoInputs(videoInputs.filter((input) => input !== id));
+    };
   };
 
   // update the section data
@@ -112,7 +115,8 @@ function Course() {
 
   // delete a section
   const deleteSectionCall = (id) => {
-    return async () => {
+    return async (e) => {
+      e.stopPropagation();
       try {
         await deleteSection({ courseId, sectionId: id }).unwrap;
       } catch (error) {
@@ -160,36 +164,49 @@ function Course() {
                 className="border border-white/5"
               >
                 {/* The chapter name */}
-                <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md flex justify-center items-center">
-                  {/* The mutable title */}
-                  <input
-                    type="text"
-                    defaultValue={section.title}
-                    className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
-                    onChange={updateSectionData(section._id)}
-                  />
-
-                  {/* The delete button  */}
-                  <CommonButton
-                    label="-"
-                    className="bg-red-900 hover:bg-red-950 w-7 h-7 p-0"
-                    title="Delete Section"
-                    onClick={deleteSectionCall(section._id)}
-                  />
+                <AccordionTrigger asChild>
+                  <div className="w-full border-b rounded-none px-2 bg-white/3 border-white/5 text-md flex justify-center items-center">
+                    {/* The mutable title */}
+                    <input
+                      type="text"
+                      defaultValue={section.title}
+                      className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
+                      onChange={updateSectionData(section._id)}
+                    />
+                    {/* The delete button  */}
+                    <CommonButton
+                      className="bg-red-900 hover:bg-red-950 w-10 h-8 font-bold cursor-pointer rounded-md"
+                      title="Delete Section"
+                      onClick={deleteSectionCall(section._id)}
+                      label="-"
+                    />
+                    <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+                  </div>
                 </AccordionTrigger>
 
                 {/* The videos */}
-                <AccordionContent className="px-2 flex flex-col gap-2 justify-between items-center">
-                  {/* The content  */}
-                  demo content
-                  {/* The add new video input */}
-                  {videoInputs.map((videoInput) => {
-                    return (
-                      <span className="w-full flex justify-center items-center">
-                        <InputFile key={videoInput} />
-                      </span>
-                    );
-                  })}
+                <AccordionContent asChild>
+                  <div className="w-full p-2 flex flex-col gap-2 justify-between items-center">
+                    {/* The content  */}
+                    demo content
+                    {/* The add new video input */}
+                    {videoInputs.map((videoInput) => {
+                      return (
+                        <span
+                          className="w-full flex flex-col justify-center items-center gap-2"
+                          key={videoInput}
+                        >
+                          <InputFile />
+                          <CommonButton
+                            className="bg-red-900 hover:bg-red-950 w-full h-8 font-bold cursor-pointer rounded-md"
+                            title="Delete Section"
+                            onClick={removeVideoInput(videoInput)}
+                            label="-"
+                          />
+                        </span>
+                      );
+                    })}
+                  </div>
                 </AccordionContent>
                 {/* The update button */}
                 <CommonButton
