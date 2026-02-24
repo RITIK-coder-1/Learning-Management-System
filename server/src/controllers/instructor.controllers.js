@@ -193,6 +193,43 @@ const getAllInstructorCoursesFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+GET COURSE CONTROLLER (for instructor only)
+------------------------------------------------------------------------------------------ */
+
+const getCourseInstructorFunction = async (req, res) => {
+  const { courseId } = req.params;
+  const user = req.user;
+
+  if (!courseId) {
+    console.error("GET COURSE INSTRUCTOR ERROR: invalid id");
+    throw new ApiError(400, "Invalid Course ID!");
+  }
+
+  // Getting the course along with the nested sub-documents
+  const course = await Course.find({ _id: courseId, owner: user._id })
+    .populate({
+      path: "sections",
+      populate: {
+        path: "courseVideos",
+      },
+    })
+    .exec();
+
+  if (!course) {
+    console.error("GET COURSE INSTRUCTOR ERROR: invalid course");
+    throw new ApiError(404, "The course doesn't exist!");
+  }
+
+  console.log("Course successfully fetched for isntructor!");
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, "The course has been successfully fetched!", course)
+    );
+};
+
+/* ---------------------------------------------------------------------------------------
 UPDATE COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
@@ -700,6 +737,7 @@ const addSection = asyncHandler(addSectionFunction);
 const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
 const createCourse = asyncHandler(createCourseFunction);
+const getCourseInstructor = asyncHandler(getCourseInstructorFunction)
 
 export {
   createCourse,
@@ -712,4 +750,5 @@ export {
   addSection,
   deleteSection,
   updateSection,
+  getCourseInstructor
 };

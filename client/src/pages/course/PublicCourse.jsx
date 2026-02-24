@@ -73,7 +73,7 @@ function PublicCourse() {
           <span className="text-foreground text-2xl">Course Structure</span>
 
           {/* The accordion */}
-          <Accordion type="multiple" className="w-full flex flex-col">
+          <Accordion type="multiple" className="w-full">
             {sections?.map((section) => (
               <AccordionItem key={section._id} value={section.title} className="border border-white/5">
                 {/* The chapter name */}

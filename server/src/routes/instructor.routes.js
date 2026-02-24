@@ -20,6 +20,7 @@ import {
   deleteSection,
   getAllCoursesInstructor,
   updateCourse,
+  getCourseInstructor,
 } from "../controllers/instructor.controllers.js";
 
 const router = Router();
@@ -40,6 +41,7 @@ router
   .post(upload.single("thumbnail"), createCourse); // create a course
 router
   .route("/:courseId")
+  .get(getCourseInstructor) // get the course 
   .patch(upload.single("thumbnail"), updateCourse) // update the course
   .delete(deleteCourseInstructor); // delete the course
 router.route("/:courseId/sections").post(addSection); // add a section to this course

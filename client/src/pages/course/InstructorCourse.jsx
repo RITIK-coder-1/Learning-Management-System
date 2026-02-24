@@ -6,7 +6,7 @@ The page for displaying a course for instructors
 import { useParams } from "react-router-dom";
 import {
   useDeleteCourseInstructorMutation,
-  useGetCourseQuery,
+  useGetCourseInstructorQuery,
 } from "../../api/index.api";
 import { Navlink } from "../../components/index.components";
 import { useEffect } from "react";
@@ -15,7 +15,9 @@ import { setCourse } from "../../features/courseSlice";
 
 function Course() {
   const { courseId } = useParams();
-  const { data } = useGetCourseQuery({ courseId });
+  const { data } = useGetCourseInstructorQuery({ courseId });
+  console.log(data);
+  
   const course = data?.data;
   const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
