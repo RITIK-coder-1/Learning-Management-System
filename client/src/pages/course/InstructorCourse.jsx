@@ -77,7 +77,7 @@ function Course() {
       sectionData.forEach(async (section) => {
         if (section._id === id) {
           try {
-            // call the API only for the targetted section 
+            // call the API only for the targetted section
             await updateSection({
               updatedData: section,
               sectionId: id,
@@ -115,10 +115,8 @@ function Course() {
       <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
         {/* Title */}
         <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
-
         {/* Description */}
         <p className="text-white/70 text-xs">{course?.description}</p>
-
         {/* The lessons */}
         <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
           <span className="text-foreground text-2xl">Course Structure</span>
@@ -142,13 +140,23 @@ function Course() {
                 </AccordionTrigger>
 
                 {/* The videos */}
-                <AccordionContent className="">demo content</AccordionContent>
-                <CommonButton label="Update" onClick={updateSectionCall(section._id)} />
+                <AccordionContent className="px-2 flex flex-col gap-2 justify-between items-center">
+                  demo content
+                  <CommonButton
+                    label="Update"
+                    onClick={updateSectionCall(section._id)}
+                    className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
+                    title="update section"
+                  />
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
-        <CommonButton label="Update Course" />
+        <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
+          <CommonButton label="Update Course" title="update course"/>
+          <CommonButton label="Delete Course" className="bg-red-900 hover:bg-red-950" title="delete"/>
+        </div>
       </div>
     </div>
   );
