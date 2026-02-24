@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import {
   useDeleteCourseInstructorMutation,
   useGetCourseInstructorQuery,
+  useUpdateSectionMutation,
 } from "../../api/index.api";
 import { Navlink, CommonButton } from "../../components/index.components";
 import { useEffect } from "react";
@@ -32,6 +33,7 @@ function Course() {
 
   const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
+  const [updateSection] = useUpdateSectionMutation();
 
   // set the course as soon as it loads
   useEffect(() => {
@@ -64,6 +66,26 @@ function Course() {
             (section) => section._id !== id // create a new array removing the exisiting section
           );
           setSectionData([...filteredArray, newData]); // return another array with the new array merged with the new section data
+        }
+      });
+    };
+  };
+
+  // update section API call
+  const updateSectionCall = (id) => {
+    return () => {
+      sectionData.forEach(async (section) => {
+        if (section._id === id) {
+          try {
+            // call the API only for the targetted section 
+            await updateSection({
+              updatedData: section,
+              sectionId: id,
+              courseId,
+            }).unwrap();
+          } catch (error) {
+            console.error(error);
+          }
         }
       });
     };
@@ -121,7 +143,7 @@ function Course() {
 
                 {/* The videos */}
                 <AccordionContent className="">demo content</AccordionContent>
-                <CommonButton label="Update Section" />
+                <CommonButton label="Update" onClick={updateSectionCall(section._id)} />
               </AccordionItem>
             ))}
           </Accordion>

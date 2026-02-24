@@ -704,9 +704,9 @@ const updateSectionFunction = async (req, res) => {
 
   section.title = title;
 
-  const updateSection = await section.save({ validateBeforeSave: false });
+  const updatedSection = await section.save({ validateBeforeSave: false });
 
-  if (!updateSection) {
+  if (!updatedSection) {
     console.error("UPDATE SECTION ERROR: not updated");
     throw new ApiError(
       500,
