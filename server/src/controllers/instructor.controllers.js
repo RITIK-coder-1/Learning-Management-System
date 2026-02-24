@@ -206,7 +206,7 @@ const getCourseInstructorFunction = async (req, res) => {
   }
 
   // Getting the course along with the nested sub-documents
-  const course = await Course.find({ _id: courseId, owner: user._id })
+  const course = await Course.findOne({ _id: courseId, owner: user._id })
     .populate({
       path: "sections",
       populate: {

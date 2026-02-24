@@ -19,6 +19,8 @@ function Course() {
   console.log(data);
   
   const course = data?.data;
+  console.log(course);
+  
   const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
 
