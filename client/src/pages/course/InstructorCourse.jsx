@@ -66,7 +66,8 @@ function Course() {
   ------------------------------------------------------------------------------------------------- */
 
   // add a new video input
-  const addNewVideoInput = () => {
+  const addNewVideoInput = (e) => {
+    e.stopPropagation()
     setVideoInputs([...videoInputs, crypto.randomUUID()]);
   };
 
@@ -81,6 +82,7 @@ function Course() {
   // update the section data
   const updateSectionData = (id) => {
     return (e) => {
+      e.stopPropagation()
       sectionData.map((section) => {
         if (section?._id === id) {
           const newData = { ...section, title: e.target.value }; // change the existing value with the input value
@@ -174,12 +176,15 @@ function Course() {
                       onChange={updateSectionData(section._id)}
                     />
                     {/* The delete button  */}
-                    <CommonButton
+                    <button
                       className="bg-red-900 hover:bg-red-950 w-10 h-8 font-bold cursor-pointer rounded-md"
                       title="Delete Section"
                       onClick={deleteSectionCall(section._id)}
-                      label="-"
-                    />
+                    >
+                      -
+                    </button>
+
+                    {/* The trigger icon */}
                     <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
                   </div>
                 </AccordionTrigger>
@@ -206,22 +211,22 @@ function Course() {
                         </span>
                       );
                     })}
+                    {/* The update button */}
+                    <CommonButton
+                      label="Update"
+                      onClick={updateSectionCall(section._id)}
+                      className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
+                      title="update chapter"
+                    />
+                    {/* Add new video */}
+                    <CommonButton
+                      label="Add A Video"
+                      onClick={addNewVideoInput}
+                      className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
+                      title="add video"
+                    />
                   </div>
                 </AccordionContent>
-                {/* The update button */}
-                <CommonButton
-                  label="Update"
-                  onClick={updateSectionCall(section._id)}
-                  className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
-                  title="update chapter"
-                />
-                {/* Add new video */}
-                <CommonButton
-                  label="Add A Video"
-                  onClick={addNewVideoInput}
-                  className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
-                  title="add video"
-                />
               </AccordionItem>
             ))}
           </Accordion>
