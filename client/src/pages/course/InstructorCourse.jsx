@@ -43,27 +43,18 @@ function Course() {
   const course = data?.data;
   const sections = course?.sections;
 
-  console.log(sections);
-  
-
   const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [deleteSection] = useDeleteSectionMutation();
   const [addVideo] = useAddNewVideoMutation();
 
-  // set the course as soon as it loads
-  useEffect(() => {
-    if (course) {
-      dispatch(setCourse(course));
-    }
-  }, [course]);
-
   /* ----------------------------------------------------------------------------------------------
     The states
   ------------------------------------------------------------------------------------------------- */
 
   const [sectionData, setSectionData] = useState([]); // the sections
+
   useEffect(() => {
     setSectionData(sections);
   }, [sections]);
@@ -201,7 +192,7 @@ function Course() {
           {/* The accordion */}
           <Accordion type="multiple" className="w-full">
             {/* The lessons */}
-            {sections?.map((section) => (
+            {sectionData?.map((section) => (
               <AccordionItem
                 key={section._id}
                 value={section.title}
@@ -226,7 +217,13 @@ function Course() {
                 <AccordionContent asChild>
                   {/* The videos */}
                   <div className="w-full p-2 flex flex-col gap-2 justify-between items-center">
-                    demo content
+                    <ol className="w-full list-decimal p-3 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
+                      {sectionData?.map((section) => {
+                        return section?.courseVideos?.map((video) => {
+                          return <li key={video?._id}>{video?.title}</li>;
+                        });
+                      })}
+                    </ol>
                     <div className="w-full flex justify-center items-center gap-3">
                       {/* The update section button */}
                       <CommonButton
