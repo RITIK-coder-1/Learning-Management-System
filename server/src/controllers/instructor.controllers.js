@@ -458,7 +458,7 @@ UPDATE COURSE VIDEO CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const updateCourseVideoFunction = async (req, res) => {
-  const { title, description, videoId } = req.body;
+  const { title, videoId } = req.body;
 
   if (!videoId) {
     console.error("UPDATE VIDEO ERROR: Invalid video id");
@@ -467,26 +467,17 @@ const updateCourseVideoFunction = async (req, res) => {
 
   const video = await CourseVideo.findById(videoId);
 
-  if (!title.trim() || !description.trim()) {
+  if (!title.trim()) {
     console.error("UPDATE VIDEO ERROR: empty fields");
     throw new ApiError(400, "The title and the description can't be empty!");
   }
 
-  if (video.title === title && video.description === description) {
+  if (video.title === title) {
     console.error("UPDATE VIDEO ERROR: no updated value");
     throw new ApiError(400, "Please update at least one field!");
   }
 
-  if (description > 100) {
-    console.error("UPDATE VIDEO ERROR: descp exceed");
-    throw new ApiError(
-      400,
-      "The description can't be more than 100 characters!"
-    );
-  }
-
   video.title = title;
-  video.description = description;
 
   const updatedVideo = await video.save({ validateBeforeSave: false });
 
