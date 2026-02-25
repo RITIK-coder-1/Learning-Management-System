@@ -19,8 +19,6 @@ function PublicCourse() {
   const { data } = useGetCourseQuery({ courseId });
   const course = data?.data;
   const sections = course?.sections;
-  console.log(course);
-  console.log(sections);
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
@@ -88,7 +86,15 @@ function PublicCourse() {
                 </AccordionTrigger>
 
                 {/* The videos */}
-                <AccordionContent className="">demo content</AccordionContent>
+                <AccordionContent className="w-full">
+                  <ol className="w-full list-decimal p-3 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
+                    {sections?.map((section) => {
+                      return section?.courseVideos?.map((video) => {
+                        return <li key={video?._id}>{video?.title}</li>;
+                      });
+                    })}
+                  </ol>
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

@@ -21,8 +21,6 @@ import {
   Form,
 } from "../../components/index.components";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setCourse } from "../../features/courseSlice";
 import {
   Accordion,
   AccordionContent,
@@ -32,6 +30,7 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import getFormData from "@/utils/getFormData";
+import { MdOutlineSystemUpdateAlt, MdDelete } from "react-icons/md";
 
 function Course() {
   /* ----------------------------------------------------------------------------------------------
@@ -42,8 +41,6 @@ function Course() {
   const { data } = useGetCourseInstructorQuery({ courseId });
   const course = data?.data;
   const sections = course?.sections;
-
-  const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [deleteSection] = useDeleteSectionMutation();
@@ -216,60 +213,80 @@ function Course() {
 
                 <AccordionContent asChild>
                   {/* The videos */}
-                  <div className="w-full p-2 flex flex-col gap-2 justify-between items-center">
+                  <div className="w-full p-3 flex flex-col gap-7 justify-between items-center">
                     <ol className="w-full list-decimal p-3 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
                       {sectionData?.map((section) => {
                         return section?.courseVideos?.map((video) => {
-                          return <li key={video?._id}>{video?.title}</li>;
+                          return (
+                            <li
+                              key={video?._id}
+                              className="w-full flex items-center justify-center gap-3"
+                            >
+                              <input
+                                defaultValue={video?.title}
+                                className="w-full border p-1 border-white/10"
+                              />
+                              <span className="flex justify-center items-center w-auto h-full gap-3">
+                                <MdOutlineSystemUpdateAlt
+                                  className="text-blue-500 w-7 h-7 cursor-pointer"
+                                  title="Update Title"
+                                />
+                                <MdDelete
+                                  className="text-red-900 w-7 h-7 cursor-pointer"
+                                  title="Delete Video"
+                                />
+                              </span>
+                            </li>
+                          );
                         });
                       })}
                     </ol>
-                    <div className="w-full flex justify-center items-center gap-3">
-                      {/* The update section button */}
-                      <CommonButton
-                        label="Update Section"
-                        onClick={updateSectionCall(section._id)}
-                        className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-26 p-0 font-normal text-xs sm:w-30 sm:text-sm"
-                        title="update chapter"
-                      />
-                      {/* Add new video */}
-                      <AddDialogueBox
-                        label="Add Video"
-                        onSubmit={uploadNewVideo(section._id)}
-                      >
-                        <FieldInput
-                          label="Title"
-                          placeholder="Title"
-                          name="title"
-                          onChange={setDataForVideoUpload(section._id)}
-                        />
-                        <FieldInput
-                          label="Description"
-                          placeholder="Description"
-                          name="description"
-                          onChange={setDataForVideoUpload(section._id)}
-                        />
-                        <InputFile
-                          onChange={setVideoFileForUpload}
-                          accept="video/*"
-                        />
-                      </AddDialogueBox>
-
-                      {/* Delete the section */}
-                      <DeleteDialogueBox
-                        label="Delete Section"
-                        description="The entire section including all the videos will be deleted."
-                        onClick={deleteSectionCall(section._id)}
-                      />
-                    </div>
                   </div>
                 </AccordionContent>
+                <div className="w-full flex justify-center items-center gap-3 mt-5">
+                  {/* The update section button */}
+                  <CommonButton
+                    label="Update Section"
+                    onClick={updateSectionCall(section._id)}
+                    className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-26 p-0 font-normal text-xs sm:w-30 sm:text-sm"
+                    title="update chapter"
+                  />
+                  {/* Add new video */}
+                  <AddDialogueBox
+                    label="Add Video"
+                    onSubmit={uploadNewVideo(section._id)}
+                  >
+                    <FieldInput
+                      label="Title"
+                      placeholder="Title"
+                      name="title"
+                      onChange={setDataForVideoUpload(section._id)}
+                    />
+                    <FieldInput
+                      label="Description"
+                      placeholder="Description"
+                      name="description"
+                      onChange={setDataForVideoUpload(section._id)}
+                    />
+                    <InputFile
+                      onChange={setVideoFileForUpload}
+                      accept="video/*"
+                    />
+                  </AddDialogueBox>
+
+                  {/* Delete the section */}
+                  <DeleteDialogueBox
+                    label="Delete Section"
+                    description="The entire section including all the videos will be deleted."
+                    onClick={deleteSectionCall(section._id)}
+                  />
+                </div>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
 
-        <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
+        <div className="w-full flex flex-col mt-10 justify-center items-center gap-3 sm:flex-row">
           {/* Update Course Details  */}
           <Navlink to={`/app/created-courses/${courseId}/update`}>
             <CommonButton label="Update Course" title="update course" />
