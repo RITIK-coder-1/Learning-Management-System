@@ -22,7 +22,8 @@ function DeleteDialogueBox({ label, description, onClick }) {
       <AlertDialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-red-400 hover:bg-red-800 cursor-pointer"
+          className="border-red-400 hover:bg-red-800 cursor-pointer w-26 text-xs sm:w-30 sm:text-sm"
+          title="Delete"
         >
           {label}
         </Button>

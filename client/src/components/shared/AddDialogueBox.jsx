@@ -22,7 +22,8 @@ function AddDialogueBox({ label, children, onSubmit }) {
       <AlertDialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-green-400 hover:bg-green-800 cursor-pointer"
+          className="border-green-400 hover:bg-green-800 cursor-pointer w-26 text-xs sm:w-30 sm:text-sm"
+          title="Add New Data"
         >
           {label}
         </Button>

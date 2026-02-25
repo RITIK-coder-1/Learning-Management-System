@@ -43,6 +43,9 @@ function Course() {
   const course = data?.data;
   const sections = course?.sections;
 
+  console.log(sections);
+  
+
   const dispatch = useDispatch();
   const [deleteCourse] = useDeleteCourseInstructorMutation();
   const [updateSection] = useUpdateSectionMutation();
@@ -108,8 +111,6 @@ function Course() {
   const setVideoFileForUpload = (e) => {
     setVideoData({ ...videoData, courseVideo: e.target?.files[0] });
   };
-
-  console.log(videoData);
 
   /* ----------------------------------------------------------------------------------------------
     API Calls
@@ -226,15 +227,14 @@ function Course() {
                   {/* The videos */}
                   <div className="w-full p-2 flex flex-col gap-2 justify-between items-center">
                     demo content
-                    <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
+                    <div className="w-full flex justify-center items-center gap-3">
                       {/* The update section button */}
                       <CommonButton
-                        label="Update"
+                        label="Update Section"
                         onClick={updateSectionCall(section._id)}
-                        className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
+                        className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-26 p-0 font-normal text-xs sm:w-30 sm:text-sm"
                         title="update chapter"
                       />
-
                       {/* Add new video */}
                       <AddDialogueBox
                         label="Add Video"
