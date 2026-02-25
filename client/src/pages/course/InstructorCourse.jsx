@@ -8,6 +8,7 @@ import {
   useAddNewVideoMutation,
   useDeleteCourseInstructorMutation,
   useDeleteSectionMutation,
+  useDeleteVideoMutation,
   useGetCourseInstructorQuery,
   useUpdateSectionMutation,
   useUpdateVideoMutation,
@@ -46,6 +47,7 @@ function Course() {
   const [deleteSection] = useDeleteSectionMutation();
   const [addVideo] = useAddNewVideoMutation();
   const [updateVideo] = useUpdateVideoMutation();
+  const [deleteVideo] = useDeleteVideoMutation();
 
   /* ----------------------------------------------------------------------------------------------
     The states
@@ -190,6 +192,21 @@ function Course() {
     };
   };
 
+  // delete a video
+  const deleteVideoApiCall = (sectionId, videoId) => {
+    return async () => {
+      try {
+        await deleteVideo({
+          courseId,
+          sectionId,
+          videoId: videoId,
+        }).unwrap();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
       <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
@@ -271,6 +288,7 @@ function Course() {
                                 <MdDelete
                                   className="text-red-900 w-7 h-7 cursor-pointer"
                                   title="Delete Video"
+                                  onClick={deleteVideoApiCall(section._id, video._id)}
                                 />
                               </span>
                             </li>

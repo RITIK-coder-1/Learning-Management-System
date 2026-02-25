@@ -507,7 +507,7 @@ DELETE COURSE VIDEO CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const deleteCourseVideoFunction = async (req, res) => {
-  const { videoId, sectionId } = req.body;
+  const { videoId, sectionId } = req.params;
   if (!videoId || !sectionId) {
     console.error("DELETE VIDEO ERROR: invalid video id or section id");
     throw new ApiError(400, "Invalid Video or Section ID");
