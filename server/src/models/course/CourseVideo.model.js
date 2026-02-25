@@ -16,12 +16,6 @@ const courseVideoSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    description: {
-      type: String,
-      required: true,
-      maxlength: 100,
-      trim: true,
-    },
     videoUrl: {
       type: String, // cloudinary link,
       required: true,

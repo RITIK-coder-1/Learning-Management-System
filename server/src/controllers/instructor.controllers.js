@@ -384,17 +384,12 @@ ADD COURSE VIDEO CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const addCourseVideoFunction = async (req, res) => {
-  const { title, description, sectionId } = req.body; // the frontend will send the section id
-  const videoLocalPath = req.file?.path; 
-  
-  if (!title?.trim() || !description?.trim()) {
+  const { title, sectionId } = req.body; // the frontend will send the section id
+  const videoLocalPath = req.file?.path;
+
+  if (!title?.trim()) {
     console.error("ADD COURSE VIDEO ERROR: empty fields");
     throw new ApiError(400, "All the fields are mandatory!");
-  }
-
-  if (description.length > 100) {
-    console.error("ADD COURSE VIDEO ERROR: exceeding description");
-    throw new ApiError(400, "Description can't exceed 100 characters!");
   }
 
   if (!videoLocalPath) {
@@ -419,7 +414,6 @@ const addCourseVideoFunction = async (req, res) => {
 
   const courseVideo = await CourseVideo.create({
     title,
-    description,
     videoUrl: video.url,
     duration: video.duration,
     courseSection: sectionId,
@@ -737,7 +731,7 @@ const addSection = asyncHandler(addSectionFunction);
 const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
 const createCourse = asyncHandler(createCourseFunction);
-const getCourseInstructor = asyncHandler(getCourseInstructorFunction)
+const getCourseInstructor = asyncHandler(getCourseInstructorFunction);
 
 export {
   createCourse,
@@ -750,5 +744,5 @@ export {
   addSection,
   deleteSection,
   updateSection,
-  getCourseInstructor
+  getCourseInstructor,
 };

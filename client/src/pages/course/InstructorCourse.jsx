@@ -18,7 +18,6 @@ import {
   DeleteDialogueBox,
   AddDialogueBox,
   FieldInput,
-  Form,
 } from "../../components/index.components";
 import { useEffect } from "react";
 import {
@@ -59,7 +58,6 @@ function Course() {
   const [videoData, setVideoData] = useState({
     // to add a new video
     title: "",
-    description: "",
     courseVideo: null,
     sectionId: "",
   });
@@ -260,12 +258,6 @@ function Course() {
                       label="Title"
                       placeholder="Title"
                       name="title"
-                      onChange={setDataForVideoUpload(section._id)}
-                    />
-                    <FieldInput
-                      label="Description"
-                      placeholder="Description"
-                      name="description"
                       onChange={setDataForVideoUpload(section._id)}
                     />
                     <InputFile
