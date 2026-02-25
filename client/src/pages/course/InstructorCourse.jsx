@@ -18,6 +18,7 @@ import {
   DeleteDialogueBox,
   AddDialogueBox,
   FieldInput,
+  Form,
 } from "../../components/index.components";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -228,7 +229,7 @@ function Course() {
                       {/* Add new video */}
                       <AddDialogueBox
                         label="Add Video"
-                        onClick={uploadNewVideo(section._id)}
+                        onSubmit={uploadNewVideo(section._id)}
                       >
                         <FieldInput
                           label="Title"
