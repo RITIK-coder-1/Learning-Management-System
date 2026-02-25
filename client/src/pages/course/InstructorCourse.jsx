@@ -159,7 +159,7 @@ function Course() {
           sectionId: id,
         }).unwrap();
       } catch (error) {
-        e.preventDefault(); // prevent the page from reloading only if there's an error 
+        e.preventDefault(); // prevent the page from reloading only if there's an error
 
         console.error(error);
       }
@@ -252,7 +252,10 @@ function Course() {
                           name="description"
                           onChange={setDataForVideoUpload(section._id)}
                         />
-                        <InputFile onChange={setVideoFileForUpload} />
+                        <InputFile
+                          onChange={setVideoFileForUpload}
+                          accept="video/*"
+                        />
                       </AddDialogueBox>
 
                       {/* Delete the section */}

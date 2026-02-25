@@ -13,6 +13,7 @@ function InputFile({
   onChange,
   required = true,
   disabled = false,
+  accept
 }) {
   return (
     <Field>
@@ -24,6 +25,7 @@ function InputFile({
         onChange={onChange}
         disabled={disabled}
         required={required}
+        accept={accept}
       />
       <FieldDescription className="text-xs">{description}</FieldDescription>
     </Field>

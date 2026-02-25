@@ -190,6 +190,7 @@ function Register() {
         disabled={isOtp}
         onChange={fileData}
         required={userData.accountType === "Instructor" ? true : false}
+        accept="image/*"
       />
 
       {/* OTP */}
