@@ -386,8 +386,6 @@ ADD COURSE VIDEO CONTROLLER
 const addCourseVideoFunction = async (req, res) => {
   const { title, description, sectionId } = req.body; // the frontend will send the section id
   const videoLocalPath = req.file?.path; 
-
-  console.log(req.body);
   
   if (!title?.trim() || !description?.trim()) {
     console.error("ADD COURSE VIDEO ERROR: empty fields");

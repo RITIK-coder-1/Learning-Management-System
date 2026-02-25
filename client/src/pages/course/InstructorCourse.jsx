@@ -70,6 +70,7 @@ function Course() {
     title: "",
     description: "",
     courseVideo: null,
+    sectionId: "",
   });
 
   /* ----------------------------------------------------------------------------------------------
@@ -93,13 +94,19 @@ function Course() {
   };
 
   // set the new video data to be uploaded
-  const setDataForVideoUpload = (e) => {
-    setVideoData({ ...videoData, [e.target.name]: e.target.value });
+  const setDataForVideoUpload = (id) => {
+    return (e) => {
+      setVideoData({
+        ...videoData,
+        [e.target.name]: e.target.value,
+        sectionId: id,
+      });
+    };
   };
 
   // set the course video
   const setVideoFileForUpload = (e) => {
-    setVideoData({ ...videoData, courseVideo: e.target.files[0] });
+    setVideoData({ ...videoData, courseVideo: e.target?.files[0] });
   };
 
   console.log(videoData);
@@ -152,6 +159,8 @@ function Course() {
           sectionId: id,
         }).unwrap();
       } catch (error) {
+        e.preventDefault(); // prevent the page from reloading only if there's an error 
+
         console.error(error);
       }
     };
@@ -235,13 +244,13 @@ function Course() {
                           label="Title"
                           placeholder="Title"
                           name="title"
-                          onChange={setDataForVideoUpload}
+                          onChange={setDataForVideoUpload(section._id)}
                         />
                         <FieldInput
                           label="Description"
                           placeholder="Description"
                           name="description"
-                          onChange={setDataForVideoUpload}
+                          onChange={setDataForVideoUpload(section._id)}
                         />
                         <InputFile onChange={setVideoFileForUpload} />
                       </AddDialogueBox>
