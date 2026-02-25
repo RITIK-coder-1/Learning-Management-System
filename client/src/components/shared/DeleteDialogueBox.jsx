@@ -33,12 +33,12 @@ function DeleteDialogueBox({ label, description, onClick }) {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="hover:bg-white/10">
+        <AlertDialogFooter className="flex flex-row justify-center items-center">
+          <AlertDialogCancel className="hover:bg-white/10 w-30">
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-red-900 hover:bg-red-950"
+            className="bg-red-900 hover:bg-red-950 w-30"
             onClick={onClick}
           >
             Continue

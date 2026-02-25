@@ -5,6 +5,7 @@ The page for displaying a course for instructors
 
 import { useParams } from "react-router-dom";
 import {
+  useAddNewVideoMutation,
   useDeleteCourseInstructorMutation,
   useDeleteSectionMutation,
   useGetCourseInstructorQuery,
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/accordion";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
+import getFormData from "@/utils/getFormData";
 
 function Course() {
   /* ----------------------------------------------------------------------------------------------
@@ -44,6 +46,7 @@ function Course() {
   const [deleteCourse] = useDeleteCourseInstructorMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [deleteSection] = useDeleteSectionMutation();
+  const [addVideo] = useAddNewVideoMutation();
 
   // set the course as soon as it loads
   useEffect(() => {
@@ -56,18 +59,23 @@ function Course() {
     The states
   ------------------------------------------------------------------------------------------------- */
 
-  const [sectionData, setSectionData] = useState([]);
-  const [videoInputs, setVideoInputs] = useState([]);
-
+  const [sectionData, setSectionData] = useState([]); // the sections
   useEffect(() => {
     setSectionData(sections);
   }, [sections]);
 
+  const [videoData, setVideoData] = useState({
+    // to add a new video
+    title: "",
+    description: "",
+    courseVideo: null,
+  });
+
   /* ----------------------------------------------------------------------------------------------
-    The methods
+    The methods to manipulate the states 
   ------------------------------------------------------------------------------------------------- */
 
-  // update the section data
+  // update the section state data
   const updateSectionData = (id) => {
     return (e) => {
       e.stopPropagation();
@@ -83,7 +91,23 @@ function Course() {
     };
   };
 
-  // update section API call
+  // set the new video data to be uploaded
+  const setDataForVideoUpload = (e) => {
+    setVideoData({ ...videoData, [e.target.name]: e.target.value });
+  };
+
+  // set the course video
+  const setVideoFileForUpload = (e) => {
+    setVideoData({ ...videoData, courseVideo: e.target.files[0] });
+  };
+
+  console.log(videoData);
+
+  /* ----------------------------------------------------------------------------------------------
+    API Calls
+  ------------------------------------------------------------------------------------------------- */
+
+  // update section API call for server
   const updateSectionCall = (id) => {
     return () => {
       sectionData.forEach(async (section) => {
@@ -108,7 +132,24 @@ function Course() {
     return async (e) => {
       e.stopPropagation();
       try {
-        await deleteSection({ courseId, sectionId: id }).unwrap;
+        await deleteSection({ courseId, sectionId: id }).unwrap();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  };
+
+  // upload a new video
+  const uploadNewVideo = (id) => {
+    return async (e) => {
+      e.stopPropagation();
+      try {
+        const videoFormData = getFormData(videoData);
+        await addVideo({
+          videoData: videoFormData,
+          courseId,
+          sectionId: id,
+        }).unwrap();
       } catch (error) {
         console.error(error);
       }
@@ -139,14 +180,16 @@ function Course() {
       <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
         {/* Title */}
         <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
+
         {/* Description */}
         <p className="text-white/70 text-xs">{course?.description}</p>
-        {/* The lessons */}
+
         <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
           <span className="text-foreground text-2xl">Course Structure</span>
 
           {/* The accordion */}
           <Accordion type="multiple" className="w-full">
+            {/* The lessons */}
             {sections?.map((section) => (
               <AccordionItem
                 key={section._id}
@@ -169,29 +212,40 @@ function Course() {
                   </div>
                 </AccordionTrigger>
 
-                {/* The videos */}
                 <AccordionContent asChild>
+                  {/* The videos */}
                   <div className="w-full p-2 flex flex-col gap-2 justify-between items-center">
-                    {/* The content  */}
                     demo content
-                    {/* The add new video input */}
                     <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
-                      {/* The update button */}
+                      {/* The update section button */}
                       <CommonButton
                         label="Update"
                         onClick={updateSectionCall(section._id)}
                         className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
                         title="update chapter"
                       />
+
                       {/* Add new video */}
-                      <AddDialogueBox label="Add Video">
-                        <FieldInput label="Title" placeholder="Title" />
+                      <AddDialogueBox
+                        label="Add Video"
+                        onClick={uploadNewVideo(section._id)}
+                      >
+                        <FieldInput
+                          label="Title"
+                          placeholder="Title"
+                          name="title"
+                          onChange={setDataForVideoUpload}
+                        />
                         <FieldInput
                           label="Description"
                           placeholder="Description"
+                          name="description"
+                          onChange={setDataForVideoUpload}
                         />
-                        <InputFile />
+                        <InputFile onChange={setVideoFileForUpload} />
                       </AddDialogueBox>
+
+                      {/* Delete the section */}
                       <DeleteDialogueBox
                         label="Delete Section"
                         description="The entire section including all the videos will be deleted."
@@ -204,10 +258,13 @@ function Course() {
             ))}
           </Accordion>
         </div>
+
         <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
+          {/* Update Course Details  */}
           <Navlink to={`/app/created-courses/${courseId}/update`}>
             <CommonButton label="Update Course" title="update course" />
           </Navlink>
+          {/* Delete Course */}
           <CommonButton
             label="Delete Course"
             className="bg-red-900 hover:bg-red-950"

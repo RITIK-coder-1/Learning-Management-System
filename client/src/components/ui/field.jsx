@@ -127,7 +127,7 @@ function FieldTitle({ className, ...props }) {
 
 function FieldDescription({ className, ...props }) {
   return (
-    <p
+    <div
       data-slot="field-description"
       className={cn(
         "text-muted-foreground text-sm leading-normal font-normal group-has-data-[orientation=horizontal]/field:text-balance",

@@ -35,12 +35,12 @@ function AddDialogueBox({ label, children, onClick }) {
             {children}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="hover:bg-red-700">
+        <AlertDialogFooter className="flex flex-row justify-center items-center">
+          <AlertDialogCancel className="hover:bg-red-700 w-30">
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="hover:bg-purple-950 border border-white"
+            className="hover:bg-purple-950 border border-white w-30"
             onClick={onClick}
           >
             Continue
