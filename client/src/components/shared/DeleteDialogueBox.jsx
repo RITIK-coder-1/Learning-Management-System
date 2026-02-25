@@ -16,13 +16,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-function DeleteDialogueBox({ label, description, onClick }) {
+function DeleteDialogueBox({ label, description, onClick, triggerClass }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-red-400 hover:bg-red-800 cursor-pointer w-26 text-xs sm:w-30 sm:text-sm"
+          className={`border-red-400 hover:bg-red-800 cursor-pointer w-26 text-xs sm:w-30 sm:text-sm ${triggerClass}`}
           title="Delete"
         >
           {label}

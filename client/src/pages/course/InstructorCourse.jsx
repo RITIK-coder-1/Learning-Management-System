@@ -207,6 +207,17 @@ function Course() {
     };
   };
 
+  // delete a course
+  const deleteCourseCall = async () => {
+    try {
+      await deleteCourse({
+        courseId,
+      }).unwrap();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
       <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
@@ -288,7 +299,10 @@ function Course() {
                                 <MdDelete
                                   className="text-red-900 w-7 h-7 cursor-pointer"
                                   title="Delete Video"
-                                  onClick={deleteVideoApiCall(section._id, video._id)}
+                                  onClick={deleteVideoApiCall(
+                                    section._id,
+                                    video._id
+                                  )}
                                 />
                               </span>
                             </li>
@@ -341,10 +355,11 @@ function Course() {
             <CommonButton label="Update Course" title="update course" />
           </Navlink>
           {/* Delete Course */}
-          <CommonButton
+          <DeleteDialogueBox
             label="Delete Course"
-            className="bg-red-900 hover:bg-red-950"
-            title="delete"
+            description="The entire course including all the videos, the student data will be deleted."
+            onClick={deleteCourseCall}
+            triggerClass="font-black text-lg w-50 p-5 shadow-2xl shadow-black bg-red-900 sm:p-5 sm:w-50 sm:text-lg border-0 hover:bg-red-950"
           />
         </div>
       </div>
