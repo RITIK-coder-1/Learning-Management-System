@@ -15,6 +15,8 @@ import {
   CommonButton,
   InputFile,
   DeleteDialogueBox,
+  AddDialogueBox,
+  FieldInput,
 } from "../../components/index.components";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -27,7 +29,6 @@ import {
 } from "@/components/ui/accordion";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
-import { MdDelete } from "react-icons/md";
 
 function Course() {
   /* ----------------------------------------------------------------------------------------------
@@ -65,20 +66,6 @@ function Course() {
   /* ----------------------------------------------------------------------------------------------
     The methods
   ------------------------------------------------------------------------------------------------- */
-
-  // add a new video input
-  const addNewVideoInput = (e) => {
-    e.stopPropagation();
-    setVideoInputs([...videoInputs, crypto.randomUUID()]);
-  };
-
-  // remove a video input
-  const removeVideoInput = (id) => {
-    return (e) => {
-      e.stopPropagation();
-      setVideoInputs(videoInputs.filter((input) => input !== id));
-    };
-  };
 
   // update the section data
   const updateSectionData = (id) => {
@@ -188,22 +175,6 @@ function Course() {
                     {/* The content  */}
                     demo content
                     {/* The add new video input */}
-                    {videoInputs.map((videoInput) => {
-                      return (
-                        <span
-                          className="w-full flex flex-col justify-center items-center gap-2"
-                          key={videoInput}
-                        >
-                          <InputFile />
-                          <CommonButton
-                            className="bg-red-900 hover:bg-red-950 w-full h-8 font-bold cursor-pointer rounded-md"
-                            title="Delete Section"
-                            onClick={removeVideoInput(videoInput)}
-                            label="-"
-                          />
-                        </span>
-                      );
-                    })}
                     <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
                       {/* The update button */}
                       <CommonButton
@@ -213,12 +184,14 @@ function Course() {
                         title="update chapter"
                       />
                       {/* Add new video */}
-                      <CommonButton
-                        label="Add A Video"
-                        onClick={addNewVideoInput}
-                        className="bg-green-500 w-full hover:bg-blue-900 sm:w-88"
-                        title="add video"
-                      />
+                      <AddDialogueBox label="Add Video">
+                        <FieldInput label="Title" placeholder="Title" />
+                        <FieldInput
+                          label="Description"
+                          placeholder="Description"
+                        />
+                        <InputFile />
+                      </AddDialogueBox>
                       <DeleteDialogueBox
                         label="Delete Section"
                         description="The entire section including all the videos will be deleted."

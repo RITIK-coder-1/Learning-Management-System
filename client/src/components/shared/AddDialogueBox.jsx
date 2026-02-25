@@ -1,6 +1,6 @@
 /* ----------------------------------------------------------------------------------------------
-DeleteDialogueBox.jsx
-Warning dialogue for deleting important data 
+AddDialogueBox.jsx
+dialogue for adding new data 
 ------------------------------------------------------------------------------------------------- */
 
 import {
@@ -16,29 +16,31 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-function DeleteDialogueBox({ label, description, onClick }) {
+function AddDialogueBox({ label, children, onClick }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-red-400 hover:bg-red-800 cursor-pointer"
+          className="border-green-400 hover:bg-green-800 cursor-pointer"
         >
           {label}
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="border-red-600 bg-linear-to-br from-white/10 via-black/40 to-red-900/30 backdrop-blur-md">
+      <AlertDialogContent className="border-green-700 bg-linear-to-br from-white/10 via-black/40 to-green-900/30 backdrop-blur-md">
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogTitle className="text-2xl">Add New Data</AlertDialogTitle>
+          <AlertDialogDescription className="flex flex-col gap-3">
+            {children}
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="hover:bg-white/10">
+          <AlertDialogCancel className="hover:bg-red-700">
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-red-900 hover:bg-red-950"
+            className="hover:bg-purple-950 border border-white"
             onClick={onClick}
           >
             Continue
@@ -49,4 +51,4 @@ function DeleteDialogueBox({ label, description, onClick }) {
   );
 }
 
-export default DeleteDialogueBox;
+export default AddDialogueBox;

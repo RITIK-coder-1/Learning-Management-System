@@ -44,7 +44,7 @@ function AlertDialogContent({
 }) {
   return (
     <AlertDialogPortal>
-      <AlertDialogOverlay className="w-screen h-screen fixed z-1000 bg-black/50"/>
+      <AlertDialogOverlay className="w-screen h-screen fixed z-1000 bg-black/70"/>
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
         data-size={size}
