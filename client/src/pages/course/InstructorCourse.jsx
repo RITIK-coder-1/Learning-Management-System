@@ -10,6 +10,7 @@ import {
   useDeleteSectionMutation,
   useGetCourseInstructorQuery,
   useUpdateSectionMutation,
+  useUpdateVideoMutation,
 } from "../../api/index.api";
 import {
   Navlink,
@@ -44,6 +45,7 @@ function Course() {
   const [updateSection] = useUpdateSectionMutation();
   const [deleteSection] = useDeleteSectionMutation();
   const [addVideo] = useAddNewVideoMutation();
+  const [updateVideo] = useUpdateVideoMutation();
 
   /* ----------------------------------------------------------------------------------------------
     The states
@@ -60,6 +62,12 @@ function Course() {
     title: "",
     courseVideo: null,
     sectionId: "",
+  });
+
+  const [updatedVideoData, setUpdatedVideoData] = useState({
+    // to update a video
+    title: "",
+    videoId: "",
   });
 
   /* ----------------------------------------------------------------------------------------------
@@ -97,6 +105,19 @@ function Course() {
   const setVideoFileForUpload = (e) => {
     setVideoData({ ...videoData, courseVideo: e.target?.files[0] });
   };
+
+  // update the course video
+  const setVideoDataForUpdate = (id) => {
+    return (e) => {
+      setUpdatedVideoData({
+        ...updatedVideoData,
+        title: e.target.value,
+        videoId: id,
+      });
+    };
+  };
+
+  console.log(updatedVideoData);
 
   /* ----------------------------------------------------------------------------------------------
     API Calls
@@ -148,6 +169,22 @@ function Course() {
       } catch (error) {
         e.preventDefault(); // prevent the page from reloading only if there's an error
 
+        console.error(error);
+      }
+    };
+  };
+
+  // update a video
+  const updateVideoApiCall = (sectionId) => {
+    return async () => {
+      try {
+        await updateVideo({
+          updatedData: updatedVideoData,
+          courseId,
+          sectionId,
+          videoId: updatedVideoData.videoId,
+        }).unwrap();
+      } catch (error) {
         console.error(error);
       }
     };
@@ -223,11 +260,13 @@ function Course() {
                               <input
                                 defaultValue={video?.title}
                                 className="w-full border p-1 border-white/10"
+                                onChange={setVideoDataForUpdate(video?._id)}
                               />
                               <span className="flex justify-center items-center w-auto h-full gap-3">
                                 <MdOutlineSystemUpdateAlt
                                   className="text-blue-500 w-7 h-7 cursor-pointer"
                                   title="Update Title"
+                                  onClick={updateVideoApiCall(section._id)}
                                 />
                                 <MdDelete
                                   className="text-red-900 w-7 h-7 cursor-pointer"

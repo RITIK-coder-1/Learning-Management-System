@@ -111,8 +111,8 @@ const instructorApi = apiSlice.injectEndpoints({
 
     // UPDATE A VIDEO
     updateVideo: builder.mutation({
-      query: ({ updatedData, courseId, sectionId }) => ({
-        url: `/instructor/${courseId}/sections/${sectionId}/videos`,
+      query: ({ updatedData, courseId, sectionId, videoId }) => ({
+        url: `/instructor/${courseId}/sections/${sectionId}/videos/${videoId}`,
         method: "PATCH",
         body: updatedData,
       }),
@@ -123,8 +123,8 @@ const instructorApi = apiSlice.injectEndpoints({
 
     // DELETE A VIDEO
     deleteVideo: builder.mutation({
-      query: ({ courseId, sectionId }) => ({
-        url: `/instructor/${courseId}/sections/${sectionId}/videos`,
+      query: ({ courseId, sectionId, videoId }) => ({
+        url: `/instructor/${courseId}/sections/${sectionId}/videos/${videoId}`,
         method: "DELETE",
       }),
       transformErrorResponse,
