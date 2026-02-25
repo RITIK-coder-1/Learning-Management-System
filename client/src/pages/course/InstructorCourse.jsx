@@ -14,7 +14,7 @@ import {
   Navlink,
   CommonButton,
   InputFile,
-  FieldInput,
+  DeleteDialogueBox,
 } from "../../components/index.components";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/accordion";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
+import { MdDelete } from "react-icons/md";
 
 function Course() {
   /* ----------------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ function Course() {
 
   // add a new video input
   const addNewVideoInput = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     setVideoInputs([...videoInputs, crypto.randomUUID()]);
   };
 
@@ -82,7 +83,7 @@ function Course() {
   // update the section data
   const updateSectionData = (id) => {
     return (e) => {
-      e.stopPropagation()
+      e.stopPropagation();
       sectionData.map((section) => {
         if (section?._id === id) {
           const newData = { ...section, title: e.target.value }; // change the existing value with the input value
@@ -175,14 +176,6 @@ function Course() {
                       className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
                       onChange={updateSectionData(section._id)}
                     />
-                    {/* The delete button  */}
-                    <button
-                      className="bg-red-900 hover:bg-red-950 w-10 h-8 font-bold cursor-pointer rounded-md"
-                      title="Delete Section"
-                      onClick={deleteSectionCall(section._id)}
-                    >
-                      -
-                    </button>
 
                     {/* The trigger icon */}
                     <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
@@ -211,20 +204,27 @@ function Course() {
                         </span>
                       );
                     })}
-                    {/* The update button */}
-                    <CommonButton
-                      label="Update"
-                      onClick={updateSectionCall(section._id)}
-                      className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
-                      title="update chapter"
-                    />
-                    {/* Add new video */}
-                    <CommonButton
-                      label="Add A Video"
-                      onClick={addNewVideoInput}
-                      className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
-                      title="add video"
-                    />
+                    <div className="w-full flex flex-col justify-center items-center gap-3 sm:flex-row">
+                      {/* The update button */}
+                      <CommonButton
+                        label="Update"
+                        onClick={updateSectionCall(section._id)}
+                        className="bg-blue-500 w-full hover:bg-blue-900 sm:w-88"
+                        title="update chapter"
+                      />
+                      {/* Add new video */}
+                      <CommonButton
+                        label="Add A Video"
+                        onClick={addNewVideoInput}
+                        className="bg-green-500 w-full hover:bg-blue-900 sm:w-88"
+                        title="add video"
+                      />
+                      <DeleteDialogueBox
+                        label="Delete Section"
+                        description="The entire section including all the videos will be deleted."
+                        onClick={deleteSectionCall(section._id)}
+                      />
+                    </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>

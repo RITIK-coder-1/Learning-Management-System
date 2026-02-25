@@ -18,6 +18,7 @@ import Image from "./shared/Image";
 import AppSidebar from "./layout/AppSidebar";
 import UserProfilePic from "./layout/UserProfilePic";
 import CourseCard from "./shared/CourseCard";
+import DeleteDialogueBox from "./shared/DeleteDialogueBox";
 
 export {
   Logout,
@@ -35,4 +36,5 @@ export {
   AppSidebar,
   UserProfilePic,
   CourseCard,
+  DeleteDialogueBox
 };

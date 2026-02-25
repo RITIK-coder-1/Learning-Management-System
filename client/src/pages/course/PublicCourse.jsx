@@ -12,6 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ChevronDownIcon } from "lucide-react";
 
 function PublicCourse() {
   const { courseId } = useParams();
@@ -75,9 +76,16 @@ function PublicCourse() {
           {/* The accordion */}
           <Accordion type="multiple" className="w-full">
             {sections?.map((section) => (
-              <AccordionItem key={section._id} value={section.title} className="border border-white/5">
+              <AccordionItem
+                key={section._id}
+                value={section.title}
+                className="border border-white/5"
+              >
                 {/* The chapter name */}
-                <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md">{section.title}</AccordionTrigger>
+                <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md">
+                  {section.title}
+                  <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+                </AccordionTrigger>
 
                 {/* The videos */}
                 <AccordionContent className="">demo content</AccordionContent>
