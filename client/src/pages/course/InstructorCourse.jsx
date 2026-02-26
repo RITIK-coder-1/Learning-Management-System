@@ -285,7 +285,7 @@ function InstructorCourse() {
         {/* The tags */}
         <div className="flex justify-start items-center gap-2 mt-2">
           {course?.tags.map((tag) => (
-            <Tag label={tag} />
+            <Tag label={tag} key={crypto.randomUUID()}/>
           ))}
         </div>
         {/* Title */}

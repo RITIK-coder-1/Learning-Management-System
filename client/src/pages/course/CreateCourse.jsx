@@ -17,7 +17,7 @@ import {
   SelectInput,
 } from "@/components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
-import { FieldLabel } from "@/components/ui/field";
+import { FieldDescription, FieldLabel } from "@/components/ui/field";
 
 function CreateCourse() {
   /* ---------------------------------------------------------------------------------------
@@ -230,16 +230,21 @@ function CreateCourse() {
       />
 
       {/* The tags */}
-      {tagsAndSectionsUI({
-        forField: "tags",
-        label: "Add Some Tags",
-        placeholder: "New Tag",
-        title: "Add Tag",
-        inputType: numberOfTagsInputs,
-        inputSetterFunction: setNumberOfTagsInputs,
-        arrayType: courseTags,
-        arraySetterFunction: setCourseTags,
-      })}
+      <div className="w-full flex flex-col items-start justify-center gap-3">
+        {tagsAndSectionsUI({
+          forField: "tags",
+          label: "Add Some Tags",
+          placeholder: "New Tag",
+          title: "Add Tag",
+          inputType: numberOfTagsInputs,
+          inputSetterFunction: setNumberOfTagsInputs,
+          arrayType: courseTags,
+          arraySetterFunction: setCourseTags,
+        })}
+        <FieldDescription className="text-xs">
+          Tags can only be added once. They are immutable.
+        </FieldDescription>
+      </div>
 
       {/* The category */}
       <div className="flex flex-col w-full gap-2">
