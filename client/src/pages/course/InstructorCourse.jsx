@@ -247,8 +247,8 @@ function InstructorCourse() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
-      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
+    <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
+      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136 sm:ml-5 md:ml-0">
         {/* Thumbnail */}
         <img
           src={course?.thumbnail || null}
@@ -340,12 +340,12 @@ function InstructorCourse() {
                     </ol>
                   </div>
                 </AccordionContent>
-                <div className="w-full flex justify-center items-center gap-3 mt-5">
+                <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 px-3 sm:flex-row">
                   {/* The update section button */}
                   <CommonButton
                     label="Update Section"
                     onClick={updateSectionCall(section._id)}
-                    className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-26 p-0 font-normal text-xs sm:w-30 sm:text-sm"
+                    className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-full p-0 font-normal  text-xs sm:w-24 md:text-sm md:w-30"
                     title="update chapter"
                   />
                   {/* Add new video */}
@@ -353,6 +353,7 @@ function InstructorCourse() {
                     label="Add Video"
                     onSubmit={uploadNewVideo(section._id)}
                     title="Video"
+                    titleClass="w-full text-xs sm:w-24 md:w-30 md:text-sm"
                   >
                     <FieldInput
                       label="Title"
@@ -376,12 +377,14 @@ function InstructorCourse() {
               </AccordionItem>
             ))}
           </Accordion>
-          <div className="w-full flex justify-center items-center">
+
+          {/* Add a new section */}
+          <div className="w-full flex justify-center items-center mt-5">
             <AddDialogueBox
               label="Create New Section"
               onSubmit={addSectionCall}
               title="Section"
-              titleClass="w-44 border-2 text-sm sm:w-56 sm:text-md"
+              titleClass="w-full border-2 text-sm sm:w-56 sm:text-md"
             >
               <FieldInput
                 label="Title"
@@ -403,7 +406,7 @@ function InstructorCourse() {
             label="Delete Course"
             description="The entire course including all the videos, the student data will be deleted."
             onClick={deleteCourseCall}
-            triggerClass="font-black text-lg w-50 p-5 shadow-2xl shadow-black bg-red-900 sm:p-5 sm:w-50 sm:text-lg border-0 hover:bg-red-950"
+            triggerClass="font-black text-lg w-50 p-5 shadow-2xl shadow-black bg-red-900 sm:p-5 sm:w-50 sm:text-lg border-0 hover:bg-red-950 md:w-50 md:text-lg"
           />
         </div>
       </div>

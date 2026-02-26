@@ -22,7 +22,7 @@ function DeleteDialogueBox({ label, description, onClick, triggerClass }) {
       <AlertDialogTrigger asChild>
         <Button
           variant="outline"
-          className={`border-red-400 hover:bg-red-800 cursor-pointer w-26 text-xs sm:w-30 sm:text-sm ${triggerClass}`}
+          className={`border-red-400 hover:bg-red-800 cursor-pointer w-full text-xs sm:w-24 md:text-sm md:w-30 ${triggerClass}`}
           title="Delete"
         >
           {label}
