@@ -17,7 +17,7 @@ import {
   Form,
   InputFile,
   SelectInput,
-  Image
+  Image,
 } from "@/components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { FieldLabel } from "@/components/ui/field";
@@ -69,7 +69,7 @@ function UpdateCourse() {
   const updateThumbnail = (e) => {
     setNewThumbnail(e.target.files[0]); // set the value of the profile pic as the file object
     setCourseDetails({ ...courseDetails, thumbnail: e.target.files[0] });
-  };  
+  };
 
   /* ---------------------------------------------------------------------------------------
   The API call to update the course
@@ -97,12 +97,16 @@ function UpdateCourse() {
     } catch (error) {
       console.error(error.message);
     }
-  };  
+  };
 
   return (
     <Form onSubmit={updateCourse}>
       {/* The thumbnail  */}
-      <Image src={courseDetails.thumbnail} alt="Course Thumbnail" className="w-40 h-40 md:w-40 md:h-40"/>
+      <Image
+        src={courseDetails.thumbnail}
+        alt="Course Thumbnail"
+        className="md:w-40 md:h-40"
+      />
       <InputFile
         name="thumbnail"
         label="Update Thumbnail"

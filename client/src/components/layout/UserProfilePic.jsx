@@ -58,7 +58,7 @@ function UserProfilePic({ isTopBar = false }) {
         src={user?.profilePic}
         alt={"user"}
         title="Your profile"
-        className="w-30 h-30 rounded-full shadow-lg shadow-black md:w-40 md:h-40"
+        className="w-30 h-30 md:w-40 md:h-40"
       />
     );
   }
