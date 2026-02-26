@@ -19,6 +19,7 @@ function PublicCourse() {
   const { data } = useGetCourseQuery({ courseId });
   const course = data?.data;
   const sections = course?.sections;
+  console.log(course);
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
@@ -52,7 +53,19 @@ function PublicCourse() {
         </div>
       </div>
 
+      {/* The tags */}
       <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
+        <div className="flex justify-start items-center gap-2 mt-2">
+          {course?.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-2.5 py-0.5 text-[0.65rem] uppercase tracking-wider border border-purple-500/30 bg-purple-500/10 text-purple-300 rounded-full font-semibold transition-all hover:bg-purple-500/20"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
         {/* Title */}
         <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
 
@@ -90,11 +103,10 @@ function PublicCourse() {
                   <ol className="w-full list-decimal p-3 pb-0 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
                     {section?.courseVideos?.length > 0 ? (
                       section.courseVideos.map((video) => (
-                        <li
-                          key={video?._id}
-                          className="w-full flex items-center justify-start gap-3"
-                        >
-                          {video?.title}
+                        <li key={video?._id} className="w-full mb-2">
+                          <div className="flex items-center justify-start gap-3">
+                            {video?.title}
+                          </div>
                         </li>
                       ))
                     ) : (
