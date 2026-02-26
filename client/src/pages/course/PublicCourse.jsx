@@ -21,8 +21,8 @@ function PublicCourse() {
   const sections = course?.sections;
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 sm:flex-row sm:items-start">
-      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136">
+    <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
+      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black md:w-136 sm:ml-5 md:ml-0">
         {/* Thumbnail */}
         <img
           src={course?.thumbnail || null}

@@ -270,6 +270,7 @@ function InstructorCourse() {
             <Link
               to={`/app/courses/${courseId}`}
               className="text-blue-500 underline underline-offset-4 text-lg hover:text-purple-500"
+              title="View Public Interface"
             >
               See Course?
             </Link>
