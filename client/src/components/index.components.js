@@ -20,6 +20,7 @@ import UserProfilePic from "./layout/UserProfilePic";
 import CourseCard from "./shared/CourseCard";
 import DeleteDialogueBox from "./shared/DeleteDialogueBox";
 import AddDialogueBox from "./shared/AddDialogueBox";
+import Tag from "./shared/Tag";
 
 export {
   Logout,
@@ -38,5 +39,6 @@ export {
   UserProfilePic,
   CourseCard,
   DeleteDialogueBox,
-  AddDialogueBox
+  AddDialogueBox,
+  Tag
 };

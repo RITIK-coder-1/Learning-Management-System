@@ -5,7 +5,7 @@ The page for displaying a course publicly
 
 import { Link, useParams } from "react-router-dom";
 import { useGetCourseQuery } from "@/api/index.api";
-import { CommonButton } from "@/components/index.components";
+import { CommonButton, Tag } from "@/components/index.components";
 import {
   Accordion,
   AccordionContent,
@@ -57,12 +57,7 @@ function PublicCourse() {
       <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
         <div className="flex justify-start items-center gap-2 mt-2">
           {course?.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2.5 py-0.5 text-[0.65rem] uppercase tracking-wider border border-purple-500/30 bg-purple-500/10 text-purple-300 rounded-full font-semibold transition-all hover:bg-purple-500/20"
-            >
-              {tag}
-            </span>
+            <Tag label={tag} />
           ))}
         </div>
 
