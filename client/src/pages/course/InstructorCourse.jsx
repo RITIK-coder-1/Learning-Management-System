@@ -370,6 +370,7 @@ function InstructorCourse() {
                       label="Title"
                       placeholder="Title"
                       name="title"
+                      value={videoData?.title}
                       onChange={setDataForVideoUpload(section._id)}
                     />
                     <InputFile
