@@ -5,6 +5,7 @@ The page for displaying a course for instructors
 
 import { useParams } from "react-router-dom";
 import {
+  useAddNewSectionMutation,
   useAddNewVideoMutation,
   useDeleteCourseInstructorMutation,
   useDeleteSectionMutation,
@@ -44,6 +45,7 @@ function InstructorCourse() {
   const { data } = useGetCourseInstructorQuery({ courseId });
   const course = data?.data;
   const [deleteCourse] = useDeleteCourseInstructorMutation();
+  const [addSection] = useAddNewSectionMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [deleteSection] = useDeleteSectionMutation();
   const [addVideo] = useAddNewVideoMutation();
@@ -61,11 +63,13 @@ function InstructorCourse() {
     The states
   ------------------------------------------------------------------------------------------------- */
 
-  const [sectionData, setSectionData] = useState([]); // the sections
+  const [sectionData, setSectionData] = useState([]); // the current sections
 
   useEffect(() => {
     setSectionData(course?.sections);
   }, [course]);
+
+  const [newSectionData, setNewSectionData] = useState(""); // new section (title)
 
   const [videoData, setVideoData] = useState({
     // to add a new video
@@ -98,6 +102,11 @@ function InstructorCourse() {
         }
       });
     };
+  };
+
+  // set the title of the new section
+  const setSectionTitle = (e) => {
+    setNewSectionData(e.target.value);
   };
 
   // set the new video data to be uploaded
@@ -161,6 +170,19 @@ function InstructorCourse() {
         console.error(error);
       }
     };
+  };
+
+  // add a section
+  const addSectionCall = async (e) => {
+    e.preventDefault();
+    try {
+      await addSection({
+        sectionData: { title: newSectionData },
+        courseId,
+      }).unwrap();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // upload a new video
@@ -354,12 +376,20 @@ function InstructorCourse() {
               </AccordionItem>
             ))}
           </Accordion>
-          <div className="border w-full">
+          <div className="w-full flex justify-center items-center">
             <AddDialogueBox
               label="Create New Section"
-              // onSubmit={uploadNewVideo(section._id)}
+              onSubmit={addSectionCall}
               title="Section"
-            />
+              titleClass="w-44 border-2 text-sm sm:w-56 sm:text-md"
+            >
+              <FieldInput
+                label="Title"
+                placeholder="Title"
+                value={newSectionData}
+                onChange={setSectionTitle}
+              />
+            </AddDialogueBox>
           </div>
         </div>
 

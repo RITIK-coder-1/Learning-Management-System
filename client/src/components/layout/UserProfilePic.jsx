@@ -28,6 +28,7 @@ function UserProfilePic({ isTopBar = false }) {
               src={user?.profilePic}
               alt={"user"}
               title="Click to visit your profile"
+              className="w-18 h-18 md:w-22 md:h-22"
             />
           </Button>
         </DropdownMenuTrigger>
@@ -58,7 +59,6 @@ function UserProfilePic({ isTopBar = false }) {
         src={user?.profilePic}
         alt={"user"}
         title="Your profile"
-        className="w-30 h-30 md:w-40 md:h-40"
       />
     );
   }

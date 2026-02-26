@@ -102,11 +102,7 @@ function UpdateCourse() {
   return (
     <Form onSubmit={updateCourse}>
       {/* The thumbnail  */}
-      <Image
-        src={courseDetails.thumbnail}
-        alt="Course Thumbnail"
-        className="md:w-40 md:h-40"
-      />
+      <Image src={courseDetails.thumbnail} alt="Course Thumbnail" />
       <InputFile
         name="thumbnail"
         label="Update Thumbnail"
