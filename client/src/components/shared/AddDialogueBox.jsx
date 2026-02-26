@@ -16,13 +16,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Form, CommonButton } from "../index.components";
 
-function AddDialogueBox({ label, children, onSubmit }) {
+function AddDialogueBox({ title, label, children, onSubmit, titleClass }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-green-400 hover:bg-green-800 cursor-pointer w-26 text-xs sm:w-30 sm:text-sm"
+          className={`border-green-400 hover:bg-green-800 cursor-pointer w-26 text-xs sm:w-30 sm:text-sm ${titleClass}`}
           title="Add New Data"
         >
           {label}
@@ -31,9 +31,14 @@ function AddDialogueBox({ label, children, onSubmit }) {
 
       <AlertDialogContent className="bg-linear-to-br from-white/10 via-black/40 to-green-900/30 backdrop-blur-md">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl">Add New Data</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl">
+            Add New {title}
+          </AlertDialogTitle>
           <AlertDialogDescription className="w-full">
-            <Form className="flex flex-col gap-3 lg:w-full bg-transparent" onSubmit={onSubmit}>
+            <Form
+              className="flex flex-col gap-3 lg:w-full bg-transparent"
+              onSubmit={onSubmit}
+            >
               {children}
 
               <AlertDialogFooter className="flex flex-row justify-center items-center">

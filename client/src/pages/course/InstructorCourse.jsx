@@ -330,6 +330,7 @@ function InstructorCourse() {
                   <AddDialogueBox
                     label="Add Video"
                     onSubmit={uploadNewVideo(section._id)}
+                    title="Video"
                   >
                     <FieldInput
                       label="Title"
@@ -353,6 +354,13 @@ function InstructorCourse() {
               </AccordionItem>
             ))}
           </Accordion>
+          <div className="border w-full">
+            <AddDialogueBox
+              label="Create New Section"
+              // onSubmit={uploadNewVideo(section._id)}
+              title="Section"
+            />
+          </div>
         </div>
 
         <div className="w-full flex flex-col mt-10 justify-center items-center gap-3 sm:flex-row">

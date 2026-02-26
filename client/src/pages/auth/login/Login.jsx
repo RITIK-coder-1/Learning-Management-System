@@ -97,6 +97,7 @@ function Login() {
           label="Enter email/username"
           placeholder="username/email"
           disabled={isOtp}
+          value={loginData.credential}
         />
 
         {/* Password */}
@@ -107,6 +108,7 @@ function Login() {
           inputType="password"
           placeholder="••••••••••••••••"
           disabled={isOtp}
+          value={loginData.password}
         />
 
         {/* OTP */}
