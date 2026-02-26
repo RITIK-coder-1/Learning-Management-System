@@ -69,6 +69,8 @@ function InstructorCourse() {
     setSectionData(course?.sections);
   }, [course]);
 
+  console.log(sectionData);
+
   const [newSectionData, setNewSectionData] = useState(""); // new section (title)
 
   const [videoData, setVideoData] = useState({
@@ -316,38 +318,40 @@ function InstructorCourse() {
                 <AccordionContent asChild>
                   {/* The videos */}
                   <div className="w-full p-3 flex flex-col gap-7 justify-between items-center">
-                    <ol className="w-full list-decimal p-3 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
-                      {sectionData?.map((section) => {
-                        return section?.courseVideos?.map((video) => {
-                          return (
-                            <li
-                              key={video?._id}
-                              className="w-full flex items-center justify-center gap-3"
-                            >
-                              <input
-                                defaultValue={video?.title}
-                                className="w-full border p-1 border-white/10"
-                                onChange={setVideoDataForUpdate(video?._id)}
+                    <ol className="w-full list-decimal p-3 pb-0 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
+                      {section?.courseVideos?.length > 0 ? (
+                        section.courseVideos.map((video) => (
+                          <li
+                            key={video?._id}
+                            className="w-full flex items-center justify-center gap-3"
+                          >
+                            <input
+                              defaultValue={video?.title}
+                              className="w-full border p-1 border-white/10"
+                              onChange={setVideoDataForUpdate(video?._id)}
+                            />
+                            <span className="flex justify-center items-center w-auto h-full gap-3">
+                              <MdOutlineSystemUpdateAlt
+                                className="text-blue-500 w-7 h-7 cursor-pointer"
+                                title="Update Title"
+                                onClick={updateVideoApiCall(section._id)}
                               />
-                              <span className="flex justify-center items-center w-auto h-full gap-3">
-                                <MdOutlineSystemUpdateAlt
-                                  className="text-blue-500 w-7 h-7 cursor-pointer"
-                                  title="Update Title"
-                                  onClick={updateVideoApiCall(section._id)}
-                                />
-                                <MdDelete
-                                  className="text-red-900 w-7 h-7 cursor-pointer"
-                                  title="Delete Video"
-                                  onClick={deleteVideoApiCall(
-                                    section._id,
-                                    video._id
-                                  )}
-                                />
-                              </span>
-                            </li>
-                          );
-                        });
-                      })}
+                              <MdDelete
+                                className="text-red-900 w-7 h-7 cursor-pointer"
+                                title="Delete Video"
+                                onClick={deleteVideoApiCall(
+                                  section._id,
+                                  video._id
+                                )}
+                              />
+                            </span>
+                          </li>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-center py-4 w-full">
+                          No videos found in this section.
+                        </p>
+                      )}
                     </ol>
                   </div>
                 </AccordionContent>
