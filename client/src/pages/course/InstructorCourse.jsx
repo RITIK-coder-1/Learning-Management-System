@@ -3,7 +3,7 @@ InstructorCourse.jsx
 The page for displaying a course for instructors
 ------------------------------------------------------------------------------------------------- */
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   useAddNewSectionMutation,
   useAddNewVideoMutation,
@@ -248,14 +248,14 @@ function InstructorCourse() {
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
-      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black sm:w-136 sm:ml-5 md:ml-0">
+      <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black md:w-136 sm:ml-5 md:ml-0">
         {/* Thumbnail */}
         <img
           src={course?.thumbnail || null}
           className="h-64 w-full object-cover"
         />
 
-        <div className="w-full h-auto p-5 flex flex-col gap-3">
+        <div className="w-full h-auto p-5 flex justify-between items-center gap-3">
           {/* Price */}
           <span
             className={`text-3xl font-black ${
@@ -264,6 +264,16 @@ function InstructorCourse() {
           >
             {course?.price === 0 ? "Free" : `₹ ${course?.price}`}
           </span>
+
+          {/* Link to the course once published */}
+          {course?.status === "Published" && (
+            <Link
+              to={`/app/courses/${courseId}`}
+              className="text-blue-500 underline underline-offset-4 text-lg hover:text-purple-500"
+            >
+              See Course?
+            </Link>
+          )}
         </div>
       </div>
 
