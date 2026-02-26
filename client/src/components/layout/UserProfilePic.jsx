@@ -25,7 +25,7 @@ function UserProfilePic({ isTopBar = false }) {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon-custom" className="rounded-full">
             <Image
-              src={user?.profilePic || "https://github.com/shadcn.png"}
+              src={user?.profilePic}
               alt={"user"}
               title="Click to visit your profile"
             />
@@ -55,7 +55,7 @@ function UserProfilePic({ isTopBar = false }) {
     // Return the normal profile if not topbar
     return (
       <Image
-        src={user?.profilePic || "https://github.com/shadcn.png"}
+        src={user?.profilePic}
         alt={"user"}
         title="Your profile"
         className="w-30 h-30 rounded-full shadow-lg shadow-black md:w-40 md:h-40"

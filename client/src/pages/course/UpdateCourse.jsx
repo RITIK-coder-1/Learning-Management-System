@@ -11,6 +11,16 @@ import {
 } from "../../api/index.api";
 import { setCourse } from "../../features/courseSlice";
 import getFormData from "../../utils/getFormData";
+import {
+  CommonButton,
+  FieldInput,
+  Form,
+  InputFile,
+  SelectInput,
+  Image
+} from "@/components/index.components";
+import { NativeSelectOption } from "@/components/ui/native-select";
+import { FieldLabel } from "@/components/ui/field";
 
 function UpdateCourse() {
   /* ---------------------------------------------------------------------------------------
@@ -59,7 +69,7 @@ function UpdateCourse() {
   const updateThumbnail = (e) => {
     setNewThumbnail(e.target.files[0]); // set the value of the profile pic as the file object
     setCourseDetails({ ...courseDetails, thumbnail: e.target.files[0] });
-  };
+  };  
 
   /* ---------------------------------------------------------------------------------------
   The API call to update the course
@@ -89,75 +99,83 @@ function UpdateCourse() {
     }
   };
 
+  console.log(courseDetails);
+  
+
   return (
-    <form onSubmit={updateCourse} className="flex flex-col gap-2">
-      <img src={course?.thumbnail || null} className="h-12 w-12" />
-      <label htmlFor="thumbnail">Update Thumbnail: </label>
-      <input
-        type="file"
-        id="thumbnail"
+    <Form onSubmit={updateCourse}>
+      {/* The thumbnail  */}
+      <Image src={courseDetails.thumbnail} alt="Course Thumbnail" className="w-40 h-40 md:w-40 md:h-40"/>
+      <InputFile
         name="thumbnail"
-        className="outline"
+        label="Update Thumbnail"
         onChange={updateThumbnail}
+        accept="image/*"
+        required={false}
       />
-      <label htmlFor="title">Title: </label>
-      <input
-        type="text"
-        value={courseDetails.title || ""}
-        id="title"
+
+      {/* The title */}
+      <FieldInput
+        label="Title"
+        defaultValue={courseDetails.title || ""}
         name="title"
-        className="outline"
         onChange={changeValue}
-        required
+        required={false}
       />
-      <label htmlFor="description">Description: </label>
-      <input
-        type="text"
-        value={courseDetails.description || ""}
-        id="description"
+
+      {/* The description */}
+      <FieldInput
+        label="Description"
+        defaultValue={courseDetails.description || ""}
         name="description"
-        className="outline"
         onChange={changeValue}
-        required
+        required={false}
       />
-      <label htmlFor="price">Price: </label>
-      <input
-        type="number"
-        value={courseDetails.price || 0}
-        id="price"
-        name="price"
-        className="outline"
-        onChange={changeValue}
+
+      {/* The price */}
+      <FieldInput
+        label="Price"
+        inputType="number"
         min={0}
-        required
+        value={courseDetails.price || 0}
+        name="price"
+        onChange={changeValue}
+        required={false}
       />
-      <label htmlFor="status">Status: </label>
-      <select
-        name="status"
-        id="status"
-        className="outline"
-        onChange={changeValue}
-        value={courseDetails.status}
-      >
-        <option value="Draft">Draft</option>
-        <option value="Published">Publish</option>
-      </select>
-      <label htmlFor="category">Category: </label>
-      <select
-        name="category"
-        id="category"
-        className="outline"
-        onChange={changeValue}
-        value={courseDetails.category}
-      >
-        {categories?.map((category) => (
-          <option key={category._id} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
-      <button type="submit">Update</button>
-    </form>
+
+      {/* The status */}
+      <div className="flex flex-col w-full gap-2">
+        <FieldLabel htmlFor="status">Set Status</FieldLabel>
+        <SelectInput
+          name="status"
+          onChange={changeValue}
+          value={courseDetails.status}
+          required={false}
+        >
+          <NativeSelectOption value="Draft">Draft</NativeSelectOption>
+          <NativeSelectOption value="Published">Published</NativeSelectOption>
+        </SelectInput>
+      </div>
+
+      {/* The category */}
+      <div className="flex flex-col w-full gap-2">
+        <FieldLabel htmlFor="category">Change Category</FieldLabel>
+        <SelectInput
+          name="category"
+          onChange={changeValue}
+          value={courseDetails.category}
+          required={false}
+        >
+          {categories?.map((category) => (
+            <NativeSelectOption key={category._id} value={category.name}>
+              {category.name}
+            </NativeSelectOption>
+          ))}
+        </SelectInput>
+      </div>
+
+      <CommonButton label="Update" type="submit" />
+    </Form>
   );
 }
 

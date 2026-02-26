@@ -275,7 +275,7 @@ const updateCourseFunction = async (req, res) => {
   }
 
   // getting the course
-  const course = await Course.findById(courseId);
+  const course = await Course.findById(courseId);  
 
   // checking if no value is updated
   if (!thumbnailLocalPath) {

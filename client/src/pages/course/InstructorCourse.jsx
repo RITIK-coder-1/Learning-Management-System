@@ -35,7 +35,7 @@ import { MdOutlineSystemUpdateAlt, MdDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setCourse } from "@/features/courseSlice";
 
-function Course() {
+function InstructorCourse() {
   /* ----------------------------------------------------------------------------------------------
     The data
   ------------------------------------------------------------------------------------------------- */
@@ -43,7 +43,6 @@ function Course() {
   const { courseId } = useParams();
   const { data } = useGetCourseInstructorQuery({ courseId });
   const course = data?.data;
-  const sections = course?.sections;
   const [deleteCourse] = useDeleteCourseInstructorMutation();
   const [updateSection] = useUpdateSectionMutation();
   const [deleteSection] = useDeleteSectionMutation();
@@ -53,7 +52,9 @@ function Course() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCourse(course));
+    if (course) {
+      dispatch(setCourse(course));
+    }
   }, [course]);
 
   /* ----------------------------------------------------------------------------------------------
@@ -63,8 +64,8 @@ function Course() {
   const [sectionData, setSectionData] = useState([]); // the sections
 
   useEffect(() => {
-    setSectionData(sections);
-  }, [sections]);
+    setSectionData(course?.sections);
+  }, [course]);
 
   const [videoData, setVideoData] = useState({
     // to add a new video
@@ -166,6 +167,8 @@ function Course() {
   const uploadNewVideo = (id) => {
     return async (e) => {
       e.stopPropagation();
+      e.preventDefault();
+
       try {
         const videoFormData = getFormData(videoData);
         await addVideo({
@@ -174,8 +177,6 @@ function Course() {
           sectionId: id,
         }).unwrap();
       } catch (error) {
-        e.preventDefault(); // prevent the page from reloading only if there's an error
-
         console.error(error);
       }
     };
@@ -372,4 +373,4 @@ function Course() {
   );
 }
 
-export default Course;
+export default InstructorCourse;
