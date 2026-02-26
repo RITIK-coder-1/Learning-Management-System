@@ -97,10 +97,7 @@ function UpdateCourse() {
     } catch (error) {
       console.error(error.message);
     }
-  };
-
-  console.log(courseDetails);
-  
+  };  
 
   return (
     <Form onSubmit={updateCourse}>
@@ -117,7 +114,7 @@ function UpdateCourse() {
       {/* The title */}
       <FieldInput
         label="Title"
-        defaultValue={courseDetails.title || ""}
+        value={courseDetails.title || ""}
         name="title"
         onChange={changeValue}
         required={false}
@@ -126,7 +123,7 @@ function UpdateCourse() {
       {/* The description */}
       <FieldInput
         label="Description"
-        defaultValue={courseDetails.description || ""}
+        value={courseDetails.description || ""}
         name="description"
         onChange={changeValue}
         required={false}
