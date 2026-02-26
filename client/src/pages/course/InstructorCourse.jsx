@@ -351,7 +351,7 @@ function InstructorCourse() {
                     </ol>
                   </div>
                 </AccordionContent>
-                <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 px-3 sm:flex-row">
+                <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 p-3 sm:flex-row">
                   {/* The update section button */}
                   <CommonButton
                     label="Update Section"

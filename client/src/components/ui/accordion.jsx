@@ -12,7 +12,7 @@ function AccordionItem({ className, ...props }) {
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn("last:border-b-0", className)}
+      className={cn(className)}
       {...props}
     />
   );
