@@ -88,11 +88,20 @@ function PublicCourse() {
                 {/* The videos */}
                 <AccordionContent className="w-full">
                   <ol className="w-full list-decimal p-3 pb-0 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
-                    {sections?.map((section) => {
-                      return section?.courseVideos?.map((video) => {
-                        return <li key={video?._id}>{video?.title}</li>;
-                      });
-                    })}
+                    {section?.courseVideos?.length > 0 ? (
+                      section.courseVideos.map((video) => (
+                        <li
+                          key={video?._id}
+                          className="w-full flex items-center justify-start gap-3"
+                        >
+                          {video?.title}
+                        </li>
+                      ))
+                    ) : (
+                      <p className="text-gray-500 text-center py-4 w-full">
+                        No videos found in this section.
+                      </p>
+                    )}
                   </ol>
                 </AccordionContent>
               </AccordionItem>
