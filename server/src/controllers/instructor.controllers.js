@@ -616,6 +616,14 @@ const deleteSectionFunction = async (req, res) => {
     throw new ApiError(400, "Invalid Course ID");
   }
 
+  const course = await Course.findById(courseId)
+
+  // there has to have at lease one section 
+  if (course.sections.length === 1) {
+    console.error("DELETE SECTION ERROR: at least have one section");
+    throw new ApiError(400, "The course needs at least one section!");
+  }
+
   if (!sectionId) {
     console.error("DELETE SECTION ERROR: invalid section id");
     throw new ApiError(400, "Invalid Section ID");
