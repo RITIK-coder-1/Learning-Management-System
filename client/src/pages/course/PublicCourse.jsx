@@ -53,8 +53,8 @@ function PublicCourse() {
         </div>
       </div>
 
-      {/* The tags */}
       <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
+        {/* The tags */}
         <div className="flex justify-start items-center gap-2 mt-2">
           {course?.tags.map((tag) => (
             <Tag label={tag} />

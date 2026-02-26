@@ -21,6 +21,7 @@ import {
   DeleteDialogueBox,
   AddDialogueBox,
   FieldInput,
+  Tag
 } from "../../components/index.components";
 import { useEffect } from "react";
 import {
@@ -281,6 +282,12 @@ function InstructorCourse() {
       </div>
 
       <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
+        {/* The tags */}
+        <div className="flex justify-start items-center gap-2 mt-2">
+          {course?.tags.map((tag) => (
+            <Tag label={tag} />
+          ))}
+        </div>
         {/* Title */}
         <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
 
