@@ -32,6 +32,8 @@ import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import getFormData from "@/utils/getFormData";
 import { MdOutlineSystemUpdateAlt, MdDelete } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { setCourse } from "@/features/courseSlice";
 
 function Course() {
   /* ----------------------------------------------------------------------------------------------
@@ -48,6 +50,11 @@ function Course() {
   const [addVideo] = useAddNewVideoMutation();
   const [updateVideo] = useUpdateVideoMutation();
   const [deleteVideo] = useDeleteVideoMutation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setCourse(course));
+  }, [course]);
 
   /* ----------------------------------------------------------------------------------------------
     The states
@@ -118,8 +125,6 @@ function Course() {
       });
     };
   };
-
-  console.log(updatedVideoData);
 
   /* ----------------------------------------------------------------------------------------------
     API Calls
