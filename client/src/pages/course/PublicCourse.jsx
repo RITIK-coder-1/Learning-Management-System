@@ -77,7 +77,10 @@ function PublicCourse() {
         {/* Instructor Info */}
         <span className="text-sm">
           Created By:{" "}
-          <Link className="underline underline-offset-4 cursor-pointer text-blue-500 hover:text-blue-900">
+          <Link
+            className="underline underline-offset-4 cursor-pointer text-blue-500 hover:text-blue-900"
+            to={`/app/courses/${courseId}/instructor/${instructorSlug}`}
+          >
             {instructorFirstName} {instructorLastName}
           </Link>
         </span>
