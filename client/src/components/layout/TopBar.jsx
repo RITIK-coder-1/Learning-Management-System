@@ -13,7 +13,7 @@ function TopBar() {
         src="../../../LMS.png"
         alt="LearnIt"
         title="LearnIt"
-        className="w-18 h-18 md:w-22 md:h-22"
+        className="w-18 h-18 md:w-20 md:h-20"
       />
 
       {/* The profile pic of the user */}

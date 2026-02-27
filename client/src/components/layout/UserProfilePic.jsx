@@ -28,7 +28,7 @@ function UserProfilePic({ isTopBar = false }) {
               src={user?.profilePic}
               alt={"user"}
               title="Click to visit your profile"
-              className="w-18 h-18 md:w-22 md:h-22"
+              className="w-18 h-18 md:w-20 md:h-20"
             />
           </Button>
         </DropdownMenuTrigger>
