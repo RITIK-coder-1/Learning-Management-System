@@ -281,6 +281,7 @@ function CreateCourse() {
         name="thumbnail"
         onChange={setThumbnailImage}
         description="Upload A Thumbnail"
+        accept="image/*"
       />
 
       {/* Submit */}
