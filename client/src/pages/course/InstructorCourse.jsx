@@ -39,6 +39,7 @@ import { setCourse } from "@/features/courseSlice";
 import { SelectInput } from "../../components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { usePublishCourseMutation } from "@/api/users/instructorApi";
+import { FieldLabel } from "@/components/ui/field";
 
 function InstructorCourse() {
   /* ----------------------------------------------------------------------------------------------
@@ -63,8 +64,6 @@ function InstructorCourse() {
       dispatch(setCourse(course));
     }
   }, [course]);
-
-  console.log("course: ", course);
 
   /* ----------------------------------------------------------------------------------------------
     The states
@@ -314,14 +313,41 @@ function InstructorCourse() {
             {/* Description */}
             <p className="text-white/70 text-xs">{course?.description}</p>
           </div>
-          <div className="w-full sm:w-44">
-            <SelectInput onChange={publishCourseCall} name="status">
-              <NativeSelectOption value="Draft">Draft</NativeSelectOption>
-              <NativeSelectOption value="Published">Publish</NativeSelectOption>
-            </SelectInput>
+
+          {/* Publish the course */}
+          <div className="w-full sm:w-44 flex flex-col items-start gap-1">
+            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">
+              Status
+            </span>
+
+            {course?.status !== "Published" ? (
+              <div className="relative w-full">
+                <SelectInput
+                  onChange={publishCourseCall}
+                  name="status"
+                  className="w-full bg-[#1e1e1e] text-gray-300 text-xs border border-gray-700 rounded-md py-2 px-3 focus:border-[#4ade80] transition-colors appearance-none cursor-pointer"
+                >
+                  <NativeSelectOption value="Draft">Draft</NativeSelectOption>
+                  <NativeSelectOption value="Published">
+                    Publish Course
+                  </NativeSelectOption>
+                </SelectInput>
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#4ade80]/10 border border-[#4ade80]/50 shadow-[0_0_15px_rgba(74,222,128,0.1)]">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ade80] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4ade80]"></span>
+                </span>
+                <span className="text-[#4ade80] text-xs font-bold uppercase tracking-wider">
+                  Published
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
+        {/* The course structure */}
         <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
           <span className="text-foreground text-2xl">Course Structure</span>
 
