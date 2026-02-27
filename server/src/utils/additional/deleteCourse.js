@@ -72,7 +72,7 @@ const deleteCourse = async (courseId) => {
   // course object has sections array. Sections array has documents. Each sectionDocument has courseVideos array. The array has video documents
   const videosDeleteCloudinary = course.sections.map((sectionDocument) =>
     sectionDocument.courseVideos.map((video) => {
-      deleteFromCloudinary(video.videoUrl);
+      deleteFromCloudinary(video.videoUrl, "video");
     })
   );
 
