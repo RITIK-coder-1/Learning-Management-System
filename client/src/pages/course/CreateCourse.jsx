@@ -15,6 +15,7 @@ import {
   CommonButton,
   InputFile,
   SelectInput,
+  FieldTextarea,
 } from "@/components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { FieldDescription, FieldLabel } from "@/components/ui/field";
@@ -213,7 +214,7 @@ function CreateCourse() {
       />
 
       {/* The Description */}
-      <FieldInput
+      <FieldTextarea
         label="Add Description"
         name="description"
         onChange={setValue}

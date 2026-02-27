@@ -39,7 +39,6 @@ import { setCourse } from "@/features/courseSlice";
 import { SelectInput } from "../../components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { usePublishCourseMutation } from "@/api/users/instructorApi";
-import { FieldLabel } from "@/components/ui/field";
 
 function InstructorCourse() {
   /* ----------------------------------------------------------------------------------------------
