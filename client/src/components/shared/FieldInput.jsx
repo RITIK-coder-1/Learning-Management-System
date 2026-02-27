@@ -40,7 +40,7 @@ function FieldInput({
         disabled={disabled}
         className="sm:py-5 text-md sm:text-lg lg:text-xl border-0"
         min={min}
-        {...(useParentValue ? value : { defaultValue: value })}
+        {...(useParentValue ? { value } : { defaultValue: value })}
       />
       {description && (
         <FieldDescription className="text-xs md:text-sm">

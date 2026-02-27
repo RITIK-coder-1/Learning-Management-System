@@ -102,7 +102,8 @@ function UpdateCourse() {
   return (
     <Form onSubmit={updateCourse}>
       {/* The thumbnail  */}
-      <Image src={courseDetails.thumbnail} alt="Course Thumbnail" />
+      <Image src={course?.thumbnail} alt="Course Thumbnail" />{" "}
+      {/* Setting the thumbnail from the course directly instead of the courseDetails state so that it doesn't get removed temporarily once the user selects a different image to upload */}
       <InputFile
         name="thumbnail"
         label="Update Thumbnail"
@@ -110,7 +111,6 @@ function UpdateCourse() {
         accept="image/*"
         required={false}
       />
-
       {/* The title */}
       <FieldInput
         label="Title"
@@ -119,7 +119,6 @@ function UpdateCourse() {
         onChange={changeValue}
         required={false}
       />
-
       {/* The description */}
       <FieldInput
         label="Description"
@@ -128,7 +127,6 @@ function UpdateCourse() {
         onChange={changeValue}
         required={false}
       />
-
       {/* The price */}
       <FieldInput
         label="Price"
@@ -139,7 +137,6 @@ function UpdateCourse() {
         onChange={changeValue}
         required={false}
       />
-
       {/* The status */}
       <div className="flex flex-col w-full gap-2">
         <FieldLabel htmlFor="status">Set Status</FieldLabel>
@@ -153,7 +150,6 @@ function UpdateCourse() {
           <NativeSelectOption value="Published">Published</NativeSelectOption>
         </SelectInput>
       </div>
-
       {/* The category */}
       <div className="flex flex-col w-full gap-2">
         <FieldLabel htmlFor="category">Change Category</FieldLabel>
@@ -170,7 +166,6 @@ function UpdateCourse() {
           ))}
         </SelectInput>
       </div>
-
       <CommonButton label="Update" type="submit" />
     </Form>
   );
