@@ -138,19 +138,6 @@ function UpdateCourse() {
         onChange={changeValue}
         required={false}
       />
-      {/* The status */}
-      <div className="flex flex-col w-full gap-2">
-        <FieldLabel htmlFor="status">Set Status</FieldLabel>
-        <SelectInput
-          name="status"
-          onChange={changeValue}
-          value={courseDetails.status}
-          required={false}
-        >
-          <NativeSelectOption value="Draft">Draft</NativeSelectOption>
-          <NativeSelectOption value="Published">Published</NativeSelectOption>
-        </SelectInput>
-      </div>
       {/* The category */}
       <div className="flex flex-col w-full gap-2">
         <FieldLabel htmlFor="category">Change Category</FieldLabel>

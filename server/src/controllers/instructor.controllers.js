@@ -234,12 +234,12 @@ UPDATE COURSE CONTROLLER
 ------------------------------------------------------------------------------------------ */
 
 const updateCourseFunction = async (req, res) => {
-  const { title, description, price, status, category } = req.body;
+  const { title, description, price, category } = req.body;
   const thumbnailLocalPath = req.file?.path;
   const courseId = req.params?.courseId;
 
   // validating important data
-  const isEmpty = [title, description, status, category, String(price)].some(
+  const isEmpty = [title, description, category, String(price)].some(
     (ele) => ele?.trim() === ""
   );
 
@@ -260,12 +260,6 @@ const updateCourseFunction = async (req, res) => {
     throw new ApiError(400, "Invalid price!");
   }
 
-  // status validator
-  if (status !== "Draft" && status !== "Published") {
-    console.error("UPDATE COURSE ERROR: invalid status");
-    throw new ApiError(400, "Status can only be Draft or Published!");
-  }
-
   // checking the category validity
   const existingCategory = await CourseCategory.findOne({ name: category });
 
@@ -283,7 +277,6 @@ const updateCourseFunction = async (req, res) => {
       course.title === title &&
       course.description === description &&
       course.price === price &&
-      course.status === status &&
       course.category === category
     ) {
       console.error("UPDATE COURSE ERROR: no updated values");
@@ -340,7 +333,6 @@ const updateCourseFunction = async (req, res) => {
   course.title = title;
   course.description = description;
   course.price = price;
-  course.status = status;
   course.category = category;
 
   const updatedCourse = await course.save({ validateBeforeSave: false });
