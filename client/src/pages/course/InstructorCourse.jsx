@@ -21,7 +21,7 @@ import {
   DeleteDialogueBox,
   AddDialogueBox,
   FieldInput,
-  Tag
+  Tag,
 } from "../../components/index.components";
 import { useEffect } from "react";
 import {
@@ -36,6 +36,8 @@ import getFormData from "@/utils/getFormData";
 import { MdOutlineSystemUpdateAlt, MdDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setCourse } from "@/features/courseSlice";
+import { SelectInput } from "../../components/index.components";
+import { NativeSelectOption } from "@/components/ui/native-select";
 
 function InstructorCourse() {
   /* ----------------------------------------------------------------------------------------------
@@ -285,14 +287,27 @@ function InstructorCourse() {
         {/* The tags */}
         <div className="flex justify-start items-center gap-2 mt-2">
           {course?.tags.map((tag) => (
-            <Tag label={tag} key={crypto.randomUUID()}/>
+            <Tag label={tag} key={crypto.randomUUID()} />
           ))}
         </div>
-        {/* Title */}
-        <h1 className="text-yellow-500 font-black text-3xl">{course?.title}</h1>
 
-        {/* Description */}
-        <p className="text-white/70 text-xs">{course?.description}</p>
+        <div className="w-full flex flex-col gap-4 lg:flex-row lg:justify-between">
+          <div className="flex flex-col gap-2">
+            {/* Title */}
+            <h1 className="text-yellow-500 font-black text-3xl">
+              {course?.title}
+            </h1>
+
+            {/* Description */}
+            <p className="text-white/70 text-xs">{course?.description}</p>
+          </div>
+          <div className="w-full sm:w-44">
+            <SelectInput>
+              <NativeSelectOption value="Draft">Draft</NativeSelectOption>
+              <NativeSelectOption value="Published">Publish</NativeSelectOption>
+            </SelectInput>
+          </div>
+        </div>
 
         <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
           <span className="text-foreground text-2xl">Course Structure</span>
