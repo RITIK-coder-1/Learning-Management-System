@@ -96,7 +96,7 @@ function CreateCourse() {
 
   // to add a new value to the array (tags or sections)
   const addNewValueToArray = (id, arraySetterFunction) => (e) => {
-    const newValue = e.target.value.trim();
+    const newValue = e.target.value;
     if (newValue.trim() !== "") {
       arraySetterFunction((prevArray) => {
         // Check if the ID already exists in the current state
@@ -143,6 +143,7 @@ function CreateCourse() {
                   onBlur={addNewValueToArray(id, arraySetterFunction)}
                   isLabel={false}
                   placeholder={placeholder}
+                  useParentValue={false}
                 />
                 {inputType.length > 1 && (
                   <CommonButton
@@ -208,6 +209,7 @@ function CreateCourse() {
         name="title"
         onChange={setValue}
         placeholder="Title"
+        value={courseData?.title}
       />
 
       {/* The Description */}
@@ -216,6 +218,7 @@ function CreateCourse() {
         name="description"
         onChange={setValue}
         placeholder="Description"
+        value={courseData?.description}
       />
 
       {/* The Price */}
@@ -224,7 +227,7 @@ function CreateCourse() {
         name="price"
         onChange={setValue}
         placeholder="Description"
-        defaultValue={0}
+        value={courseData?.price || 0}
         inputType="number"
         min={0}
       />
