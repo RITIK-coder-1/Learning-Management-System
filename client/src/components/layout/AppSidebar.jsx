@@ -40,22 +40,21 @@ export function AppSidebar() {
   const NavigationItem = (list) => {
     return list.map((ele) => {
       return (
-        <Navlink to={ele.path} key={ele.id}>
-          {({ isActive }) => (
-            <SidebarGroupLabel
-              className={`${ele.className || ""} ${
-                isActive ? "text-yellow-300" : ""
-              }`}
-              title={
-                ele.label === "Explore"
-                  ? "Explore Courses"
-                  : `Visit ${ele.label}`
-              }
-            >
-              {ele.label}
-            </SidebarGroupLabel>
-          )}
-        </Navlink>
+        <SidebarGroupLabel
+          className={ele.className || ""}
+          title={
+            ele.label === "Explore" ? "Explore Courses" : `Visit ${ele.label}`
+          }
+          key={ele.id}
+        >
+          <Navlink
+            to={ele.path}
+            nonActiveColor="text-yellow-200"
+            className="w-full h-full flex justify-start items-center"
+          >
+            {ele.label}
+          </Navlink>
+        </SidebarGroupLabel>
       );
     });
   };

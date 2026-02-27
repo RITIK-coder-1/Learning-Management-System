@@ -137,7 +137,7 @@ function Sidebar({
   const { isMobile, state, open, setOpen, openMobile, setOpenMobile } =
     useSidebar();
 
-  // 1. Unified Sheet logic for both Mobile and Desktop (when collapsible)
+  // Unified Sheet logic for both Mobile and Desktop (when collapsible)
   if (collapsible !== "none") {
     return (
       <Sheet
@@ -149,7 +149,6 @@ function Sidebar({
         <SheetContent
           data-sidebar="sidebar"
           data-slot="sidebar"
-          // Keep your custom centering classes
           className={cn(
             "bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden h-[50vh] top-1/2 -translate-y-1/2 rounded-r-xl border-none",
             className
@@ -176,7 +175,7 @@ function Sidebar({
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
-          /* 1. Added h-[50vh] and centering logic for mobile */
+          /* Added h-[50vh] and centering logic for mobile */
           className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden h-[50vh] top-1/2 -translate-y-1/2 rounded-r-xl"
           style={{
             "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
@@ -354,7 +353,7 @@ function SidebarContent({ className, ...props }) {
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
-        "flex min-h-0 flex-1 flex-col  overflow-auto group-data-[collapsible=icon]:overflow-hidden bg-black",
+        "flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=icon]:overflow-hidden bg-black",
         className
       )}
       {...props}
