@@ -64,6 +64,8 @@ function InstructorCourse() {
     }
   }, [course]);
 
+  console.log("course: ", course);
+
   /* ----------------------------------------------------------------------------------------------
     The states
   ------------------------------------------------------------------------------------------------- */
@@ -73,8 +75,6 @@ function InstructorCourse() {
   useEffect(() => {
     setSectionData(course?.sections);
   }, [course]);
-
-  console.log(sectionData);
 
   const [newSectionData, setNewSectionData] = useState(""); // new section (title)
 
@@ -255,10 +255,12 @@ function InstructorCourse() {
 
   // publish the course
   const publishCourseCall = async (e) => {
-    try {
-      await publishCourse({ status: e.target.value, courseId }).unwrap();
-    } catch (error) {
-      console.error(error);
+    if (e.target.value === "Published") {
+      try {
+        await publishCourse({ status: e.target.value, courseId }).unwrap();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

@@ -135,7 +135,7 @@ const instructorApi = apiSlice.injectEndpoints({
     // PUBLISH A COURSE
     publishCourse: builder.mutation({
       query: ({ status, courseId }) => ({
-        url: `instrutor/${courseId}/publish`,
+        url: `instructor/${courseId}/publish`,
         method: "PATCH",
         body: { status },
       }),
