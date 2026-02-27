@@ -18,6 +18,7 @@ import {
   InputFile,
   SelectInput,
   Image,
+  FieldTextarea,
 } from "@/components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { FieldLabel } from "@/components/ui/field";
@@ -120,7 +121,7 @@ function UpdateCourse() {
         required={false}
       />
       {/* The description */}
-      <FieldInput
+      <FieldTextarea
         label="Description"
         value={courseDetails.description || ""}
         name="description"
