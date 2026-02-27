@@ -13,13 +13,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ChevronDownIcon } from "lucide-react";
+import slugify from "@/utils/slugify";
 
 function PublicCourse() {
   const { courseId } = useParams();
   const { data } = useGetCourseQuery({ courseId });
   const course = data?.data;
   const sections = course?.sections;
-  console.log(course);
+
+  const instructorFirstName = course?.owner?.firstName;
+  const instructorLastName = course?.owner?.lastName;
+
+  const instructorSlug = slugify(
+    `${instructorFirstName} ${instructorLastName}`
+  );
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
@@ -71,7 +78,7 @@ function PublicCourse() {
         <span className="text-sm">
           Created By:{" "}
           <Link className="underline underline-offset-4 cursor-pointer text-blue-500 hover:text-blue-900">
-            {course?.owner?.firstName} {course?.owner?.lastName}
+            {instructorFirstName} {instructorLastName}
           </Link>
         </span>
 
