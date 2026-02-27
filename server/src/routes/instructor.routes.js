@@ -21,6 +21,7 @@ import {
   getAllCoursesInstructor,
   updateCourse,
   getCourseInstructor,
+  publishCourse,
 } from "../controllers/instructor.controllers.js";
 
 const router = Router();
@@ -33,6 +34,7 @@ SPECIFIC ROUTES:
 - update or delete the course or add a section to this course 
 - update a section or delete it or add a video to this section 
 - update the video or delete it 
+- publish the course
 ------------------------------------------------------------------------------------------ */
 
 router
@@ -41,7 +43,7 @@ router
   .post(upload.single("thumbnail"), createCourse); // create a course
 router
   .route("/:courseId")
-  .get(getCourseInstructor) // get the course 
+  .get(getCourseInstructor) // get the course
   .patch(upload.single("thumbnail"), updateCourse) // update the course
   .delete(deleteCourseInstructor); // delete the course
 router.route("/:courseId/sections").post(addSection); // add a section to this course
@@ -56,5 +58,6 @@ router
   .route("/:courseId/sections/:sectionId/videos/:videoId")
   .patch(updateCourseVideo) // update the video subsection
   .delete(deleteCourseVideo); // delete the video subsection
+router.route("/:courseId/publish").patch(publishCourse); // publish the course
 
 export { router as instructorRouter };
