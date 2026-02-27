@@ -27,6 +27,7 @@ import {
   CreatedCourses,
   InstructorCourse,
   PublicCourse,
+  InstructorPage,
 } from "./pages/index.pages.js";
 import ExploreCourses from "./pages/common/ExploreCourses.jsx";
 
@@ -74,8 +75,17 @@ const myRouter = createBrowserRouter([
             index: true,
           },
           {
-            element: <PublicCourse />,
             path: ":courseId",
+            children: [
+              {
+                element: <PublicCourse />,
+                index: true,
+              },
+              {
+                element: <InstructorPage />,
+                path: "instructor/:slug",
+              },
+            ],
           },
         ],
       },

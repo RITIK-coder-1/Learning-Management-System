@@ -18,6 +18,7 @@ import EnrolledCourses from "./common/EnrolledCourses.jsx";
 import CreatedCourses from "./course/CreatedCourses.jsx";
 import InstructorCourse from "./course/InstructorCourse.jsx";
 import PublicCourse from "./course/PublicCourse.jsx";
+import InstructorPage from "./course/InstructorPage.jsx";
 
 export {
   Register,
@@ -34,5 +35,6 @@ export {
   EnrolledCourses,
   CreatedCourses,
   InstructorCourse,
-  PublicCourse
+  PublicCourse, 
+  InstructorPage
 };
