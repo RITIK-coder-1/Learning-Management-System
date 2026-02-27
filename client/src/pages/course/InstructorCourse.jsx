@@ -11,7 +11,6 @@ import {
   useDeleteSectionMutation,
   useDeleteVideoMutation,
   useGetCourseInstructorQuery,
-  useUpdateCourseMutation,
   useUpdateSectionMutation,
   useUpdateVideoMutation,
 } from "../../api/index.api";
@@ -39,6 +38,7 @@ import { useDispatch } from "react-redux";
 import { setCourse } from "@/features/courseSlice";
 import { SelectInput } from "../../components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
+import { usePublishCourseMutation } from "@/api/users/instructorApi";
 
 function InstructorCourse() {
   /* ----------------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ function InstructorCourse() {
   const [addVideo] = useAddNewVideoMutation();
   const [updateVideo] = useUpdateVideoMutation();
   const [deleteVideo] = useDeleteVideoMutation();
-  const [updateCourse] = useUpdateCourseMutation();
+  const [publishCourse] = usePublishCourseMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -253,14 +253,14 @@ function InstructorCourse() {
     }
   };
 
-  // publish the course 
-  const publishCourse = (e) => {
+  // publish the course
+  const publishCourseCall = async (e) => {
     try {
-      
+      await publishCourse({ status: e.target.value, courseId }).unwrap();
     } catch (error) {
-      
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
@@ -313,7 +313,7 @@ function InstructorCourse() {
             <p className="text-white/70 text-xs">{course?.description}</p>
           </div>
           <div className="w-full sm:w-44">
-            <SelectInput onChange={publishCourse}>
+            <SelectInput onChange={publishCourseCall} name="status">
               <NativeSelectOption value="Draft">Draft</NativeSelectOption>
               <NativeSelectOption value="Published">Publish</NativeSelectOption>
             </SelectInput>
