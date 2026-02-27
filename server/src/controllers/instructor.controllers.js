@@ -275,7 +275,7 @@ const updateCourseFunction = async (req, res) => {
   }
 
   // getting the course
-  const course = await Course.findById(courseId);  
+  const course = await Course.findById(courseId);
 
   // checking if no value is updated
   if (!thumbnailLocalPath) {
@@ -358,6 +358,34 @@ const updateCourseFunction = async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, "The course has been updated!", updatedCourse));
+};
+
+/* ---------------------------------------------------------------------------------------
+PUBLISH COURSE CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const publishCourseFunction = async (req, res) => {
+  const { status } = req.body;
+  const { courseId } = req.params;
+
+  // validity of the course
+  if (!courseId) {
+    console.error("PUBLISH COURSE ERROR: Invalid course");
+    throw new ApiError(400, "Invalid Course");
+  }
+
+  // publish the course only if the status sent by the client is signaling to publish
+  if (status.trim() === "Published") {
+    const course = await Course.findByIdAndUpdate(courseId, {
+      $set: { status },
+    });
+
+    console.log("Status updated. Course published!");
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "The course is published!", course));
+  }
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -616,9 +644,9 @@ const deleteSectionFunction = async (req, res) => {
     throw new ApiError(400, "Invalid Course ID");
   }
 
-  const course = await Course.findById(courseId)
+  const course = await Course.findById(courseId);
 
-  // there has to have at lease one section 
+  // there has to have at lease one section
   if (course.sections.length === 1) {
     console.error("DELETE SECTION ERROR: at least have one section");
     throw new ApiError(400, "The course needs at least one section!");
@@ -731,6 +759,7 @@ const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
 const createCourse = asyncHandler(createCourseFunction);
 const getCourseInstructor = asyncHandler(getCourseInstructorFunction);
+const publishCourse = asyncHandler(publishCourseFunction)
 
 export {
   createCourse,
@@ -744,4 +773,5 @@ export {
   deleteSection,
   updateSection,
   getCourseInstructor,
+  publishCourse
 };

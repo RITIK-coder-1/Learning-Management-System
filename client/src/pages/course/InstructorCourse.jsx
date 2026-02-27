@@ -11,6 +11,7 @@ import {
   useDeleteSectionMutation,
   useDeleteVideoMutation,
   useGetCourseInstructorQuery,
+  useUpdateCourseMutation,
   useUpdateSectionMutation,
   useUpdateVideoMutation,
 } from "../../api/index.api";
@@ -54,6 +55,7 @@ function InstructorCourse() {
   const [addVideo] = useAddNewVideoMutation();
   const [updateVideo] = useUpdateVideoMutation();
   const [deleteVideo] = useDeleteVideoMutation();
+  const [updateCourse] = useUpdateCourseMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -251,6 +253,15 @@ function InstructorCourse() {
     }
   };
 
+  // publish the course 
+  const publishCourse = (e) => {
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
       <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black md:w-136 sm:ml-5 md:ml-0">
@@ -302,7 +313,7 @@ function InstructorCourse() {
             <p className="text-white/70 text-xs">{course?.description}</p>
           </div>
           <div className="w-full sm:w-44">
-            <SelectInput>
+            <SelectInput onChange={publishCourse}>
               <NativeSelectOption value="Draft">Draft</NativeSelectOption>
               <NativeSelectOption value="Published">Publish</NativeSelectOption>
             </SelectInput>
