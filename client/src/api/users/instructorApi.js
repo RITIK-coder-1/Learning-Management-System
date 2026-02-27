@@ -131,6 +131,18 @@ const instructorApi = apiSlice.injectEndpoints({
       transformResponse,
       invalidatesTags: ["Course"],
     }),
+
+    // PUBLISH A COURSE
+    publishCourse: builder.mutation({
+      query: ({ status, courseId }) => ({
+        url: `instrutor/${courseId}/publish`,
+        method: "PATCH",
+        body: { status },
+      }),
+      transformErrorResponse,
+      transformResponse,
+      invalidatesTags: ["Course"],
+    }),
   }),
 });
 
@@ -146,4 +158,5 @@ export const {
   useDeleteSectionMutation,
   useDeleteVideoMutation,
   useCreateCourseMutation,
+  usePublishCourseMutation
 } = instructorApi;
