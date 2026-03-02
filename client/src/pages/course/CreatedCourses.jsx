@@ -3,7 +3,9 @@ CreatedCourses.jsx
 The page for displaying all the created courses of an instructor
 ------------------------------------------------------------------------------------------------- */
 
-import { useGetUserQuery } from "@/api/index.api";
+import {
+  useGetAllCoursesInstructorQuery,
+} from "@/api/index.api";
 import {
   Navlink,
   CommonButton,
@@ -11,9 +13,8 @@ import {
 } from "../../components/index.components";
 
 function CreatedCourses() {
-  const { data } = useGetUserQuery();
-  console.log(data);
-  
+  const { data } = useGetAllCoursesInstructorQuery();
+
   return (
     <>
       {/* The courses  */}
@@ -22,6 +23,7 @@ function CreatedCourses() {
         label="You don't have any created courses yet."
         path={`/app/created-courses/:courseId`}
         displayInstructorName={false}
+        courseData={data}
       />
 
       {/* The create button  */}
