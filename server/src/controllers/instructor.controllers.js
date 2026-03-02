@@ -164,7 +164,7 @@ const createCourseFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-GET ALL COURSES CONTROLLER (for instructor only)
+GET ALL CREATED COURSES CONTROLLER (for instructor only)
 ------------------------------------------------------------------------------------------ */
 
 const getAllInstructorCoursesFunction = async (req, res) => {
@@ -175,21 +175,21 @@ const getAllInstructorCoursesFunction = async (req, res) => {
     throw new ApiError(400, "Invalid User ID");
   }
 
-  const courses = await Course.find({ owner: userId });
+  // the user
+  const user = await User.findById(userId).populate("createdCourses");
 
-  if (!courses) {
-    console.error("GET ALL COURSES INSTRUCTOR ERROR: courses not fetched");
-    throw new ApiError(
-      500,
-      "The courses couldn't be fetched. Please try again!"
-    );
+  if (!user) {
+    console.error("GET ALL COURSES INSTRUCTOR ERROR: user not fetched");
+    throw new ApiError(500, "The user doesn't exist!");
   }
+
+  const createdCourses = user?.createdCourses;
 
   console.log("Courses fetched for instructor!");
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "All the courses are fetched!", courses));
+    .json(new ApiResponse(200, "All the courses are fetched!", createdCourses));
 };
 
 /* ---------------------------------------------------------------------------------------
@@ -751,7 +751,7 @@ const deleteSection = asyncHandler(deleteSectionFunction);
 const updateSection = asyncHandler(updateSectionFunction);
 const createCourse = asyncHandler(createCourseFunction);
 const getCourseInstructor = asyncHandler(getCourseInstructorFunction);
-const publishCourse = asyncHandler(publishCourseFunction)
+const publishCourse = asyncHandler(publishCourseFunction);
 
 export {
   createCourse,
@@ -765,5 +765,5 @@ export {
   deleteSection,
   updateSection,
   getCourseInstructor,
-  publishCourse
+  publishCourse,
 };
