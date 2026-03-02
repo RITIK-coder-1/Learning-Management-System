@@ -4,13 +4,11 @@ The page to update a course
 ------------------------------------------------------------------------------------------------- */
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   useUpdateCourseMutation,
   useGetAllCategoriesQuery,
   useGetCourseInstructorQuery,
 } from "../../api/index.api";
-import { setCourse } from "../../features/courseSlice";
 import getFormData from "../../utils/getFormData";
 import {
   CommonButton,
@@ -84,7 +82,6 @@ function UpdateCourse() {
       // upload the simple object if the thumbnail isn't updated
       if (!newThumbnail) {
         const { data } = await update({ courseDetails, courseId }).unwrap();
-        dispatch(setCourse(data));
       } else {
         // else upload a form data
         const formData = getFormData(courseDetails);
@@ -93,8 +90,6 @@ function UpdateCourse() {
           courseDetails: formData,
           courseId,
         }).unwrap();
-
-        dispatch(setCourse(data));
       }
     } catch (error) {
       console.error(error.message);
