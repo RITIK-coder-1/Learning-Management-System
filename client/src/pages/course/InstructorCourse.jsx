@@ -34,8 +34,6 @@ import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import getFormData from "@/utils/getFormData";
 import { MdOutlineSystemUpdateAlt, MdDelete } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { setCourse } from "@/features/courseSlice";
 import { SelectInput } from "../../components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { usePublishCourseMutation } from "@/api/users/instructorApi";
@@ -56,16 +54,6 @@ function InstructorCourse() {
   const [updateVideo] = useUpdateVideoMutation();
   const [deleteVideo] = useDeleteVideoMutation();
   const [publishCourse] = usePublishCourseMutation();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (course) {
-      dispatch(setCourse(course));
-    }
-  }, [course]);
-
-  console.log(course);
-  
 
   /* ----------------------------------------------------------------------------------------------
     The states

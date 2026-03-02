@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   useUpdateCourseMutation,
   useGetAllCategoriesQuery,
+  useGetCourseInstructorQuery,
 } from "../../api/index.api";
 import { setCourse } from "../../features/courseSlice";
 import getFormData from "../../utils/getFormData";
@@ -27,11 +28,11 @@ function UpdateCourse() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
-  const course = useSelector((state) => state.course.course);
+  const { data: courseData } = useGetCourseInstructorQuery();
+  const course = courseData?.data;
   const [update] = useUpdateCourseMutation();
-  const { data } = useGetAllCategoriesQuery();
-  const categories = data?.data; // the course categories created by the admin
-  const dispatch = useDispatch();
+  const { data: categoryData } = useGetAllCategoriesQuery();
+  const categories = categoryData?.data; // the course categories created by the admin
 
   /* ---------------------------------------------------------------------------------------
   The states  
