@@ -14,9 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useGetUserQuery } from "@/api/index.api";
 
 function UserProfilePic({ isTopBar = false }) {
-  const user = useSelector((state) => state.auth.user);
+  const { data } = useGetUserQuery();
+  const user = data?.data
 
   if (isTopBar) {
     // Return the dropdown menu at the topbar
@@ -54,13 +56,7 @@ function UserProfilePic({ isTopBar = false }) {
     );
   } else {
     // Return the normal profile if not topbar
-    return (
-      <Image
-        src={user?.profilePic}
-        alt={"user"}
-        title="Your profile"
-      />
-    );
+    return <Image src={user?.profilePic} alt={"user"} title="Your profile" />;
   }
 }
 
