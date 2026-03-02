@@ -10,7 +10,7 @@ import {
 } from "@/api/index.api";
 import { CommonButton } from "@/components/index.components";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const enrollCourse = (courseId) => {
   const auth = useSelector((state) => state.auth);
