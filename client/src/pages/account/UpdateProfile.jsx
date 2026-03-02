@@ -128,7 +128,7 @@ function UpdateProfile() {
         <FieldInput
           label="Username"
           name="username"
-          placeholder={userDetails.username}
+          value={userDetails.username}
           onChange={changeValue}
           required={false}
         />
@@ -137,7 +137,7 @@ function UpdateProfile() {
         <FieldInput
           label="First Name"
           name="firstName"
-          placeholder={userDetails.firstName}
+          value={userDetails.firstName}
           onChange={changeValue}
           required={false}
         />
@@ -146,7 +146,7 @@ function UpdateProfile() {
         <FieldInput
           label="Last Name"
           name="lastName"
-          placeholder={userDetails.lastName}
+          value={userDetails.lastName}
           onChange={changeValue}
           required={false}
         />
