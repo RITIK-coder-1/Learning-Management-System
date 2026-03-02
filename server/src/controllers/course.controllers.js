@@ -166,7 +166,14 @@ const getEnrolledCoursesFunction = async (req, res) => {
   }
 
   // the user
-  const user = await User.findById(userId).populate("enrolledCourses");
+  const user = await User.findById(userId).populate({
+    path: "enrolledCourses",
+    select: "-enrolledBy",
+    populate: {
+      path: "owner",
+      select: "-password -refreshTokenString -__v -enrolledCourses",
+    },
+  });
 
   if (!user) {
     console.error("ENROLL COURSES ERROR: user not fetched");
