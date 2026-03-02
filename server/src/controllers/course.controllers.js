@@ -155,6 +155,32 @@ const showAllCategoriesFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+GET ALL ENROLLED COURSES
+------------------------------------------------------------------------------------------ */
+const getEnrolledCoursesFunction = async (req, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    console.error("ENROLL COURSES ERROR: user id invalid");
+    throw new ApiError(400, "Invalid User ID");
+  }
+
+  // the user
+  const user = await User.findById(userId).populate("enrolledCourses");
+
+  if (!user) {
+    console.error("ENROLL COURSES ERROR: user not fetched");
+    throw new ApiError(500, "The user doesn't exist!");
+  }
+
+  const enrolledCourses = user?.enrolledCourses;
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Enrolled Courses Fetched!", enrolledCourses));
+};
+
+/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
@@ -162,5 +188,12 @@ const getCourse = asyncHandler(getCourseFunction);
 const getAllCourses = asyncHandler(getAllCoursesFunction);
 const enrollCourse = asyncHandler(enrollCourseFunction);
 const showAllCategories = asyncHandler(showAllCategoriesFunction);
+const getEnrollCourses = asyncHandler(getEnrolledCoursesFunction);
 
-export { getCourse, getAllCourses, enrollCourse, showAllCategories };
+export {
+  getCourse,
+  getAllCourses,
+  enrollCourse,
+  showAllCategories,
+  getEnrollCourses,
+};
