@@ -33,6 +33,12 @@ const courseApi = apiSlice.injectEndpoints({
       query: () => "/courses/categories",
       providesTags: ["Category"],
     }),
+
+    // GET ENROLLED COURSES
+    getEnrolledCourses: builder.query({
+      query: () => "/courses/enroll-courses",
+      providesTags: ["Course"],
+    }),
   }),
 });
 
@@ -41,4 +47,5 @@ export const {
   useGetCourseQuery,
   useEnrollCourseMutation,
   useGetAllCategoriesQuery,
+  useGetEnrolledCoursesQuery,
 } = courseApi;

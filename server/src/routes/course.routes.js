@@ -10,6 +10,7 @@ import {
   getAllCourses,
   enrollCourse,
   showAllCategories,
+  getEnrollCourses,
 } from "../controllers/course.controllers.js";
 
 const router = Router();
@@ -27,5 +28,6 @@ router
   .route("/:courseId")
   .get(getCourse) // get a particular course
   .post(verifyJwt, enrollCourse); // enroll into a course
+router.route("/enroll-courses").get(verifyJwt, getEnrollCourses); // get enroll courses
 
 export { router as courseRouter };
