@@ -5,10 +5,11 @@ The user profile page
 
 import UserProfilePic from "@/components/layout/UserProfilePic";
 import { CommonButton, Navlink } from "../../components/index.components";
-import { useSelector } from "react-redux";
+import { useGetUserQuery } from "@/api/index.api";
 
 function Profile() {
-  const user = useSelector((state) => state.auth.user);
+  const { data } = useGetUserQuery();
+  const user = data?.data;
 
   // The date of birth of the user
   const dob = user?.dateOfBirth;
