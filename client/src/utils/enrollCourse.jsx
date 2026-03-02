@@ -13,14 +13,13 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const enrollCourse = (courseId) => {
-  const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   // the authentication status of the user
-  const isAuthenticated = auth?.isAuthenticated;
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   // the user
-  const { data: userData } = useGetUserQuery(auth?.user?.id);
+  const { data: userData } = useGetUserQuery();
   const user = userData?.data;
 
   // the course
