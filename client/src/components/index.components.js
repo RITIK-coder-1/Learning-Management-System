@@ -23,6 +23,7 @@ import AddDialogueBox from "./shared/AddDialogueBox";
 import Tag from "./shared/Tag";
 import FieldTextarea from "./shared/FieldTextarea";
 import DisplayCourses from "./shared/DisplayCourses";
+import EnrollmentStats from "./shared/EnrollmentStats";
 
 export {
   Logout,
@@ -44,5 +45,6 @@ export {
   AddDialogueBox,
   Tag,
   FieldTextarea,
-  DisplayCourses
+  DisplayCourses,
+  EnrollmentStats,
 };
