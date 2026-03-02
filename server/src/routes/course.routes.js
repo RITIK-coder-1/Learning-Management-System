@@ -17,17 +17,18 @@ const router = Router();
 
 /* ---------------------------------------------------------------------------------------
 SPECIFIC ROUTES:
+- Get enrolled courses by the user 
 - Get all the courses 
 - Get a particular course, or enroll into it
 - Show all categories
 ------------------------------------------------------------------------------------------ */
 
+router.route("/enroll-courses").get(verifyJwt, getEnrollCourses); // get enroll courses
 router.route("/").get(getAllCourses); // get all the courses
 router.route("/categories").get(showAllCategories); // get all the categories
 router
   .route("/:courseId")
   .get(getCourse) // get a particular course
   .post(verifyJwt, enrollCourse); // enroll into a course
-router.route("/enroll-courses").get(verifyJwt, getEnrollCourses); // get enroll courses
 
 export { router as courseRouter };
