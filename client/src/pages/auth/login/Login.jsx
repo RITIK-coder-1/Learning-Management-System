@@ -79,7 +79,7 @@ function Login() {
     } else {
       try {
         const { data: user } = await loginUser(otpValidationData).unwrap();
-        dispatch(setUser(user)); // changing the value of the authentication state
+        dispatch(setUser({ id: user?._id, accountType: user?.accountType })); // changing the value of the authentication state
       } catch (error) {
         console.log(error.message);
       }
