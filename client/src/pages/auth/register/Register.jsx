@@ -123,6 +123,7 @@ function Register() {
         onChange={setRegisteringData}
         disabled={isOtp}
         placeholder="Ritik"
+        value={userData.firstName}
       />
 
       {/* Account type */}
@@ -146,6 +147,7 @@ function Register() {
         disabled={isOtp}
         placeholder="Mahapatra"
         required={false}
+        value={userData.lastName}
       />
 
       {/* Username */}
@@ -156,6 +158,7 @@ function Register() {
         disabled={isOtp}
         description="Enter a unique username (Must be more than 6 characters)"
         placeholder="ritik123"
+        value={userData.username}
       />
 
       {/* Email */}
@@ -166,6 +169,7 @@ function Register() {
         onChange={setRegisteringData}
         disabled={isOtp}
         placeholder="ritik@gmail.com"
+        value={userData.email}
       />
 
       {/* Password */}
@@ -177,6 +181,7 @@ function Register() {
         disabled={isOtp}
         description="At least 10 characters"
         placeholder="••••••••••••••••"
+        value={userData.password}
       />
 
       {/* DOB */}
