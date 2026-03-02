@@ -5,12 +5,17 @@ The component for displaying all the courses
 
 import { CourseCard } from "../index.components";
 import filterCourses from "@/utils/filterCourses";
-import { useGetAllTheCoursesQuery } from "@/api/index.api";
 
-function DisplayCourses({ heading, label, path, displayInstructorName }) {
-  // the specific courses data to show on the page
-  const { data } = useGetAllTheCoursesQuery();
-  const courses = filterCourses(data);
+function DisplayCourses({
+  heading,
+  label,
+  path,
+  displayInstructorName,
+  courseData,
+}) {
+  // the specific courses data to show on the page  
+  const courses = filterCourses(courseData);
+  
 
   return (
     <>
