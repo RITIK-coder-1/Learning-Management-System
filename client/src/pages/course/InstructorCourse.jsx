@@ -255,9 +255,9 @@ function InstructorCourse() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
-      <div className="w-auto flex flex-col gap-5">
-        <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black md:w-136 sm:ml-5 md:ml-0">
+    <div className="w-full h-full flex flex-col justify-start items-center gap-1 p-5 lg:flex-row sm:items-start lg:gap-5">
+      <div className="w-full flex flex-col gap-5 sm:ml-5 md:ml-0 lg:w-196">
+        <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black ">
           {/* Thumbnail */}
           <img
             src={course?.thumbnail || null}
@@ -289,7 +289,7 @@ function InstructorCourse() {
         <EnrollmentStats />
       </div>
 
-      <div className="w-full h-auto p-5 sm:pt-0 flex flex-col gap-2">
+      <div className="w-full h-auto flex flex-col gap-2">
         {/* The tags */}
         <div className="flex justify-start items-center gap-2 mt-2">
           {course?.tags.map((tag) => (
