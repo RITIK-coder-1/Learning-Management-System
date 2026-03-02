@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/accordion";
 import { ChevronDownIcon } from "lucide-react";
 import slugify from "@/utils/slugify";
+import enrollCourse from "@/utils/enrollCourse";
 
 function PublicCourse() {
   const { courseId } = useParams();
@@ -48,7 +49,7 @@ function PublicCourse() {
           </span>
 
           {/* Enroll now */}
-          <CommonButton label="Enroll Now" className="w-full" title="Enroll" />
+          {enrollCourse(courseId)}
 
           {/* Course specifics */}
           <span className="text-xl">What is in the course?</span>
