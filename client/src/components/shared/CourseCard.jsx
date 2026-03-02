@@ -11,7 +11,7 @@ function CourseCard({
   instructor,
   description,
   price,
-  accountType,
+  displayInstructorName = true,
   path,
 }) {
   return (
@@ -33,7 +33,7 @@ function CourseCard({
 
           <div className="w-full flex flex-col grow p-3">
             <div className="w-full flex flex-col gap-1">
-              {accountType === "Student" && (
+              {displayInstructorName && (
                 <span className="text-md text-white/80">{instructor}</span>
               )}
 

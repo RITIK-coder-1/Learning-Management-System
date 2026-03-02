@@ -3,14 +3,11 @@ DisplayCourses.jsx
 The component for displaying all the courses 
 ------------------------------------------------------------------------------------------------- */
 
-import { useSelector } from "react-redux";
 import { CourseCard } from "../index.components";
 import filterCourses from "@/utils/filterCourses";
 import { useGetAllTheCoursesQuery } from "@/api/index.api";
 
-function DisplayCourses({ heading, label, path }) {
-  const user = useSelector((state) => state.auth.user);
-
+function DisplayCourses({ heading, label, path, displayInstructorName }) {
   // the specific courses data to show on the page
   const { data } = useGetAllTheCoursesQuery();
   const courses = filterCourses(data);
@@ -32,8 +29,8 @@ function DisplayCourses({ heading, label, path }) {
                 description={course.desc}
                 price={course.price}
                 key={course.arrayId}
-                path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id 
-                accountType={user?.accountType}
+                path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id
+                displayInstructorName={displayInstructorName}
                 instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
               />
             );

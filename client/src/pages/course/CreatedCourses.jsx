@@ -17,6 +17,7 @@ function CreatedCourses() {
         heading="Created Courses"
         label="You don't have any created courses yet."
         path={`/app/created-courses/:courseId`}
+        displayInstructorName={false}
       />
 
       {/* The create button  */}
