@@ -3,45 +3,21 @@ CreatedCourses.jsx
 The page for displaying all the created courses of an instructor
 ------------------------------------------------------------------------------------------------- */
 
-import filterCourses from "@/utils/filterCourses";
-import { useGetAllCoursesInstructorQuery } from "../../api/index.api";
 import {
   Navlink,
   CommonButton,
-  CourseCard,
+  DisplayCourses,
 } from "../../components/index.components";
 
 function CreatedCourses() {
-  const { data } = useGetAllCoursesInstructorQuery(); // the course data
-
-  // the specific courses data to show on the page
-  const courses = filterCourses(data);
-
   return (
     <>
-      <h1 className="text-white text-4xl md:text-6xl">Created Courses</h1>
-      {courses?.length === 0 ? (
-        // Special label for no created courses
-        <span className="text-foreground italic mt-5 md:text-lg">
-          You don't have any created courses yet.
-        </span>
-      ) : (
-        // the courses
-        <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
-          {courses?.map((course) => {
-            return (
-              <CourseCard
-                image={course.img}
-                title={course.title}
-                description={course.desc}
-                price={course.price}
-                key={course.arrayId}
-                path={`/app/created-courses/${course.courseId}`}
-              />
-            );
-          })}
-        </div>
-      )}
+      {/* The courses  */}
+      <DisplayCourses
+        heading="Created Courses"
+        label="You don't have any created courses yet."
+        path={`/app/created-courses/:courseId`}
+      />
 
       {/* The create button  */}
       <div className="h-90 z-10 w-full fixed flex justify-end items-end pr-2 lg:h-100 lg:pr-5">
