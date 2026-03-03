@@ -3,18 +3,17 @@ VideoPlayer.jsx
 The page for playing a course video 
 ------------------------------------------------------------------------------------------------- */
 
-import { useGetCourseQuery } from "@/api/index.api";
 import { useParams, Link } from "react-router-dom";
+import useGetVideoData from "@/custom_hooks/useGetVideoData";
 
 function VideoPlayer() {
-  const { courseId } = useParams();
+  const { courseId, videoId } = useParams();
 
-  // the course
-  const { data } = useGetCourseQuery({ courseId });
-  const course = data?.data;
-
-  console.log(course);
-  
+  // the video details
+  const { courseTitle, sectionTitle, videoTitle } = useGetVideoData(
+    courseId,
+    videoId
+  );
 
   return (
     <div className="h-auto bg-[#0a0a0c] text-white font-sans rounded-lg">
@@ -28,7 +27,7 @@ function VideoPlayer() {
             ← Back to Course
           </Link>
           <span className="text-gray-500">|</span>
-          <span className="text-sm text-gray-400">{course?.title}</span>
+          <span className="text-sm text-gray-400">{courseTitle}</span>
         </div>
       </nav>
 
@@ -71,10 +70,10 @@ function VideoPlayer() {
               <p className="text-sm font-medium text-purple-400">
                 Current Section
               </p>
-              <p className="text-xs text-gray-300">section title</p>
+              <p className="text-xs text-gray-300">{sectionTitle}</p>
               <div className="mt-3 space-y-2">
                 <div className="text-sm py-2 px-2 bg-purple-600/20 rounded border-l-2 border-purple-500 cursor-pointer">
-                  ▶ video name
+                  ▶ {videoTitle}
                 </div>
               </div>
             </div>
