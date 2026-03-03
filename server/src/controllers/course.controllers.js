@@ -182,6 +182,9 @@ const getEnrolledCoursesFunction = async (req, res) => {
 
   const enrolledCourses = user?.enrolledCourses;
 
+  console.log(user);
+  
+
   return res
     .status(200)
     .json(new ApiResponse(200, "Enrolled Courses Fetched!", enrolledCourses));

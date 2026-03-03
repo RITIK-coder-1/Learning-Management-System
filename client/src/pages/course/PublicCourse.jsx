@@ -5,14 +5,14 @@ The page for displaying a course publicly
 
 import { Link, useParams } from "react-router-dom";
 import { useGetCourseQuery } from "@/api/index.api";
-import { CommonButton, Tag } from "@/components/index.components";
+import { Tag } from "@/components/index.components";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, PlayCircle, ChevronRightIcon } from "lucide-react";
 import slugify from "@/utils/slugify";
 import enrollCourse from "@/utils/enrollCourse";
 
@@ -27,7 +27,7 @@ function PublicCourse() {
 
   const instructorSlug = slugify(
     `${instructorFirstName} ${instructorLastName}`
-  );
+  );  
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
@@ -105,22 +105,47 @@ function PublicCourse() {
                 </AccordionTrigger>
 
                 {/* The videos */}
-                <AccordionContent className="w-full">
-                  <ol className="w-full list-decimal p-3 pb-0 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
+                <AccordionContent className="w-full p-0">
+                  {" "}
+                  <ul className="w-full flex flex-col">
                     {section?.courseVideos?.length > 0 ? (
-                      section.courseVideos.map((video) => (
-                        <li key={video?._id} className="w-full mb-2">
-                          <div className="flex items-center justify-start gap-3">
-                            {video?.title}
-                          </div>
+                      section.courseVideos.map((video, index) => (
+                        <li
+                          key={video?._id}
+                          className="group border-b border-white/5 last:border-0"
+                        >
+                          <a
+                            href={`/app/watch/${video.videoUrl}`}
+                            className="flex items-center justify-between px-6 py-4 transition-all duration-200 hover:bg-white/5 active:bg-white/10"
+                          >
+                            <div className="flex items-center gap-4">
+                              {/* Index and Play Icon */}
+                              <span className="text-sm text-muted-foreground w-4 text-center group-hover:hidden">
+                                {index + 1}.
+                              </span>
+                              <PlayCircle className="size-4 text-primary hidden group-hover:block animate-in fade-in zoom-in duration-300" />
+
+                              <span className="text-md font-medium text-slate-200 group-hover:text-white transition-colors">
+                                {video?.title}
+                              </span>
+                            </div>
+
+                            {/* Link/Action Label */}
+                            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                              <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                Watch Now
+                              </span>
+                              <ChevronRightIcon className="size-4" />
+                            </div>
+                          </a>
                         </li>
                       ))
                     ) : (
-                      <p className="text-gray-500 text-center py-4 w-full">
+                      <p className="text-gray-500 text-center py-8 w-full text-sm italic">
                         No videos found in this section.
                       </p>
                     )}
-                  </ol>
+                  </ul>
                 </AccordionContent>
               </AccordionItem>
             ))}
