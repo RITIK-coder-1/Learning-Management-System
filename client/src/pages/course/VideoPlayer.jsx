@@ -6,9 +6,22 @@ The page for playing a course video
 import { useParams, Link } from "react-router-dom";
 import useGetVideoData from "@/hooks/useGetVideoData";
 import { ReactVideoPlayer } from "@/components/index.components";
+import { useGetCourseQuery } from "@/api/index.api";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { ChevronDownIcon, PlayCircle, ChevronRightIcon } from "lucide-react";
+import slugify from "@/utils/slugify";
 
 function VideoPlayer() {
   const { courseId, videoId } = useParams();
+
+  const { data } = useGetCourseQuery({ courseId });
+  const course = data?.data;
+  const sections = course?.sections;
 
   // the video details
   const { courseTitle, sectionTitle, videoTitle, videoUrl } = useGetVideoData(
@@ -37,21 +50,13 @@ function VideoPlayer() {
         <main className="flex-1 p-6 overflow-y-auto">
           {/* [Video Player Component] */}
           <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800">
-            <ReactVideoPlayer src={videoUrl}/>
+            <ReactVideoPlayer src={videoUrl} />
           </div>
 
           <div className="mt-6 flex justify-between items-start">
-            <div className="flex gap-3">
-              <button className="px-4 py-2 border border-purple-500 text-purple-500 rounded hover:bg-purple-500/10 transition">
-                Previous
-              </button>
-              <button className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-medium transition">
-                Mark as Completed
-              </button>
-              <button className="px-4 py-2 border border-purple-500 text-purple-500 rounded hover:bg-purple-500/10 transition">
-                Next
-              </button>
-            </div>
+            <button className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-medium transition">
+              Mark as Completed
+            </button>
           </div>
         </main>
 
@@ -78,6 +83,68 @@ function VideoPlayer() {
                 </div>
               </div>
             </div>
+            {/* The accordion */}
+            <Accordion type="multiple" className="w-full">
+              {sections?.map((section) => (
+                <AccordionItem
+                  key={section._id}
+                  value={section.title}
+                  className="border border-white/5"
+                >
+                  {/* The chapter name */}
+                  <AccordionTrigger className="border-b rounded-none px-2 bg-white/3 border-white/5 text-md">
+                    {section.title}
+                    <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+                  </AccordionTrigger>
+
+                  {/* The videos */}
+                  <AccordionContent className="w-full p-0">
+                    {" "}
+                    <ul className="w-full flex flex-col">
+                      {section?.courseVideos?.length > 0 ? (
+                        section.courseVideos.map((video, index) => (
+                          <li
+                            key={video?._id}
+                            className="group border-b border-white/5 last:border-0"
+                          >
+                            <Link
+                              to={`/app/courses/${courseId}/watch/${
+                                video?._id
+                              }/${slugify(video?.title)}`}
+                              className="flex items-center justify-between px-6 py-4 transition-all duration-200 hover:bg-white/5 active:bg-white/10"
+                            >
+                              <div className="flex items-center gap-4">
+                                {/* Index and Play Icon */}
+                                <span className="text-sm text-muted-foreground w-4 text-center group-hover:hidden">
+                                  {index + 1}.
+                                </span>
+                                <PlayCircle className="size-4 text-primary hidden group-hover:block animate-in fade-in zoom-in duration-300" />
+
+                                <span className="text-md font-medium text-slate-200 group-hover:text-white transition-colors">
+                                  {video?.title}
+                                </span>
+                              </div>
+
+                              {/* Link/Action Label */}
+                              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                                <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                  Play
+                                </span>
+                                <ChevronRightIcon className="size-4" />
+                              </div>
+                            </Link>
+                          </li>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-center py-8 w-full text-sm italic">
+                          No videos found in this section.
+                        </p>
+                      )}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </aside>
       </div>
