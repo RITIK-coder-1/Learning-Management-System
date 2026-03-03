@@ -17,14 +17,17 @@ import slugify from "@/utils/slugify";
 import enrollCourse from "@/utils/enrollCourse";
 
 function PublicCourse() {
+  // the data
   const { courseId } = useParams();
   const { data } = useGetCourseQuery({ courseId });
   const course = data?.data;
   const sections = course?.sections;
 
+  // the instructor name
   const instructorFirstName = course?.owner?.firstName;
   const instructorLastName = course?.owner?.lastName;
 
+  // the instructor slug for the url
   const instructorSlug = slugify(
     `${instructorFirstName} ${instructorLastName}`
   );
