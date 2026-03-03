@@ -30,7 +30,7 @@ function VideoPlayer() {
   );
 
   return (
-    <div className="h-auto bg-[#0a0a0c] text-white font-sans rounded-lg">
+    <div className="h-auto bg-[#0a0a0c] text-white font-sans rounded-lg w-[80%]">
       {/* Header/Navigation Bar */}
       <nav className="p-4 border-b border-gray-800 flex justify-between items-center">
         <div className="flex items-center gap-4">
@@ -47,7 +47,7 @@ function VideoPlayer() {
 
       <div className="flex flex-col lg:flex-row h-auto">
         {/* Video & Info */}
-        <section className="flex-1 p-6 overflow-y-auto">
+        <section className="flex-1 p-3 overflow-y-auto">
           {/* [Video Player Component] */}
           <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800">
             <ReactPlayer
@@ -60,7 +60,7 @@ function VideoPlayer() {
           </div>
 
           <div className="mt-6 flex justify-between items-start">
-            <button className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-medium transition">
+            <button className="text-xs px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded font-medium transition md:text-sm md:px-6">
               Mark as Completed
             </button>
           </div>
