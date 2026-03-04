@@ -23,15 +23,12 @@ import {
   FieldInput,
   Tag,
   EnrollmentStats,
+  CourseCommonAccordion,
+  CourseAccordionContent,
+  CourseAccordionTrigger,
+  CourseCommonAccordionItem,
 } from "../../components/index.components";
 import { useEffect } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import getFormData from "@/utils/getFormData";
 import { MdOutlineSystemUpdateAlt, MdDelete } from "react-icons/md";
@@ -346,70 +343,50 @@ function InstructorCourse() {
           <span className="text-foreground text-2xl">Course Structure</span>
 
           {/* The accordion */}
-          <Accordion type="multiple" className="w-full">
-            {/* The lessons */}
+          <CourseCommonAccordion>
             {sectionData?.map((section) => (
-              <AccordionItem
-                key={section._id}
-                value={section.title}
-                className="border border-white/5"
-              >
-                {/* The chapter name */}
-                <AccordionTrigger asChild>
-                  <div className="w-full border-b rounded-none px-2 bg-white/3 border-white/5 text-md flex justify-center items-center">
-                    {/* The mutable title */}
-                    <input
-                      type="text"
-                      defaultValue={section.title}
-                      className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
-                      onChange={updateSectionData(section._id)}
-                    />
-
-                    {/* The trigger icon */}
-                    <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
-                  </div>
-                </AccordionTrigger>
-
-                <AccordionContent asChild>
-                  {/* The videos */}
-                  <div className="w-full p-3 flex flex-col gap-7 justify-between items-center">
-                    <ol className="w-full list-decimal p-3 pb-0 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
-                      {section?.courseVideos?.length > 0 ? (
-                        section.courseVideos.map((video) => (
-                          <li
-                            key={video?._id}
-                            className="w-full flex items-center justify-center gap-3"
-                          >
-                            <input
-                              defaultValue={video?.title}
-                              className="w-full border p-1 border-white/10"
-                              onChange={setVideoDataForUpdate(video?._id)}
-                            />
-                            <span className="flex justify-center items-center w-auto h-full gap-3">
-                              <MdOutlineSystemUpdateAlt
-                                className="text-blue-500 w-7 h-7 cursor-pointer"
-                                title="Update Title"
-                                onClick={updateVideoApiCall(section._id)}
-                              />
-                              <MdDelete
-                                className="text-red-900 w-7 h-7 cursor-pointer"
-                                title="Delete Video"
-                                onClick={deleteVideoApiCall(
-                                  section._id,
-                                  video._id
-                                )}
-                              />
-                            </span>
-                          </li>
-                        ))
-                      ) : (
-                        <p className="text-gray-500 text-center py-4 w-full">
-                          No videos found in this section.
-                        </p>
-                      )}
-                    </ol>
-                  </div>
-                </AccordionContent>
+              <CourseCommonAccordionItem value={section._id} key={section._id}>
+                <CourseAccordionTrigger>
+                  {/* The mutable title */}
+                  <input
+                    type="text"
+                    defaultValue={section.title}
+                    className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
+                    onChange={updateSectionData(section._id)}
+                  />
+                </CourseAccordionTrigger>
+                <CourseAccordionContent>
+                  {section?.courseVideos?.length > 0 ? (
+                    section.courseVideos.map((video) => (
+                      <li
+                        key={video?._id}
+                        className="w-full flex items-center justify-center gap-3"
+                      >
+                        <input
+                          defaultValue={video?.title}
+                          className="w-full border p-1 border-white/10"
+                          onChange={setVideoDataForUpdate(video?._id)}
+                        />
+                        <span className="flex justify-center items-center w-auto h-full gap-3">
+                          <MdOutlineSystemUpdateAlt
+                            className="text-blue-500 w-7 h-7 cursor-pointer"
+                            title="Update Title"
+                            onClick={updateVideoApiCall(section._id)}
+                          />
+                          <MdDelete
+                            className="text-red-900 w-7 h-7 cursor-pointer"
+                            title="Delete Video"
+                            onClick={deleteVideoApiCall(section._id, video._id)}
+                          />
+                        </span>
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-500 text-center py-4 w-full">
+                      No videos found in this section.
+                    </p>
+                  )}
+                </CourseAccordionContent>
                 <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 p-3 sm:flex-row">
                   {/* The update section button */}
                   <CommonButton
@@ -445,9 +422,9 @@ function InstructorCourse() {
                     onClick={deleteSectionCall(section._id)}
                   />
                 </div>
-              </AccordionItem>
+              </CourseCommonAccordionItem>
             ))}
-          </Accordion>
+          </CourseCommonAccordion>
 
           {/* Add a new section */}
           <div className="w-full flex justify-center items-center mt-5">

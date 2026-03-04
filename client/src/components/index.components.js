@@ -25,6 +25,12 @@ import FieldTextarea from "./shared/FieldTextarea";
 import DisplayCourses from "./shared/DisplayCourses";
 import EnrollmentStats from "./shared/EnrollmentStats";
 import EnrollCourse from "./shared/EnrollCourse";
+import {
+  CourseCommonAccordion,
+  CourseAccordionContent,
+  CourseAccordionTrigger,
+  CourseCommonAccordionItem
+} from "./shared/Accordion";
 
 export {
   Logout,
@@ -49,5 +55,8 @@ export {
   DisplayCourses,
   EnrollmentStats,
   EnrollCourse,
-  
+  CourseCommonAccordion,
+  CourseAccordionContent,
+  CourseAccordionTrigger,
+  CourseCommonAccordionItem
 };
