@@ -72,7 +72,7 @@ function VideoPlayer() {
               src={videoUrl || null}
               controls
               playing={true}
-              onEnded={completeVideoApiCall}
+              onEnded={completeVideoApiCall} // autocomplete the video when the video ends 
             />
           </div>
 

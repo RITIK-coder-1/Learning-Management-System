@@ -9,7 +9,7 @@ import {
   CourseAccordionContent,
   CourseAccordionTrigger,
 } from "../index.components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import slugify from "@/utils/slugify";
 import { PlayCircle, ChevronRightIcon } from "lucide-react";
 import useUserStatus from "@/hooks/useUserStatus";
@@ -17,6 +17,9 @@ import useUserStatus from "@/hooks/useUserStatus";
 function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
   // the user stats
   const { isOwner, isEnrolled } = useUserStatus(courseId);
+
+  // the video Id
+  const { videoId } = useParams();
 
   return (
     <CourseCommonAccordion>
@@ -43,7 +46,9 @@ function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
                             video?._id
                           }/${slugify(video?.title)}`
                     }
-                    className="flex items-center justify-between px-6 py-4 transition-all duration-200 hover:bg-white/5 active:bg-white/10"
+                    className={`flex items-center justify-between px-6 py-4 transition-all duration-200 hover:bg-white/5 active:bg-white/10 ${
+                      videoId === video?._id ? "bg-white/5" : "bg-none"
+                    }`}
                   >
                     <div className="flex items-center gap-4">
                       {/* Index and Play Icon */}
