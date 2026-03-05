@@ -9,6 +9,9 @@ import {
   CourseAccordionContent,
   CourseAccordionTrigger,
 } from "../index.components";
+import { Link } from "react-router-dom";
+import slugify from "@/utils/slugify";
+import { PlayCircle, ChevronRightIcon } from "lucide-react";
 
 function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
   return (
