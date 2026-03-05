@@ -10,11 +10,11 @@ import ReactPlayer from "react-player";
 import { StudentAccordion } from "@/components/index.components";
 
 function VideoPlayer() {
+  // the data
   const { courseId, videoId } = useParams();
-
   const { data } = useGetCourseQuery({ courseId });
-  const course = data?.data;
-  const sections = course?.sections;
+  const course = data?.data; // course
+  const sections = course?.sections; // sections
 
   // the video details
   const { courseTitle, sectionTitle, videoTitle, videoUrl } = useGetVideoData(
@@ -41,7 +41,7 @@ function VideoPlayer() {
       <div className="flex flex-col lg:flex-row h-auto">
         {/* Video & Info */}
         <section className="flex-1 p-3 overflow-y-auto">
-          {/* [Video Player Component] */}
+          {/* Video Player Component */}
           <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800">
             <ReactPlayer
               width="100%"
@@ -70,7 +70,6 @@ function VideoPlayer() {
           </div>
 
           <div className="space-y-4">
-            {/* accordion*/}
             <div className="border border-gray-700 rounded-md p-3 bg-purple-900/10">
               <p className="text-sm font-medium text-purple-400">
                 Current Section
