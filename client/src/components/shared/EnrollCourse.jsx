@@ -5,26 +5,16 @@ The enrollment logic
 
 import {
   useEnrollCourseMutation,
-  useGetCourseQuery,
-  useGetUserQuery,
 } from "@/api/index.api";
 import { CommonButton } from "@/components/index.components";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useUserStatus from "@/hooks/useUserStatus";
 
-const EnrollCourse = ({courseId}) => {
+const EnrollCourse = ({ courseId }) => {
   const navigate = useNavigate();
 
-  // the authentication status of the user
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-  // the user
-  const { data: userData } = useGetUserQuery();
-  const user = userData?.data;
-
-  // the course
-  const { data: courseData } = useGetCourseQuery({ courseId });
-  const course = courseData?.data;
+  // the user stats
+  const { isAuthenticated, isOwner, isEnrolled } = useUserStatus(courseId);
 
   // the enroll course mutation
   const [enroll] = useEnrollCourseMutation();
@@ -51,7 +41,7 @@ const EnrollCourse = ({courseId}) => {
   }
 
   if (isAuthenticated) {
-    switch (user?._id === course?.owner?._id) {
+    switch (isOwner) {
       // if the user is the instructor themselves, forward them to the edit page
       case true:
         return (
@@ -63,7 +53,7 @@ const EnrollCourse = ({courseId}) => {
           />
         );
       case false:
-        return user?.enrolledCourses.includes(courseId) ? (
+        return isEnrolled ? (
           // if the user has already enrolled, forward them to the enrolled course page
           <CommonButton
             label="Go To Course"
