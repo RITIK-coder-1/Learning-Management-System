@@ -72,6 +72,7 @@ function VideoPlayer() {
               src={videoUrl || null}
               controls
               playing={true}
+              onEnded={completeVideoApiCall}
             />
           </div>
 
