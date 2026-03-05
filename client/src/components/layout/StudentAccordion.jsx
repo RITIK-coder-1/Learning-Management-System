@@ -18,7 +18,7 @@ function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
     <CourseCommonAccordion>
       {/* The sections */}
       {sections?.map((section) => (
-        <CourseCommonAccordionItem>
+        <CourseCommonAccordionItem value={section._id} key={section._id}>
           {/* The trigger */}
           <CourseAccordionTrigger>{section.title}</CourseAccordionTrigger>
 

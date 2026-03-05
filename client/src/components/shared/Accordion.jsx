@@ -31,7 +31,7 @@ export function CourseCommonAccordionItem({ children, value }) {
 }
 
 // The accordion trigger
-export function CourseAccordionTrigger({ children }) {
+export function CourseAccordionTrigger({ children, onClick }) {
   return (
     <AccordionTrigger className="w-full border-b rounded-none px-2 bg-white/3 border-white/5 text-md flex justify-between items-center">
       {/* The trigger title */}
