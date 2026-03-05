@@ -118,7 +118,7 @@ const enrollCourseFunction = async (req, res) => {
     throw new ApiError(500, "Enrollment failed. Please try again!");
   });
 
-  console.log(`${userId} enrolled the course: ${courseId}`);
+  console.log(`${user.firstName} enrolled the course: ${course.title}`);
 
   return res
     .status(200)
@@ -180,10 +180,7 @@ const getEnrolledCoursesFunction = async (req, res) => {
     throw new ApiError(500, "The user doesn't exist!");
   }
 
-  const enrolledCourses = user?.enrolledCourses;
-
-  console.log(user);
-  
+  const enrolledCourses = user?.enrolledCourses;  
 
   return res
     .status(200)
