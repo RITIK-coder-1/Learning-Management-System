@@ -4,7 +4,12 @@ All the controllers for courses that are public
 ------------------------------------------------------------------------------------------ */
 
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.utils.js";
-import { Course, User, CourseCategory } from "../models/index.model.js";
+import {
+  Course,
+  User,
+  CourseCategory,
+  CourseProgress,
+} from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
 GET ALL COURSES CONTROLLER
@@ -83,6 +88,7 @@ const enrollCourseFunction = async (req, res) => {
   const userId = req.user?._id;
   const { courseId } = req.params;
 
+  // validate the IDs
   if (!userId || !courseId) {
     console.error("ENROLL COURSE ERROR: invalid id");
     throw new ApiError(400, "Invalid User or Course ID!");
@@ -90,6 +96,7 @@ const enrollCourseFunction = async (req, res) => {
 
   const user = await User.findById(userId);
 
+  // validate the user
   if (!user) {
     console.error("ENROLL COURSE ERROR: no user");
     throw new ApiError(404, "The user doesn't exist!");
@@ -97,22 +104,32 @@ const enrollCourseFunction = async (req, res) => {
 
   const course = await Course.findById(courseId);
 
+  // validate the course
   if (!course) {
     console.error("ENROLL COURSE ERROR: no course");
     throw new ApiError(404, "The course doesn't exist!");
   }
 
+  // simultaneous async operations
   await Promise.all([
+    // add the course to the enrolled courses list of the user
     User.findByIdAndUpdate(
       userId,
       { $addToSet: { enrolledCourses: courseId } },
       { new: true }
     ),
+    // add the user to the enrolledBy list of the course
     Course.findByIdAndUpdate(
       courseId,
       { $addToSet: { enrolledBy: userId } },
       { new: true }
     ),
+    // create a progress document to track the user's progress of the course
+    CourseProgress.create({
+      course: courseId,
+      user: userId,
+      completedVideos: [],
+    }),
   ]).catch(() => {
     console.error("ENROLL COURSE ERROR: enrollment failed");
     throw new ApiError(500, "Enrollment failed. Please try again!");
@@ -180,7 +197,7 @@ const getEnrolledCoursesFunction = async (req, res) => {
     throw new ApiError(500, "The user doesn't exist!");
   }
 
-  const enrolledCourses = user?.enrolledCourses;  
+  const enrolledCourses = user?.enrolledCourses;
 
   return res
     .status(200)
