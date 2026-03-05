@@ -21,14 +21,13 @@ function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
         <CourseCommonAccordionItem value={section._id} key={section._id}>
           {/* The trigger */}
           <CourseAccordionTrigger>{section.title}</CourseAccordionTrigger>
-
           {/* The videos */}
           <CourseAccordionContent>
             {section?.courseVideos?.length > 0 ? (
               section.courseVideos.map((video, index) => (
                 <li
                   key={video?._id}
-                  className="group border-b border-white/5 last:border-0"
+                  className="w-full group border-b border-white/5 last:border-0 list-none"
                 >
                   {/* The link to each video */}
                   <Link

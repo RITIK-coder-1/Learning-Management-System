@@ -48,7 +48,7 @@ export function CourseAccordionContent({ children }) {
   return (
     <AccordionContent className="w-full p-3 flex flex-col gap-7 justify-between items-center">
       {/* The videos */}
-      <ol className="w-full list-decimal p-3 pb-0 pl-7 flex flex-col justify-center items-start gap-2 text-lg">
+      <ol className="w-full list-decimal flex flex-col justify-center items-start gap-2 text-lg">
         {children}
       </ol>
     </AccordionContent>
