@@ -465,12 +465,13 @@ const deleteUserAccountFunction = async (req, res) => {
 COURSE VIDEO COMPLETION BY THE USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
 const completeCourseVideoController = async (req, res) => {
-  const { videoId } = req.body;
+  const { videoId, courseId } = req.params;
+  const userId = req.user._id;
 
-  // validate the video id
-  if (!videoId) {
-    console.error("COMPLETE COURSE VIDEO ERROR: video id");
-    throw new ApiError(400, "Invalid Video ID");
+  // validate the IDs
+  if (!videoId || !courseId || !userId) {
+    console.error("COMPLETE COURSE VIDEO ERROR: invalid id");
+    throw new ApiError(400, "Please try again!");
   }
 
   const video = await CourseVideo.findById(videoId);
@@ -482,6 +483,14 @@ const completeCourseVideoController = async (req, res) => {
   }
 
   // if the video exists, add it to the course progress model
+  await CourseProgress.findOneAndUpdate(
+    { courseId, userId },
+    {
+      $addToSet: { completedVideos: videoId },
+    }
+  );
+
+  return res.status(200).json(new ApiResponse(200, "The video is completed!"));
 };
 
 /* ---------------------------------------------------------------------------------------
