@@ -16,7 +16,7 @@ function EnrolledCourses() {
     <DisplayCourses
       heading="Enrolled Courses"
       label="You don't have any enrolled courses yet."
-      path={`/app/enrolled-courses/:courseId`}
+      path={`/app/courses/:courseId`}
       courseData={courses}
     />
   );

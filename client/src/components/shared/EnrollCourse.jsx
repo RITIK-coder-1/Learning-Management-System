@@ -3,9 +3,7 @@ EnrollCourse.jsx
 The enrollment logic 
 ------------------------------------------------------------------------------------------------- */
 
-import {
-  useEnrollCourseMutation,
-} from "@/api/index.api";
+import { useEnrollCourseMutation } from "@/api/index.api";
 import { CommonButton } from "@/components/index.components";
 import { useNavigate } from "react-router-dom";
 import useUserStatus from "@/hooks/useUserStatus";
@@ -56,10 +54,9 @@ const EnrollCourse = ({ courseId }) => {
         return isEnrolled ? (
           // if the user has already enrolled, forward them to the enrolled course page
           <CommonButton
-            label="Go To Course"
-            className="w-full"
-            title="Visit Course"
-            onClick={() => navigate(`/app/enrolled-courses/${courseId}`)}
+            label="ENROLLED"
+            className="w-full bg-[#1e293b] border-2 border-transparent bg-linear-to-r from-orange-500 to-blue-500 bg-origin-border [box-shadow:inset_2px_1000px_1px_#0f172a] text-white font-bold py-3 rounded-lg transition-all duration-500 cursor-text"
+            title="Enrolled"
           />
         ) : (
           // if the user hasn't enrolled, enroll them
