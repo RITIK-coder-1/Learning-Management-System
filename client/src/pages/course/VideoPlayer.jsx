@@ -27,7 +27,7 @@ function VideoPlayer() {
     videoId
   );
 
-  useCourseCompletion(courseId, videoId)
+  const courseProgress = Math.ceil(useCourseCompletion(courseId, videoId))
 
   // the API call to complete the video
   const completeVideoApiCall = async () => {
@@ -81,9 +81,9 @@ function VideoPlayer() {
             <h3 className="text-lg font-semibold mb-2">Course Content</h3>
             {/* Progress Bar Component */}
             <div className="w-full bg-gray-700 h-2 rounded-full">
-              <div className="bg-purple-500 h-2 rounded-full w-[25%]"></div>
+              <div className={`bg-purple-500 h-2 rounded-full w-[${courseProgress}%]`}></div>
             </div>
-            <p className="text-xs text-gray-400 mt-2">25% Completed</p>
+            <p className="text-xs text-gray-400 mt-2">{courseProgress}% Completed</p>
           </div>
 
           <div className="space-y-4">

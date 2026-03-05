@@ -33,9 +33,9 @@ function useCourseCompletion(courseId, videoId) {
   });
 
   // the total number of videos in the course
-  const totalCourseVideos = courseVideos.length;
+  const totalCourseVideos = courseVideos?.length;
   // the total number of videos completed by the user
-  const totalCompleteVideos = completedVideos.length;
+  const totalCompleteVideos = completedVideos?.length;
   // the progress percentage
   const courseProgress = (totalCompleteVideos / totalCourseVideos) * 100;
 
