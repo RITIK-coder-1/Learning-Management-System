@@ -207,13 +207,14 @@ const getEnrolledCoursesFunction = async (req, res) => {
 /* ---------------------------------------------------------------------------------------
 COURSE VIDEO COMPLETION BY THE USER CONTROLLER
 ------------------------------------------------------------------------------------------ */
+
 const completeCourseVideoController = async (req, res) => {
   const { videoId, courseId } = req.params;
   const userId = req.user._id;
 
   // validate the IDs
   if (!videoId || !courseId || !userId) {
-    console.error("COMPLETE COURSE VIDEO ERROR: invalid id");
+    console.error("COMPLETE COURSE VIDEO ERROR: invalid ids");
     throw new ApiError(400, "Please try again!");
   }
 
@@ -237,6 +238,29 @@ const completeCourseVideoController = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+GET COURSE PROGRESS CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const getCourseProgressController = async (req, res) => {
+  const { courseId } = req.params;
+  const userId = req.user?._id;
+
+  // validate the IDs
+  if (!courseId || !userId) {
+    console.error("GET COURSE PROGRESS ERROR: invalid ids");
+    throw new ApiError(400, "Please try again!");
+  }
+
+  // get the progress report
+  const courseProgress = await CourseProgress.findOne({
+    courseId,
+    userId,
+  }).select("completedVideos");
+
+  return res.status(200).json(new ApiResponse(200, "", courseProgress));
+};
+
+/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
@@ -246,6 +270,7 @@ const enrollCourse = asyncHandler(enrollCourseFunction);
 const showAllCategories = asyncHandler(showAllCategoriesFunction);
 const getEnrollCourses = asyncHandler(getEnrolledCoursesFunction);
 const completeCourseVideo = asyncHandler(completeCourseVideoController);
+const getCourseProgress = asyncHandler(getCourseProgressController);
 
 export {
   getCourse,
@@ -253,4 +278,6 @@ export {
   enrollCourse,
   showAllCategories,
   getEnrollCourses,
+  getCourseProgress,
+  completeCourseVideo
 };

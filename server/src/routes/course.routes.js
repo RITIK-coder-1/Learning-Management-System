@@ -31,4 +31,5 @@ router
   .get(getCourse) // get a particular course
   .post(verifyJwt, enrollCourse); // enroll into a course
 
+  
 export { router as courseRouter };
