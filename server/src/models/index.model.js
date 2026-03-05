@@ -12,7 +12,6 @@ import CourseCategory from "./course/CourseCategory.model.js";
 // User models
 import User from "./user/User.model.js";
 import CourseProgress from "./user/CourseProgress.model.js";
-import CourseReview from "./user/CourseReview.model.js";
 
 // Auth Model
 import OTP from "./auth/OTP.model.js";
@@ -23,7 +22,6 @@ export {
   CourseVideo,
   User,
   CourseProgress,
-  CourseReview,
   CourseCategory,
   OTP,
 };
