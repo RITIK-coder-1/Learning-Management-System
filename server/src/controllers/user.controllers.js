@@ -3,12 +3,7 @@ user.controllers.js
 All the controllers for users including authentication 
 ------------------------------------------------------------------------------------------ */
 
-import {
-  User,
-  OTP,
-  CourseVideo,
-  CourseProgress,
-} from "../models/index.model.js";
+import { User, OTP, CourseVideo } from "../models/index.model.js";
 import {
   ApiError,
   ApiResponse,
@@ -462,38 +457,6 @@ const deleteUserAccountFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-COURSE VIDEO COMPLETION BY THE USER CONTROLLER
------------------------------------------------------------------------------------------- */
-const completeCourseVideoController = async (req, res) => {
-  const { videoId, courseId } = req.params;
-  const userId = req.user._id;
-
-  // validate the IDs
-  if (!videoId || !courseId || !userId) {
-    console.error("COMPLETE COURSE VIDEO ERROR: invalid id");
-    throw new ApiError(400, "Please try again!");
-  }
-
-  const video = await CourseVideo.findById(videoId);
-
-  // validate the video
-  if (!video) {
-    console.error("COMPLETE COURSE VIDEO ERROR: no video");
-    throw new ApiError(400, "The video doesn't exist!");
-  }
-
-  // if the video exists, add it to the course progress model
-  await CourseProgress.findOneAndUpdate(
-    { courseId, userId },
-    {
-      $addToSet: { completedVideos: videoId },
-    }
-  );
-
-  return res.status(200).json(new ApiResponse(200, "The video is completed!"));
-};
-
-/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -504,7 +467,6 @@ const createUpdateEmailOtp = asyncHandler(createUpdateEmailOtpFunction);
 const updateEmail = asyncHandler(updateEmailFunction);
 const deleteProfilePic = asyncHandler(deleteProfilePicFunction);
 const deleteUserAccount = asyncHandler(deleteUserAccountFunction);
-const completeCourseVideo = asyncHandler(completeCourseVideoController);
 
 export {
   getUser,
@@ -514,5 +476,4 @@ export {
   updateEmail,
   deleteProfilePic,
   deleteUserAccount,
-  completeCourseVideo,
 };

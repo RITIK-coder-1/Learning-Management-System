@@ -205,6 +205,38 @@ const getEnrolledCoursesFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+COURSE VIDEO COMPLETION BY THE USER CONTROLLER
+------------------------------------------------------------------------------------------ */
+const completeCourseVideoController = async (req, res) => {
+  const { videoId, courseId } = req.params;
+  const userId = req.user._id;
+
+  // validate the IDs
+  if (!videoId || !courseId || !userId) {
+    console.error("COMPLETE COURSE VIDEO ERROR: invalid id");
+    throw new ApiError(400, "Please try again!");
+  }
+
+  const video = await CourseVideo.findById(videoId);
+
+  // validate the video
+  if (!video) {
+    console.error("COMPLETE COURSE VIDEO ERROR: no video");
+    throw new ApiError(400, "The video doesn't exist!");
+  }
+
+  // if the video exists, add it to the course progress model
+  await CourseProgress.findOneAndUpdate(
+    { courseId, userId },
+    {
+      $addToSet: { completedVideos: videoId },
+    }
+  );
+
+  return res.status(200).json(new ApiResponse(200, "The video is completed!"));
+};
+
+/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
@@ -213,6 +245,7 @@ const getAllCourses = asyncHandler(getAllCoursesFunction);
 const enrollCourse = asyncHandler(enrollCourseFunction);
 const showAllCategories = asyncHandler(showAllCategoriesFunction);
 const getEnrollCourses = asyncHandler(getEnrolledCoursesFunction);
+const completeCourseVideo = asyncHandler(completeCourseVideoController);
 
 export {
   getCourse,
