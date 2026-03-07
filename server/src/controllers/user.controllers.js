@@ -457,6 +457,29 @@ const deleteUserAccountFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+LAST COURSE VISITED CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const lastCourseVisitedController = async (req, res) => {
+  const { courseId } = req.body;
+  const userId = req.user?._id;
+
+  if (!courseId) throw new ApiError("invalid ID");
+
+  const user = await User.findById(userId);
+
+  // add the course as last visited only if the user has enrolled
+  if (user.enrolledCourses.includes(courseId)) {
+    user.lastCourseVisited = courseId;
+    await user.save();
+  }
+
+  console.log("course added to last visited");
+
+  return res.status(200).json(new ApiResponse(200, ""));
+};
+
+/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -467,6 +490,7 @@ const createUpdateEmailOtp = asyncHandler(createUpdateEmailOtpFunction);
 const updateEmail = asyncHandler(updateEmailFunction);
 const deleteProfilePic = asyncHandler(deleteProfilePicFunction);
 const deleteUserAccount = asyncHandler(deleteUserAccountFunction);
+const lastCourseVisited = asyncHandler(lastCourseVisitedController);
 
 export {
   getUser,
@@ -476,4 +500,5 @@ export {
   updateEmail,
   deleteProfilePic,
   deleteUserAccount,
+  lastCourseVisited,
 };

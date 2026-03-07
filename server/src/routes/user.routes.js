@@ -13,6 +13,7 @@ import {
   updateEmail,
   deleteProfilePic,
   deleteUserAccount,
+  lastCourseVisited,
 } from "../controllers/user.controllers.js";
 
 const router = Router();
@@ -26,6 +27,7 @@ SPECIFIC ROUTES:
 - Get an OTP for email update and update the email by validating the OTP 
 - Delete the user profile picture
 - Update the user's password
+- Add course as last visited
 ------------------------------------------------------------------------------------------ */
 
 // USER PROFILE OPERATIONS
@@ -40,5 +42,6 @@ router
   .patch(updateEmail); // validate OTP and update the email
 router.route("/profile/pic").delete(deleteProfilePic); // deleting a user's profile pic (only for students)
 router.route("/password").patch(updatePassword); // updating the password of a user
+router.route("/last-visited").patch(lastCourseVisited); // add course as last visited
 
 export { router as userRouter };

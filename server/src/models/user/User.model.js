@@ -74,6 +74,10 @@ const userSchema = new mongoose.Schema(
         ref: "Course",
       },
     ],
+    lastCourseVisited: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    },
     refreshTokenString: String,
   },
   {
