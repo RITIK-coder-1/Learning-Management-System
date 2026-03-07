@@ -23,7 +23,8 @@ SPECIFIC ROUTES:
 - Get all the courses 
 - Get a particular course, or enroll into it
 - Show all categories
-- Get a course's progress or add the video to the course 
+- Complete a course video 
+- Get a course's progress
 ------------------------------------------------------------------------------------------ */
 
 router.route("/enroll-courses").get(verifyJwt, getEnrollCourses); // get enroll courses
@@ -34,8 +35,8 @@ router
   .get(getCourse) // get a particular course
   .post(verifyJwt, enrollCourse); // enroll into a course
 router
-  .route("/:courseId/videos/:videoId/progress")
-  .get(verifyJwt, getCourseProgress) // get the course progress
+  .route("/:courseId/videos/:videoId")
   .patch(verifyJwt, completeCourseVideo); // complete the video
+router.route("/:courseId/progress").get(verifyJwt, getCourseProgress); // get the course progress
 
 export { router as courseRouter };
