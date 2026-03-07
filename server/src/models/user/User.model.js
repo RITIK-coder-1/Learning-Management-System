@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
       trim: true,
+      default: "",
     },
     username: {
       type: String,
@@ -77,6 +78,7 @@ const userSchema = new mongoose.Schema(
     lastCourseVisited: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
+      default: null,
     },
     refreshTokenString: String,
   },

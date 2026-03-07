@@ -22,6 +22,9 @@ function StudentDashboard() {
   const { data } = useGetUserQuery();
   const user = data?.data;
 
+  console.log(user);
+  
+
   return (
     <div className="min-h-screen bg-[#020617] text-white p-6 font-sans">
       {/* Header Section */}
