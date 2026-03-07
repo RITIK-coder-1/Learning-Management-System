@@ -2,6 +2,8 @@
 StudentDashboard.jsx
 ------------------------------------------------------------------------------------------------- */
 
+import { useGetUserQuery } from "@/api/index.api";
+
 function StudentDashboard() {
   // Dummy data for my current development phase
   const stats = [
@@ -17,11 +19,14 @@ function StudentDashboard() {
     thumbnail: "https://via.placeholder.com/150",
   };
 
+  const { data } = useGetUserQuery();
+  const user = data?.data;
+
   return (
     <div className="min-h-screen bg-[#020617] text-white p-6 font-sans">
       {/* Header Section */}
       <header className="mb-8">
-        <h1 className="text-3xl font-bold">Welcome back, Ritik!</h1>
+        <h1 className="text-3xl font-bold">Welcome back, {user?.firstName}!!</h1>
         <p className="text-gray-400">Keep moving in meaningful directions.</p>
       </header>
 
