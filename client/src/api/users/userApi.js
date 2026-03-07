@@ -87,6 +87,17 @@ const userApi = apiSlice.injectEndpoints({
       transformResponse,
       transformErrorResponse,
     }),
+
+    // LAST COURSE VISITED
+    lastCourseVisited: builder.mutation({
+      query: ({ courseId }) => ({
+        url: "/users/last-visited",
+        method: "PATCH",
+        body: { courseId },
+      }),
+      transformResponse,
+      transformErrorResponse,
+    }),
   }),
 });
 
