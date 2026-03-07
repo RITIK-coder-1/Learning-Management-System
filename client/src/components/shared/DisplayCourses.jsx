@@ -3,7 +3,7 @@ DisplayCourses.jsx
 The component for displaying all the courses 
 ------------------------------------------------------------------------------------------------- */
 
-import { CourseCard } from "../index.components";
+import { CourseCard, ProgressBar } from "../index.components";
 import filterCourses from "@/utils/filterCourses";
 
 function DisplayCourses({
@@ -13,9 +13,8 @@ function DisplayCourses({
   displayInstructorName,
   courseData,
 }) {
-  // the specific courses data to show on the page  
+  // the specific courses data to show on the page
   const courses = filterCourses(courseData);
-  
 
   return (
     <>
@@ -28,16 +27,19 @@ function DisplayCourses({
         <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
           {courses?.map((course) => {
             return (
-              <CourseCard
-                image={course.img}
-                title={course.title}
-                description={course.desc}
-                price={course.price}
-                key={course.arrayId}
-                path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id
-                displayInstructorName={displayInstructorName}
-                instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
-              />
+              <div>
+                <CourseCard
+                  image={course.img}
+                  title={course.title}
+                  description={course.desc}
+                  price={course.price}
+                  key={course.courseId}
+                  path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id
+                  displayInstructorName={displayInstructorName}
+                  instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
+                />
+                <ProgressBar courseId={course.courseId} />
+              </div>
             );
           })}
         </div>
