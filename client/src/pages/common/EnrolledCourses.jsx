@@ -16,6 +16,7 @@ function EnrolledCourses() {
       label="You don't have any enrolled courses yet."
       path={`/app/courses/:courseId`}
       courseData={courses}
+      isProgress={true}
     />
   );
 }

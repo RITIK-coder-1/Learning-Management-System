@@ -12,6 +12,7 @@ function DisplayCourses({
   path,
   displayInstructorName,
   courseData,
+  isProgress,
 }) {
   // the specific courses data to show on the page
   const courses = filterCourses(courseData);
@@ -27,7 +28,7 @@ function DisplayCourses({
         <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
           {courses?.map((course) => {
             return (
-              <div>
+              <div className="flex flex-col gap-5">
                 <CourseCard
                   image={course.img}
                   title={course.title}
@@ -38,7 +39,7 @@ function DisplayCourses({
                   displayInstructorName={displayInstructorName}
                   instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
                 />
-                <ProgressBar courseId={course.courseId} />
+                {isProgress && <ProgressBar courseId={course.courseId} />}
               </div>
             );
           })}
