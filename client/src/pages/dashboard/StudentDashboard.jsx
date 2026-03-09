@@ -8,24 +8,24 @@ import useAverageProgress from "@/hooks/useAverageProgress";
 import { Link } from "react-router-dom";
 
 function StudentDashboard() {
-  // Dummy data for my current development phase
-  const stats = [
-    { label: "Enrolled Courses", value: 3 },
-    { label: "Average Progress", value: "45%" },
-    { label: "Hours Learned", value: 12 },
-  ];
-
   // the user
   const { data: userData } = useGetUserQuery();
   const user = userData?.data;
-console.log(user);
 
   // the last course visited
   const lastCourseId = user?.lastCourseVisited;
   const { data: courseData } = useGetCourseQuery({ courseId: lastCourseId });
   const lastCourse = courseData?.data;
 
-  useAverageProgress()
+  // the average progress of the user across all the courses
+  const userProgress = useAverageProgress();
+
+  // Dummy data for my current development phase
+  const stats = [
+    { label: "Enrolled Courses", value: 3 },
+    { label: "Average Progress", value: userProgress },
+    { label: "Hours Learned", value: 12 },
+  ];
 
   return (
     <div className="min-h-screen bg-[#020617] text-white p-6 font-sans">
