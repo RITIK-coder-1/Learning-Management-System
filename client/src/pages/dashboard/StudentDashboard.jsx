@@ -22,7 +22,7 @@ function StudentDashboard() {
 
   // Dummy data for my current development phase
   const stats = [
-    { label: "Enrolled Courses", value: 3 },
+    { label: "Enrolled Courses", value: user?.enrolledCourses.length },
     { label: "Average Progress", value: userProgress },
     { label: "Hours Learned", value: 12 },
   ];
