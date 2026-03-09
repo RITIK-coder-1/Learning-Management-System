@@ -17,13 +17,13 @@ function StudentDashboard() {
   const { data: courseData } = useGetCourseQuery({ courseId: lastCourseId });
   const lastCourse = courseData?.data;
 
-  // the average progress of the user across all the courses
-  const userProgress = useAverageProgress();
+  // // all the enrolledCourses of the student
+  // const studentEnrolledCourses = user?.enrolledCourses?.map(courseId => useGetCourseQuery({courseId}))
 
-  // Dummy data for my current development phase
+  // user stats
   const stats = [
-    { label: "Enrolled Courses", value: user?.enrolledCourses.length },
-    { label: "Average Progress", value: userProgress },
+    { label: "Enrolled Courses", value: user?.enrolledCourses?.length },
+    { label: "Average Progress", value: useAverageProgress() }, // the average progress of the user across all the courses
     { label: "Hours Learned", value: 12 },
   ];
 
@@ -86,8 +86,8 @@ function StudentDashboard() {
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Mapping dummy courses */}
-          {[1, 2].map((i) => (
+          {/* the enrolled courses */}
+          {user?.enrolledCourses?.map((i) => (
             <div
               key={i}
               className="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-colors cursor-pointer"

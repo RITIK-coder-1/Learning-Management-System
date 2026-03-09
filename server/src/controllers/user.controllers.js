@@ -21,7 +21,9 @@ This is a function to fetch a single user's details
 ------------------------------------------------------------------------------------------ */
 
 const getUserFunction = async (req, res) => {
-  const user = req.user;
+  const user = await User.findById(req.user._id)
+    .select("-password -refreshTokenString")
+    .populate("enrolledCourses");
 
   if (!user) {
     console.error("FETCHING USER ERROR: Invalid user");
