@@ -32,12 +32,15 @@ function PublicCourse() {
 
   // add this as the last course visited
   const [lastCourseVisited] = useLastCourseVisitedMutation();
-  useEffect(async () => {
-    try {
-      await lastCourseVisited({ courseId }).unwrap();
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    const courseFunc = async () => {
+      try {
+        await lastCourseVisited({ courseId }).unwrap();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    courseFunc();
   }, []);
 
   return (
