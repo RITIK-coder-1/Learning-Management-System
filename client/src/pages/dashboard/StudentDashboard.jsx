@@ -3,6 +3,7 @@ StudentDashboard.jsx
 ------------------------------------------------------------------------------------------------- */
 
 import { useGetCourseQuery, useGetUserQuery } from "@/api/index.api";
+import { ProgressBar } from "@/components/index.components";
 
 function StudentDashboard() {
   // Dummy data for my current development phase
@@ -11,13 +12,6 @@ function StudentDashboard() {
     { label: "Average Progress", value: "45%" },
     { label: "Hours Learned", value: 12 },
   ];
-
-  const recentCourse = {
-    title: "Software Engineering Crash Course",
-    instructor: "Ritik Mahapatra",
-    progress: 60,
-    thumbnail: "https://via.placeholder.com/150",
-  };
 
   // the user
   const { data: userData } = useGetUserQuery();
@@ -56,16 +50,7 @@ function StudentDashboard() {
             Instructor: {lastCourse?.owner?.firstName}{" "}
             {lastCourse?.owner?.lastName}
           </p>
-
-          <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
-            <div
-              className="bg-purple-500 h-2 rounded-full"
-              style={{ width: `${recentCourse.progress}%` }}
-            ></div>
-          </div>
-          <p className="text-sm text-gray-400">
-            {recentCourse.progress}% Completed
-          </p>
+          <ProgressBar courseId={lastCourseId} />
         </div>
         <button className="bg-transparent border-2 border-purple-500 hover:bg-purple-500 text-white px-6 py-2 rounded-lg transition-all">
           Resume Lesson
