@@ -3,7 +3,8 @@ StudentDashboard.jsx
 ------------------------------------------------------------------------------------------------- */
 
 import { useGetCourseQuery, useGetUserQuery } from "@/api/index.api";
-import { ProgressBar } from "@/components/index.components";
+import { CommonButton, ProgressBar } from "@/components/index.components";
+import { Link } from "react-router-dom";
 
 function StudentDashboard() {
   // Dummy data for my current development phase
@@ -39,10 +40,7 @@ function StudentDashboard() {
           alt="Course"
           className="w-full md:w-48 rounded-lg object-cover"
         />
-        <div className="flex-1">
-          <span className="text-xs font-semibold px-2 py-1 bg-purple-900 text-purple-300 rounded uppercase">
-            Continue Learning
-          </span>
+        <div className="flex-1 w-full">
           <h2 className="text-2xl font-bold mt-2 text-[#fbbf24]">
             {lastCourse?.title}
           </h2>
@@ -52,9 +50,12 @@ function StudentDashboard() {
           </p>
           <ProgressBar courseId={lastCourseId} />
         </div>
-        <button className="bg-transparent border-2 border-purple-500 hover:bg-purple-500 text-white px-6 py-2 rounded-lg transition-all">
-          Resume Lesson
-        </button>
+        <Link to={`/app/courses/${lastCourseId}`}>
+          <CommonButton
+            label="Resume Lesson"
+            className="bg-transparent border-2 border-purple-500 hover:bg-purple-500 text-white"
+          />
+        </Link>
       </section>
 
       {/* Stats Grid */}
