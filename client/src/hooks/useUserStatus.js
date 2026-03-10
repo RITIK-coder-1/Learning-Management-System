@@ -26,7 +26,7 @@ function useUserStatus(courseId) {
   const isOwner = user?._id === course?.owner?._id ? true : false;
 
   // check if the user is enrolled in the course or not
-  const isEnrolled = user?.enrolledCourses.includes(courseId);
+  const isEnrolled = user?.enrolledCourses?.some(course => course?._id === courseId)
 
   return {
     isAuthenticated,

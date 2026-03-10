@@ -120,21 +120,21 @@ const userApi = apiSlice.injectEndpoints({
         try {
           // Execute all requests in parallel
           const results = await Promise.all(
-            courseIds.map((id) =>
+            courseIds?.map((id) =>
               baseQuery(`/users/enrolled-courses/${id}/progress`)
             )
           );
 
           // Check if any request failed
-          const errors = results.filter((res) => res.error);
-          if (errors.length > 0) return { error: errors[0].error };
+          const errors = results?.filter((res) => res?.error);
+          if (errors?.length > 0) return { error: errors[0].error };
 
           // Extract the numerical progress values
-          const progressValues = results.map((res) => res.data?.data?.progress);
+          const progressValues = results?.map((res) => res?.data?.data?.progress);
 
-          const total = progressValues.reduce((acc, val) => acc + val, 0);
+          const total = progressValues?.reduce((acc, val) => acc + val, 0);
           const average =
-            progressValues.length > 0 ? total / progressValues.length : 0;
+            progressValues?.length > 0 ? total / progressValues?.length : 0;
 
           return { data: { average, details: progressValues } };
         } catch (error) {
