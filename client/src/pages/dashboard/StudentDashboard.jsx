@@ -78,9 +78,12 @@ function StudentDashboard() {
       <section>
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-semibold">Your Enrolled Courses</h3>
-          <button className="text-purple-400 hover:text-purple-300 text-sm">
+          <Link
+            className="text-purple-400 hover:text-purple-300 text-sm"
+            to="/app/enrolled-courses"
+          >
             View All
-          </button>
+          </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* the enrolled courses */}
