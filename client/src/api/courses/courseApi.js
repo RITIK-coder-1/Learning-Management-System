@@ -43,7 +43,9 @@ const courseApi = apiSlice.injectEndpoints({
     // GET COURSE PROGRESS
     getCourseProgress: builder.query({
       query: ({ courseId }) => `/courses/${courseId}/progress`,
-      providesTags: ["Course"],
+      providesTags: (result, error, { courseId }) => [
+        { type: "Course", id: courseId },
+      ],
     }),
 
     // COMPLETE A VIDEO
