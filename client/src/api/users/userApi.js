@@ -113,6 +113,39 @@ const userApi = apiSlice.injectEndpoints({
       ],
     }),
 
+    // GET AVERAGE PROGRESS ACROSS ALL THE COURSES
+    getAverageCourseProgress: builder.query({
+      // I'm passing the entire array of enrolledCourses here
+      async queryFn(courseIds, _queryApi, _extraOptions, baseQuery) {
+        try {
+          // Execute all requests in parallel
+          const results = await Promise.all(
+            courseIds.map((id) => baseQuery(`/users/enrolled-courses/${id}/progress`))
+          );
+
+          // Check if any request failed
+          const errors = results.filter((res) => res.error);
+          if (errors.length > 0) return { error: errors[0].error };
+
+          // Extract the numerical progress values
+          const progressValues = results.map((res) => res.data?.data?.completedVideos);
+
+          console.log(progressValues);
+          
+
+          
+          // const total = progressValues.reduce((acc, val) => acc + val, 0);
+          // const average =
+          //   progressValues.length > 0 ? total / progressValues.length : 0;
+
+          // return { data: { average, details: progressValues } };
+        } catch (error) {
+          return { error };
+        }
+      },
+      providesTags: ["Course"],
+    }),
+
     // COMPLETE A VIDEO
     completeCourseVideo: builder.mutation({
       query: ({ courseId, videoId }) => ({
@@ -136,4 +169,5 @@ export const {
   useGetEnrolledCoursesQuery,
   useGetCourseProgressQuery,
   useCompleteCourseVideoMutation,
+  useGetAverageCourseProgressQuery
 } = userApi;

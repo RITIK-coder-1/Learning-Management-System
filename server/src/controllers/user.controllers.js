@@ -8,6 +8,7 @@ import {
   OTP,
   CourseVideo,
   CourseProgress,
+  Course,
 } from "../models/index.model.js";
 import {
   ApiError,
@@ -574,15 +575,54 @@ const getCourseProgressController = async (req, res) => {
     throw new ApiError(400, "Please try again!");
   }
 
-  // get the progress report
-  const courseProgress = await CourseProgress.findOne({
+  // get the course along with its sections and videos
+  const course = await Course.findById(courseId).populate({
+    path: "sections",
+    populate: {
+      path: "courseVideos",
+    },
+  });
+
+  if (!course) {
+    console.error("GET COURSE PROGRESS ERROR: invalid course");
+    throw new ApiError(400, "The course is invalid!");
+  }
+
+  // get the total number of videos in the course
+  let totalCourseVideos = [];
+  course?.sections?.forEach((section) => {
+    section?.courseVideos.forEach((video) => {
+      // add only if the video isn't present already
+      if (!totalCourseVideos.includes(video?._id)) {
+        totalCourseVideos.push(video?._id);
+      }
+    });
+  });
+
+  // get the completed videos of the course by the user
+  const courseProgressData = await CourseProgress.findOne({
     course: courseId,
     user: userId,
   }).select("completedVideos");
+  const courseCompletedVideos = courseProgressData?.completedVideos;
+
+  // the total number of videos in the course
+  const totalCourseVideosNumber = totalCourseVideos?.length;
+  // the total number of videos completed by the user
+  const totalCompleteVideos = courseCompletedVideos?.length;
+  // the progress percentage
+  const courseProgress = (totalCompleteVideos / totalCourseVideosNumber) * 100;
+
+  const progress = Math.ceil(courseProgress);
 
   console.log("Course progress fetched!");
 
-  return res.status(200).json(new ApiResponse(200, "", courseProgress));
+  return res.status(200).json(
+    new ApiResponse(200, "", {
+      completedVideos: courseCompletedVideos,
+      progress,
+    })
+  );
 };
 
 /* ---------------------------------------------------------------------------------------
