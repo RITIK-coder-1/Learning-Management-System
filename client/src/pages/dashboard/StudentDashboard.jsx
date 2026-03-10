@@ -33,7 +33,7 @@ function StudentDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white p-6 font-sans">
+    <div className="min-h-screen bg-[#020617] text-white p-6 font-sans w-full lg:w-[80%]">
       {/* Header Section */}
       <header className="mb-8">
         <h1 className="text-3xl font-bold">
