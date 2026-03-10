@@ -112,8 +112,8 @@ function StudentDashboard() {
         </div>
         {/* the enrolled courses */}
         {user?.enrolledCourses?.length > 0 ? (
-          user?.enrolledCourses?.map((course) => (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+            {user?.enrolledCourses?.map((course) => (
               <Link to={`/app/courses/${course?._id}`} key={course?._id}>
                 <div className="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-colors cursor-pointer">
                   <div className="h-32 bg-gray-800">
@@ -136,8 +136,8 @@ function StudentDashboard() {
                   </div>
                 </div>
               </Link>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
           <div className="flex justify-center items-center">
             You have not enrolled to any courses yet.

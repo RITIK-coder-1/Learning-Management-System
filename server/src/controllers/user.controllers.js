@@ -488,7 +488,7 @@ const lastCourseVisitedController = async (req, res) => {
   );
 
   // single ID check
-  const isNotLastVisited = !user.lastCourseVisited.equals(courseId);
+  const isNotLastVisited = !user?.lastCourseVisited?.equals(courseId);
 
   if (isEnrolled && isNotLastVisited) {
     user.lastCourseVisited = courseId;
