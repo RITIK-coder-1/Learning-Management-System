@@ -3,8 +3,12 @@ user.controllers.js
 All the controllers for users including authentication 
 ------------------------------------------------------------------------------------------ */
 
-import path from "path";
-import { User, OTP, CourseVideo } from "../models/index.model.js";
+import {
+  User,
+  OTP,
+  CourseVideo,
+  CourseProgress,
+} from "../models/index.model.js";
 import {
   ApiError,
   ApiResponse,
@@ -522,6 +526,66 @@ const getEnrolledCoursesFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
+COURSE VIDEO COMPLETION BY THE USER CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const completeCourseVideoController = async (req, res) => {
+  const { videoId, courseId } = req.params;
+  const userId = req.user._id;
+
+  // validate the IDs
+  if (!videoId || !courseId || !userId) {
+    console.error("COMPLETE COURSE VIDEO ERROR: invalid ids");
+    throw new ApiError(400, "Please try again!");
+  }
+
+  const video = await CourseVideo.findById(videoId);
+
+  // validate the video
+  if (!video) {
+    console.error("COMPLETE COURSE VIDEO ERROR: no video");
+    throw new ApiError(400, "The video doesn't exist!");
+  }
+
+  // if the video exists, add it to the course progress model
+  await CourseProgress.findOneAndUpdate(
+    { course: courseId, user: userId },
+    {
+      $addToSet: { completedVideos: videoId },
+    }
+  );
+
+  console.log("Video completed!");
+
+  return res.status(200).json(new ApiResponse(200, "The video is completed!"));
+};
+
+/* ---------------------------------------------------------------------------------------
+GET COURSE PROGRESS CONTROLLER
+------------------------------------------------------------------------------------------ */
+
+const getCourseProgressController = async (req, res) => {
+  const { courseId } = req.params;
+  const userId = req.user?._id;
+
+  // validate the IDs
+  if (!courseId || !userId) {
+    console.error("GET COURSE PROGRESS ERROR: invalid ids");
+    throw new ApiError(400, "Please try again!");
+  }
+
+  // get the progress report
+  const courseProgress = await CourseProgress.findOne({
+    course: courseId,
+    user: userId,
+  }).select("completedVideos");
+
+  console.log("Course progress fetched!");
+
+  return res.status(200).json(new ApiResponse(200, "", courseProgress));
+};
+
+/* ---------------------------------------------------------------------------------------
 Error Handling
 ------------------------------------------------------------------------------------------ */
 
@@ -534,7 +598,8 @@ const deleteProfilePic = asyncHandler(deleteProfilePicFunction);
 const deleteUserAccount = asyncHandler(deleteUserAccountFunction);
 const lastCourseVisited = asyncHandler(lastCourseVisitedController);
 const getEnrollCourses = asyncHandler(getEnrolledCoursesFunction);
-
+const completeCourseVideo = asyncHandler(completeCourseVideoController);
+const getCourseProgress = asyncHandler(getCourseProgressController);
 
 export {
   getUser,
@@ -546,5 +611,6 @@ export {
   deleteUserAccount,
   lastCourseVisited,
   getEnrollCourses,
-
+  getCourseProgress,
+  completeCourseVideo,
 };

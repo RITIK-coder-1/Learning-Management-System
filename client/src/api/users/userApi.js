@@ -104,6 +104,23 @@ const userApi = apiSlice.injectEndpoints({
       transformResponse,
       transformErrorResponse,
     }),
+
+    // GET COURSE PROGRESS
+    getCourseProgress: builder.query({
+      query: ({ courseId }) => `/users/enrolled-courses/${courseId}/progress`,
+      providesTags: (result, error, { courseId }) => [
+        { type: "Course", id: courseId },
+      ],
+    }),
+
+    // COMPLETE A VIDEO
+    completeCourseVideo: builder.mutation({
+      query: ({ courseId, videoId }) => ({
+        url: `/users/enrolled-courses/${courseId}/videos/${videoId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Course"],
+    }),
   }),
 });
 
@@ -116,5 +133,7 @@ export const {
   useUpdateUserEmailOtpMutation,
   useUpdateUserPasswordMutation,
   useLastCourseVisitedMutation,
-  useGetEnrolledCoursesQuery
+  useGetEnrolledCoursesQuery,
+  useGetCourseProgressQuery,
+  useCompleteCourseVideoMutation,
 } = userApi;

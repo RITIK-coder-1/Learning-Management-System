@@ -15,6 +15,8 @@ import {
   deleteUserAccount,
   lastCourseVisited,
   getEnrollCourses,
+  completeCourseVideo,
+  getCourseProgress,
 } from "../controllers/user.controllers.js";
 
 const router = Router();
@@ -30,6 +32,8 @@ SPECIFIC ROUTES:
 - Update the user's password
 - Get Enrolled Courses 
 - Add course as last visited
+- Complete a course video 
+- Get the course progress 
 ------------------------------------------------------------------------------------------ */
 
 // USER PROFILE OPERATIONS
@@ -46,5 +50,11 @@ router.route("/profile/pic").delete(deleteProfilePic); // deleting a user's prof
 router.route("/password").patch(updatePassword); // updating the password of a user
 router.route("/enrolled-courses").get(getEnrollCourses); // get enroll courses
 router.route("/enrolled-courses/last-visited").patch(lastCourseVisited); // add course as last visited
+router
+  .route("/enrolled-courses/:courseId/videos/:videoId")
+  .patch(verifyJwt, completeCourseVideo); // complete the video
+router
+  .route("/enrolled-courses/:courseId/progress")
+  .get(verifyJwt, getCourseProgress); // get the course progress
 
 export { router as userRouter };

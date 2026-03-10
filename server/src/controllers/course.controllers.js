@@ -9,7 +9,6 @@ import {
   User,
   CourseCategory,
   CourseProgress,
-  CourseVideo
 } from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
@@ -173,66 +172,6 @@ const showAllCategoriesFunction = async (req, res) => {
 };
 
 /* ---------------------------------------------------------------------------------------
-COURSE VIDEO COMPLETION BY THE USER CONTROLLER
------------------------------------------------------------------------------------------- */
-
-const completeCourseVideoController = async (req, res) => {
-  const { videoId, courseId } = req.params;
-  const userId = req.user._id;
-
-  // validate the IDs
-  if (!videoId || !courseId || !userId) {
-    console.error("COMPLETE COURSE VIDEO ERROR: invalid ids");
-    throw new ApiError(400, "Please try again!");
-  }
-
-  const video = await CourseVideo.findById(videoId);
-
-  // validate the video
-  if (!video) {
-    console.error("COMPLETE COURSE VIDEO ERROR: no video");
-    throw new ApiError(400, "The video doesn't exist!");
-  }
-
-  // if the video exists, add it to the course progress model
-  await CourseProgress.findOneAndUpdate(
-    { course: courseId, user: userId },
-    {
-      $addToSet: { completedVideos: videoId },
-    }
-  );
-
-  console.log("Video completed!")
-
-  return res.status(200).json(new ApiResponse(200, "The video is completed!"));
-};
-
-/* ---------------------------------------------------------------------------------------
-GET COURSE PROGRESS CONTROLLER
------------------------------------------------------------------------------------------- */
-
-const getCourseProgressController = async (req, res) => {
-  const { courseId } = req.params;
-  const userId = req.user?._id;
-
-  // validate the IDs
-  if (!courseId || !userId) {
-    console.error("GET COURSE PROGRESS ERROR: invalid ids");
-    throw new ApiError(400, "Please try again!");
-  }
-
-  // get the progress report
-  const courseProgress = await CourseProgress.findOne({
-    course: courseId,
-    user: userId,
-  }).select("completedVideos");
-
-  console.log("Course progress fetched!");
-
-  return res.status(200).json(new ApiResponse(200, "", courseProgress));
-};
-
-/* ---------------------------------------------------------------------------------------
 ERROR HANDLING
 ------------------------------------------------------------------------------------------ */
 
@@ -240,14 +179,5 @@ const getCourse = asyncHandler(getCourseFunction);
 const getAllCourses = asyncHandler(getAllCoursesFunction);
 const enrollCourse = asyncHandler(enrollCourseFunction);
 const showAllCategories = asyncHandler(showAllCategoriesFunction);
-const completeCourseVideo = asyncHandler(completeCourseVideoController);
-const getCourseProgress = asyncHandler(getCourseProgressController);
 
-export {
-  getCourse,
-  getAllCourses,
-  enrollCourse,
-  showAllCategories,
-  getCourseProgress,
-  completeCourseVideo
-};
+export { getCourse, getAllCourses, enrollCourse, showAllCategories };
