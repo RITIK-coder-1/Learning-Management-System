@@ -15,26 +15,26 @@ import { useGetInstructorDataQuery } from "@/api/index.api";
 function InstructorDashboard() {
   // instructor data
   const { data } = useGetInstructorDataQuery();
-  const createdCourses = data?.createdCourses;
-  const totalStudents = data?.totalStudents;
+  const createdCourses = data?.createdCourses; // created courses 
+  const totalStudents = data?.totalStudents; // total students
 
-  // Dummy Data for MVP
+  // stats
   const stats = [
     {
       label: "Total Students",
-      value: totalStudents,
+      value: totalStudents || 0,
       icon: Users,
       color: "text-blue-400",
     },
     {
       label: "Active Courses",
-      value: createdCourses?.length,
+      value: createdCourses?.length || 0,
       icon: BookOpen,
       color: "text-purple-400",
     },
     {
       label: "Total Revenue",
-      value: "$4,250",
+      value: "$4,250" || 0,
       icon: DollarSign,
       color: "text-green-400",
     },
@@ -44,16 +44,16 @@ function InstructorDashboard() {
   const diplayCourses = createdCourses?.slice(-3).toReversed();
 
   return (
-    <div className="min-h-screen bg-[#020617] text-gray-100 p-8 font-sans">
+    <div className="min-h-screen w-full bg-[#020617] text-gray-100 p-8 font-sans">
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-10">
-        <div>
+      <div className="flex flex-col justify-center items-center gap-6 mb-10">
+        <div className="text-center">
           <h1 className="text-3xl font-bold">Welcome back, Ritik!!</h1>
           <p className="text-gray-400 mt-1">
             Empowering students through meaningful content.
           </p>
         </div>
-        <Link to={"/app/created-courses/create"}>
+        <Link to={"/app/created-courses/create"} className="">
           <button className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 transition-colors px-6 py-2.5 rounded-lg font-semibold shadow-lg shadow-purple-900/20">
             <PlusCircle size={20} />
             Create New Course
@@ -68,7 +68,7 @@ function InstructorDashboard() {
             key={index}
             className="bg-[#0f172a] border border-gray-800 p-6 rounded-xl hover:border-gray-700 transition-all"
           >
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-start gap-4">
               <div>
                 <p className="text-gray-400 text-sm font-medium uppercase tracking-wider">
                   {stat.label}
