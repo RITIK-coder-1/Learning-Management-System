@@ -7,7 +7,7 @@ import {
   Users,
   BookOpen,
   DollarSign,
-  MoreVertical,
+  ArrowRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useGetInstructorDataQuery } from "@/api/index.api";
@@ -40,32 +40,8 @@ function InstructorDashboard() {
     },
   ];
 
-  const courses = [
-    {
-      id: 1,
-      title: "Full Stack MERN Mastery",
-      students: 450,
-      rating: 4.8,
-      status: "Published",
-      price: "$49.99",
-    },
-    {
-      id: 2,
-      title: "Advanced React Patterns",
-      students: 120,
-      rating: 4.9,
-      status: "Published",
-      price: "$29.99",
-    },
-    {
-      id: 3,
-      title: "Node.js Backend Architecture",
-      students: 0,
-      rating: 0,
-      status: "Draft",
-      price: "$39.99",
-    },
-  ];
+  // display only the last three created courses
+  const diplayCourses = createdCourses?.slice(-3).toReversed();
 
   return (
     <div className="min-h-screen bg-[#020617] text-gray-100 p-8 font-sans">
@@ -109,9 +85,11 @@ function InstructorDashboard() {
       <div className="bg-[#0f172a] border border-gray-800 rounded-xl overflow-hidden">
         <div className="p-6 border-b border-gray-800 flex justify-between items-center">
           <h2 className="text-xl font-semibold">Your Courses</h2>
-          <button className="text-sm text-purple-400 hover:underline">
-            View All
-          </button>
+          <Link to="/app/created-courses">
+            <button className="text-sm text-purple-400 hover:underline">
+              View All
+            </button>
+          </Link>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
@@ -121,18 +99,22 @@ function InstructorDashboard() {
                 <th className="px-6 py-4 font-medium text-center">Enrolled</th>
                 <th className="px-6 py-4 font-medium text-center">Price</th>
                 <th className="px-6 py-4 font-medium text-center">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <th className="px-6 py-4 font-medium text-right">Visit</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
-              {courses.map((course) => (
+              {diplayCourses?.map((course) => (
                 <tr
-                  key={course.id}
+                  key={course?._id}
                   className="hover:bg-gray-800/30 transition-colors"
                 >
-                  <td className="px-6 py-4 font-medium">{course.title}</td>
-                  <td className="px-6 py-4 text-center">{course.students}</td>
-                  <td className="px-6 py-4 text-center">{course.price}</td>
+                  <td className="px-6 py-4 font-medium">{course?.title}</td>
+                  <td className="px-6 py-4 text-center">
+                    {course?.enrolledBy?.length}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {course?.price === 0 ? "Free" : course?.price}
+                  </td>
                   <td className="px-6 py-4 text-center">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-bold ${
@@ -141,13 +123,15 @@ function InstructorDashboard() {
                           : "bg-yellow-900/30 text-yellow-400"
                       }`}
                     >
-                      {course.status}
+                      {course?.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button className="p-2 hover:bg-gray-700 rounded-full">
-                      <MoreVertical size={18} className="text-gray-400" />
-                    </button>
+                    <Link to={`/app/created-courses/${course?._id}`}>
+                      <button className="p-2 hover:bg-gray-700 rounded-full">
+                        <ArrowRight size={18} className="text-gray-400" />
+                      </button>
+                    </Link>
                   </td>
                 </tr>
               ))}
