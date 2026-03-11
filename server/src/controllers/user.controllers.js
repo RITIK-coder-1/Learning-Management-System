@@ -482,10 +482,8 @@ const lastCourseVisitedController = async (req, res) => {
 
   const user = await User.findById(userId);
 
-  // I converted to string for broader compatibility
-  const isEnrolled = user.enrolledCourses.some(
-    (id) => id.toString() === courseId.toString()
-  );
+  // The enrollment check
+  const isEnrolled = user?.enrolledCourses?.some(courseId => courseId === courseId)
 
   // single ID check
   const isNotLastVisited = !user?.lastCourseVisited?.equals(courseId);
