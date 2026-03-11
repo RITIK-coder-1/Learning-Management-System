@@ -23,10 +23,7 @@ function StudentDashboard() {
   // the last course visited
   const lastCourseId = user?.lastCourseVisited;
   const { data: courseData } = useGetCourseQuery({ courseId: lastCourseId });
-  const lastCourse = courseData?.data;
-
-  console.log(user);
-  
+  const lastCourse = courseData?.data;  
 
   // user stats
   const stats = [
@@ -34,6 +31,9 @@ function StudentDashboard() {
     { label: "Average Progress", value: averageProgress },
     { label: "Total Credits", value: totalLearningCredits },
   ];
+
+  // enrolled courses to display (only the last three)
+  const enrolledCoursesToDisplay = user?.enrolledCourses?.slice(-3)
 
   return (
     <div className="min-h-screen bg-[#020617] text-white p-6 font-sans w-full lg:w-[80%]">
@@ -115,14 +115,14 @@ function StudentDashboard() {
         </div>
         {/* the enrolled courses */}
         {user?.enrolledCourses?.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            {user?.enrolledCourses?.map((course) => (
+          <div className="flex justify-end items-center flex-row-reverse gap-6 w-full">
+            {enrolledCoursesToDisplay?.map((course) => (
               <Link to={`/app/courses/${course?._id}`} key={course?._id}>
-                <div className="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-colors cursor-pointer">
+                <div className="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-colors cursor-pointer w-76">
                   <div className="h-32 bg-gray-800">
                     <img
                       src={course?.thumbnail || null}
-                      className="w-full h-full"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="p-4">
