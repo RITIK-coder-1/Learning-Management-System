@@ -46,18 +46,19 @@ function StudentDashboard() {
       </header>
 
       {/* Hero: Last Visited */}
-      <section className="bg-[#0f172a] border border-gray-800 rounded-xl p-6 mb-8 ">
+      <section className="bg-[#0f172a] border border-gray-800 rounded-xl p-6 mb-8 h-auto sm:h-66">
         {!lastCourseId ? (
           <span className="flex justify-center items-center w-full text-foreground italic">
             You have not visited any enrolled courses yet.
           </span>
         ) : (
-          <div className="w-full flex flex-col md:flex-row items-center gap-6">
+          <div className="w-full h-full flex flex-col sm:flex-row items-start gap-6">
             <img
               src={lastCourse?.thumbnail}
               alt="Course"
-              className="w-full md:w-48 rounded-lg object-cover"
+              className="w-full sm:w-48 md:w-120 h-full rounded-lg object-cover"
             />
+            <div className="w-full flex flex-col gap-6 h-full">
             <div className="flex-1 w-full">
               <h2 className="text-2xl font-bold mt-2 text-[#fbbf24]">
                 {lastCourse?.title}
@@ -68,12 +69,13 @@ function StudentDashboard() {
               </p>
               <ProgressBar courseId={lastCourseId} />
             </div>
-            <Link to={`/app/courses/${lastCourseId}`}>
+            <Link to={`/app/courses/${lastCourseId}`} className="w-full flex justify-center items-center">
               <CommonButton
                 label="Resume Lesson"
-                className="bg-transparent border-2 border-purple-500 hover:bg-purple-500 text-white"
+                className="bg-transparent border-2 border-purple-500 hover:bg-purple-500 text-white w-full md:w-66"
               />
             </Link>
+            </div>
           </div>
         )}
       </section>
@@ -115,10 +117,10 @@ function StudentDashboard() {
         </div>
         {/* the enrolled courses */}
         {user?.enrolledCourses?.length > 0 ? (
-          <div className="flex justify-end items-center flex-row-reverse gap-6 w-full">
+          <div className="flex justify-end items-center flex-col-reverse sm:flex-row-reverse gap-6 w-full">
             {enrolledCoursesToDisplay?.map((course) => (
-              <Link to={`/app/courses/${course?._id}`} key={course?._id}>
-                <div className="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-colors cursor-pointer w-76">
+              <Link to={`/app/courses/${course?._id}`} key={course?._id} className="w-full sm:w-66">
+                <div className="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-colors cursor-pointer w-full">
                   <div className="h-32 bg-gray-800">
                     <img
                       src={course?.thumbnail || null}
