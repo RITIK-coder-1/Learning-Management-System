@@ -23,7 +23,7 @@ import {
   useGetCourseProgressQuery,
   useCompleteCourseVideoMutation,
   useGetEnrolledCoursesQuery,
-  useGetBulkCourseProgressQuery
+  useGetBulkCourseProgressQuery,
 } from "./users/userApi.js";
 
 import {
@@ -45,6 +45,7 @@ import {
   useDeleteSectionMutation,
   useDeleteVideoMutation,
   useCreateCourseMutation,
+  useGetTotalStudentsQuery,
 } from "./users/instructorApi.js";
 
 import {
@@ -103,4 +104,5 @@ export {
   useGetCourseProgressQuery,
   useGetBulkCourseProgressQuery,
   useCompleteCourseVideoMutation,
+  useGetTotalStudentsQuery,
 };

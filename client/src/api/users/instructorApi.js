@@ -148,17 +148,18 @@ const instructorApi = apiSlice.injectEndpoints({
     getTotalStudents: builder.query({
       async queryFn(_, _queryApi, _extraOptions, baseQuery) {
         try {
-          const createdCourses = await baseQuery("/instructor/courses");
+          const result = await baseQuery("/instructor/courses");
 
           // Check if any request failed
-          const errors = createdCourses?.filter((res) => res?.error);
+          const errors = result?.error;
           if (errors?.length > 0) return { error: errors[0].error };
 
+          // the created courses
+          const createdCourses = result?.data?.data;
           // the number of students enrolled of each course
           const numberOfStudents = createdCourses?.map(
             (course) => course?.enrolledBy?.length
           );
-
           // the total number of students
           const totalStudents = numberOfStudents?.reduce(
             (acc, val) => acc + val,
@@ -169,6 +170,7 @@ const instructorApi = apiSlice.injectEndpoints({
             data: { totalStudents },
           };
         } catch (error) {
+          console.log("there is an error");
           return { error };
         }
       },
@@ -190,5 +192,5 @@ export const {
   useDeleteVideoMutation,
   useCreateCourseMutation,
   usePublishCourseMutation,
-  useGetTotalStudentsMutation,
+  useGetTotalStudentsQuery,
 } = instructorApi;

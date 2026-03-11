@@ -2,20 +2,22 @@
 useGetInstructorData.js
 The hook to get the important data for an instructor 
 ------------------------------------------------------------------------------------------------- */
-import { useGetUserQuery } from "@/api/index.api";
+import { useGetUserQuery, useGetTotalStudentsQuery } from "@/api/index.api";
 
 function useGetInstructorData() {
-  const { data } = useGetUserQuery();
-  const user = data?.data;
+  const { data: userData } = useGetUserQuery();
+  const user = userData?.data;
 
   // the created courses
   const createdCourses = user?.createdCourses;
 
-  // the total number of students enrolled 
-  
+  // the total number of students enrolled
+  const { data: studentData } = useGetTotalStudentsQuery();
+  const totalNumberOfStudents = studentData?.data?.totalStudents;
 
   return {
     createdCourses,
+    totalNumberOfStudents,
   };
 }
 
