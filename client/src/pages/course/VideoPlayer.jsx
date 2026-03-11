@@ -48,11 +48,8 @@ function VideoPlayer() {
     }
   };
 
-  // the user data 
-  const {isOwner} = useUserStatus(courseId)
-
-  console.log(isOwner);
-  
+  // if the user is the owner of the course
+  const { isOwner } = useUserStatus(courseId);
 
   return (
     <div className="h-auto bg-[#0a0a0c] text-white font-sans rounded-lg w-full md:w-[80%]">
@@ -74,7 +71,7 @@ function VideoPlayer() {
         {/* Video & Info */}
         <section className="flex-1 p-3 overflow-y-auto">
           {/* Video Player Component */}
-          <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800">
+          <div className="aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800 h-full">
             <ReactPlayer
               width="100%"
               height="100%"
@@ -85,43 +82,48 @@ function VideoPlayer() {
             />
           </div>
 
-          <div className="mt-6 flex justify-between items-start">
-            {completedVideos?.some((video) => video._id === videoId) ? (
-              <CommonButton
-                label={
-                  <span className="flex items-center gap-2">
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="3"
-                        d="M5 13l4 4L19 7"
-                      ></path>
-                    </svg>
-                    COMPLETED
-                  </span>
-                }
-                className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/50 px-8 py-2.5 rounded-xl font-bold tracking-widest text-xs shadow-[0_0_20px_rgba(16,185,129,0.2)] transition-all cursor-default"
-              />
-            ) : (
-              <CommonButton
-                label="Mark as completed"
-                onClick={completeVideoApiCall}
-              />
-            )}
-          </div>
+          {/* Add the mark complete button to the non-owner users only */}
+          {!isOwner ? (
+            <div className="mt-6 flex justify-between items-start">
+              {completedVideos?.some((video) => video._id === videoId) ? (
+                <CommonButton
+                  label={
+                    <span className="flex items-center gap-2">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="3"
+                          d="M5 13l4 4L19 7"
+                        ></path>
+                      </svg>
+                      COMPLETED
+                    </span>
+                  }
+                  className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/50 px-8 py-2.5 rounded-xl font-bold tracking-widest text-xs shadow-[0_0_20px_rgba(16,185,129,0.2)] transition-all cursor-default"
+                />
+              ) : (
+                <CommonButton
+                  label="Mark as completed"
+                  onClick={completeVideoApiCall}
+                />
+              )}
+            </div>
+          ) : (
+            ""
+          )}
         </section>
 
         <aside className="w-full lg:w-80 bg-[#121214] border-l border-gray-800 p-4 overflow-y-auto rounded-b-lg lg:rounded-bl-none">
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Course Content</h3>
             {/* Progress Bar Component */}
-            <ProgressBar courseId={courseId} />
+            {!isOwner && <ProgressBar courseId={courseId} />}
           </div>
 
           <div className="space-y-4">
