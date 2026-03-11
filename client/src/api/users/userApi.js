@@ -114,7 +114,7 @@ const userApi = apiSlice.injectEndpoints({
     }),
 
     // GET AVERAGE PROGRESS ACROSS ALL THE COURSES
-    getAverageCourseProgress: builder.query({
+    getBulkCourseProgress: builder.query({
       // I'm passing the entire array of enrolledCourses here
       async queryFn(courseIds, _queryApi, _extraOptions, baseQuery) {
         try {
@@ -179,5 +179,5 @@ export const {
   useGetEnrolledCoursesQuery,
   useGetCourseProgressQuery,
   useCompleteCourseVideoMutation,
-  useGetAverageCourseProgressQuery,
+  useGetBulkCourseProgressQuery,
 } = userApi;

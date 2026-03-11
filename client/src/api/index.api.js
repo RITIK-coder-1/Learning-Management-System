@@ -22,7 +22,8 @@ import {
   useUpdateUserPasswordMutation,
   useGetCourseProgressQuery,
   useCompleteCourseVideoMutation,
-  useGetEnrolledCoursesQuery
+  useGetEnrolledCoursesQuery,
+  useGetBulkCourseProgressQuery
 } from "./users/userApi.js";
 
 import {
