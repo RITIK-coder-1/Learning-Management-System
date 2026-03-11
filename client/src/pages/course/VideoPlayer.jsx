@@ -79,7 +79,7 @@ function VideoPlayer() {
           </div>
 
           <div className="mt-6 flex justify-between items-start">
-            {completedVideos?.includes(videoId) ? (
+            {completedVideos?.some((video) => video._id === videoId) ? (
               <CommonButton
                 label={
                   <span className="flex items-center gap-2">

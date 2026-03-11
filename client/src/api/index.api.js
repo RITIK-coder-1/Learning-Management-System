@@ -101,5 +101,6 @@ export {
   useGetEnrolledCoursesQuery,
   useGetSystemStatsQuery,
   useGetCourseProgressQuery,
+  useGetBulkCourseProgressQuery,
   useCompleteCourseVideoMutation,
 };
