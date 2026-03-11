@@ -16,6 +16,7 @@ import {
   CommonButton,
   ProgressBar,
 } from "@/components/index.components";
+import useUserStatus from "@/hooks/useUserStatus";
 
 function VideoPlayer() {
   // the data
@@ -46,6 +47,12 @@ function VideoPlayer() {
       console.error(error);
     }
   };
+
+  // the user data 
+  const {isOwner} = useUserStatus(courseId)
+
+  console.log(isOwner);
+  
 
   return (
     <div className="h-auto bg-[#0a0a0c] text-white font-sans rounded-lg w-full md:w-[80%]">
