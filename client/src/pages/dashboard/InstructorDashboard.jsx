@@ -12,6 +12,9 @@ import {
 import { Link } from "react-router-dom";
 
 function InstructorDashboard() {
+  // instructor data
+  
+
   // Dummy Data for MVP
   const stats = [
     {
@@ -22,7 +25,7 @@ function InstructorDashboard() {
     },
     {
       label: "Active Courses",
-      value: "12",
+      value: createdCourses?.length,
       icon: BookOpen,
       color: "text-purple-400",
     },
