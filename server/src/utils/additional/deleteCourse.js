@@ -9,6 +9,7 @@ import {
   CourseVideo,
   CourseCategory,
   User,
+  CourseProgress,
 } from "../../models/index.model.js";
 import { deleteFromCloudinary } from "../index.utils.js";
 import ApiError from "../api/apiError.js";
@@ -55,11 +56,15 @@ const deleteCourse = async (courseId) => {
     $pull: { createdCourses: courseId },
   });
 
+  // deleting the course progress document of all the users
+  const courseProgressDelete = CourseProgress.deleteMany({ course: courseId });
+
   const dbCleanUp = Promise.all([
     sectionDelete,
     userCourseDelete,
     categoryCourseDelete,
     instructorCourseDelete,
+    courseProgressDelete,
     ...videosDelete,
   ]);
 
