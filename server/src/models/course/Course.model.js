@@ -48,7 +48,8 @@ const courseSchema = new mongoose.Schema(
     },
     revenue: {
       type: Number, 
-      default: 0
+      default: 0,
+      min: 0
     },
 
     // SEPERATED DOCUMENTS (I've seperated the documents to keep them light individually)
