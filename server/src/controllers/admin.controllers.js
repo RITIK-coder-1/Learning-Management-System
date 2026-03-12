@@ -9,7 +9,12 @@ import {
   asyncHandler,
   deleteCourse,
 } from "../utils/index.utils.js";
-import { Course, CourseCategory, User } from "../models/index.model.js";
+import {
+  Course,
+  CourseCategory,
+  CourseProgress,
+  User,
+} from "../models/index.model.js";
 
 /* ---------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
@@ -286,6 +291,9 @@ const deleteUserAccountAdminFunction = async (req, res) => {
       "There was a problem while deleting the user. Please try again!"
     );
   }
+
+  // once the user is deleted, delete the course progress associated with the user
+  await CourseProgress.deleteMany({ user: user._id });
 
   console.log("User deleted!");
 

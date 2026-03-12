@@ -461,6 +461,9 @@ const deleteUserAccountFunction = async (req, res) => {
     path: "/",
   };
 
+  // once the user is deleted, delete the course progress associated with the user 
+  await CourseProgress.deleteMany({user: user._id})
+
   console.log("Account deleted!");
 
   return res
