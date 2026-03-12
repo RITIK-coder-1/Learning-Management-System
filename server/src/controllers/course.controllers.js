@@ -110,6 +110,9 @@ const enrollCourseFunction = async (req, res) => {
     throw new ApiError(404, "The course doesn't exist!");
   }
 
+  // the course owner
+  const courseOwner = await User.findOne({ userId: course?.owner });
+
   // see if the student has already enrolled
   if (course?.enrolledBy?.includes(user?._id)) {
     console.error("ENROLL COURSE ERROR: student already enrolled.");
@@ -143,13 +146,17 @@ const enrollCourseFunction = async (req, res) => {
 
   console.log(`${user.firstName} enrolled the course: ${course.title}`);
 
-  // once the enrollment is successfull, update the revenue of the course (only if the course is not free)
+  // once the enrollment is successfull, update the revenue of the course and the instructor (only if the course is not free)
   if (course?.price) {
     const currentCourseRevenue = course?.revenue;
     const currentCoursePrice = course?.price;
-    const newRevenue = currentCourseRevenue + currentCoursePrice;
-    course.revenue = newRevenue;
+    const newCourseRevenue = currentCourseRevenue + currentCoursePrice;
+    course.revenue = newCourseRevenue;
     await course.save();
+
+    const currentInstructorRevenue = courseOwner.totalRevenue;
+    courseOwner.totalRevenue = currentInstructorRevenue + currentCoursePrice;
+    await courseOwner.save();
 
     console.log("revenue updated");
   }
