@@ -6,7 +6,7 @@ import {
   PlusCircle,
   Users,
   BookOpen,
-  DollarSign,
+  IndianRupee,
   ArrowRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -34,8 +34,8 @@ function InstructorDashboard() {
     },
     {
       label: "Total Revenue",
-      value: "$4,250" || 0,
-      icon: DollarSign,
+      value: "₹4,250" || 0,
+      icon: IndianRupee,
       color: "text-green-400",
     },
   ];
