@@ -25,13 +25,12 @@ function Login() {
     password: "",
   });
 
-  // the data to validate the otp and logging in
-  const [otpValidationData, setOtpValidationData] = useState({
-    email: "",
-    userOTP: "",
-  });
+  // the data to validate the otp and log in
+  const [email, setEmail] = useState(""); // the email to match the otp
+  const [userOTP, setUserOTP] = useState(""); // the otp entered by the user
 
-  const [isOtp, setIsOtp] = useState(false); // control visibility of the otp field
+  // control visibility of the otp field
+  const [isOtp, setIsOtp] = useState(false); 
 
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Query hooks for login 
@@ -52,11 +51,7 @@ function Login() {
   };
 
   // setting the otp data
-  const otpCodeFunction = (data) =>
-    setOtpValidationData({
-      ...otpValidationData,
-      userOTP: data,
-    });
+  const otpCodeFunction = (data) => setUserOTP(data);
 
   /* ---------------------------------------------------------------------------------------
   sending data to the server
@@ -72,13 +67,13 @@ function Login() {
       try {
         const { data } = await createLoginOtp(loginData).unwrap();
         setIsOtp(true);
-        setOtpValidationData({ ...otpValidationData, email: data.email }); // accessing the email for sending to the server
+        setEmail(data?.email);
       } catch (error) {
         console.log(error.message);
       }
     } else {
       try {
-        const { data: user } = await loginUser(otpValidationData).unwrap();
+        const { data: user } = await loginUser({ email, userOTP }).unwrap();
         dispatch(setUser({ id: user?._id, accountType: user?.accountType })); // changing the value of the authentication state
       } catch (error) {
         console.log(error.message);
@@ -117,6 +112,7 @@ function Login() {
             name="userOTP"
             required={isOtp}
             setterFunction={otpCodeFunction}
+            value={userOTP}
           />
         </div>
 

@@ -17,7 +17,6 @@ function OtpInput({ setterFunction, name, required, value }) {
         maxLength={6}
         value={value}
         onChange={(value) => {
-          setValue(value);
           setterFunction(value); // pass the otp value to the parent component
         }}
         required={required}
