@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Form, CommonButton } from "../index.components";
 
-function AddDialogueBox({ title, label, children, onSubmit, titleClass }) {
+function AddDialogueBox({ title, label, children, onSubmit, titleClass, onRemoval }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -42,7 +42,7 @@ function AddDialogueBox({ title, label, children, onSubmit, titleClass }) {
               {children}
 
               <AlertDialogFooter className="flex flex-row justify-center items-center">
-                <AlertDialogCancel className="hover:bg-red-700 w-30">
+                <AlertDialogCancel className="hover:bg-red-700 w-30" onClick={onRemoval}>
                   Cancel
                 </AlertDialogCancel>
                 <CommonButton

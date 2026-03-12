@@ -130,6 +130,15 @@ function InstructorCourse() {
     };
   };
 
+  // once the add-video dialogue box disappears on cancel or success, clear the video data
+  const clearVideoData = () => {
+    setVideoData({
+      title: "",
+      courseVideo: null,
+      sectionId: "",
+    });
+  };
+
   /* ----------------------------------------------------------------------------------------------
     API Calls
   ------------------------------------------------------------------------------------------------- */
@@ -283,7 +292,7 @@ function InstructorCourse() {
             )}
           </div>
         </div>
-        <EnrollmentStats courseId={courseId}/>
+        <EnrollmentStats courseId={courseId} />
       </div>
 
       <div className="w-full h-auto flex flex-col gap-2">
@@ -358,10 +367,7 @@ function InstructorCourse() {
                 <CourseAccordionContent className="p-7">
                   {section?.courseVideos?.length > 0 ? (
                     section.courseVideos.map((video) => (
-                      <li
-                        key={video?._id}
-                        className="w-full p-3 pr-0"
-                      >
+                      <li key={video?._id} className="w-full p-3 pr-0">
                         {/* The container inside handles the layout, the LI handles the number */}
                         <div className="flex items-center justify-center gap-3 w-full">
                           <input
@@ -370,8 +376,17 @@ function InstructorCourse() {
                             onChange={setVideoDataForUpdate(video?._id)}
                           />
                           <span className="flex justify-center items-center w-auto h-full gap-3">
-                            <MdOutlineSystemUpdateAlt className="text-blue-500 w-7 h-7 cursor-pointer" onClick={updateVideoApiCall(section?._id)}/>
-                            <MdDelete className="text-red-900 w-7 h-7 cursor-pointer" onClick={deleteVideoApiCall(section?._id, video?._id)}/>
+                            <MdOutlineSystemUpdateAlt
+                              className="text-blue-500 w-7 h-7 cursor-pointer"
+                              onClick={updateVideoApiCall(section?._id)}
+                            />
+                            <MdDelete
+                              className="text-red-900 w-7 h-7 cursor-pointer"
+                              onClick={deleteVideoApiCall(
+                                section?._id,
+                                video?._id
+                              )}
+                            />
                           </span>
                         </div>
                       </li>
@@ -396,6 +411,7 @@ function InstructorCourse() {
                     onSubmit={uploadNewVideo(section._id)}
                     title="Video"
                     titleClass="w-full text-xs sm:w-24 md:w-30 md:text-sm"
+                    onRemoval={clearVideoData}
                   >
                     <FieldInput
                       label="Title"
