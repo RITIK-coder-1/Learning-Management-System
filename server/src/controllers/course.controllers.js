@@ -110,6 +110,12 @@ const enrollCourseFunction = async (req, res) => {
     throw new ApiError(404, "The course doesn't exist!");
   }
 
+  // see if the student has already enrolled
+  if (course?.enrolledBy?.includes(user?._id)) {
+    console.error("ENROLL COURSE ERROR: student already enrolled.");
+    throw new ApiError(400, "The student has already enrolled!");
+  }
+
   // simultaneous async operations
   await Promise.all([
     // add the course to the enrolled courses list of the user
