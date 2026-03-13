@@ -45,7 +45,9 @@ function DisplayCourses({
         (course) =>
           // either the title matches or one of the tags
           course?.title?.toLowerCase().trim().includes(searchTerm) ||
-          course?.tags?.some((tag) => tag?.toLowerCase().trim() === searchTerm)
+          course?.tags?.some((tag) =>
+            tag?.toLowerCase().trim().includes(searchTerm)
+          )
       );
     }
 
