@@ -4,7 +4,7 @@ SearchBar.jsx
 
 function SearchBar({placeholder = "Search for name or tags", value, onChange, onClick}) {
   return (
-    <div className="w-full max-w-sm min-w-[200px]">
+    <div className="w-full max-w-sm min-w-[200px] z-50">
       <div className="relative">
         <input
           className="w-full bg-transparent placeholder:text-slate-400 text-white text-sm border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
