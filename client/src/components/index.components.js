@@ -33,6 +33,7 @@ import {
 } from "./shared/Accordion";
 import StudentAccordion from "./layout/StudentAccordion";
 import ProgressBar from "./shared/ProgressBar";
+import SearchBar from "./shared/SearchBar";
 
 export {
   Logout,
@@ -63,4 +64,5 @@ export {
   CourseCommonAccordionItem,
   StudentAccordion,
   ProgressBar,
+  SearchBar
 };

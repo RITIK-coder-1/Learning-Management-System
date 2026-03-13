@@ -3,7 +3,7 @@ DisplayCourses.jsx
 The component for displaying all the courses 
 ------------------------------------------------------------------------------------------------- */
 
-import { CourseCard, ProgressBar } from "../index.components";
+import { CourseCard, ProgressBar, SearchBar } from "../index.components";
 import filterCourses from "@/utils/filterCourses";
 
 function DisplayCourses({
@@ -18,34 +18,39 @@ function DisplayCourses({
   const courses = filterCourses(courseData);
 
   return (
-    <>
+    <section className="flex flex-col justify-center items-center gap-6">
       <h1 className="text-white text-4xl md:text-6xl">{heading}</h1>
       {courses?.length === 0 ? (
         // Special label for no courses
         <span className="text-foreground italic mt-5 md:text-lg">{label}</span>
       ) : (
-        // the courses
-        <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
-          {courses?.map((course) => {
-            return (
-              <div className="flex flex-col gap-5" key={course.courseId}>
-                <CourseCard
-                  image={course.img}
-                  title={course.title}
-                  description={course.desc}
-                  price={course.price}
-                  key={course.courseId}
-                  path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id
-                  displayInstructorName={displayInstructorName}
-                  instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
-                />
-                {isProgress && <ProgressBar courseId={course.courseId} />}
-              </div>
-            );
-          })}
+        <div className="w-full flex flex-col gap-6 justify-center items-center">
+          {/* the search bar */}
+          <SearchBar />
+
+          {/* The courses  */}
+          <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
+            {courses?.map((course) => {
+              return (
+                <div className="flex flex-col gap-5" key={course.courseId}>
+                  <CourseCard
+                    image={course.img}
+                    title={course.title}
+                    description={course.desc}
+                    price={course.price}
+                    key={course.courseId}
+                    path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id
+                    displayInstructorName={displayInstructorName}
+                    instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
+                  />
+                  {isProgress && <ProgressBar courseId={course.courseId} />}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
-    </>
+    </section>
   );
 }
 

@@ -8,8 +8,8 @@ import { useGetAllTheCoursesQuery } from "@/api/index.api";
 
 function ExploreCourses() {
   const { data } = useGetAllTheCoursesQuery();
-  const courses = data?.data
-  
+  const courses = data?.data;
+
   return (
     <DisplayCourses
       heading="Courses"
