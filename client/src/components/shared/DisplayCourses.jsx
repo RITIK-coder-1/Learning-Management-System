@@ -72,24 +72,34 @@ function DisplayCourses({
 
           {/* The courses  */}
           <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center flex-wrap sm:flex-row-reverse">
-            {coursesDisplayData?.map((course) => {
-              return (
-                <div className="w-full flex flex-col gap-5 justify-center items-center sm:w-64" key={course.courseId}>
-                  <CourseCard
-                    image={course.img}
-                    title={course.title}
-                    description={course.desc}
-                    price={course.price}
+            {coursesDisplayData?.length > 0 ? (
+              coursesDisplayData?.map((course) => {
+                return (
+                  <div
+                    className="w-full flex flex-col gap-5 justify-center items-center sm:w-64"
                     key={course.courseId}
-                    path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id
-                    displayInstructorName={displayInstructorName}
-                    instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
-                  />
-                  {/* display the progress bar whenever allowed */}
-                  {isProgress && <ProgressBar courseId={course.courseId} />}
-                </div>
-              );
-            })}
+                  >
+                    <CourseCard
+                      image={course.img}
+                      title={course.title}
+                      description={course.desc}
+                      price={course.price}
+                      key={course.courseId}
+                      path={path.replace(":courseId", `${course.courseId}`)} // replace with the course id
+                      displayInstructorName={displayInstructorName}
+                      instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
+                    />
+                    {/* display the progress bar whenever allowed */}
+                    {isProgress && <ProgressBar courseId={course.courseId} />}
+                  </div>
+                );
+              })
+            ) : (
+              // if no course matches the string
+              <span className="text-foreground mt-5 md:text-lg">
+                No Courses Found.
+              </span>
+            )}
           </div>
         </div>
       )}
