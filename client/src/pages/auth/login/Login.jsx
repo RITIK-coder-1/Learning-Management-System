@@ -4,6 +4,7 @@ The page to login a user
 ------------------------------------------------------------------------------------------ */
 
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useLoginMutation, useLoginOtpMutation } from "../../../api/index.api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../features/authSlice";
@@ -116,6 +117,17 @@ function Login() {
 
       {/* Submit */}
       <CommonButton type="submit" label={isOtp ? "Log in" : "Submit"} />
+
+      {/* Registration CTA */}
+      <div className="mt-6 text-center text-sm text-gray-400">
+        Don't have an account?{" "}
+        <Link
+          to="/register"
+          className="text-purple-500 hover:text-purple-400 font-medium transition-colors"
+        >
+          Register here
+        </Link>
+      </div>
     </Form>
   );
 }
