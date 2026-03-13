@@ -5,7 +5,7 @@ The component for displaying all the courses
 
 import { CourseCard, ProgressBar, SearchBar } from "../index.components";
 import filterCourses from "@/utils/filterCourses";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function DisplayCourses({
   heading,
@@ -15,22 +15,49 @@ function DisplayCourses({
   courseData,
   isProgress,
 }) {
-  // the specific courses data to show on the page
-  const courses = filterCourses(courseData);
+  // the courses data to display on the page for simplicity
+  const [coursesDisplayData, setCoursesDisplayData] = useState([]);
+
+  // whenever the value of the actual course data changes, display the filtered data according to it
+  useEffect(() => {
+    if (coursesActualData) {
+      const filteredCourses = filterCourses(courseData);
+      setCoursesDisplayData(filteredCourses);
+    }
+  }, [coursesActualData]);
 
   // the search input
   const [search, setSearch] = useState("");
 
   // the method to set the search value
-  const setSearchValue = (e) => setSearch(e.target.value);
+  const setSearchValue = (e) => {
+    setSearch(e.target.value);
+  };
 
   // the method to trigger the search
-  const triggerSearch = () => console.log(search);
+  const triggerSearch = () => {
+    setCoursesActualData(() => courseData);
+    let results = courseData;
+    // only if the search value is not empty
+    if (search) {
+      const searchTerm = search.toLowerCase().trim();
+
+      results = courseData?.filter(
+        (course) =>
+          // either the title matches or one of the tags
+          course?.title?.toLowerCase().trim().includes(searchTerm) ||
+          course?.tags?.some((tag) => tag?.toLowerCase().trim() === searchTerm)
+      );
+    }
+
+    const filteredCourses = filterCourses(results);
+    setCoursesDisplayData(filteredCourses);
+  };
 
   return (
-    <section className="flex flex-col justify-center items-center gap-6">
+    <section className="w-full flex flex-col justify-center items-center gap-6">
       <h1 className="text-white text-4xl md:text-6xl">{heading}</h1>
-      {courses?.length === 0 ? (
+      {courseData?.length === 0 ? (
         // Special label for no courses
         <span className="text-foreground italic mt-5 md:text-lg">{label}</span>
       ) : (
@@ -44,7 +71,7 @@ function DisplayCourses({
 
           {/* The courses  */}
           <div className="w-full flex flex-col-reverse p-2 gap-5 justify-center items-center sm:flex-row-reverse">
-            {courses?.map((course) => {
+            {coursesDisplayData?.map((course) => {
               return (
                 <div className="flex flex-col gap-5" key={course.courseId}>
                   <CourseCard
@@ -57,6 +84,7 @@ function DisplayCourses({
                     displayInstructorName={displayInstructorName}
                     instructor={`${course.instructorFirstName} ${course.instructorLastName}`}
                   />
+                  {/* display the progress bar whenever allowed */}
                   {isProgress && <ProgressBar courseId={course.courseId} />}
                 </div>
               );
