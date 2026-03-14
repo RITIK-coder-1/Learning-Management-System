@@ -115,7 +115,7 @@ function Register() {
 
   return (
     // the form element
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="mb-2">
       {/* First Name */}
       <FieldInput
         label="First Name"
