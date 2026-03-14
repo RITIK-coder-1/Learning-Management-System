@@ -206,36 +206,44 @@ function Home() {
       </Section>
 
       {/* The footer */}
-      <footer className="w-full h-auto bg-black flex flex-col justify-center items-center pb-10 md:flex-row md:px-8 md:h-56">
-        <div className="w-full flex flex-col justify-center items-center gap-6 py-8 md:items-start">
-          <BrandLogo />
-          <Span className="md:text-start">
-            Experience a high-performance LMS <br /> featuring secure
-            authentication, RBAC, and intuitive course management. <br /> Built
-            for the modern learner.
-          </Span>
+      <footer className="w-full h-auto bg-black flex flex-col justify-center items-center pb-10 gap-5">
+        <div className="w-full h-auto flex flex-col justify-center items-center md:flex-row md:px-8 md:h-56">
+          <div className="w-full flex flex-col justify-center items-center gap-6 py-8 md:items-start">
+            <BrandLogo />
+            <Span className="md:text-start">
+              Experience a high-performance LMS <br /> featuring secure
+              authentication, RBAC, and intuitive course management. <br />{" "}
+              Built for the modern learner.
+            </Span>
+          </div>
+          <div className="w-full flex flex-col justify-center items-center gap-4 md:h-full md:justify-start md:py-8 md:items-end">
+            <span className="text-lg text-white flex flex-col justify-center items-center">
+              Company
+            </span>
+            <ul className="w-full flex justify-center items-center text-sm gap-4 md:flex-col md:items-end md:w-auto">
+              <a href="#">
+                <li className="cursor-pointer hover:text-blue-500">Home</li>
+              </a>
+              <a href="#">
+                <li className="cursor-pointer hover:text-blue-500">About Us</li>
+              </a>
+              <a href="#">
+                <li className="cursor-pointer hover:text-blue-500">
+                  Contact Us
+                </li>
+              </a>
+              <a href="#">
+                <li className="cursor-pointer hover:text-blue-500">
+                  Privacy Policy
+                </li>
+              </a>
+            </ul>
+          </div>
         </div>
-        <div className="w-full flex flex-col justify-center items-center gap-4 md:h-full md:justify-start md:py-8 md:items-end">
-          <span className="text-lg text-white flex flex-col justify-center items-center">
-            Company
-          </span>
-          <ul className="w-full flex justify-center items-center text-sm gap-4 md:flex-col md:items-end md:w-auto">
-            <a href="#">
-              <li className="cursor-pointer hover:text-blue-500">Home</li>
-            </a>
-            <a href="#">
-              <li className="cursor-pointer hover:text-blue-500">About Us</li>
-            </a>
-            <a href="#">
-              <li className="cursor-pointer hover:text-blue-500">Contact Us</li>
-            </a>
-            <a href="#">
-              <li className="cursor-pointer hover:text-blue-500">
-                Privacy Policy
-              </li>
-            </a>
-          </ul>
+        <div className="w-full px-8">
+        <hr className="w-full" />
         </div>
+        <Span className="tracking-wider">Copyright 2026 © EduFlow | All Rights Reserved.</Span>
       </footer>
     </>
   );
