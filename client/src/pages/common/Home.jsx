@@ -23,14 +23,33 @@ function Home() {
             </div>
           </div>
           <div className="flex justify-center items-center gap-6">
-            <Link className="text-md text-foreground cursor-pointer hover:text-slate-400 md:text-xl" title="Log in" to="/login">Login</Link>
+            <Link
+              className="text-md cursor-pointer hover:text-slate-400 md:text-xl"
+              title="Log in"
+              to="/login"
+            >
+              Login
+            </Link>
             <Link className="hidden sm:inline" to="/register" title="Register">
-              <CommonButton label="Create Account" className="w-auto text-sm rounded-full px-7 py-4 shadow-none md:text-lg md:py-5 md:px-8"/>
+              <CommonButton
+                label="Create Account"
+                className="w-auto text-sm rounded-full px-7 py-4 shadow-none md:text-lg md:py-5 md:px-8"
+              />
             </Link>
           </div>
         </nav>
       </header>
-      <section className="w-full"></section>
+
+      {/* The hero section */}
+      <section className="w-full flex flex-col justify-center items-center gap-4 px-2 mt-20">
+        <h1 className="text-center text-4xl text-white font-bold md:text-5xl">
+          Empowering Education <br /> Through <span className="text-blue-400">Seamless Technology.</span>
+        </h1>
+        <span className="text-center text-xs text-white/80 md:text-sm">
+          Experience a high-performance LMS <br /> featuring secure authentication,
+          RBAC, and intuitive course management. <br /> Built for the modern learner.
+        </span>
+      </section>
     </>
   );
 }
