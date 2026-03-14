@@ -170,15 +170,15 @@ function Home() {
                 className="flex flex-col items-center bg-white/5 pb-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="w-full flex flex-col items-center rounded-2xl pt-8 mb-3 rounded-b-none bg-black/50">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-20 h-20 rounded-full object-cover mb-4"
-                />
-                <h3 className="text-lg font-bold text-white">{item.name}</h3>
-                <p className="text-sm font-medium text-blue-400 mb-4">
-                  {item.role}
-                </p>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-20 h-20 rounded-full object-cover mb-4"
+                  />
+                  <h3 className="text-lg font-bold text-white">{item.name}</h3>
+                  <p className="text-sm font-medium text-blue-400 mb-4">
+                    {item.role}
+                  </p>
                 </div>
                 <p className="text-gray-300 text-center italic leading-relaxed px-8">
                   "{item.text}"
@@ -187,6 +187,15 @@ function Home() {
             ))}
           </div>
         </div>
+      </Section>
+
+      {/* Call To Action */}
+      <Section>
+        <SecondHeading>Learn anything, anytime, anywhere.</SecondHeading>
+        <Span>Start your learning journey now with EduFlow.</Span>
+        <Link to="/register">
+          <CommonButton label="Get Started" title="Create Account" />
+        </Link>
       </Section>
     </>
   );
