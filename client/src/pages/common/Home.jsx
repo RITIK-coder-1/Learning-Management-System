@@ -147,6 +147,8 @@ function Home() {
           {" "}
           Learn From The Best
         </SecondHeading>
+        <SpinnerCustom className="size-10"/>
+
         <Span>Discover our top-rated courses across various categories.</Span>
         <div className="w-full flex flex-col gap-6 px-7 my-5 justify-center items-center sm:flex-row">
           {filteredCourses?.map((course) => (
@@ -177,7 +179,6 @@ function Home() {
           transformations.
         </Span>
         <div className="py-3 px-4">
-          <SpinnerCustom />
           <div className="max-w-6xl mx-auto grid gap-8 md:grid-cols-3">
             {testimonials.map((item) => (
               <div

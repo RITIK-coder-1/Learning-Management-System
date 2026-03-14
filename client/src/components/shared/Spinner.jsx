@@ -2,25 +2,12 @@
 Spinner.jsx
 ------------------------------------------------------------------------------------------------- */
 
-import { LoaderIcon } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner"
 
-import { cn } from "@/lib/utils";
-
-function Spinner({ className, ...props }) {
-  return (
-    <LoaderIcon
-      role="status"
-      aria-label="Loading"
-      className={cn("size-4 animate-spin", className)}
-      {...props}
-    />
-  );
-}
-
-export function SpinnerCustom() {
+export function SpinnerCustom({className}) {
   return (
     <div className="flex items-center gap-4">
-      <Spinner />
+      <Spinner className={className}/>
     </div>
   );
 }
