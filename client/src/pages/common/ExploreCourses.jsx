@@ -7,7 +7,7 @@ import { DisplayCourses } from "../../components/index.components";
 import { useGetAllTheCoursesQuery } from "@/api/index.api";
 
 function ExploreCourses() {
-  const { data } = useGetAllTheCoursesQuery();
+  const { data, isLoading } = useGetAllTheCoursesQuery();
   const courses = data?.data;
 
   return (
@@ -16,6 +16,7 @@ function ExploreCourses() {
       label="There is no course on the platform yet."
       path={`/app/courses/:courseId`}
       courseData={courses}
+      isLoading={isLoading}
     />
   );
 }

@@ -11,7 +11,7 @@ import {
 } from "../../components/index.components";
 
 function CreatedCourses() {
-  const { data } = useGetInstructorDataQuery();
+  const { data, isLoading } = useGetInstructorDataQuery();
   const courses = data?.createdCourses;
 
   return (
@@ -23,6 +23,7 @@ function CreatedCourses() {
         path={`/app/created-courses/:courseId`}
         displayInstructorName={false}
         courseData={courses}
+        isLoading={isLoading}
       />
 
       {/* The create button  */}

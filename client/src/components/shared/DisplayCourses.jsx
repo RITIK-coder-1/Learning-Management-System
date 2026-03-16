@@ -3,7 +3,7 @@ DisplayCourses.jsx
 The component for displaying all the courses 
 ------------------------------------------------------------------------------------------------- */
 
-import { CourseCard, ProgressBar, SearchBar } from "../index.components";
+import { CourseCard, ProgressBar, SearchBar, SpinnerCustom } from "../index.components";
 import filterCourses from "@/utils/filterCourses";
 import { useEffect, useState } from "react";
 
@@ -14,6 +14,7 @@ function DisplayCourses({
   displayInstructorName,
   courseData,
   isProgress,
+  isLoading,
 }) {
   // the courses data to display on the page for simplicity
   const [coursesDisplayData, setCoursesDisplayData] = useState([]);
@@ -58,7 +59,9 @@ function DisplayCourses({
   return (
     <section className="w-full flex flex-col justify-center items-center gap-6">
       <h1 className="text-white text-6xl text-center">{heading}</h1>
-      {courseData?.length === 0 ? (
+      {isLoading ? (
+        <SpinnerCustom className="size-6"/>
+      ) : courseData?.length === 0 ? (
         // Special label for no courses
         <span className="text-foreground italic mt-5 md:text-lg">{label}</span>
       ) : (
