@@ -27,6 +27,7 @@ import {
   CourseAccordionContent,
   CourseAccordionTrigger,
   CourseCommonAccordionItem,
+  SpinnerCustom,
 } from "../../components/index.components";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -41,17 +42,29 @@ function InstructorCourse() {
     The data
   ------------------------------------------------------------------------------------------------- */
 
+  // the course
   const { courseId } = useParams();
-  const { data } = useGetCourseInstructorQuery({ courseId });
+  const { data, isLoading: isCourseLoading } = useGetCourseInstructorQuery({
+    courseId,
+  });
   const course = data?.data;
-  const [deleteCourse] = useDeleteCourseInstructorMutation();
-  const [addSection] = useAddNewSectionMutation();
-  const [updateSection] = useUpdateSectionMutation();
-  const [deleteSection] = useDeleteSectionMutation();
-  const [addVideo] = useAddNewVideoMutation();
-  const [updateVideo] = useUpdateVideoMutation();
-  const [deleteVideo] = useDeleteVideoMutation();
-  const [publishCourse] = usePublishCourseMutation();
+
+  // the methods
+  const [deleteCourse, { isLoading: isDeleteCourseLoading }] =
+    useDeleteCourseInstructorMutation();
+  const [addSection, { isLoading: isAddSectionLoading }] =
+    useAddNewSectionMutation();
+  const [updateSection, { isLoading: isUpdateeSectionLoading }] =
+    useUpdateSectionMutation();
+  const [deleteSection, { isLoading: isDeleteSectionLoading }] =
+    useDeleteSectionMutation();
+  const [addVideo, { isLoading: isAddVideoLoading }] = useAddNewVideoMutation();
+  const [updateVideo, { isLoading: isUpdateVideoLoading }] =
+    useUpdateVideoMutation();
+  const [deleteVideo, { isLoading: isDeleteVideoLoading }] =
+    useDeleteVideoMutation();
+  const [publishCourse, { isLoading: isPublishCourseLoading }] =
+    usePublishCourseMutation();
 
   /* ----------------------------------------------------------------------------------------------
     The states
@@ -269,214 +282,231 @@ function InstructorCourse() {
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-1 p-5 lg:flex-row sm:items-start lg:gap-5">
-      <div className="w-full flex flex-col gap-5 sm:ml-5 md:ml-0 lg:w-196">
-        <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black ">
-          {/* Thumbnail */}
-          <img
-            src={course?.thumbnail || null}
-            className="h-64 w-full object-cover"
-          />
-
-          <div className="w-full h-auto p-5 flex justify-between items-center gap-3">
-            {/* Price */}
-            <span
-              className={`text-3xl font-black ${
-                course?.price === 0 ? "text-green-500" : "text-white"
-              }`}
-            >
-              {course?.price === 0 ? "Free" : `₹ ${course?.price}`}
-            </span>
-
-            {/* Link to the course once published */}
-            {course?.status === "Published" && (
-              <Link
-                to={`/app/courses/${courseId}`}
-                className="text-blue-500 underline underline-offset-4 text-lg hover:text-purple-500"
-                title="View Public Interface"
-              >
-                See Course?
-              </Link>
-            )}
-          </div>
+      {isCourseLoading ? (
+        <div className="w-full flex justify-center items-center mt-10">
+          <SpinnerCustom className="size-9" />
         </div>
-        <EnrollmentStats courseId={courseId} />
-      </div>
-
-      <div className="w-full h-auto flex flex-col gap-2">
-        {/* The tags */}
-        <div className="flex justify-start items-center gap-2 mt-2">
-          {course?.tags.map((tag) => (
-            <Tag label={tag} key={crypto.randomUUID()} />
-          ))}
-        </div>
-
-        <div className="w-full flex flex-col gap-4 lg:flex-row lg:justify-between">
-          <div className="flex flex-col gap-2">
-            {/* Title */}
-            <h1 className="text-yellow-500 font-black text-3xl">
-              {course?.title}
-            </h1>
-
-            {/* Description */}
-            <p className="text-white/70 text-xs">{course?.description}</p>
-          </div>
-
-          {/* Publish the course */}
-          <div className="w-full sm:w-44 flex flex-col items-start gap-1">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">
-              Status
-            </span>
-
-            {course?.status !== "Published" ? (
-              <div className="relative w-full">
-                <SelectInput
-                  onChange={publishCourseCall}
-                  name="status"
-                  className="w-full bg-[#1e1e1e] text-gray-300 text-xs border border-gray-700 rounded-md py-2 px-3 focus:border-[#4ade80] transition-colors appearance-none cursor-pointer"
-                >
-                  <NativeSelectOption value="Draft">Draft</NativeSelectOption>
-                  <NativeSelectOption value="Published">
-                    Publish Course
-                  </NativeSelectOption>
-                </SelectInput>
-              </div>
-            ) : (
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#4ade80]/10 border border-[#4ade80]/50 shadow-[0_0_15px_rgba(74,222,128,0.1)]">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ade80] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4ade80]"></span>
-                </span>
-                <span className="text-[#4ade80] text-xs font-bold uppercase tracking-wider">
-                  Published
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* The course structure */}
-        <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
-          <span className="text-foreground text-2xl">Course Structure</span>
-
-          {/* The accordion */}
-          <CourseCommonAccordion>
-            {sectionData?.map((section) => (
-              <CourseCommonAccordionItem value={section._id} key={section._id}>
-                <CourseAccordionTrigger>
-                  {/* The mutable title */}
-                  <input
-                    type="text"
-                    defaultValue={section.title}
-                    className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
-                    onChange={updateSectionData(section._id)}
-                  />
-                </CourseAccordionTrigger>
-                <CourseAccordionContent className="p-7">
-                  {section?.courseVideos?.length > 0 ? (
-                    section.courseVideos.map((video) => (
-                      <li key={video?._id} className="w-full p-3 pr-0">
-                        {/* The container inside handles the layout, the LI handles the number */}
-                        <div className="flex items-center justify-center gap-3 w-full">
-                          <input
-                            defaultValue={video?.title}
-                            className="w-full border p-1 border-white/10"
-                            onChange={setVideoDataForUpdate(video?._id)}
-                          />
-                          <span className="flex justify-center items-center w-auto h-full gap-3">
-                            <MdOutlineSystemUpdateAlt
-                              className="text-blue-500 w-7 h-7 cursor-pointer"
-                              onClick={updateVideoApiCall(section?._id)}
-                            />
-                            <MdDelete
-                              className="text-red-900 w-7 h-7 cursor-pointer"
-                              onClick={deleteVideoApiCall(
-                                section?._id,
-                                video?._id
-                              )}
-                            />
-                          </span>
-                        </div>
-                      </li>
-                    ))
-                  ) : (
-                    <p className="text-gray-500 text-center py-4 w-full">
-                      No videos found in this section.
-                    </p>
-                  )}
-                </CourseAccordionContent>
-                <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 p-3 sm:flex-row">
-                  {/* The update section button */}
-                  <CommonButton
-                    label="Update Section"
-                    onClick={updateSectionCall(section._id)}
-                    className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-full p-0 font-normal  text-xs sm:w-24 md:text-sm md:w-30"
-                    title="update chapter"
-                  />
-                  {/* Add new video */}
-                  <AddDialogueBox
-                    label="Add Video"
-                    onSubmit={uploadNewVideo(section._id)}
-                    title="Video"
-                    titleClass="w-full text-xs sm:w-24 md:w-30 md:text-sm"
-                    onRemoval={clearVideoData}
-                  >
-                    <FieldInput
-                      label="Title"
-                      placeholder="Title"
-                      name="title"
-                      value={videoData?.title}
-                      onChange={setDataForVideoUpload(section._id)}
-                    />
-                    <InputFile
-                      onChange={setVideoFileForUpload}
-                      accept="video/*"
-                    />
-                  </AddDialogueBox>
-
-                  {/* Delete the section */}
-                  <DeleteDialogueBox
-                    label="Delete Section"
-                    description="The entire section including all the videos will be deleted."
-                    onClick={deleteSectionCall(section._id)}
-                  />
-                </div>
-              </CourseCommonAccordionItem>
-            ))}
-          </CourseCommonAccordion>
-
-          {/* Add a new section */}
-          <div className="w-full flex justify-center items-center mt-5">
-            <AddDialogueBox
-              label="Create New Section"
-              onSubmit={addSectionCall}
-              title="Section"
-              titleClass="w-full border-2 text-sm sm:w-56 sm:text-md"
-              onRemoval={clearNewSectionData}
-            >
-              <FieldInput
-                label="Title"
-                placeholder="Title"
-                value={newSectionData}
-                onChange={setSectionTitle}
+      ) : (
+        <>
+          <div className="w-full flex flex-col gap-5 sm:ml-5 md:ml-0 lg:w-196">
+            <div className="w-full rounded-sm overflow-hidden shadow-md shadow-black ">
+              {/* Thumbnail */}
+              <img
+                src={course?.thumbnail || null}
+                className="h-64 w-full object-cover"
               />
-            </AddDialogueBox>
-          </div>
-        </div>
 
-        <div className="w-full flex flex-col mt-10 justify-center items-center gap-3 sm:flex-row">
-          {/* Update Course Details  */}
-          <Navlink to={`/app/created-courses/${courseId}/update`}>
-            <CommonButton label="Update Course" title="update course" />
-          </Navlink>
-          {/* Delete Course */}
-          <DeleteDialogueBox
-            label="Delete Course"
-            description="The entire course including all the videos, the student data will be deleted."
-            onClick={deleteCourseCall}
-            triggerClass="font-black text-lg w-50 p-5 shadow-2xl shadow-black bg-red-900 sm:p-5 sm:w-50 sm:text-lg border-0 hover:bg-red-950 md:w-50 md:text-lg"
-          />
-        </div>
-      </div>
+              <div className="w-full h-auto p-5 flex justify-between items-center gap-3">
+                {/* Price */}
+                <span
+                  className={`text-3xl font-black ${
+                    course?.price === 0 ? "text-green-500" : "text-white"
+                  }`}
+                >
+                  {course?.price === 0 ? "Free" : `₹ ${course?.price}`}
+                </span>
+
+                {/* Link to the course once published */}
+                {course?.status === "Published" && (
+                  <Link
+                    to={`/app/courses/${courseId}`}
+                    className="text-blue-500 underline underline-offset-4 text-lg hover:text-purple-500"
+                    title="View Public Interface"
+                  >
+                    See Course?
+                  </Link>
+                )}
+              </div>
+            </div>
+            <EnrollmentStats courseId={courseId} />
+          </div>
+
+          <div className="w-full h-auto flex flex-col gap-2">
+            {/* The tags */}
+            <div className="flex justify-start items-center gap-2 mt-2">
+              {course?.tags.map((tag) => (
+                <Tag label={tag} key={crypto.randomUUID()} />
+              ))}
+            </div>
+
+            <div className="w-full flex flex-col gap-4 lg:flex-row lg:justify-between">
+              <div className="flex flex-col gap-2">
+                {/* Title */}
+                <h1 className="text-yellow-500 font-black text-3xl">
+                  {course?.title}
+                </h1>
+
+                {/* Description */}
+                <p className="text-white/70 text-xs">{course?.description}</p>
+              </div>
+
+              {/* Publish the course */}
+              <div className="w-full sm:w-44 flex flex-col items-start gap-1">
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">
+                  Status
+                </span>
+
+                {course?.status !== "Published" ? (
+                  <div className="relative w-full">
+                    {isPublishCourseLoading ? (
+                      <SpinnerCustom className="size-5 ml-3"/>
+                    ) : (
+                      <SelectInput
+                        onChange={publishCourseCall}
+                        name="status"
+                        className="w-full bg-[#1e1e1e] text-gray-300 text-xs border border-gray-700 rounded-md py-2 px-3 focus:border-[#4ade80] transition-colors appearance-none cursor-pointer"
+                      >
+                        <NativeSelectOption value="Draft">
+                          Draft
+                        </NativeSelectOption>
+                        <NativeSelectOption value="Published">
+                          Publish Course
+                        </NativeSelectOption>
+                      </SelectInput>
+                    )}
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#4ade80]/10 border border-[#4ade80]/50 shadow-[0_0_15px_rgba(74,222,128,0.1)]">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ade80] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4ade80]"></span>
+                    </span>
+                    <span className="text-[#4ade80] text-xs font-bold uppercase tracking-wider">
+                      Published
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* The course structure */}
+            <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
+              <span className="text-foreground text-2xl">Course Structure</span>
+
+              {/* The accordion */}
+              <CourseCommonAccordion>
+                {sectionData?.map((section) => (
+                  <CourseCommonAccordionItem
+                    value={section._id}
+                    key={section._id}
+                  >
+                    <CourseAccordionTrigger>
+                      {/* The mutable title */}
+                      <input
+                        type="text"
+                        defaultValue={section.title}
+                        className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
+                        onChange={updateSectionData(section._id)}
+                      />
+                    </CourseAccordionTrigger>
+                    <CourseAccordionContent className="p-7">
+                      {section?.courseVideos?.length > 0 ? (
+                        section.courseVideos.map((video) => (
+                          <li key={video?._id} className="w-full p-3 pr-0">
+                            {/* The container inside handles the layout, the LI handles the number */}
+                            <div className="flex items-center justify-center gap-3 w-full">
+                              <input
+                                defaultValue={video?.title}
+                                className="w-full border p-1 border-white/10"
+                                onChange={setVideoDataForUpdate(video?._id)}
+                              />
+                              <span className="flex justify-center items-center w-auto h-full gap-3">
+                                <MdOutlineSystemUpdateAlt
+                                  className="text-blue-500 w-7 h-7 cursor-pointer"
+                                  onClick={updateVideoApiCall(section?._id)}
+                                />
+                                <MdDelete
+                                  className="text-red-900 w-7 h-7 cursor-pointer"
+                                  onClick={deleteVideoApiCall(
+                                    section?._id,
+                                    video?._id
+                                  )}
+                                />
+                              </span>
+                            </div>
+                          </li>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-center py-4 w-full">
+                          No videos found in this section.
+                        </p>
+                      )}
+                    </CourseAccordionContent>
+                    <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 p-3 sm:flex-row">
+                      {/* The update section button */}
+                      <CommonButton
+                        label="Update Section"
+                        onClick={updateSectionCall(section._id)}
+                        className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-full p-0 font-normal  text-xs sm:w-24 md:text-sm md:w-30"
+                        title="update chapter"
+                      />
+                      {/* Add new video */}
+                      <AddDialogueBox
+                        label="Add Video"
+                        onSubmit={uploadNewVideo(section._id)}
+                        title="Video"
+                        titleClass="w-full text-xs sm:w-24 md:w-30 md:text-sm"
+                        onRemoval={clearVideoData}
+                      >
+                        <FieldInput
+                          label="Title"
+                          placeholder="Title"
+                          name="title"
+                          value={videoData?.title}
+                          onChange={setDataForVideoUpload(section._id)}
+                        />
+                        <InputFile
+                          onChange={setVideoFileForUpload}
+                          accept="video/*"
+                        />
+                      </AddDialogueBox>
+
+                      {/* Delete the section */}
+                      <DeleteDialogueBox
+                        label="Delete Section"
+                        description="The entire section including all the videos will be deleted."
+                        onClick={deleteSectionCall(section._id)}
+                      />
+                    </div>
+                  </CourseCommonAccordionItem>
+                ))}
+              </CourseCommonAccordion>
+
+              {/* Add a new section */}
+              <div className="w-full flex justify-center items-center mt-5">
+                <AddDialogueBox
+                  label="Create New Section"
+                  onSubmit={addSectionCall}
+                  title="Section"
+                  titleClass="w-full border-2 text-sm sm:w-56 sm:text-md"
+                  onRemoval={clearNewSectionData}
+                >
+                  <FieldInput
+                    label="Title"
+                    placeholder="Title"
+                    value={newSectionData}
+                    onChange={setSectionTitle}
+                  />
+                </AddDialogueBox>
+              </div>
+            </div>
+
+            <div className="w-full flex flex-col mt-10 justify-center items-center gap-3 sm:flex-row">
+              {/* Update Course Details  */}
+              <Navlink to={`/app/created-courses/${courseId}/update`}>
+                <CommonButton label="Update Course" title="update course" />
+              </Navlink>
+              {/* Delete Course */}
+              <DeleteDialogueBox
+                label="Delete Course"
+                description="The entire course including all the videos, the student data will be deleted."
+                onClick={deleteCourseCall}
+                triggerClass="font-black text-lg w-50 p-5 shadow-2xl shadow-black bg-red-900 sm:p-5 sm:w-50 sm:text-lg border-0 hover:bg-red-950 md:w-50 md:text-lg"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
