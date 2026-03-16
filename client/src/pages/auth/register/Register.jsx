@@ -16,10 +16,14 @@ import {
   SelectInput,
   DatePicker,
   OtpInput,
+  SpinnerCustom,
 } from "../../../components/index.components.js";
 import { NativeSelectOption } from "@/components/ui/native-select.jsx";
 
 function Register() {
+  // navigation
+  const navigate = useNavigate();
+
   /* ---------------------------------------------------------------------------------------
   The states of the page 
   ------------------------------------------------------------------------------------------ */
@@ -34,9 +38,13 @@ function Register() {
     dateOfBirth: "",
     accountType: "Student",
   });
+
+  // the profile pic of the user
   const [profilePic, setProfilePic] = useState("");
+
   // condition to show the OTP box
   const [isOtp, setIsOtp] = useState(false);
+
   // the otp entered by the user
   const [userOTP, setUserOtp] = useState("");
 
@@ -44,8 +52,10 @@ function Register() {
   The Redux Toolkit Query hooks for registeration 
   ------------------------------------------------------------------------------------------ */
 
-  const [createRegisterOtp, {}] = useRegisterOtpMutation();
-  const [registerUser, {}] = useRegisterMutation();
+  const [createRegisterOtp, { isLoading: isCreateOtpLoading }] =
+    useRegisterOtpMutation();
+  const [registerUser, { isLoading: isRegisterUserLoading }] =
+    useRegisterMutation();
 
   /* ---------------------------------------------------------------------------------------
   The methods to manipulate the states 
@@ -103,7 +113,7 @@ function Register() {
       }
     } else {
       try {
-        const {} = await registerUser({
+        const { } = await registerUser({
           ...userData,
           userOTP,
         }).unwrap();
@@ -210,7 +220,18 @@ function Register() {
 
       <div className="flex flex-col gap-2 lg:flex-row">
         {/* Submit */}
-        <CommonButton type="submit" label={isOtp ? "Register" : "Submit"} />
+        <CommonButton
+          type="submit"
+          label={
+            isCreateOtpLoading || isRegisterUserLoading ? (
+              <SpinnerCustom />
+            ) : isOtp ? (
+              "Register"
+            ) : (
+              "Submit"
+            )
+          }
+        />
 
         {/* Re-register */}
         <CommonButton
