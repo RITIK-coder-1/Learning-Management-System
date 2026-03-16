@@ -5,13 +5,13 @@ The page to update the user password
 
 import { useState } from "react";
 import { useUpdateUserPasswordMutation } from "../../api/index.api";
-import { Form, CommonButton, FieldInput } from "@/components/index.components";
+import { Form, CommonButton, FieldInput, SpinnerCustom } from "@/components/index.components";
 
 function UpdatePassword() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
-  const [update] = useUpdateUserPasswordMutation();
+  const [update, { isLoading }] = useUpdateUserPasswordMutation();
 
   /* ---------------------------------------------------------------------------------------
   The passwords  
@@ -62,7 +62,7 @@ function UpdatePassword() {
       />
 
       <CommonButton
-        label="Update Password"
+        label={isLoading ? <SpinnerCustom /> : "Update Password"}
         type="submit"
         title="Update Password"
       />

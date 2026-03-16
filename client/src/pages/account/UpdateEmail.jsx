@@ -15,14 +15,17 @@ import {
   FieldInput,
   CommonButton,
   OtpInput,
+  SpinnerCustom
 } from "@/components/index.components";
 
 function UpdateEmail() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
-  const [getUpdateOtp] = useUpdateUserEmailOtpMutation();
-  const [updateEmail] = useUpdateUserEmailMutation();
+  const [getUpdateOtp, { isLoading: isOtpLoading }] =
+    useUpdateUserEmailOtpMutation();
+  const [updateEmail, { isLoading: isUpdateLoading }] =
+    useUpdateUserEmailMutation();
   const dispatch = useDispatch();
 
   /* ---------------------------------------------------------------------------------------
@@ -101,9 +104,12 @@ function UpdateEmail() {
           value={userOtp}
         />
       )}
-      <CommonButton type="submit" label="Update Email">
-        Submit
-      </CommonButton>
+      <CommonButton
+        type="submit"
+        label={
+          isOtpLoading || isUpdateLoading ? <SpinnerCustom /> : "Update Email"
+        }
+      />
     </Form>
   );
 }
