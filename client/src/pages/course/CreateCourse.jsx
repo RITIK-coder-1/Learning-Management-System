@@ -16,16 +16,21 @@ import {
   InputFile,
   SelectInput,
   FieldTextarea,
+  SpinnerCustom,
 } from "@/components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { FieldDescription, FieldLabel } from "@/components/ui/field";
+import { useNavigate } from "react-router-dom";
 
 function CreateCourse() {
+  // navigation
+  const navigate = useNavigate();
+
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
-  const [create] = useCreateCourseMutation();
-  const { data } = useGetAllCategoriesQuery();
+  const [create, { isLoading, isSuccess }] = useCreateCourseMutation();
+  const { data, isLoading: isCategoryLoading } = useGetAllCategoriesQuery();
   const categories = data?.data; // the course categories created by the admin
 
   /* ---------------------------------------------------------------------------------------
@@ -202,8 +207,12 @@ function CreateCourse() {
     }
   };
 
+  // if (isSuccess){
+  //   navigate(`/app/created-courses/${}`)
+  // }
+
   return (
-    <Form onSubmit={createCourse}>
+    <Form onSubmit={createCourse} className="mb-3">
       {/* The Title */}
       <FieldInput
         label="Title"
@@ -256,13 +265,17 @@ function CreateCourse() {
           Choose Category
           <span className="text-destructive text-red-600"> *</span>
         </FieldLabel>
-        <SelectInput name="category" onChange={setValue}>
-          {categories?.map((category) => (
-            <NativeSelectOption key={category._id} value={category.name}>
-              {category.name}
-            </NativeSelectOption>
-          ))}
-        </SelectInput>
+        {isCategoryLoading ? (
+          <SpinnerCustom />
+        ) : (
+          <SelectInput name="category" onChange={setValue}>
+            {categories?.map((category) => (
+              <NativeSelectOption key={category._id} value={category.name}>
+                {category.name}
+              </NativeSelectOption>
+            ))}
+          </SelectInput>
+        )}
       </div>
 
       {/* The sections */}
@@ -286,7 +299,11 @@ function CreateCourse() {
       />
 
       {/* Submit */}
-      <CommonButton type="submit" label="Create Course" title="Create" />
+      <CommonButton
+        type="submit"
+        label={isLoading ? <SpinnerCustom /> : "Create Course"}
+        title="Create"
+      />
     </Form>
   );
 }
