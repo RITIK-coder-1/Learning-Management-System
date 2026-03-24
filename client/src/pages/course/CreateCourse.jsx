@@ -29,7 +29,7 @@ function CreateCourse() {
   /* ---------------------------------------------------------------------------------------
   The Redux Toolkit Data
   ------------------------------------------------------------------------------------------ */
-  const [create, { isLoading, isSuccess }] = useCreateCourseMutation();
+  const [create, { isLoading }] = useCreateCourseMutation();
   const { data, isLoading: isCategoryLoading } = useGetAllCategoriesQuery();
   const categories = data?.data; // the course categories created by the admin
 
@@ -204,9 +204,7 @@ function CreateCourse() {
       const { data } = await create(formData).unwrap();
 
       // navigate to the course page once it's created
-      if (isSuccess) {
-        navigate(`/app/created-courses/${data?._id}`);
-      }
+      navigate(`/app/created-courses/${data?._id}`);
     } catch (error) {
       console.error(error);
     }

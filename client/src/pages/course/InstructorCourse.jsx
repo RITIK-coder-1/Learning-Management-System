@@ -3,7 +3,7 @@ InstructorCourse.jsx
 The page for displaying a course for instructors
 ------------------------------------------------------------------------------------------------- */
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useAddNewSectionMutation,
   useAddNewVideoMutation,
@@ -38,6 +38,8 @@ import { NativeSelectOption } from "@/components/ui/native-select";
 import { usePublishCourseMutation } from "@/api/users/instructorApi";
 
 function InstructorCourse() {
+  const navigate = useNavigate();
+
   /* ----------------------------------------------------------------------------------------------
     The data
   ------------------------------------------------------------------------------------------------- */
@@ -50,14 +52,12 @@ function InstructorCourse() {
   const course = data?.data;
 
   // the methods
-  const [deleteCourse, { isLoading: isDeleteCourseLoading }] =
-    useDeleteCourseInstructorMutation();
+  const [deleteCourse, { isSuccess }] = useDeleteCourseInstructorMutation();
   const [addSection, { isLoading: isAddSectionLoading }] =
     useAddNewSectionMutation();
   const [updateSection, { isLoading: isUpdateSectionLoading }] =
     useUpdateSectionMutation();
-  const [deleteSection, { isLoading: isDeleteSectionLoading }] =
-    useDeleteSectionMutation();
+  const [deleteSection, {}] = useDeleteSectionMutation();
   const [addVideo, { isLoading: isAddVideoLoading }] = useAddNewVideoMutation();
   const [updateVideo, { isLoading: isUpdateVideoLoading }] =
     useUpdateVideoMutation();
@@ -298,6 +298,11 @@ function InstructorCourse() {
       }
     }
   };
+
+  // navigate back once the course is deleted
+  if (isSuccess) {
+    navigate("/app/created-courses");
+  }
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center gap-1 p-5 lg:flex-row sm:items-start lg:gap-5">
