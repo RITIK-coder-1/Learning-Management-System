@@ -4,7 +4,7 @@ The page to login a user
 ------------------------------------------------------------------------------------------ */
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation, useLoginOtpMutation } from "../../../api/index.api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../features/authSlice";
@@ -13,9 +13,12 @@ import {
   FieldInput,
   Form,
   OtpInput,
+  SpinnerCustom,
 } from "@/components/index.components";
 
 function Login() {
+  const navigate = useNavigate();
+
   /* ---------------------------------------------------------------------------------------
   The states of the page 
   ------------------------------------------------------------------------------------------ */
@@ -37,8 +40,9 @@ function Login() {
   The Redux Toolkit Query hooks for login 
   ------------------------------------------------------------------------------------------ */
 
-  const [createLoginOtp, {}] = useLoginOtpMutation();
-  const [loginUser, {}] = useLoginMutation();
+  const [createLoginOtp, { isLoading: isOtpLoading }] = useLoginOtpMutation();
+  const [loginUser, { isLoading: isLoginLoading, isSuccess }] =
+    useLoginMutation();
 
   const dispatch = useDispatch();
 
@@ -82,6 +86,11 @@ function Login() {
     }
   };
 
+  // navigate to the dashboard once login is successful
+  if (isSuccess) {
+    navigate("/app/dashboard", { replace: true });
+  }
+
   return (
     <Form onSubmit={handleSubmit} className="mt-20">
       {/* Credential */}
@@ -116,7 +125,18 @@ function Login() {
       </div>
 
       {/* Submit */}
-      <CommonButton type="submit" label={isOtp ? "Log in" : "Submit"} />
+      <CommonButton
+        type="submit"
+        label={
+          isLoginLoading || isOtpLoading ? (
+            <SpinnerCustom />
+          ) : isOtp ? (
+            "Log in"
+          ) : (
+            "Submit"
+          )
+        }
+      />
 
       {/* Registration CTA */}
       <div className="mt-6 text-center text-sm text-gray-400">
