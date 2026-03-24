@@ -98,6 +98,12 @@ function InstructorCourse() {
   // state to control the dialog box of adding a new section
   const [sectionOpen, setSectionOpen] = useState(false);
 
+  // state to track the current section that is getting manipulated (for loading spinner)
+  const [currentSectionManipulation, setCurrentSectionManipulation] =
+    useState("");
+  // state to track the current video that is getting manipulated (for loading spinner)
+  const [currentVideoManipulation, setCurrentVideoManipulation] = useState("");
+
   /* ----------------------------------------------------------------------------------------------
     The methods to manipulate the states 
   ------------------------------------------------------------------------------------------------- */
@@ -171,6 +177,7 @@ function InstructorCourse() {
   // update section API call for server
   const updateSectionCall = (id) => {
     return () => {
+      setCurrentSectionManipulation(id);
       sectionData.forEach(async (section) => {
         if (section._id === id) {
           try {
@@ -191,6 +198,7 @@ function InstructorCourse() {
   // delete a section
   const deleteSectionCall = (id) => {
     return async (e) => {
+      setCurrentSectionManipulation(id);
       e.stopPropagation();
       try {
         await deleteSection({ courseId, sectionId: id }).unwrap();
@@ -239,6 +247,7 @@ function InstructorCourse() {
   // update a video
   const updateVideoApiCall = (sectionId) => {
     return async () => {
+      setCurrentVideoManipulation(updatedVideoData.videoId);
       try {
         await updateVideo({
           updatedData: updatedVideoData,
@@ -255,6 +264,7 @@ function InstructorCourse() {
   // delete a video
   const deleteVideoApiCall = (sectionId, videoId) => {
     return async () => {
+      setCurrentVideoManipulation(videoId);
       try {
         await deleteVideo({
           courseId,
@@ -420,7 +430,8 @@ function InstructorCourse() {
                                 onChange={setVideoDataForUpdate(video?._id)}
                               />
                               <span className="flex justify-center items-center w-auto h-full gap-3">
-                                {isUpdateVideoLoading ? (
+                                {isUpdateVideoLoading &&
+                                currentVideoManipulation === video?._id ? (
                                   <SpinnerCustom />
                                 ) : (
                                   <MdOutlineSystemUpdateAlt
@@ -428,7 +439,8 @@ function InstructorCourse() {
                                     onClick={updateVideoApiCall(section?._id)}
                                   />
                                 )}
-                                {isDeleteVideoLoading ? (
+                                {isDeleteVideoLoading &&
+                                currentVideoManipulation === video?._id ? (
                                   <SpinnerCustom />
                                 ) : (
                                   <MdDelete
@@ -453,7 +465,8 @@ function InstructorCourse() {
                       {/* The update section button */}
                       <CommonButton
                         label={
-                          isUpdateSectionLoading ? (
+                          isUpdateSectionLoading &&
+                          currentSectionManipulation === section._id ? (
                             <SpinnerCustom />
                           ) : (
                             "Update Section"
