@@ -1,17 +1,31 @@
 import UserProfilePic from "@/components/layout/UserProfilePic";
 import {
   CommonButton,
+  DeleteDialogueBox,
   Navlink,
   SpinnerCustom,
 } from "../../components/index.components";
-import { useGetUserQuery } from "@/api/index.api";
+import { useDeleteUserAccountMutation, useGetUserQuery } from "@/api/index.api";
 
 function Profile() {
   const { data, isLoading } = useGetUserQuery();
   const user = data?.data;
+  const accountType = user?.accountType;
 
   const dob = user?.dateOfBirth;
   const formattedDate = dob ? new Date(dob).toLocaleDateString("en-GB") : "N/A";
+
+  const [deleteAccount, { isLoading: isDeleteLoading, isSuccess }] =
+    useDeleteUserAccountMutation();
+
+  // the API call to delete the account
+  const deleteUserAccount = async () => {
+    try {
+      await deleteAccount().unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="w-full max-w-4xl mx-auto p-4 lg:p-8 animate-in fade-in duration-500">
@@ -72,10 +86,10 @@ function Profile() {
 
           {/* Action Footer */}
           <div className="mt-4 p-6 rounded-3xl border border-white/10 bg-black/20 backdrop-blur-sm">
-            <h3 className="text-sm font-semibold text-white/70 mb-4 text-center md:text-left">
+            <h3 className="text-sm font-semibold text-white/70 mb-4 text-center">
               Account Management
             </h3>
-            <div className="flex flex-wrap justify-center md:justify-start gap-3">
+            <div className="flex flex-wrap justify-center items-center gap-3">
               <Navlink to="/app/profile/update-profile">
                 <CommonButton
                   label="Edit Profile"
@@ -88,12 +102,23 @@ function Profile() {
                   className="px-6 py-2.5 bg-blue-600/20 border border-blue-500/30 hover:bg-blue-600/30"
                 />
               </Navlink>
+              <div className="basis-full h-0 hidden sm:block"></div>
               <Navlink to="/app/profile/update-email">
                 <CommonButton
                   label="Change Email"
                   className="px-6 py-2.5 bg-zinc-800 border border-zinc-700 hover:bg-zinc-700"
                 />
               </Navlink>
+              <DeleteDialogueBox
+                label="Delete Account"
+                description={
+                  accountType === "Instructor"
+                    ? "Deleting this account will delete all your courses and associated information."
+                    : "You will lose access to all your enrolled courses."
+                }
+                triggerClass="w-auto px-9 py-2.5 text-lg font-black sm:w-auto md:w-auto md:text-lg"
+                onClick={deleteUserAccount}
+              />
             </div>
           </div>
         </div>
