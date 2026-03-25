@@ -18,7 +18,7 @@ const mailSender = async (email, subject, body) => {
 
     // Send this email to the user
     let info = await transporter.sendMail({
-      from: `Ritik's Learning Management System: <${process.env.MAIL_USER}>`,
+      from: `EduFlow - Learning Management System: <${process.env.MAIL_USER}>`,
       to: `${email}`,
       subject: `${subject}`,
       html: `${body}`,
