@@ -405,15 +405,6 @@ const deleteUserAccountFunction = async (req, res) => {
     throw new ApiError(400, "Invalid user!");
   }
 
-  // checking if the password is correct
-  const { password } = req.body;
-  const passwordValidation = await user.isPasswordCorrect(password);
-
-  if (!passwordValidation) {
-    console.error("USER DELETE ERROR: incorrect password");
-    throw new ApiError(400, "Incorrect Password!");
-  }
-
   // if the user has any profile pic, delete it
   if (user.profilePic) {
     try {
@@ -461,8 +452,8 @@ const deleteUserAccountFunction = async (req, res) => {
     path: "/",
   };
 
-  // once the user is deleted, delete the course progress associated with the user 
-  await CourseProgress.deleteMany({user: user._id})
+  // once the user is deleted, delete the course progress associated with the user
+  await CourseProgress.deleteMany({ user: user._id });
 
   console.log("Account deleted!");
 
@@ -486,7 +477,9 @@ const lastCourseVisitedController = async (req, res) => {
   const user = await User.findById(userId);
 
   // The enrollment check
-  const isEnrolled = user?.enrolledCourses?.some(courseId => courseId === courseId)
+  const isEnrolled = user?.enrolledCourses?.some(
+    (courseId) => courseId === courseId
+  );
 
   // single ID check
   const isNotLastVisited = !user?.lastCourseVisited?.equals(courseId);

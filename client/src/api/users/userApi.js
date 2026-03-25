@@ -34,10 +34,9 @@ const userApi = apiSlice.injectEndpoints({
 
     // DELETE USER ACCOUNT
     deleteUserAccount: builder.mutation({
-      query: (credentials) => ({
+      query: () => ({
         url: "/users/profile",
         method: "DELETE",
-        body: credentials,
       }),
       transformResponse,
       transformErrorResponse,

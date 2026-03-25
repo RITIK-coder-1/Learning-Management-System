@@ -6,22 +6,29 @@ import {
   SpinnerCustom,
 } from "../../components/index.components";
 import { useDeleteUserAccountMutation, useGetUserQuery } from "@/api/index.api";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate()
+
+  // the user info
   const { data, isLoading } = useGetUserQuery();
   const user = data?.data;
   const accountType = user?.accountType;
 
+  // D.O.B
   const dob = user?.dateOfBirth;
   const formattedDate = dob ? new Date(dob).toLocaleDateString("en-GB") : "N/A";
 
-  const [deleteAccount, { isLoading: isDeleteLoading, isSuccess }] =
+  // Account Deletion
+  const [deleteAccount, { }] =
     useDeleteUserAccountMutation();
 
   // the API call to delete the account
   const deleteUserAccount = async () => {
     try {
       await deleteAccount().unwrap();
+      navigate("/")
     } catch (error) {
       console.log(error);
     }
