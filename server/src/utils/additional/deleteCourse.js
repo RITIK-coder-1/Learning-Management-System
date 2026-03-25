@@ -43,6 +43,12 @@ const deleteCourse = async (courseId) => {
     { $pull: { enrolledCourses: courseId } }
   );
 
+  // Removing the course from the last course visited list of the users
+  const removeLastVisited = User.updateMany(
+    { lastCourseVisited: courseId },
+    { $set: { lastCourseVisited: null } }
+  );
+
   // Removing the course from the category lists
   const categoryCourseDelete = CourseCategory.updateOne(
     { name: course.category },
@@ -62,6 +68,7 @@ const deleteCourse = async (courseId) => {
   const dbCleanUp = Promise.all([
     sectionDelete,
     userCourseDelete,
+    removeLastVisited,
     categoryCourseDelete,
     instructorCourseDelete,
     courseProgressDelete,
