@@ -453,7 +453,13 @@ const deleteUserAccountFunction = async (req, res) => {
   };
 
   // once the user is deleted, delete the course progress associated with the user
-  await CourseProgress.deleteMany({ user: user._id });
+  await CourseProgress.deleteMany({ user: user?._id });
+
+  // remove the user from the enrolled courses lists
+  await Course.updateMany(
+    { enrolledBy: user?._id },
+    { $pull: { enrolledBy: user?._id } }
+  );
 
   console.log("Account deleted!");
 

@@ -9,7 +9,7 @@ import { useDeleteUserAccountMutation, useGetUserQuery } from "@/api/index.api";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // the user info
   const { data, isLoading } = useGetUserQuery();
@@ -21,18 +21,20 @@ function Profile() {
   const formattedDate = dob ? new Date(dob).toLocaleDateString("en-GB") : "N/A";
 
   // Account Deletion
-  const [deleteAccount, { }] =
-    useDeleteUserAccountMutation();
+  const [deleteAccount, { isSuccess }] = useDeleteUserAccountMutation();
 
   // the API call to delete the account
   const deleteUserAccount = async () => {
     try {
       await deleteAccount().unwrap();
-      navigate("/")
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (isSuccess) {
+    navigate("/");
+  }
 
   return (
     <section className="w-full max-w-4xl mx-auto p-4 lg:p-8 animate-in fade-in duration-500">
