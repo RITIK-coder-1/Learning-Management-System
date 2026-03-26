@@ -12,8 +12,12 @@ function useUserStatus(courseId) {
   const user = userData?.data;
 
   // the course
-  const { data: courseData } = useGetCourseQuery({ courseId });
-  const course = courseData?.data;
+  let course = null;
+  if (courseId) {
+    // only if the courseID is provided
+    const { data: courseData } = useGetCourseQuery({ courseId });
+    course = courseData?.data;
+  }
 
   /* ----------------------------------------------------------------------------------------------
   The user stats
@@ -26,7 +30,9 @@ function useUserStatus(courseId) {
   const isOwner = user?._id === course?.owner?._id ? true : false;
 
   // check if the user is enrolled in the course or not
-  const isEnrolled = user?.enrolledCourses?.some(course => course?._id === courseId)
+  const isEnrolled = user?.enrolledCourses?.some(
+    (course) => course?._id === courseId
+  );
 
   return {
     isAuthenticated,
