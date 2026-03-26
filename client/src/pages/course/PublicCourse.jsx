@@ -3,7 +3,7 @@ PublicCourse.jsx
 The page for displaying a course publicly 
 ------------------------------------------------------------------------------------------------- */
 
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetCourseQuery } from "@/api/index.api";
 import {
   Tag,
