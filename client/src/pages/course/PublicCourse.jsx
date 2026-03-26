@@ -11,7 +11,6 @@ import {
   StudentAccordion,
   SpinnerCustom,
 } from "@/components/index.components";
-import slugify from "@/utils/slugify";
 import { useLastCourseVisitedMutation } from "@/api/users/userApi";
 import { useEffect } from "react";
 
@@ -25,11 +24,6 @@ function PublicCourse() {
   // the instructor name
   const instructorFirstName = course?.owner?.firstName;
   const instructorLastName = course?.owner?.lastName;
-
-  // the instructor slug for the url
-  const instructorSlug = slugify(
-    `${instructorFirstName} ${instructorLastName}`
-  );
 
   // add this as the last course visited
   const [lastCourseVisited] = useLastCourseVisitedMutation();
@@ -48,7 +42,7 @@ function PublicCourse() {
     <>
       {isCourseLoading ? (
         <div className="w-full flex justify-center items-center p-5">
-          <SpinnerCustom className="size-6"/>
+          <SpinnerCustom className="size-6" />
         </div>
       ) : (
         <div className="w-full h-full flex flex-col justify-start items-center gap-3 p-5 md:flex-row sm:items-start">
@@ -100,13 +94,7 @@ function PublicCourse() {
 
             {/* Instructor Info */}
             <span className="text-sm">
-              Created By:{" "}
-              <Link
-                className="underline underline-offset-4 cursor-pointer text-blue-500 hover:text-blue-900"
-                to={`/app/courses/${courseId}/instructor/${instructorSlug}`}
-              >
-                {instructorFirstName} {instructorLastName}
-              </Link>
+              Created By: {instructorFirstName} {instructorLastName}
             </span>
 
             {/* The lessons */}

@@ -27,7 +27,6 @@ import {
   CreatedCourses,
   InstructorCourse,
   PublicCourse,
-  InstructorPage,
   VideoPlayer,
   NotFound,
 } from "./pages/index.pages.js";
@@ -90,12 +89,6 @@ const myRouter = createBrowserRouter([
               {
                 element: <PublicCourse />,
                 index: true,
-              },
-
-              // The course instructor
-              {
-                element: <InstructorPage />,
-                path: "instructor/:slug",
               },
 
               // The course video

@@ -18,7 +18,6 @@ import EnrolledCourses from "./common/EnrolledCourses.jsx";
 import CreatedCourses from "./course/CreatedCourses.jsx";
 import InstructorCourse from "./course/InstructorCourse.jsx";
 import PublicCourse from "./course/PublicCourse.jsx";
-import InstructorPage from "./course/InstructorPage.jsx";
 import VideoPlayer from "./course/VideoPlayer.jsx";
 import NotFound from "./common/NotFound.jsx";
 
@@ -38,7 +37,6 @@ export {
   CreatedCourses,
   InstructorCourse,
   PublicCourse, 
-  InstructorPage,
   VideoPlayer,
   NotFound
 };
