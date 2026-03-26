@@ -8,7 +8,6 @@ import {
   BookOpen,
   IndianRupee,
   Trash2,
-  ShieldCheck,
   Plus,
 } from "lucide-react";
 
@@ -156,7 +155,6 @@ const AdminDashboard = () => {
                     </td>
                   </tr>
                 ))}
-              {/* Add similar maps for courses and categories using the same UI pattern */}
             </tbody>
           </table>
         </div>
