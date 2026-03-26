@@ -12,7 +12,8 @@ function PrivateLayout() {
   const { isAuthenticated } = useUserStatus();
   return (
     <>
-      <TopBar />
+      {/* The top bar for the logged in users */}
+      {isAuthenticated && <TopBar />}
 
       <SidebarProvider>
         {/* The side bar for navigation for logged in users */}
