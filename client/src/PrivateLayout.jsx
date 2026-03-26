@@ -1,6 +1,7 @@
 /* ----------------------------------------------------------------------------------------------
 PrivateLayout.jsx
 It contains the routing for every single private page that requires authentication
+It also renders the public course pages to visit without logging in 
 ------------------------------------------------------------------------------------------------- */
 
 import { TopBar, MainSection, AppSidebar } from "./components/index.components";
@@ -12,7 +13,7 @@ function PrivateLayout() {
   const { isAuthenticated } = useUserStatus();
   return (
     <>
-      {/* The top bar for the logged in users */}
+      {/* The top bar for the logged in users*/}
       {isAuthenticated && <TopBar />}
 
       <SidebarProvider>
