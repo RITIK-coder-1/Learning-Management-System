@@ -33,7 +33,9 @@ import {
 import ExploreCourses from "./pages/common/ExploreCourses.jsx";
 
 const myRouter = createBrowserRouter([
-  // Public Pages
+  /* ----------------------------------------------------------------------------------------------
+  PUBLIC PAGES
+  ------------------------------------------------------------------------------------------------- */
   {
     path: "/",
     element: <PublicLayout />,
@@ -53,10 +55,16 @@ const myRouter = createBrowserRouter([
     ],
   },
 
-  // Private Pages
+  /* ----------------------------------------------------------------------------------------------
+  PRIVATE PAGES
+  ------------------------------------------------------------------------------------------------- */
+
+  // accessible by every authenticated user
   {
     path: "/app",
-    element: <PrivateLayout />,
+    element: (
+      <PrivateLayout allowedRoles={["Student", "Instructor", "Admin"]} />
+    ),
     children: [
       {
         element: <Dashboard />,
@@ -99,34 +107,6 @@ const myRouter = createBrowserRouter([
         ],
       },
 
-      // instructor course routes
-      {
-        path: "created-courses",
-        children: [
-          {
-            element: <CreatedCourses />,
-            index: true,
-          },
-          {
-            element: <CreateCourse />,
-            path: "create",
-          },
-          {
-            path: ":courseId",
-            children: [
-              {
-                element: <InstructorCourse />,
-                index: true,
-              },
-              {
-                element: <UpdateCourse />,
-                path: "update",
-              },
-            ],
-          },
-        ],
-      },
-
       // account specific routes
       {
         path: "profile",
@@ -150,6 +130,40 @@ const myRouter = createBrowserRouter([
           {
             element: <UpdateEmail />,
             path: "update-email",
+          },
+        ],
+      },
+    ],
+  },
+
+  // only for the instructor
+  {
+    path: "/app",
+    element: <PrivateLayout allowedRoles={["Instructor"]} />,
+    children: [
+      {
+        path: "created-courses",
+        children: [
+          {
+            element: <CreatedCourses />,
+            index: true,
+          },
+          {
+            element: <CreateCourse />,
+            path: "create",
+          },
+          {
+            path: ":courseId",
+            children: [
+              {
+                element: <InstructorCourse />,
+                index: true,
+              },
+              {
+                element: <UpdateCourse />,
+                path: "update",
+              },
+            ],
           },
         ],
       },

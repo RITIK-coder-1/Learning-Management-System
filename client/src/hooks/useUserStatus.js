@@ -24,10 +24,10 @@ function useUserStatus(courseId) {
   ------------------------------------------------------------------------------------------------- */
 
   // the authentication status of the user
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // for immediate access
 
   // the type of user
-  const accountType = user?.accountType;
+  const accountType = useSelector((state) => state.auth.user.accountType); // for immediate access
 
   // check if the user is the owner of the course
   const isOwner = user?._id === course?.owner?._id ? true : false;

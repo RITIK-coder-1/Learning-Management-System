@@ -61,8 +61,6 @@ function Home() {
   const courses = data?.data.slice(0, 4); // only 4 courses
   const filteredCourses = filterCourses(courses); // filter the data to showcase
 
-  console.log(isLoading);
-
   // the testimonials
   const testimonials = [
     {
