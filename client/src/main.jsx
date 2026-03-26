@@ -29,6 +29,7 @@ import {
   PublicCourse,
   InstructorPage,
   VideoPlayer,
+  NotFound,
 } from "./pages/index.pages.js";
 import ExploreCourses from "./pages/common/ExploreCourses.jsx";
 
@@ -168,6 +169,10 @@ const myRouter = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

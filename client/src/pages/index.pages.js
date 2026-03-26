@@ -20,6 +20,7 @@ import InstructorCourse from "./course/InstructorCourse.jsx";
 import PublicCourse from "./course/PublicCourse.jsx";
 import InstructorPage from "./course/InstructorPage.jsx";
 import VideoPlayer from "./course/VideoPlayer.jsx";
+import NotFound from "./common/NotFound.jsx";
 
 export {
   Register,
@@ -38,5 +39,6 @@ export {
   InstructorCourse,
   PublicCourse, 
   InstructorPage,
-  VideoPlayer
+  VideoPlayer,
+  NotFound
 };
