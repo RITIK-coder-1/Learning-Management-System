@@ -48,8 +48,8 @@ function VideoPlayer() {
     }
   };
 
-  // if the user is the owner of the course
-  const { isOwner } = useUserStatus(courseId);
+  // if the user is the owner of the course or the admin of the app
+  const { isOwner, accountType } = useUserStatus(courseId);
 
   return (
     <div className="h-auto bg-[#0a0a0c] text-white font-sans rounded-lg w-full shadow-black shadow-2xl lg:w-[80%]">
@@ -73,7 +73,7 @@ function VideoPlayer() {
           {/* Video Player Component */}
           <div
             className={`aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800 ${
-              isOwner && "h-full"
+              isOwner || (accountType === "Admin" && "h-full")
             }`}
           >
             <ReactPlayer
@@ -86,8 +86,8 @@ function VideoPlayer() {
             />
           </div>
 
-          {/* Add the mark complete button to the non-owner users only */}
-          {!isOwner ? (
+          {/* Add the mark complete button to the non-owner and non-admin users only */}
+          {!isOwner && accountType !== "Admin" ? (
             <div className="mt-6 flex justify-between items-start">
               {completedVideos?.some((video) => video._id === videoId) ? (
                 <CommonButton
@@ -127,7 +127,9 @@ function VideoPlayer() {
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Course Content</h3>
             {/* Progress Bar Component */}
-            {!isOwner && <ProgressBar courseId={courseId} />}
+            {!isOwner && accountType !== "Admin" && (
+              <ProgressBar courseId={courseId} />
+            )}
           </div>
 
           <div className="space-y-4">
