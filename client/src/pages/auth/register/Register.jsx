@@ -126,7 +126,7 @@ function Register() {
 
   // navigate to the dashboard once the user successfully registers
   if (isSuccess) {
-    navigate("/app/dashboard", { replace: true });
+    navigate("/login", { replace: true });
   }
 
   return (
