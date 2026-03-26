@@ -99,12 +99,15 @@ function Profile() {
               Account Management
             </h3>
             <div className="flex flex-wrap justify-center items-center gap-3">
-              <Navlink to="/app/profile/update-profile">
-                <CommonButton
-                  label="Edit Profile"
-                  className="px-6 py-2.5 bg-white text-black hover:bg-white/90 transition-colors"
-                />
-              </Navlink>
+              {/* Admin can't edit their unique details */}
+              {accountType !== "Admin" && (
+                <Navlink to="/app/profile/update-profile">
+                  <CommonButton
+                    label="Edit Profile"
+                    className="px-6 py-2.5 bg-white text-black hover:bg-white/90 transition-colors"
+                  />
+                </Navlink>
+              )}
               <Navlink to="/app/profile/update-password">
                 <CommonButton
                   label="Security"
@@ -118,16 +121,19 @@ function Profile() {
                   className="px-6 py-2.5 bg-zinc-800 border border-zinc-700 hover:bg-zinc-700"
                 />
               </Navlink>
-              <DeleteDialogueBox
-                label="Delete Account"
-                description={
-                  accountType === "Instructor"
-                    ? "Deleting this account will delete all your courses and associated information."
-                    : "You will lose access to all your enrolled courses."
-                }
-                triggerClass="w-auto px-9 py-2.5 text-lg font-black sm:w-auto md:w-auto md:text-lg"
-                onClick={deleteUserAccount}
-              />
+              {/* Admin can't delete their account */}
+              {accountType !== "Admin" && (
+                <DeleteDialogueBox
+                  label="Delete Account"
+                  description={
+                    accountType === "Instructor"
+                      ? "Deleting this account will delete all your courses and associated information."
+                      : "You will lose access to all your enrolled courses."
+                  }
+                  triggerClass="w-auto px-9 py-2.5 text-lg font-black sm:w-auto md:w-auto md:text-lg"
+                  onClick={deleteUserAccount}
+                />
+              )}
             </div>
           </div>
         </div>
