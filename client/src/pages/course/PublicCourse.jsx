@@ -93,9 +93,12 @@ function PublicCourse() {
             <p className="text-white/70 text-xs">{course?.description}</p>
 
             {/* Instructor Info */}
-            <span className="text-sm">
-              Created By: {instructorFirstName} {instructorLastName}
-            </span>
+            <p className="text-sm text-gray-400 flex items-center gap-1.5">
+              Created by
+              <span className="font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-500">
+                {instructorFirstName} {instructorLastName}
+              </span>
+            </p>
 
             {/* The lessons */}
             <div className="w-full border mt-5 border-white/10 p-5 flex flex-col justify-center items-center gap-3 ">
