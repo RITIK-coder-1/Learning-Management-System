@@ -39,12 +39,13 @@ const AdminDashboard = () => {
   // add categories tab
   const [categoryOpen, setCategoryOpen] = useState(false);
 
+  // to track the categories to update
   const [activeCategory, setActiveCategory] = useState("");
 
   /* ----------------------------------------------------------------------------------------------
   The states
   ------------------------------------------------------------------------------------------------- */
-  const [category, setCategory] = useState({ name: "", description: "" });
+  const [category, setCategory] = useState("");
 
   const [currentCategories, setCurrentCategories] = useState([]);
 
@@ -114,8 +115,7 @@ const AdminDashboard = () => {
   ------------------------------------------------------------------------------------------------- */
 
   // to set the new category
-  const addCategory = (e) =>
-    setCategory({ ...category, [e.target.name]: e.target.value });
+  const addCategory = (e) => setCategory(e.target.value);
 
   // to set a category active to update
   const activateTheCategory = (categoryId) => () => {
@@ -157,9 +157,9 @@ const AdminDashboard = () => {
   const createCategoryApiCall = async (e) => {
     e.preventDefault();
     try {
-      await createCategory(category).unwrap();
+      await createCategory({ name: category }).unwrap();
       setCategoryOpen(false);
-      setCategory({ name: "", description: "" });
+      setCategory("");
     } catch (error) {
       console.error(error);
     }
@@ -195,25 +195,6 @@ const AdminDashboard = () => {
       e.preventDefault();
       try {
         await deleteCategory(categoryId).unwrap();
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  };
-
-  // update a category
-  const updateCategoryApiCall = (categoryId) => {
-    return (e) => {
-      e.preventDefault();
-      try {
-        currentCategories?.forEach(async (category) => {
-          if (category?._id === categoryId) {
-            await updateCategory({
-              categoryData: category,
-              categoryId,
-            }).unwrap();
-          }
-        });
       } catch (error) {
         console.error(error);
       }
@@ -289,14 +270,7 @@ const AdminDashboard = () => {
                   name="name"
                   placeholder="Software Engineering"
                   onChange={addCategory}
-                  value={category.name}
-                />
-                <FieldInput
-                  label="Description"
-                  name="description"
-                  placeholder="Description"
-                  onChange={addCategory}
-                  value={category.description}
+                  value={category}
                 />
               </AddDialogueBox>
             )}

@@ -15,11 +15,6 @@ const courseCategorySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    description: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     courses: [
       {
         type: mongoose.Schema.Types.ObjectId,

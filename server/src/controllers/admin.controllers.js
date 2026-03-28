@@ -30,9 +30,9 @@ CREATE CATEGORY CONTROLLER
 
 const createCategoryFunction = async (req, res) => {
   // getting all the data
-  const { name, description } = req.body;
+  const { name } = req.body;
 
-  const isEmpty = [name, description].some((ele) => ele.trim() === "");
+  const isEmpty = [name].some((ele) => ele.trim() === "");
 
   if (isEmpty) {
     console.error("CREATE CATEGORY ERROR: empty fields!");
@@ -50,8 +50,7 @@ const createCategoryFunction = async (req, res) => {
   }
 
   const category = await CourseCategory.create({
-    name: name,
-    description: description,
+    name,
   });
 
   if (!category) {
@@ -81,11 +80,11 @@ UPDATE CATEGORY CONTROLLER
 
 const updateCategoryFunction = async (req, res) => {
   const { categoryId } = req.params;
-  const { name, description } = req.body;
+  const { name } = req.body;
 
-  if (!name.trim() || !description.trim()) {
+  if (!name.trim()) {
     console.error("UPDATE CATEGORY ERROR: Empty fields!");
-    throw new ApiError(400, "Name and Description can't be empty!");
+    throw new ApiError(400, "Name can't be empty!");
   }
 
   if (!categoryId.trim()) {
@@ -116,7 +115,6 @@ const updateCategoryFunction = async (req, res) => {
 
   // updating the category
   category.name = name;
-  category.description = description;
 
   const updatedCategory = await category.save({ validateBeforeSave: false });
 
