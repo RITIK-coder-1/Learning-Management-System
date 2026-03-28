@@ -5,34 +5,33 @@ AdminDashboard.jsx
 import React, { useState } from "react";
 import { Users, BookOpen, IndianRupee, Trash2, Plus } from "lucide-react";
 import { useGetSystemStatsQuery } from "@/api/index.api";
+import { SpinnerCustom } from "@/components/index.components";
 
 const AdminDashboard = () => {
   // the activity tab
   const [activeTab, setActiveTab] = useState("users");
 
   // the system stats
-  const { data } = useGetSystemStatsQuery();
+  const { data, isLoading: isStatsLoading } = useGetSystemStatsQuery();
   const stats = data?.data;
-
-  console.log(stats)
 
   // Data to display
   const statsToDisplay = [
     {
       label: "Total Users",
-      value: stats?.userCount,
+      value: isStatsLoading ? <SpinnerCustom /> : stats?.userCount,
       icon: <Users size={20} />,
       color: "text-blue-400",
     },
     {
       label: "Total Courses",
-      value: stats?.courseCount,
+      value: isStatsLoading ? <SpinnerCustom /> : stats?.courseCount,
       icon: <BookOpen size={20} />,
       color: "text-purple-400",
     },
     {
       label: "Platform Revenue",
-      value: `₹${stats?.totalRevenue}`,
+      value: isStatsLoading ? <SpinnerCustom /> : `₹${stats?.totalRevenue}`,
       icon: <IndianRupee size={20} />,
       color: "text-green-400",
     },
