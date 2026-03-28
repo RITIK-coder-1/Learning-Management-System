@@ -3,28 +3,28 @@ AdminDashboard.jsx
 ------------------------------------------------------------------------------------------------- */
 
 import React, { useState } from "react";
-import {
-  Users,
-  BookOpen,
-  IndianRupee,
-  Trash2,
-  Plus,
-} from "lucide-react";
+import { Users, BookOpen, IndianRupee, Trash2, Plus } from "lucide-react";
+import { useGetSystemStatsQuery } from "@/api/index.api";
 
 const AdminDashboard = () => {
+  // the activity tab
   const [activeTab, setActiveTab] = useState("users");
 
-  // Mock Data for MVP Visualization
-  const stats = [
+  // the system stats
+  const { data } = useGetSystemStatsQuery();
+  const stats = data?.data;
+
+  // Data to display
+  const statsToDisplay = [
     {
       label: "Total Users",
-      value: "128",
+      value: stats?.userCount,
       icon: <Users size={20} />,
       color: "text-blue-400",
     },
     {
       label: "Total Courses",
-      value: "14",
+      value: stats?.courseCount,
       icon: <BookOpen size={20} />,
       color: "text-purple-400",
     },
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white p-6 font-sans">
+    <div className="min-h-screen bg-[#020617] text-white p-6 font-sans mb-5">
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-3xl font-bold">Admin Control Center</h1>
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        {stats.map((stat, index) => (
+        {statsToDisplay.map((stat, index) => (
           <div
             key={index}
             className="bg-[#0f172a] border border-gray-800 p-6 rounded-xl flex justify-between items-center"
