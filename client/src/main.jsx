@@ -69,10 +69,6 @@ const myRouter = createBrowserRouter([
         element: <Dashboard />,
         path: "dashboard",
       },
-      {
-        element: <EnrolledCourses />,
-        path: "enrolled-courses",
-      },
 
       // course routes (accessible publically)
       {
@@ -109,16 +105,36 @@ const myRouter = createBrowserRouter([
             index: true,
           },
           {
-            element: <UpdateProfile />,
-            path: "update-profile",
-          },
-          {
             element: <UpdatePassword />,
             path: "update-password",
           },
           {
             element: <UpdateEmail />,
             path: "update-email",
+          },
+        ],
+      },
+    ],
+  },
+
+  // routes only for the non-admin users
+  {
+    path: "/app",
+    element: <PrivateLayout allowedRoles={["Student", "Instructor"]} />,
+    children: [
+      // course specific routes
+      {
+        element: <EnrolledCourses />,
+        path: "enrolled-courses",
+      },
+
+      // account specific routes
+      {
+        path: "profile",
+        children: [
+          {
+            element: <UpdateProfile />,
+            path: "update-profile",
           },
         ],
       },
