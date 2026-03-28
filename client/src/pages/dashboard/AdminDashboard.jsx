@@ -308,10 +308,13 @@ const AdminDashboard = () => {
                       <td className="py-4 text-gray-400">{course?.price}</td>
 
                       <td className="py-4">{course?.revenue}</td>
-                      <td className="py-4 text-right">
-                        <button className="text-gray-500 hover:text-red-400 transition-colors p-2">
-                          <Trash2 size={18} />
-                        </button>
+                      <td className="py-4 text-right flex justify-end text-red-400 hover:text-red-600">
+                        <DeleteDialogueBox
+                          label={<Trash2 size={18} />}
+                          triggerClass="border-none flex justify-center bg-transparent w-10 sm:w-10 md:w-10 hover:bg-transparent "
+                          description="All the videos and related information will be deleted"
+                          onClick={deleteCourseApiCall(course?._id)}
+                        />
                       </td>
                     </tr>
                   ))}
