@@ -3,7 +3,14 @@ AdminDashboard.jsx
 ------------------------------------------------------------------------------------------------- */
 
 import React, { useState } from "react";
-import { Users, BookOpen, IndianRupee, Trash2, Plus } from "lucide-react";
+import {
+  Users,
+  BookOpen,
+  IndianRupee,
+  Trash2,
+  Plus,
+  RefreshCw,
+} from "lucide-react";
 import {
   useCreateCategoryMutation,
   useDeleteCategoryMutation,
@@ -30,6 +37,10 @@ const AdminDashboard = () => {
 
   // add categories tab
   const [categoryOpen, setCategoryOpen] = useState(false);
+
+  const [activeCategory, setActiveCategory] = useState("");
+
+  console.log(activeCategory)
 
   /* ----------------------------------------------------------------------------------------------
   The states
@@ -97,6 +108,15 @@ const AdminDashboard = () => {
   // to set the new category
   const addCategory = (e) =>
     setCategory({ ...category, [e.target.name]: e.target.value });
+
+  // to set a category active
+  const activateTheCategory = (categoryId) => () => {
+    if (activeCategory === categoryId) {
+      setActiveCategory("");
+    } else {
+      setActiveCategory(categoryId);
+    }
+  };
 
   // the API call to add a category
   const createCategoryApiCall = async (e) => {
@@ -360,21 +380,30 @@ const AdminDashboard = () => {
                       className="text-sm group hover:bg-[#1e293b] transition-colors"
                     >
                       <td className="py-4">
-                        <div className="font-medium text-gray-200">
-                          {category?.name}
-                        </div>
+                        <input
+                          className={`font-medium text-gray-200 p-3 pl-0 rounded-sm  ${activeCategory === category?._id ? "outline focus:outline" : " focus:outline-none"}`}
+                          type="text"
+                          value={category?.name}
+                          readOnly={activeCategory === category?._id ? false : true}
+                        />
                       </td>
 
                       <td className="py-4 text-gray-400">
                         {category?.courses?.length}
                       </td>
 
-                      <td className="py-4 text-right flex justify-end text-red-400 hover:text-red-600">
+                      <td className="py-4 text-right flex justify-end items-center ">
                         <DeleteDialogueBox
                           label={<Trash2 size={18} />}
-                          triggerClass="border-none flex justify-center bg-transparent w-10 sm:w-10 md:w-10 hover:bg-transparent "
+                          triggerClass="border-none flex justify-center bg-transparent w-10 sm:w-10 md:w-10 hover:bg-transparent text-red-400 hover:text-red-600"
                           description="Categories with active courses can't be deleted."
                           onClick={deleteCategoryApiCall(category?._id)}
+                        />
+                        <RefreshCw
+                          size={18}
+                          className="cursor-pointer hover:text-blue-500"
+                          title="Update"
+                          onClick={activateTheCategory(category?._id)}
                         />
                       </td>
                     </tr>
