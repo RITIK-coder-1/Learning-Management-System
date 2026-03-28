@@ -316,7 +316,7 @@ GET ALL COURSES CONTROLLER
 
 const getAllCoursesAdminFunction = async (req, res) => {
   try {
-    const courses = await Course.find({});
+    const courses = await Course.find({}).populate("owner");
 
     console.log("All the courses fetched!");
 
