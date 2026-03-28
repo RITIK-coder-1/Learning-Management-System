@@ -402,6 +402,9 @@ const systemStatsFunction = async (req, res) => {
       User.countDocuments({ accountType: "Instructor" }),
       Course.countDocuments(),
       CourseCategory.countDocuments(),
+      User.find({
+        accountType: "Instructor",
+      }),
     ];
 
     // Fire all queries simultaneously
@@ -412,11 +415,13 @@ const systemStatsFunction = async (req, res) => {
       instructorCount,
       courseCount,
       categoryCount,
+      instructors,
     ] = await Promise.all(asyncTasks);
 
-    console.log(
-      `Total Count for Admin: Users: ${userCount}, Students: ${studentCount}, Teachers: ${instructorCount}, Courses: ${courseCount} and Categories: ${categoryCount}`
-    );
+    // total revenue on the platform
+    const totalRevenue = instructors
+      .map((user) => user?.totalRevenue)
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
     return res.status(200).json(
       new ApiResponse(200, "System stats loaded!", {
@@ -425,6 +430,7 @@ const systemStatsFunction = async (req, res) => {
         instructorCount,
         courseCount,
         categoryCount,
+        totalRevenue,
       })
     );
   } catch (error) {

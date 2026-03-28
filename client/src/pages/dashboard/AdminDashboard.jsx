@@ -14,6 +14,8 @@ const AdminDashboard = () => {
   const { data } = useGetSystemStatsQuery();
   const stats = data?.data;
 
+  console.log(stats)
+
   // Data to display
   const statsToDisplay = [
     {
@@ -30,7 +32,7 @@ const AdminDashboard = () => {
     },
     {
       label: "Platform Revenue",
-      value: "₹45,000",
+      value: `₹${stats?.totalRevenue}`,
       icon: <IndianRupee size={20} />,
       color: "text-green-400",
     },
