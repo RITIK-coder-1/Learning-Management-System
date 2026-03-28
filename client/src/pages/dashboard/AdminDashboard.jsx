@@ -2,7 +2,7 @@
 AdminDashboard.jsx
 ------------------------------------------------------------------------------------------------- */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Users,
   BookOpen,
@@ -20,6 +20,7 @@ import {
   useGetAllCoursesAdminQuery,
   useGetAllUsersQuery,
   useGetSystemStatsQuery,
+  useUpdateCategoryMutation,
 } from "@/api/index.api";
 import {
   AddDialogueBox,
@@ -40,15 +41,17 @@ const AdminDashboard = () => {
 
   const [activeCategory, setActiveCategory] = useState("");
 
-  console.log(activeCategory)
-
   /* ----------------------------------------------------------------------------------------------
   The states
   ------------------------------------------------------------------------------------------------- */
   const [category, setCategory] = useState({ name: "", description: "" });
 
+  const [currentCategories, setCurrentCategories] = useState([]);
+
   const [createCategory, { isLoading: isCreateCategoryLoading }] =
     useCreateCategoryMutation();
+
+  const [updateCategory, {}] = useUpdateCategoryMutation();
 
   const [deleteUser, {}] = useDeleteUserAdminMutation();
 
@@ -78,6 +81,11 @@ const AdminDashboard = () => {
   const { data: categoryData, isLoading: isCategoryLoading } =
     useGetAllCategoriesQuery();
   const categories = categoryData?.data;
+
+  // set the current categories state
+  useEffect(() => {
+    setCurrentCategories(categories);
+  }, [categories]);
 
   // Data to display
   const statsToDisplay = [
@@ -109,12 +117,39 @@ const AdminDashboard = () => {
   const addCategory = (e) =>
     setCategory({ ...category, [e.target.name]: e.target.value });
 
-  // to set a category active
+  // to set a category active to update
   const activateTheCategory = (categoryId) => () => {
     if (activeCategory === categoryId) {
       setActiveCategory("");
     } else {
       setActiveCategory(categoryId);
+    }
+  };
+
+  // to update a category value
+  const updateCategoryValue = (id) => (e) => {
+    try {
+      currentCategories.forEach(async (category) => {
+        if (category?._id === id) {
+          const newCategory = { ...category, name: e.target.value };
+
+          // first remove the category
+          setCurrentCategories((categories) =>
+            categories?.filter((category) => category?._id !== id)
+          );
+
+          // then, add the updated category
+          setCurrentCategories((categories) => [...categories, newCategory]);
+
+          // simulatneously update the category in the database
+          await updateCategory({
+            categoryData: newCategory,
+            categoryId: id,
+          }).unwrap();
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -160,6 +195,25 @@ const AdminDashboard = () => {
       e.preventDefault();
       try {
         await deleteCategory(categoryId).unwrap();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  };
+
+  // update a category
+  const updateCategoryApiCall = (categoryId) => {
+    return (e) => {
+      e.preventDefault();
+      try {
+        currentCategories?.forEach(async (category) => {
+          if (category?._id === categoryId) {
+            await updateCategory({
+              categoryData: category,
+              categoryId,
+            }).unwrap();
+          }
+        });
       } catch (error) {
         console.error(error);
       }
@@ -368,23 +422,30 @@ const AdminDashboard = () => {
                   <th className="pb-4 font-medium text-right">ACTIONS</th>
                 </tr>
               </thead>
-              {isCourseLoading ? (
+              {isCategoryLoading ? (
                 <div className="w-full p-5 flex justify-start items-center">
                   <SpinnerCustom />
                 </div>
               ) : (
                 <tbody className="divide-y divide-gray-800">
-                  {categories?.map((category) => (
+                  {currentCategories?.map((category) => (
                     <tr
                       key={category?._id}
                       className="text-sm group hover:bg-[#1e293b] transition-colors"
                     >
                       <td className="py-4">
                         <input
-                          className={`font-medium text-gray-200 p-3 pl-0 rounded-sm  ${activeCategory === category?._id ? "outline focus:outline" : " focus:outline-none"}`}
+                          className={`font-medium text-gray-200 p-3 pl-0 rounded-sm  ${
+                            activeCategory === category?._id
+                              ? "outline focus:outline"
+                              : " focus:outline-none"
+                          }`}
                           type="text"
                           value={category?.name}
-                          readOnly={activeCategory === category?._id ? false : true}
+                          readOnly={
+                            activeCategory === category?._id ? false : true
+                          }
+                          onChange={updateCategoryValue(category?._id)}
                         />
                       </td>
 
