@@ -23,6 +23,7 @@ import {
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { FieldLabel } from "@/components/ui/field";
 import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 function UpdateCourse() {
   const { courseId } = useParams();
@@ -85,18 +86,21 @@ function UpdateCourse() {
       const courseId = course._id;
       // upload the simple object if the thumbnail isn't updated
       if (!newThumbnail) {
-        const { data } = await update({ courseDetails, courseId }).unwrap();
+        const { message } = await update({ courseDetails, courseId }).unwrap();
+        toast.success(message, { position: "top-right" });
       } else {
         // else upload a form data
         const formData = getFormData(courseDetails);
 
-        const { data } = await update({
+        const { message } = await update({
           courseDetails: formData,
           courseId,
         }).unwrap();
+
+        toast.success(message, { position: "top-right" });
       }
     } catch (error) {
-      console.error(error.message);
+      toast.error(error.message, { position: "top-right" });
     }
   };
 

@@ -21,6 +21,7 @@ import {
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { FieldDescription, FieldLabel } from "@/components/ui/field";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function CreateCourse() {
   // navigation
@@ -201,12 +202,14 @@ function CreateCourse() {
       // setting the thumbnail
       formData.append("thumbnail", thumbnail);
 
-      const { data } = await create(formData).unwrap();
+      const { data, message } = await create(formData).unwrap();
+
+      toast.success(message, { position: "top-right" });
 
       // navigate to the course page once it's created
       navigate(`/app/created-courses/${data?._id}`);
     } catch (error) {
-      console.error(error);
+      toast.error(error.message, { position: "top-right" });
     }
   };
 

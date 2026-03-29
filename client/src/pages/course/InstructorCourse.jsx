@@ -36,6 +36,7 @@ import { MdOutlineSystemUpdateAlt, MdDelete } from "react-icons/md";
 import { SelectInput } from "../../components/index.components";
 import { NativeSelectOption } from "@/components/ui/native-select";
 import { usePublishCourseMutation } from "@/api/users/instructorApi";
+import { toast } from "sonner";
 
 function InstructorCourse() {
   const navigate = useNavigate();
@@ -52,7 +53,10 @@ function InstructorCourse() {
   const course = data?.data;
 
   // the methods
-  const [deleteCourse, { isSuccess }] = useDeleteCourseInstructorMutation();
+  const [deleteCourse, { isSuccess, isLoading: isDeleteCourseLoading }] =
+    useDeleteCourseInstructorMutation();
+  isDeleteCourseLoading &&
+    toast.success("Deleting the course...", { position: "top-right" });
   const [addSection, { isLoading: isAddSectionLoading }] =
     useAddNewSectionMutation();
   const [updateSection, { isLoading: isUpdateSectionLoading }] =
@@ -182,13 +186,14 @@ function InstructorCourse() {
         if (section._id === id) {
           try {
             // call the API only for the targetted section
-            await updateSection({
+            const { message } = await updateSection({
               updatedData: section,
               sectionId: id,
               courseId,
             }).unwrap();
+            toast.success(message, { position: "top-right" });
           } catch (error) {
-            console.error(error);
+            toast.error(error.message, { position: "top-right" });
           }
         }
       });
@@ -201,9 +206,15 @@ function InstructorCourse() {
       setCurrentSectionManipulation(id);
       e.stopPropagation();
       try {
-        await deleteSection({ courseId, sectionId: id }).unwrap();
+        await deleteSection({
+          courseId,
+          sectionId: id,
+        }).unwrap();
+        toast.success("The section has been deleted!", {
+          position: "top-right",
+        });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     };
   };
@@ -214,13 +225,15 @@ function InstructorCourse() {
     e.preventDefault();
 
     try {
-      await addSection({
+      const { message } = await addSection({
         sectionData: { title: newSectionData },
         courseId,
       }).unwrap();
       setSectionOpen(false);
+      setNewSectionData("");
+      toast.success(message, { position: "top-right" });
     } catch (error) {
-      console.error(error);
+      toast.error(error.message, { position: "top-right" });
     }
   };
 
@@ -232,15 +245,16 @@ function InstructorCourse() {
 
       try {
         const videoFormData = getFormData(videoData);
-        await addVideo({
+        const { message } = await addVideo({
           videoData: videoFormData,
           courseId,
           sectionId: id,
         }).unwrap();
         setVideoOpen(false);
         setVideoData({ title: "", courseVideo: null, sectionId: "" });
+        toast.success(message, { position: "top-right" });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     };
   };
@@ -250,14 +264,15 @@ function InstructorCourse() {
     return async () => {
       setCurrentVideoManipulation(updatedVideoData.videoId);
       try {
-        await updateVideo({
+        const { message } = await updateVideo({
           updatedData: updatedVideoData,
           courseId,
           sectionId,
           videoId: updatedVideoData.videoId,
         }).unwrap();
+        toast.success(message, { position: "top-right" });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     };
   };
@@ -272,8 +287,9 @@ function InstructorCourse() {
           sectionId,
           videoId: videoId,
         }).unwrap();
+        toast.success("The video has been deleted!", { position: "top-right" });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     };
   };
@@ -284,8 +300,9 @@ function InstructorCourse() {
       await deleteCourse({
         courseId,
       }).unwrap();
+      toast.success("The course has been deleted!", { position: "top-right" });
     } catch (error) {
-      console.error(error);
+      toast.error(error.message, { position: "top-right" });
     }
   };
 
@@ -293,9 +310,13 @@ function InstructorCourse() {
   const publishCourseCall = async (e) => {
     if (e.target.value === "Published") {
       try {
-        await publishCourse({ status: e.target.value, courseId }).unwrap();
+        const { message } = await publishCourse({
+          status: e.target.value,
+          courseId,
+        }).unwrap();
+        toast.success(message, { position: "top-right" });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     }
   };
