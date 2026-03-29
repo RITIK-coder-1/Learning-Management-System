@@ -352,6 +352,7 @@ const AdminDashboard = () => {
                     <th className="pb-4 font-medium">STUDENTS</th>
                     <th className="pb-4 font-medium">PRICE</th>
                     <th className="pb-4 font-medium">REVENUE</th>
+                    <th className="pb-4 font-medium">STATUS</th>
                     <th className="pb-4 font-medium text-right">ACTIONS</th>
                   </tr>
                 </thead>
@@ -375,6 +376,17 @@ const AdminDashboard = () => {
                       <td className="py-4 text-gray-400">{course?.price}</td>
 
                       <td className="py-4">{course?.revenue}</td>
+                      <td className="pb-4 sm:flex-1">
+                        {course?.status === "Published" ? (
+                          <span className="px-2 py-1 bg-green-900/30 text-green-400 text-xs rounded-full border border-green-800">
+                            PUBLISHED
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 bg-gray-900/30 text-gray-400 text-xs rounded-full border border-white/50">
+                            DRAFT
+                          </span>
+                        )}
+                      </td>
                       <td className="py-4 text-right flex justify-end text-red-400 hover:text-red-600">
                         <DeleteDialogueBox
                           label={<Trash2 size={18} />}
