@@ -277,21 +277,23 @@ const AdminDashboard = () => {
           </div>
 
           {/* The users table  */}
-          {activeTab === "users" && (
-            <table className="w-auto text-left flex sm:flex-col sm:w-full">
-              <thead className="w-auto sm:w-full">
-                <tr className="text-gray-500 text-sm border-r pr-3 border-gray-800 flex flex-col justify-start items-center gap-10 sm:flex-row sm:justify-between sm:w-full sm:pr-0 sm:border-r-0 sm:border-b">
-                  <th className="pb-4 font-medium  sm:w-[50%]">NAME</th>
-                  <th className="pb-4 font-medium sm:flex-2">DETAILS</th>
-                  <th className="pb-4 font-medium sm:flex-1">STATUS</th>
-                  <th className="pb-4 font-medium sm:flex-1 text-right">ACTIONS</th>
-                </tr>
-              </thead>
-              {isUserLoading ? (
-                <div className="w-full p-5 flex justify-start items-center">
-                  <SpinnerCustom />
-                </div>
-              ) : (
+          {activeTab === "users" ? (
+            isUserLoading ? (
+              <div className="w-full p-5 flex justify-start items-center">
+                <SpinnerCustom />
+              </div>
+            ) : (
+              <table className="w-auto text-left flex sm:flex-col sm:w-full">
+                <thead className="w-auto sm:w-full">
+                  <tr className="text-gray-500 text-sm border-r pr-3 border-gray-800 flex flex-col justify-start items-center gap-10 sm:flex-row sm:justify-between sm:w-full sm:pr-0 sm:border-r-0 sm:border-b">
+                    <th className="pb-4 font-medium  sm:w-[50%]">NAME</th>
+                    <th className="pb-4 font-medium sm:flex-2">DETAILS</th>
+                    <th className="pb-4 font-medium sm:flex-1">STATUS</th>
+                    <th className="pb-4 font-medium sm:flex-1 text-right">
+                      ACTIONS
+                    </th>
+                  </tr>
+                </thead>
                 <tbody className="divide-x divide-gray-800 flex sm:flex-col sm:w-full sm:divide-y  sm:divide-x-0">
                   {users?.map((user) => (
                     <tr
@@ -329,28 +331,30 @@ const AdminDashboard = () => {
                     </tr>
                   ))}
                 </tbody>
-              )}
-            </table>
+              </table>
+            )
+          ) : (
+            ""
           )}
 
           {/* The courses table */}
-          {activeTab === "courses" && (
-            <table className="w-full text-left">
-              <thead>
-                <tr className="text-gray-500 text-sm border-b border-gray-800">
-                  <th className="pb-4 font-medium">TITLE</th>
-                  <th className="pb-4 font-medium">INSTRUCTOR</th>
-                  <th className="pb-4 font-medium">STUDENTS</th>
-                  <th className="pb-4 font-medium">PRICE</th>
-                  <th className="pb-4 font-medium">REVENUE</th>
-                  <th className="pb-4 font-medium text-right">ACTIONS</th>
-                </tr>
-              </thead>
-              {isCourseLoading ? (
-                <div className="w-full p-5 flex justify-start items-center">
-                  <SpinnerCustom />
-                </div>
-              ) : (
+          {activeTab === "courses" ? (
+            isCourseLoading ? (
+              <div className="w-full p-5 flex justify-start items-center">
+                <SpinnerCustom />
+              </div>
+            ) : (
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="text-gray-500 text-sm border-b border-gray-800">
+                    <th className="pb-4 font-medium">TITLE</th>
+                    <th className="pb-4 font-medium">INSTRUCTOR</th>
+                    <th className="pb-4 font-medium">STUDENTS</th>
+                    <th className="pb-4 font-medium">PRICE</th>
+                    <th className="pb-4 font-medium">REVENUE</th>
+                    <th className="pb-4 font-medium text-right">ACTIONS</th>
+                  </tr>
+                </thead>
                 <tbody className="divide-y divide-gray-800">
                   {courses?.map((course) => (
                     <tr
@@ -382,25 +386,28 @@ const AdminDashboard = () => {
                     </tr>
                   ))}
                 </tbody>
-              )}
-            </table>
+              </table>
+            )
+          ) : (
+            ""
           )}
 
           {/* The categories table */}
-          {activeTab === "categories" && (
-            <table className="w-full text-left">
-              <thead>
-                <tr className="text-gray-500 text-sm border-b border-gray-800">
-                  <th className="pb-4 font-medium">TITLE</th>
-                  <th className="pb-4 font-medium">COURSES</th>
-                  <th className="pb-4 font-medium text-right">ACTIONS</th>
-                </tr>
-              </thead>
-              {isCategoryLoading ? (
-                <div className="w-full p-5 flex justify-start items-center">
-                  <SpinnerCustom />
-                </div>
-              ) : (
+          {activeTab === "categories" ? (
+            isCategoryLoading ? (
+              <span className="w-full p-5 flex justify-start items-center">
+                <SpinnerCustom />
+              </span>
+            ) : (
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="text-gray-500 text-sm border-b border-gray-800">
+                    <th className="pb-4 font-medium">TITLE</th>
+                    <th className="pb-4 font-medium">COURSES</th>
+                    <th className="pb-4 font-medium text-right">ACTIONS</th>
+                  </tr>
+                </thead>
+
                 <tbody className="divide-y divide-gray-800">
                   {currentCategories?.map((category) => (
                     <tr
@@ -444,8 +451,10 @@ const AdminDashboard = () => {
                     </tr>
                   ))}
                 </tbody>
-              )}
-            </table>
+              </table>
+            )
+          ) : (
+            ""
           )}
         </div>
       </div>
