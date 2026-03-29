@@ -554,17 +554,26 @@ const completeCourseVideoController = async (req, res) => {
     throw new ApiError(400, "The video doesn't exist!");
   }
 
-  // if the video exists, add it to the course progress model
-  await CourseProgress.findOneAndUpdate(
-    { course: courseId, user: userId },
-    {
-      $addToSet: { completedVideos: videoId },
-    }
-  );
+  const videoAlreadyCompleted = await CourseProgress.findOne({
+    course: courseId,
+    user: userId,
+    completedVideos: videoId,
+  });
 
-  console.log("Video completed!");
+  // add it to the course progress model only if it's not completed already
+  if (!videoAlreadyCompleted) {
+    await CourseProgress.findOneAndUpdate(
+      { course: courseId, user: userId },
+      {
+        $addToSet: { completedVideos: videoId },
+      }
+    );
 
-  return res.status(200).json(new ApiResponse(200, "The video is completed!"));
+    console.log("Video completed!");
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "The video is completed!"));
+  }
 };
 
 /* ---------------------------------------------------------------------------------------
