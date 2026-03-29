@@ -238,6 +238,7 @@ function InstructorCourse() {
           sectionId: id,
         }).unwrap();
         setVideoOpen(false);
+        setVideoData({ title: "", courseVideo: null, sectionId: "" });
       } catch (error) {
         console.error(error);
       }
