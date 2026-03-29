@@ -7,6 +7,7 @@ import { useLogoutMutation } from "../../api/index.api";
 import { useDispatch } from "react-redux";
 import { disableUser } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function Logout({ className }) {
   const [logout, { isLoading }] = useLogoutMutation();
@@ -23,8 +24,9 @@ function Logout({ className }) {
       await logout().unwrap();
       dispatch(disableUser());
       navigate("/");
+      toast.success("Successfully logged out", { position: "top-right" });
     } catch (error) {
-      console.error(error);
+      toast.error(error.message, { position: "top-right" });
     }
   };
 
