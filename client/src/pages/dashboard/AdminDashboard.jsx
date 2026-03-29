@@ -28,6 +28,7 @@ import {
   FieldInput,
   SpinnerCustom,
 } from "@/components/index.components";
+import { toast } from "sonner";
 
 const AdminDashboard = () => {
   /* ----------------------------------------------------------------------------------------------
@@ -54,11 +55,20 @@ const AdminDashboard = () => {
 
   const [updateCategory, {}] = useUpdateCategoryMutation();
 
-  const [deleteUser, {}] = useDeleteUserAdminMutation();
+  const [deleteUser, { isLoading: isDeleteUserLoading }] =
+    useDeleteUserAdminMutation();
+  isDeleteUserLoading &&
+    toast.loading("Deleting the user...", { position: "top-right" });
 
-  const [deleteCourse, {}] = useDeleteCourseAdminMutation();
+  const [deleteCourse, { isLoading: isDeleteCourseLoading }] =
+    useDeleteCourseAdminMutation();
+  isDeleteCourseLoading &&
+    toast.loading("Deleting the course...", { position: "top-right" });
 
-  const [deleteCategory, {}] = useDeleteCategoryMutation();
+  const [deleteCategory, { isLoading: isDeleteCategoryLoading }] =
+    useDeleteCategoryMutation();
+  isDeleteCategoryLoading &&
+    toast.loading("Deleting the category...", { position: "top-right" });
 
   /* ----------------------------------------------------------------------------------------------
   The data
@@ -146,10 +156,14 @@ const AdminDashboard = () => {
             categoryData: newCategory,
             categoryId: id,
           }).unwrap();
+
+          toast.success("The category updated successfully", {
+            position: "top-right",
+          });
         }
       });
     } catch (error) {
-      console.log(error);
+      toast.error(error.message, { position: "top-right" });
     }
   };
 
@@ -157,11 +171,12 @@ const AdminDashboard = () => {
   const createCategoryApiCall = async (e) => {
     e.preventDefault();
     try {
-      await createCategory({ name: category }).unwrap();
+      const { message } = await createCategory({ name: category }).unwrap();
       setCategoryOpen(false);
       setCategory("");
+      toast.success(message, { position: "top-right" });
     } catch (error) {
-      console.error(error);
+      toast.error(error.message, { position: "top-right" });
     }
   };
 
@@ -171,8 +186,11 @@ const AdminDashboard = () => {
       e.preventDefault();
       try {
         await deleteUser(userId).unwrap();
+        toast.success("The user deleted successfully", {
+          position: "top-right",
+        });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     };
   };
@@ -183,8 +201,11 @@ const AdminDashboard = () => {
       e.preventDefault();
       try {
         await deleteCourse(courseId).unwrap();
+        toast.success("The course deleted successfully", {
+          position: "top-right",
+        });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     };
   };
@@ -195,8 +216,11 @@ const AdminDashboard = () => {
       e.preventDefault();
       try {
         await deleteCategory(categoryId).unwrap();
+        toast.success("The category deleted successfully", {
+          position: "top-right",
+        });
       } catch (error) {
-        console.error(error);
+        toast.error(error.message, { position: "top-right" });
       }
     };
   };
@@ -328,7 +352,7 @@ const AdminDashboard = () => {
                       <div className="w-full md:w-20 flex justify-start md:justify-end">
                         <DeleteDialogueBox
                           label={<Trash2 size={18} />}
-                          triggerClass="text-red-400 hover:text-red-600 p-0 bg-transparent transition-colors"
+                          triggerClass="text-red-400 hover:text-red-600 p-0 transition-colors"
                           description={
                             user?.accountType === "Instructor"
                               ? "All their courses and videos will be deleted"
