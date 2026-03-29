@@ -13,7 +13,7 @@ import { disableUser } from "@/features/authSlice";
 
 function Profile() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // the user info
   const { data, isLoading } = useGetUserQuery();
@@ -36,9 +36,11 @@ function Profile() {
   // the API call to delete the account
   const deleteUserAccount = async () => {
     try {
-      const { message } = await deleteAccount().unwrap();
-      dispatch(disableUser())
-      toast.success(message, { position: "top-right" });
+      await deleteAccount().unwrap();
+      dispatch(disableUser());
+      toast.success("Your account has been successfully deleted!", {
+        position: "top-right",
+      });
     } catch (error) {
       toast.error(error.message, { position: "top-right" });
     }
