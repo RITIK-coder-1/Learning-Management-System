@@ -8,9 +8,12 @@ import {
 import { useDeleteUserAccountMutation, useGetUserQuery } from "@/api/index.api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { disableUser } from "@/features/authSlice";
 
 function Profile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   // the user info
   const { data, isLoading } = useGetUserQuery();
@@ -34,6 +37,7 @@ function Profile() {
   const deleteUserAccount = async () => {
     try {
       const { message } = await deleteAccount().unwrap();
+      dispatch(disableUser())
       toast.success(message, { position: "top-right" });
     } catch (error) {
       toast.error(error.message, { position: "top-right" });
