@@ -30,6 +30,7 @@ import {
   NotFound,
 } from "./pages/index.pages.js";
 import ExploreCourses from "./pages/common/ExploreCourses.jsx";
+import { Toaster } from "@/components/ui/sonner"
 
 const myRouter = createBrowserRouter([
   /* ----------------------------------------------------------------------------------------------
@@ -184,6 +185,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={myRouter} />
+      <Toaster />
     </Provider>
   </StrictMode>
 );
