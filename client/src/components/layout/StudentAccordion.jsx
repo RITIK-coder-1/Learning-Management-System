@@ -16,7 +16,8 @@ import useUserStatus from "@/hooks/useUserStatus";
 
 function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
   // the user stats
-  const { isOwner, isEnrolled, accountType } = useUserStatus(courseId);
+  const { isOwner, isEnrolled, accountType, isAuthenticated } =
+    useUserStatus(courseId);
 
   // the video Id
   const { videoId } = useParams();
@@ -39,8 +40,10 @@ function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
                   {/* The link to each video */}
                   <Link
                     to={
-                      // link only if the user is an admin or the student is enrolled or don't
-                      accountType === "Admin"
+                      !isAuthenticated
+                        ? ""
+                        : // link only if the user is an admin or the student is enrolled or don't
+                        accountType === "Admin"
                         ? `/app/courses/${courseId}/watch/${
                             video?._id
                           }/${slugify(video?.title)}`
@@ -70,7 +73,9 @@ function StudentAccordion({ sections, courseId, videoLabel = "WATCH NOW" }) {
                     <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
                       <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                         {/* If the student isn't enrolled, ask them to enroll */}
-                        {accountType === "Admin"
+                        {!isAuthenticated
+                          ? "Login To Watch"
+                          : accountType === "Admin"
                           ? "WATCH"
                           : !isOwner && !isEnrolled
                           ? "Enroll To Watch"
