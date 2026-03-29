@@ -73,7 +73,7 @@ function VideoPlayer() {
           {/* Video Player Component */}
           <div
             className={`aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800 ${
-              isOwner || (accountType === "Admin" && "h-full")
+              (isOwner || accountType === "Admin") && "h-full"
             }`}
           >
             <ReactPlayer
