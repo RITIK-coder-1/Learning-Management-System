@@ -31,7 +31,7 @@ function Profile() {
   ] = useDeleteUserAccountMutation();
   // the account deletion loading toast
   isDeleteLoading &&
-    toast.success("Deleting the account...", { position: "top-right" });
+    toast.loading("Deleting the account...", { position: "top-right" });
 
   // the API call to delete the account
   const deleteUserAccount = async () => {

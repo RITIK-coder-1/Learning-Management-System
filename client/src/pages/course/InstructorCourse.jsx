@@ -56,7 +56,7 @@ function InstructorCourse() {
   const [deleteCourse, { isSuccess, isLoading: isDeleteCourseLoading }] =
     useDeleteCourseInstructorMutation();
   isDeleteCourseLoading &&
-    toast.success("Deleting the course...", { position: "top-right" });
+    toast.loading("Deleting the course...", { position: "top-right" });
   const [addSection, { isLoading: isAddSectionLoading }] =
     useAddNewSectionMutation();
   const [updateSection, { isLoading: isUpdateSectionLoading }] =
