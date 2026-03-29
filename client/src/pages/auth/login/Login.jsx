@@ -92,7 +92,7 @@ function Login() {
   }
 
   return (
-    <Form onSubmit={handleSubmit} className="mt-20">
+    <Form onSubmit={handleSubmit} className="my-20">
       {/* Credential */}
       <FieldInput
         name="credential"
