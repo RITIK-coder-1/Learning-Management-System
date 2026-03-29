@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { disableUser } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
 
-function Logout() {
+function Logout({ className }) {
   const [logout, { isLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function Logout() {
   };
 
   return (
-    <button onClick={logoutUserFunction}>
+    <button onClick={logoutUserFunction} className={className} title="log out">
       {isLoading ? "Logging Out..." : "Logout"}
     </button>
   );

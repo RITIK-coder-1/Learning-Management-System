@@ -18,7 +18,7 @@ import { useGetUserQuery } from "@/api/index.api";
 
 function UserProfilePic({ isTopBar = false }) {
   const { data } = useGetUserQuery();
-  const user = data?.data
+  const user = data?.data;
 
   if (isTopBar) {
     // Return the dropdown menu at the topbar
@@ -31,7 +31,6 @@ function UserProfilePic({ isTopBar = false }) {
               alt={"user"}
               title="Click to visit your profile"
               className="w-18 h-18 md:w-20 md:h-20"
-              
             />
           </Button>
         </DropdownMenuTrigger>
@@ -44,13 +43,7 @@ function UserProfilePic({ isTopBar = false }) {
               <DropdownMenuItem title="Visit Profile">Profile</DropdownMenuItem>
             </Navlink>
             <DropdownMenuSeparator className="border-b border-white/10 m-0" />
-            <DropdownMenuItem
-              variant="destructive"
-              className="text-red-700 hover:bg-red-500 hover:text-black grow"
-              title="log out"
-            >
-              <Logout />
-            </DropdownMenuItem>
+            <Logout className="text-red-700 hover:bg-red-500 hover:text-black grow font-black text-start py-1.5 px-2 text-md lg:text-lg" />
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
