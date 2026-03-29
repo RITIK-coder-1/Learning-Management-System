@@ -285,7 +285,7 @@ const AdminDashboard = () => {
             ) : (
               <div className="w-full">
                 {/* Header */}
-                <div className="hidden md:flex items-center pr-4 py-3 text-gray-500 text-sm font-medium border-b border-gray-800">
+                <div className="hidden md:flex items-center py-3 text-gray-500 text-sm font-medium border-b border-gray-800">
                   <div className="flex-1 lg:flex-2">NAME</div>
                   <div className="flex-1">DETAILS</div>
                   <div className="flex-1">STATUS</div>
