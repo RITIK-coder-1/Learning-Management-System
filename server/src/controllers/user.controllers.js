@@ -467,7 +467,7 @@ const deleteUserAccountFunction = async (req, res) => {
     .status(204)
     .clearCookie("refreshToken", options)
     .clearCookie("accessToken", options)
-    .json(new ApiResponse(204, "The user has been successfully deleted"));
+    .json(new ApiResponse(204, "Your account has been successfully deleted"));
 };
 
 /* ---------------------------------------------------------------------------------------
