@@ -77,7 +77,7 @@ function VideoPlayer() {
         <section className="p-3 overflow-y-auto h-[150%] w-full md:h-full md:w-[120%]">
           {/* Video Player Component */}
           <div
-            className={`aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800 ${
+            className={`aspect-video w-full bg-black rounded-lg overflow-hidden shadow-2xl border border-gray-800 h-[80%] ${
               (isOwner || accountType === "Admin") && "h-full"
             }`}
           >
