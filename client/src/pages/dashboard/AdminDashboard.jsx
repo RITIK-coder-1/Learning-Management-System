@@ -285,7 +285,7 @@ const AdminDashboard = () => {
             ) : (
               <div className="w-full">
                 {/* Header */}
-                <div className="hidden md:flex items-center px-4 py-3 text-gray-500 text-sm font-medium border-b border-gray-800">
+                <div className="hidden md:flex items-center pr-4 py-3 text-gray-500 text-sm font-medium border-b border-gray-800">
                   <div className="flex-1 lg:flex-2">NAME</div>
                   <div className="flex-1">DETAILS</div>
                   <div className="flex-1">STATUS</div>
@@ -297,7 +297,7 @@ const AdminDashboard = () => {
                   {users?.map((user) => (
                     <div
                       key={user?._id}
-                      className="flex flex-col md:flex-row md:items-center p-4 pl-0 md:px-4 md:py-3 gap-4 md:gap-0 hover:bg-[#1e293b] transition-colors group"
+                      className="flex flex-col md:flex-row md:items-center py-4 gap-4 md:gap-0 hover:bg-[#1e293b] transition-colors group"
                     >
                       {/* Name Column */}
                       <div className="flex-1 lg:flex-2">
