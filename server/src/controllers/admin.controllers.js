@@ -95,7 +95,7 @@ const updateCategoryFunction = async (req, res) => {
   // checking if the entered values are distinct from the original values
   const category = await CourseCategory.findOne({ _id: categoryId });
 
-  if (category.name === name && category.description === description) {
+  if (category.name === name) {
     console.error("UPDATE CATEGORY ERROR: non-updated values!");
     throw new ApiError(400, "Please enter updated values!");
   }
