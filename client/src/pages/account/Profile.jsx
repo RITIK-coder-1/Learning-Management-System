@@ -22,7 +22,13 @@ function Profile() {
   const formattedDate = dob ? new Date(dob).toLocaleDateString("en-GB") : "N/A";
 
   // Account Deletion
-  const [deleteAccount, { isSuccess }] = useDeleteUserAccountMutation();
+  const [
+    deleteAccount,
+    { isSuccess: isDeleteSuccess, isLoading: isDeleteLoading },
+  ] = useDeleteUserAccountMutation();
+  // the account deletion loading toast
+  isDeleteLoading &&
+    toast.success("Deleting the account...", { position: "top-right" });
 
   // the API call to delete the account
   const deleteUserAccount = async () => {
@@ -34,7 +40,8 @@ function Profile() {
     }
   };
 
-  if (isSuccess) {
+  // navigate to the homepage once the account is deleted
+  if (isDeleteSuccess) {
     navigate("/");
   }
 
