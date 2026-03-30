@@ -51,7 +51,7 @@ const instructorApi = apiSlice.injectEndpoints({
       }),
       transformErrorResponse,
       transformResponse,
-      invalidatesTags: ["Course", "Stats"],
+      invalidatesTags: ["Course", "Stats", "Category"],
     }),
 
     // ADD A SECTION

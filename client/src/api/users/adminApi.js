@@ -75,7 +75,7 @@ const adminApi = apiSlice.injectEndpoints({
         url: `/admin/courses/${courseId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Course", "Stats"],
+      invalidatesTags: ["Course", "Stats", "Category"],
     }),
 
     // SYSTEM STATS
