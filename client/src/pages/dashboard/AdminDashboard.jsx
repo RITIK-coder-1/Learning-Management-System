@@ -329,6 +329,9 @@ const AdminDashboard = () => {
                         <div className="text-xs text-gray-500">
                           {user?.email}
                         </div>
+                        <div className="text-xs text-yellow-300">
+                          {user?.username}
+                        </div>
                       </div>
 
                       {/* Details Column */}
