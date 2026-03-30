@@ -20,7 +20,7 @@ const instructorApi = apiSlice.injectEndpoints({
       }),
       transformErrorResponse,
       transformResponse,
-      invalidatesTags: ["Course", "Stats"],
+      invalidatesTags: ["Course", "Stats", "Category"],
     }),
 
     // GET A PARTICULAR COURSE
@@ -40,7 +40,7 @@ const instructorApi = apiSlice.injectEndpoints({
       }),
       transformErrorResponse,
       transformResponse,
-      invalidatesTags: ["Course"],
+      invalidatesTags: ["Course", "Category"],
     }),
 
     // DELETE A COURSE
