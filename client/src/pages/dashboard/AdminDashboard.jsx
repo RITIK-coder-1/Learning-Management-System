@@ -55,20 +55,14 @@ const AdminDashboard = () => {
 
   const [updateCategory, {}] = useUpdateCategoryMutation();
 
-  const [deleteUser, { isLoading: isDeleteUserLoading }] =
+  const [deleteUser] =
     useDeleteUserAdminMutation();
-  isDeleteUserLoading &&
-    toast.loading("Deleting the user...", { position: "top-right" });
 
-  const [deleteCourse, { isLoading: isDeleteCourseLoading }] =
+  const [deleteCourse] =
     useDeleteCourseAdminMutation();
-  isDeleteCourseLoading &&
-    toast.loading("Deleting the course...", { position: "top-right" });
 
-  const [deleteCategory, { isLoading: isDeleteCategoryLoading }] =
+  const [deleteCategory] =
     useDeleteCategoryMutation();
-  isDeleteCategoryLoading &&
-    toast.loading("Deleting the category...", { position: "top-right" });
 
   /* ----------------------------------------------------------------------------------------------
   The data
@@ -184,14 +178,17 @@ const AdminDashboard = () => {
   const deleteUserApiCall = (userId) => {
     return async (e) => {
       e.preventDefault();
-      try {
-        await deleteUser(userId).unwrap();
-        toast.success("The user deleted successfully", {
-          position: "top-right",
-        });
-      } catch (error) {
-        toast.error(error.message, { position: "top-right" });
-      }
+      const deletePromise = deleteUser(userId).unwrap();
+
+      toast.promise(
+        deletePromise,
+        {
+          loading: "Deleting the user...",
+          success: "User deleted successfully!",
+          error: "There was a problem while deleting the user.",
+        },
+        { position: "top-right" }
+      );
     };
   };
 
@@ -199,14 +196,16 @@ const AdminDashboard = () => {
   const deleteCourseApiCall = (courseId) => {
     return async (e) => {
       e.preventDefault();
-      try {
-        await deleteCourse(courseId).unwrap();
-        toast.success("The course deleted successfully", {
-          position: "top-right",
-        });
-      } catch (error) {
-        toast.error(error.message, { position: "top-right" });
-      }
+      const deletePromise = deleteCourse(courseId).unwrap();
+      toast.promise(
+        deletePromise,
+        {
+          loading: "Deleting the course...",
+          success: "Course deleted successfully!",
+          error: "There was a problem while deleting the course.",
+        },
+        { position: "top-right" }
+      );
     };
   };
 
@@ -214,14 +213,16 @@ const AdminDashboard = () => {
   const deleteCategoryApiCall = (categoryId) => {
     return async (e) => {
       e.preventDefault();
-      try {
-        await deleteCategory(categoryId).unwrap();
-        toast.success("The category deleted successfully", {
-          position: "top-right",
-        });
-      } catch (error) {
-        toast.error(error.message, { position: "top-right" });
-      }
+      const deletePromise = await deleteCategory(categoryId).unwrap();
+      toast.promise(
+        deletePromise,
+        {
+          loading: "Deleting the category...",
+          success: "Category deleted successfully!",
+          error: "There was a problem while deleting the category.",
+        },
+        { position: "top-right" }
+      );
     };
   };
 

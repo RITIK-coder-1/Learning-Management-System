@@ -55,8 +55,7 @@ function InstructorCourse() {
   // the methods
   const [deleteCourse, { isSuccess, isLoading: isDeleteCourseLoading }] =
     useDeleteCourseInstructorMutation();
-  isDeleteCourseLoading &&
-    toast.loading("Deleting the course...", { position: "top-right" });
+
   const [addSection, { isLoading: isAddSectionLoading }] =
     useAddNewSectionMutation();
   const [updateSection, { isLoading: isUpdateSectionLoading }] =
@@ -296,14 +295,19 @@ function InstructorCourse() {
 
   // delete a course
   const deleteCourseCall = async () => {
-    try {
-      await deleteCourse({
-        courseId,
-      }).unwrap();
-      toast.success("The course has been deleted!", { position: "top-right" });
-    } catch (error) {
-      toast.error(error.message, { position: "top-right" });
-    }
+    const deletePromise = deleteCourse({
+      courseId,
+    }).unwrap();
+
+    toast.promise(
+      deletePromise,
+      {
+        loading: "Deleting the course...",
+        success: "Course deleted successfully!",
+        error: "There was a problem while deleting the course.",
+      },
+      { position: "top-right" }
+    );
   };
 
   // publish the course

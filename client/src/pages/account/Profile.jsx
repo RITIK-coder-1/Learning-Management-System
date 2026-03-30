@@ -25,30 +25,28 @@ function Profile() {
   const formattedDate = dob ? new Date(dob).toLocaleDateString("en-GB") : "N/A";
 
   // Account Deletion
-  const [
-    deleteAccount,
-    { isSuccess: isDeleteSuccess, isLoading: isDeleteLoading },
-  ] = useDeleteUserAccountMutation();
-  // the account deletion loading toast
-  isDeleteLoading &&
-    toast.loading("Deleting the account...", { position: "top-right" });
+  const [deleteAccount, { isSuccess: isDeleteSuccess }] =
+    useDeleteUserAccountMutation();
 
   // the API call to delete the account
   const deleteUserAccount = async () => {
-    try {
-      await deleteAccount().unwrap();
-      dispatch(disableUser());
-      toast.success("Your account has been successfully deleted!", {
-        position: "top-right",
-      });
-    } catch (error) {
-      toast.error(error.message, { position: "top-right" });
-    }
+    const deletePromise = deleteAccount().unwrap();
+
+    toast.promise(
+      deletePromise,
+      {
+        loading: "Deleting the account...",
+        success: "Account deleted successfully!",
+        error: "There was a problem while deleting the account.",
+      },
+      { position: "top-right" }
+    );
   };
 
   // navigate to the homepage once the account is deleted
   if (isDeleteSuccess) {
     navigate("/");
+    dispatch(disableUser());
   }
 
   return (
