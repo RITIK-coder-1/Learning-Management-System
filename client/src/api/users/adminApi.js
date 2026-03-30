@@ -54,7 +54,7 @@ const adminApi = apiSlice.injectEndpoints({
         url: `/admin/users/${userId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["User", "Stats"],
+      invalidatesTags: ["User", "Stats", "Category"],
     }),
 
     // GET ALL COURSES
