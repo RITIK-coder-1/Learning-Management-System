@@ -326,11 +326,11 @@ const AdminDashboard = () => {
                         <div className="font-medium text-gray-200">
                           {user?.firstName} {user?.lastName}
                         </div>
-                        <div className="text-xs text-gray-500">
-                          {user?.email}
-                        </div>
-                        <div className="text-xs text-yellow-300">
+                        <div className="text-xs  text-gray-500">
                           {user?.username}
+                        </div>
+                        <div className="text-xs text-yellow-500">
+                          {user?.email}
                         </div>
                       </div>
 
