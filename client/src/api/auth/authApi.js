@@ -31,7 +31,7 @@ const authApi = apiSlice.injectEndpoints({
       }),
       transformResponse: transformResponse,
       transformErrorResponse: transformErrorResponse,
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Stats"],
     }),
 
     // VALIDATE THE OTP AND LOGIN THE USER
