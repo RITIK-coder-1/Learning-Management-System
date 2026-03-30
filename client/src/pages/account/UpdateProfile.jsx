@@ -21,6 +21,7 @@ import {
   SpinnerCustom,
 } from "@/components/index.components";
 import { toast } from "sonner";
+import { TrashIcon } from "lucide-react";
 
 function UpdateProfile() {
   /* ---------------------------------------------------------------------------------------
@@ -123,16 +124,24 @@ function UpdateProfile() {
               accept="image/*"
             />
 
-            {/* Only students can delete the profile pic */}
+            {/* Only students can delete the profile pics */}
             {user?.accountType === "Student" && user?.profilePic !== "" && (
               <span className="w-full">
                 <CommonButton
                   label={
-                    isDeleteProfileLoading ? <SpinnerCustom /> : "Delete Pic"
+                    isDeleteProfileLoading ? (
+                      <SpinnerCustom />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <TrashIcon className="w-4 h-4" />{" "}
+                        <span>Delete Pic</span>
+                      </div>
+                    )
                   }
                   onClick={deletePicFunction}
-                  className="bg-red-900 hover:bg-red-950 w-24 text-md"
+                  className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-all duration-200 active:scale-95 disabled:opacity-50 w-32 text-sm"
                   title="Delete Pic"
+                  disabled={isDeleteProfileLoading}
                 />
               </span>
             )}
@@ -164,6 +173,7 @@ function UpdateProfile() {
               value={userDetails.lastName}
               onChange={changeValue}
               required={false}
+              placeholder="lastname"
             />
 
             {/* The button */}
