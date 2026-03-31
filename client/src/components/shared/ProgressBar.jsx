@@ -9,7 +9,7 @@ function ProgressBar({ courseId }) {
   const { data } = useGetCourseProgressQuery({ courseId });
   const courseProgress = data?.data?.progress || 0;
   return (
-    <div>
+    <div className="w-full">
       <div className="w-full bg-gray-700 h-2 rounded-full">
         <div
           className={"bg-purple-500 h-2 rounded-full"}
