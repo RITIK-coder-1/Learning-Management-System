@@ -408,7 +408,7 @@ const AdminDashboard = () => {
                         <td className="py-4 text-gray-400">
                           {course?.enrolledBy?.length}
                         </td>
-                        <td className="py-4 text-gray-400">₹{course?.price}</td>
+                        <td className="py-4 text-gray-400">{`${course?.price ? `₹${course?.price}` : "Free"}`}</td>
                         <td className="py-4 text-gray-200">
                           ₹{course?.revenue}
                         </td>
