@@ -214,7 +214,7 @@ function InstructorCourse() {
         {
           loading: "Deleting the section...",
           success: "Section deleted successfully!",
-          error: "There was a problem while deleting the section.",
+          error: (error) => `${error.message}`,
         },
         { position: "top-right" }
       );
@@ -296,7 +296,7 @@ function InstructorCourse() {
     };
   };
 
-  // delete a course
+  // delete the course
   const deleteCourseCall = async () => {
     const deletePromise = deleteCourse({
       courseId,
@@ -307,7 +307,7 @@ function InstructorCourse() {
       {
         loading: "Deleting the course...",
         success: "Course deleted successfully!",
-        error: "There was a problem while deleting the course.",
+        error: (error) => `${error.message}`,
       },
       { position: "top-right" }
     );
