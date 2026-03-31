@@ -489,12 +489,12 @@ const updateCourseVideoFunction = async (req, res) => {
 
   if (!title.trim()) {
     console.error("UPDATE VIDEO ERROR: empty fields");
-    throw new ApiError(400, "The title and the description can't be empty!");
+    throw new ApiError(400, "The title can't be empty!");
   }
 
   if (video.title === title) {
     console.error("UPDATE VIDEO ERROR: no updated value");
-    throw new ApiError(400, "Please update at least one field!");
+    throw new ApiError(400, "No updated value");
   }
 
   video.title = title;
