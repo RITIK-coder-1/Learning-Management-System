@@ -11,6 +11,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogPortal,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
@@ -39,38 +40,39 @@ function AddDialogueBox({
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="bg-linear-to-br from-white/10 via-black/40 to-green-900/30 backdrop-blur-md">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-2xl">
-            Add New {title}
-          </AlertDialogTitle>
-          <AlertDialogDescription className="w-full">
-            <Form
-              className="flex flex-col gap-3 lg:w-full bg-transparent"
-              onSubmit={onSubmit}
-            >
-              {children}
+      <AlertDialogPortal>
+        <AlertDialogContent className="bg-linear-to-br from-white/10 via-black/40 to-green-900/30 backdrop-blur-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-2xl">
+              Add New {title}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="w-full">
+              <Form
+                className="flex flex-col gap-3 lg:w-full bg-transparent"
+                onSubmit={onSubmit}
+              >
+                {children}
 
-              <AlertDialogFooter className="flex flex-row justify-center items-center">
-                <AlertDialogCancel
-                  className="hover:bg-red-700 w-30"
-                  onClick={onRemoval}
-                  disabled={isLoading}
-                >
-                  Cancel
-                </AlertDialogCancel>
-                <CommonButton
-                  label={isLoading ? "Processing..." : "Continue"}
-                  type="submit"
-                  className="bg-green-800 hover:bg-green-950 border border-white w-30 font-normal p-0 text-sm"
-                  onClick={onSubmit}
-                  disabled={isLoading}
-                />
-              </AlertDialogFooter>
-            </Form>
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-      </AlertDialogContent>
+                <AlertDialogFooter className="flex flex-row justify-center items-center">
+                  <AlertDialogCancel
+                    className="hover:bg-red-700 w-30"
+                    onClick={onRemoval}
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </AlertDialogCancel>
+                  <CommonButton
+                    label={isLoading ? "Processing..." : "Continue"}
+                    type="submit"
+                    className="bg-green-800 hover:bg-green-950 border border-white w-30 font-normal p-0 text-sm"
+                    disabled={isLoading}
+                  />
+                </AlertDialogFooter>
+              </Form>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialogPortal>
     </AlertDialog>
   );
 }

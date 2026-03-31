@@ -179,6 +179,7 @@ function InstructorCourse() {
 
   // update section API call for server
   const updateSectionCall = (id) => {
+    console.log(id)
     return () => {
       setCurrentSectionManipulation(id);
       sectionData.forEach(async (section) => {
@@ -242,6 +243,7 @@ function InstructorCourse() {
       e.stopPropagation();
       e.preventDefault();
 
+      console.log(id)
       try {
         const videoFormData = getFormData(videoData);
         const { message } = await addVideo({
@@ -435,111 +437,114 @@ function InstructorCourse() {
 
               {/* The accordion */}
               <CourseCommonAccordion>
-                {sectionData?.map((section) => (
-                  <CourseCommonAccordionItem
-                    value={section._id}
-                    key={section._id}
-                  >
-                    <CourseAccordionTrigger>
-                      {/* The mutable title */}
-                      <input
-                        type="text"
-                        defaultValue={section.title}
-                        className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
-                        onChange={updateSectionData(section._id)}
-                      />
-                    </CourseAccordionTrigger>
-                    <CourseAccordionContent className="p-7">
-                      {section?.courseVideos?.length > 0 ? (
-                        section.courseVideos.map((video) => (
-                          <li key={video?._id} className="w-full p-3 pr-0">
-                            {/* The container inside handles the layout, the LI handles the number */}
-                            <div className="flex items-center justify-center gap-3 w-full">
-                              <input
-                                defaultValue={video?.title}
-                                className="w-full border p-1 border-white/10"
-                                onChange={setVideoDataForUpdate(video?._id)}
-                              />
-                              <span className="flex justify-center items-center w-auto h-full gap-3">
-                                {isUpdateVideoLoading &&
-                                currentVideoManipulation === video?._id ? (
-                                  <SpinnerCustom />
-                                ) : (
-                                  <MdOutlineSystemUpdateAlt
-                                    className="text-blue-500 w-7 h-7 cursor-pointer"
-                                    onClick={updateVideoApiCall(section?._id)}
-                                  />
-                                )}
-                                {isDeleteVideoLoading &&
-                                currentVideoManipulation === video?._id ? (
-                                  <SpinnerCustom />
-                                ) : (
-                                  <MdDelete
-                                    className="text-red-900 w-7 h-7 cursor-pointer"
-                                    onClick={deleteVideoApiCall(
-                                      section?._id,
-                                      video?._id
-                                    )}
-                                  />
-                                )}
-                              </span>
-                            </div>
-                          </li>
-                        ))
-                      ) : (
-                        <p className="text-gray-500 text-center py-4 w-full">
-                          No videos found in this section.
-                        </p>
-                      )}
-                    </CourseAccordionContent>
-                    <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 p-3 sm:flex-row">
-                      {/* The update section button */}
-                      <CommonButton
-                        label={
-                          isUpdateSectionLoading &&
-                          currentSectionManipulation === section._id ? (
-                            <SpinnerCustom />
-                          ) : (
-                            "Update Section"
-                          )
-                        }
-                        onClick={updateSectionCall(section._id)}
-                        className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-full p-0 font-normal  text-xs sm:w-24 md:text-sm md:w-30"
-                        title="update chapter"
-                      />
-                      {/* Add new video */}
-                      <AddDialogueBox
-                        label="Add Video"
-                        onSubmit={uploadNewVideo(section._id)}
-                        title="Video"
-                        titleClass="w-full text-xs sm:w-24 md:w-30 md:text-sm"
-                        onRemoval={clearVideoData}
-                        open={videoOpen}
-                        setOpen={setVideoOpen}
-                        isLoading={isAddVideoLoading}
-                      >
-                        <FieldInput
-                          label="Title"
-                          placeholder="Title"
-                          name="title"
-                          value={videoData?.title}
-                          onChange={setDataForVideoUpload(section._id)}
+                {sectionData
+                  ?.slice() // a shallow copy to avoid mutating original state
+                  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // sorting by the data to avoid displacements
+                  ?.map((section) => (
+                    <CourseCommonAccordionItem
+                      value={section._id}
+                      key={section._id}
+                    >
+                      <CourseAccordionTrigger>
+                        {/* The mutable title */}
+                        <input
+                          type="text"
+                          defaultValue={section.title}
+                          className="border w-full outline-0 p-1 border-white/10 focus:border-white/30"
+                          onBlur={updateSectionData(section._id)}
                         />
-                        <InputFile
-                          onChange={setVideoFileForUpload}
-                          accept="video/*"
+                      </CourseAccordionTrigger>
+                      <CourseAccordionContent className="p-7">
+                        {section?.courseVideos?.length > 0 ? (
+                          section.courseVideos.map((video) => (
+                            <li key={video?._id} className="w-full p-3 pr-0">
+                              {/* The container inside handles the layout, the LI handles the number */}
+                              <div className="flex items-center justify-center gap-3 w-full">
+                                <input
+                                  defaultValue={video?.title}
+                                  className="w-full border p-1 border-white/10"
+                                  onBlur={setVideoDataForUpdate(video?._id)}
+                                />
+                                <span className="flex justify-center items-center w-auto h-full gap-3">
+                                  {isUpdateVideoLoading &&
+                                  currentVideoManipulation === video?._id ? (
+                                    <SpinnerCustom />
+                                  ) : (
+                                    <MdOutlineSystemUpdateAlt
+                                      className="text-blue-500 w-7 h-7 cursor-pointer"
+                                      onClick={updateVideoApiCall(section?._id)}
+                                    />
+                                  )}
+                                  {isDeleteVideoLoading &&
+                                  currentVideoManipulation === video?._id ? (
+                                    <SpinnerCustom />
+                                  ) : (
+                                    <MdDelete
+                                      className="text-red-900 w-7 h-7 cursor-pointer"
+                                      onClick={deleteVideoApiCall(
+                                        section?._id,
+                                        video?._id
+                                      )}
+                                    />
+                                  )}
+                                </span>
+                              </div>
+                            </li>
+                          ))
+                        ) : (
+                          <p className="text-gray-500 text-center py-4 w-full">
+                            No videos found in this section.
+                          </p>
+                        )}
+                      </CourseAccordionContent>
+                      <div className="w-full flex flex-col justify-center items-center gap-3 mt-5 p-3 sm:flex-row">
+                        {/* The update section button */}
+                        <CommonButton
+                          label={
+                            isUpdateSectionLoading &&
+                            currentSectionManipulation === section._id ? (
+                              <SpinnerCustom />
+                            ) : (
+                              "Update Section"
+                            )
+                          }
+                          onClick={updateSectionCall(section._id)}
+                          className="bg-transparent hover:bg-blue-950 border border-blue-900/90 w-full p-0 font-normal  text-xs sm:w-24 md:text-sm md:w-30"
+                          title="update chapter"
                         />
-                      </AddDialogueBox>
+                        {/* Add new video */}
+                        <AddDialogueBox
+                          label="Add Video"
+                          onSubmit={uploadNewVideo(section._id)}
+                          title="Video"
+                          titleClass="w-full text-xs sm:w-24 md:w-30 md:text-sm"
+                          onRemoval={clearVideoData}
+                          open={videoOpen}
+                          setOpen={setVideoOpen}
+                          isLoading={isAddVideoLoading}
+                        >
+                          <FieldInput
+                            label="Title"
+                            placeholder="Title"
+                            name="title"
+                            value={videoData?.title}
+                            onChange={setDataForVideoUpload(section._id)}
+                          />
+                          <InputFile
+                            onChange={setVideoFileForUpload}
+                            accept="video/*"
+                          />
+                        </AddDialogueBox>
 
-                      {/* Delete the section */}
-                      <DeleteDialogueBox
-                        label="Delete Section"
-                        description="The entire section including all the videos will be deleted."
-                        onClick={deleteSectionCall(section._id)}
-                      />
-                    </div>
-                  </CourseCommonAccordionItem>
-                ))}
+                        {/* Delete the section */}
+                        <DeleteDialogueBox
+                          label="Delete Section"
+                          description="The entire section including all the videos will be deleted."
+                          onClick={deleteSectionCall(section._id)}
+                        />
+                      </div>
+                    </CourseCommonAccordionItem>
+                  ))}
               </CourseCommonAccordion>
 
               {/* Add a new section */}
