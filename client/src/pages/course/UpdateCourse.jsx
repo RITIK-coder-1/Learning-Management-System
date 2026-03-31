@@ -43,7 +43,7 @@ function UpdateCourse() {
   const [courseDetails, setCourseDetails] = useState({
     title: "",
     description: "",
-    price: "",
+    price: 0,
     status: "",
     category: "",
     thumbnail: "",
@@ -54,12 +54,14 @@ function UpdateCourse() {
     setCourseDetails({
       title: course?.title,
       description: course?.description,
-      price: course?.price,
+      price: course?.price || 0,
       status: course?.status,
       category: course?.category,
       thumbnail: course?.thumbnail,
     });
   }, [course]);
+
+  console.log(courseDetails.price);
 
   /* ---------------------------------------------------------------------------------------
   The course data setting methods
@@ -67,7 +69,11 @@ function UpdateCourse() {
 
   // text value
   const changeValue = (e) => {
-    setCourseDetails({ ...courseDetails, [e.target.name]: e.target.value });
+    setCourseDetails(
+      e.target.name === "price" && e.target.value.trim() === ""
+        ? { ...courseDetails, price: 0 } // default back to 0 for empty price
+        : { ...courseDetails, [e.target.name]: e.target.value }
+    );
   };
 
   // the file
