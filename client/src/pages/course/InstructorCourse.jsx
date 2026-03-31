@@ -97,9 +97,9 @@ function InstructorCourse() {
   });
 
   // state to control the dialog box of adding a new video
-  const [videoOpen, setVideoOpen] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(null);
   // state to control the dialog box of adding a new section
-  const [sectionOpen, setSectionOpen] = useState(false);
+  const [sectionOpen, setSectionOpen] = useState(null);
 
   // state to track the current section that is getting manipulated (for loading spinner)
   const [currentSectionManipulation, setCurrentSectionManipulation] =
@@ -179,7 +179,6 @@ function InstructorCourse() {
 
   // update section API call for server
   const updateSectionCall = (id) => {
-    console.log(id)
     return () => {
       setCurrentSectionManipulation(id);
       sectionData.forEach(async (section) => {
@@ -243,9 +242,8 @@ function InstructorCourse() {
       e.stopPropagation();
       e.preventDefault();
 
-      console.log(id)
       try {
-        const videoFormData = getFormData(videoData);
+        const videoFormData = getFormData({ ...videoData, sectionId: id });
         const { message } = await addVideo({
           videoData: videoFormData,
           courseId,
@@ -519,8 +517,10 @@ function InstructorCourse() {
                           title="Video"
                           titleClass="w-full text-xs sm:w-24 md:w-30 md:text-sm"
                           onRemoval={clearVideoData}
-                          open={videoOpen}
-                          setOpen={setVideoOpen}
+                          open={videoOpen === section._id}
+                          setOpen={(isOpen) =>
+                            setVideoOpen(isOpen ? section._id : null)
+                          }
                           isLoading={isAddVideoLoading}
                         >
                           <FieldInput
