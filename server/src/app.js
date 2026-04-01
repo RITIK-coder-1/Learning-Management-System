@@ -28,6 +28,7 @@ const allowedOrigins = [
   "http://localhost:5173", // My React App's current development server
   "http://localhost:3000", // The origin the server was previously allowing
   "http://127.0.0.1:5173", // A good practice for comprehensive localhost coverage
+  "https://edu-flow-r7dk0xuop-ritiks-projects-8734c75f.vercel.app/", // the vercel client
 ];
 
 // the function to filter origins
