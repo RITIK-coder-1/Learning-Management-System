@@ -16,12 +16,11 @@ userListener.startListening({
   },
 });
 
-// for removing the user (and the recent course) from the local storage on logging in
+// for removing the user from the local storage on logging in
 userListener.startListening({
   actionCreator: disableUser,
   effect: () => {
     localStorage.removeItem("user");
-    localStorage.removeItem("course");
   },
 });
 
