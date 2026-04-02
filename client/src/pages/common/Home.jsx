@@ -151,7 +151,7 @@ function Home() {
         </SecondHeading>
 
         <Span>Discover our top-rated courses across various categories.</Span>
-        <div className="w-full flex flex-col gap-6 px-7 my-5 justify-center items-center sm:flex-row">
+        <div className="w-full flex flex-col gap-6 px-7 my-5 justify-center items-center sm:flex-row flex-wrap">
           {isLoading ? (
             <SpinnerCustom className="size-10" />
           ) : (
