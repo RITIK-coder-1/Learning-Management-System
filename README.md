@@ -75,3 +75,53 @@ EduFlow prioritizes data integrity and user security through a rigorous onboardi
 - **State Management:** Utilized **Redux Toolkit Query (RTK Query)** for efficient data fetching, caching, and state synchronization between the frontend and the MongoDB database.
 - **Utility-First UI:** Styled with **Tailwind CSS** and **Shadcn** for a modern, responsive aesthetic that adapts to mobile and desktop seamlessly.
 - **RESTful Architecture:** Built with clean, modular Express routes ensuring scalable backend logic.
+
+---
+
+## 🛠️ Setup & Installation  
+
+Follow these steps to run **EduFlow** locally on your system 👇  
+
+### Clone the repository and Run these commands
+- ```git clone https://github.com/RITIK-coder-1/EduFlow.git```
+- ```cd EduFlow```
+
+### Set up the Client
+- ```cd client```
+- ```npm install```
+- ```touch .env```
+
+##### Now add this line to your .env file 👇
+- ``` VITE_RENDER_SERVER="https://eduflow-o1gf.onrender.com/api/v1"```
+
+##### Once done, start the client:
+- ```npm run dev```
+
+### Set up the Server in a different terminal
+- ```cd ../server```
+- ```npm install```
+- ```touch .env```
+
+##### Now add these lines to your .env file (Make sure to include the actual values based on your mongodb database, mail host and cloudinary cloud)👇
+- ```MONGO_URI=""```
+- ```PORT=3001```
+- ```DB_NAME=""```
+- ```MAIL_HOST="smtp.gmail.com"``` 
+- ```MAIL_USER=""```
+- ```MAIL_PASS=""```
+- ```ACCESS_TOKEN_SECRET=""```
+- ```REFRESH_TOKEN_SECRET=""```
+- ```ACCESS_TOKEN_EXPIRY="1h"```
+- ```REFRESH_TOKEN_EXPIRY="10d"```
+- ```CLOUDINARY_CLOUD_NAME=""```
+- ```CLOUDINARY_API_KEY=""```
+- ```CLOUDINARY_API_SECRET=""```
+- ```ADMIN_EMAIL=""```
+- ```ADMIN_PASSWORD=""```
+- ```VERCEL_CLIENT="https://edu-flow-lime.vercel.app"```
+
+##### Once done, start the server:
+- ```npm run dev```
+
+---
+
