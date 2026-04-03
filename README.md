@@ -22,6 +22,15 @@ Experience the different roles within the ecosystem:
 
 ---
 
+### 📺 Platform Overview & User Journey
+
+<div align="center">
+  <video src="./assets/admin-dashboard.mp4" width="100%" autoplay loop muted playsinline></video>
+  <p><em>Demo: Exploring the Admin Dashboard</em></p>
+</div>
+
+---
+
 ## 🛠️ The Tech Stack
 
 | Layer | Technologies |
