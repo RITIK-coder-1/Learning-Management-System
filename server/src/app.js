@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import helmet from "helmet";
 import { ApiError } from "./utils/index.utils.js";
+import { fileURLToPath } from "url";
 
 const app = express(); // the express app
 const jsonlimit = "16kb"; // setting the JSON limit for accepting data
@@ -77,9 +78,17 @@ app.use(cookieParser());
 Serving the static files (for temporary file uploads to the server)
 ------------------------------------------------------------------------------------------ */
 
-// public is the folder that serves the static files.
-// it takes the absolute path of the current working directory and joins it with the public folder
-app.use("/static", express.static(path.join(path.resolve(), "public")));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const publicPath = path.join(__dirname, "..", "public");
+
+// just in case the folder doesn't exist in the repo
+if (!fs.existsSync(tempPath)) {
+  fs.mkdirSync(tempPath, { recursive: true });
+  console.log("Created missing temp directory at:", tempPath);
+}
+
+app.use("/static", express.static(publicPath));
 
 /* ---------------------------------------------------------------------------------------
 All the routes will go here
