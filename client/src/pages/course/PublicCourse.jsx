@@ -32,9 +32,7 @@ function PublicCourse() {
     const courseFunc = async () => {
       try {
         await lastCourseVisited({ courseId }).unwrap();
-      } catch (error) {
-        toast.error("Couldn't get the last course visited.");
-      }
+      } catch (error) {}
     };
     courseFunc();
   }, []);

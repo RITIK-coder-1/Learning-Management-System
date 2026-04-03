@@ -108,7 +108,6 @@ function Register() {
 
       try {
         const { data, message } = await createRegisterOtp(formData).unwrap();
-        console.log(data);
         setIsOtp(true);
         setUserData({ ...userData, profilePic: data.profilePic }); // resetting the value of the profile pic to the server local file path so that it gets uploaded to cloudinary
         toast.success(message, { position: "top-right" });
