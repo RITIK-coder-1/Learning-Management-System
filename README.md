@@ -25,20 +25,20 @@ Experience the different roles within the ecosystem:
 ### 📺 Platform Overview & User Journey
 
 <div align="center">
+    <p><em>Demo: Exploring the Admin Dashboard</em></p>
   <video src="https://github.com/user-attachments/assets/042afe15-00c0-48b2-83e1-19b546930664" width="100%" autoplay loop muted playsinline></video>
-  <p><em>Demo: Exploring the Admin Dashboard</em></p>
 </div>
 <div align="center">
-  <video src="https://github.com/user-attachments/assets/250f74de-f35c-49ea-a907-4e0fb193d0a1" width="100%" autoplay loop muted playsinline></video>
   <p><em>Demo: Instructor Course Update (Adding Sections and Videos)</em></p>
+  <video src="https://github.com/user-attachments/assets/250f74de-f35c-49ea-a907-4e0fb193d0a1" width="100%" autoplay loop muted playsinline></video>
 </div>
 <div align="center">
-  <video src="https://github.com/user-attachments/assets/efb4ca12-d03c-49c0-9e27-d276d0c8f20c" width="100%" autoplay loop muted playsinline></video>
   <p><em>Demo: Student Course Enrollment</em></p>
+  <video src="https://github.com/user-attachments/assets/efb4ca12-d03c-49c0-9e27-d276d0c8f20c" width="100%" autoplay loop muted playsinline></video>
 </div>
 <div align="center">
-  <video src="https://github.com/user-attachments/assets/84ae772e-392d-4d0a-8da7-a3b076959df1" width="100%" autoplay loop muted playsinline></video>
   <p><em>Demo: Register OTP Flow</em></p>
+  <video src="https://github.com/user-attachments/assets/7ed1ce63-80e3-4899-a310-139b56ad426d" width="100%" autoplay loop muted playsinline></video>
 </div>
 
 ---
