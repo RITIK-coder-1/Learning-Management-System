@@ -10,6 +10,7 @@ import path from "path";
 import helmet from "helmet";
 import { ApiError } from "./utils/index.utils.js";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const app = express(); // the express app
 const jsonlimit = "16kb"; // setting the JSON limit for accepting data
