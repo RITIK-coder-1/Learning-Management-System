@@ -10,6 +10,9 @@
 
 🔗 **Backend API:** [https://eduflow-o1gf.onrender.com/api/v1]
 
+[!IMPORTANT]
+Cold Start Notice: This project is hosted on a free-tier instance (Render). If the site hasn't been visited recently, the initial request may take up to 50 seconds to spin up the server. Please allow a moment for the courses and data to populate.
+
 ### 🧪 Demo Credentials
 
 Experience the different roles within the ecosystem:
